@@ -45,9 +45,9 @@ export async function createEvent(formData: FormData) {
 
     console.log("Event added: ", data);
     revalidatePath("/events");
-    return { success: true };
+    // return { success: true };
   } catch (error) {
     console.error("Error creating event: ", error);
-    return { success: false };
+    // return { success: false };
   }
 }
