@@ -89,7 +89,6 @@ export const loginWithPassword = async (
   return redirect("/");
 };
 
-
 // signup with email + password
 export const signupWithPassword = async (
   prevState: State,
@@ -131,4 +130,23 @@ export const signupWithPassword = async (
 
   // maybe redirect to page with message abt email confirmation (?)
   return redirect("/");
+};
+
+export const logOut = async () => {
+  const supabase = await createClient();
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Error signing out: ", error.message);
+      return { message: `Error: ${error.message}`, success: false };
+    }
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return { message: "An unexpected error occurred.", success: false };
+  }
+
+  // revalidate layout
+  revalidatePath("/", "layout");
+  return { success: true };
 };
