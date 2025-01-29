@@ -1,17 +1,18 @@
 "use client";
 
-import { loginWithPassword, State } from "@/lib/actions/auth/actions";
+import { signupWithPassword, State } from "@/lib/actions/auth/actions";
 import { useActionState } from "react";
+import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 
-const LoginForm = () => {
+const SignupForm = () => {
   const initialState: State = { message: "", errors: {} };
   const [state, formAction, pending] = useActionState(
-    loginWithPassword,
+    signupWithPassword,
     initialState
   );
+
   return (
     <>
       <form action={formAction}>
@@ -51,9 +52,27 @@ const LoginForm = () => {
               ))}
           </div>
         </div>
+        <div className="mb-4">
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            aria-describedby="confirmPassword-error"
+            disabled={pending}
+          />
+          <div id="confirmPassword-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.confirmPassword &&
+              state.errors.confirmPassword.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
         <div className="flex justify-center">
           <Button type="submit" disabled={pending}>
-            Login
+            Signup
           </Button>
         </div>
         <div>
@@ -68,4 +87,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

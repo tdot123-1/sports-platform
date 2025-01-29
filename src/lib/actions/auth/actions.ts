@@ -24,11 +24,11 @@ const FormSchema = z.object({
     .string({
       invalid_type_error: "Please confirm your password",
     })
-    .min(6, { message: "Password must be at least 6 characters" })
+    .min(6, { message: "Please confirm your password" })
     .max(254, { message: "Maximum characters exceeded" }),
 });
 
-const RegisterSchema = FormSchema.omit({ id: true }).refine(
+const SignupSchema = FormSchema.omit({ id: true }).refine(
   (data) => data.password === data.confirmPassword,
   {
     message: "Passwords do not match",
@@ -48,6 +48,7 @@ export interface State {
   message: string;
 }
 
+// login with email + password
 export const loginWithPassword = async (
   prevState: State,
   formData: FormData
@@ -80,11 +81,54 @@ export const loginWithPassword = async (
 
     // revalidate layout
     revalidatePath("/", "layout");
-    
   } catch (error) {
     console.error("Unexpected error: ", error);
     return { message: "An unexpected error occurred" };
   }
 
+  return redirect("/");
+};
+
+
+// signup with email + password
+export const signupWithPassword = async (
+  prevState: State,
+  formData: FormData
+) => {
+  const validatedFields = SignupSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Failed to signup. Please try again.",
+    };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error("Signup error: ", error.message);
+      return { message: `Signup error: ${error.message}` };
+    }
+
+    // revalidate layout
+    revalidatePath("/", "layout");
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return { message: "An unexpected error occurred" };
+  }
+
+  // maybe redirect to page with message abt email confirmation (?)
   return redirect("/");
 };
