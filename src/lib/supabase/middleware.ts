@@ -1,6 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// temporary solution to make root accessible
+const allowedRoutes = ["/"]
+
 export async function updateSession(request: NextRequest) {
 
   // create response object to return session info
@@ -48,8 +51,12 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
+    // list of allowed routes
     !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
+    !request.nextUrl.pathname.startsWith("/auth") &&
+    !request.nextUrl.pathname.startsWith("/signup") &&
+    !request.nextUrl.pathname.startsWith("/events") &&
+    !allowedRoutes.includes(request.nextUrl.pathname)
   ) {
     // no user, redirect to the login page
     const url = request.nextUrl.clone();

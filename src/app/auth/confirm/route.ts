@@ -10,19 +10,27 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/";
 
-  if (token_hash && type) {
-    const supabase = await createClient();
-
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    });
-    if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next);
-    }
+  if (!token_hash || !type) {
+    return Response.json(
+      { success: false, message: "Missing token or type" },
+      { status: 400 }
+    );
   }
+  const supabase = await createClient();
 
-  // redirect the user to an error page with some instructions
-  redirect("/error");
+  const { error } = await supabase.auth.verifyOtp({
+    type,
+    token_hash,
+  });
+  if (error) {
+    return Response.json(
+      { success: false, message: error.message },
+      { status: 401 }
+    );
+  }
+  // redirect user to specified redirect URL or root of app
+  redirect(next);
+
+  //   // redirect the user to an error page with some instructions
+  //   redirect("/error");
 }

@@ -86,7 +86,7 @@ export const loginWithPassword = async (
     return { message: "An unexpected error occurred" };
   }
 
-  return redirect("/");
+  redirect("/");
 };
 
 // signup with email + password
@@ -129,7 +129,7 @@ export const signupWithPassword = async (
   }
 
   // maybe redirect to page with message abt email confirmation (?)
-  return redirect("/");
+  return redirect("/auth/signup");
 };
 
 export const logOut = async () => {
