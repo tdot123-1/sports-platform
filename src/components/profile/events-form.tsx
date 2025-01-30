@@ -20,6 +20,8 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { Separator } from "../ui/separator";
+import DatePicker from "./date-picker";
 
 interface EventFormProps {
   state: State;
@@ -32,6 +34,13 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
   return (
     <>
       <form action={formAction}>
+        <div>
+          <h3 className="text-lg font-semibold">Event info</h3>
+          <p className="text-muted-foreground text-sm">
+            Provide some information about the event itself.
+          </p>
+        </div>
+        <Separator className="my-2" />
         <div className="mb-4">
           <Label htmlFor="event_name">
             Event Name <span className="text-destructive">*</span>
@@ -89,6 +98,90 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               ))}
           </div>
         </div>
+        <div className="mb-4">
+          <Label htmlFor="event_location">
+            Event Location <span className="text-destructive">*</span>
+          </Label>
+          <p className="text-xs italic">
+            Provide the address where your event will be held
+          </p>
+          <Textarea
+            id="event_location"
+            name="event_location"
+            aria-describedby="event_location-error"
+            disabled={pending}
+            defaultValue={event ? event.event_location : ""}
+          />
+          <div id="event_location-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.event_location &&
+              state.errors.event_location.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="start_date">
+            Start date <span className="text-destructive">*</span>
+          </Label>
+          <p className="text-xs italic">
+            Provide the starting date of your event.
+          </p>
+          <DatePicker name="start_date" />
+          <div id="start_date-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.start_date &&
+              state.errors.start_date.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="end_date">End date</Label>
+          <p className="text-xs italic">
+            Provide the end date of your event if applicable.
+          </p>
+          <DatePicker name="end_date" />
+          <div id="end_date-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.end_date &&
+              state.errors.end_date.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="description">Event Description</Label>
+          <p className="text-xs italic">
+            Optionally provide some extra info about your event.
+          </p>
+          <Textarea
+            id="description"
+            name="description"
+            aria-describedby="description-error"
+            disabled={pending}
+            defaultValue={event?.description ? event.description : ""}
+          />
+          <div id="description-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.description &&
+              state.errors.description.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Target audience</h3>
+          <p className="text-muted-foreground text-sm">
+            Provide some information about who your event is meant for.
+          </p>
+        </div>
+        <Separator className="my-2" />
         <div className="mb-4">
           <Label htmlFor="target_age">
             Target Age Group <span className="text-destructive">*</span>
@@ -194,50 +287,15 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               ))}
           </div>
         </div>
-        <div className="mb-4">
-          <Label htmlFor="event_location">
-            Event Location <span className="text-destructive">*</span>
-          </Label>
-          <p className="text-xs italic">
-            Provide the address where your event will be held
+
+        <div>
+          <h3 className="text-lg font-semibold">Contact info</h3>
+          <p className="text-muted-foreground text-sm">
+            Provide information about how to get in contact with event
+            organizers.
           </p>
-          <Textarea
-            id="event_location"
-            name="event_location"
-            aria-describedby="event_location-error"
-            disabled={pending}
-            defaultValue={event ? event.event_location : ""}
-          />
-          <div id="event_location-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.event_location &&
-              state.errors.event_location.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
         </div>
-        <div className="mb-4">
-          <Label htmlFor="description">Event Description</Label>
-          <p className="text-xs italic">
-            Optionally provide some extra info about your event.
-          </p>
-          <Textarea
-            id="description"
-            name="description"
-            aria-describedby="description-error"
-            disabled={pending}
-            defaultValue={event?.description ? event.description : ""}
-          />
-          <div id="description-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.description &&
-              state.errors.description.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        <Separator className="my-2" />
         <div className="mb-4">
           <Label htmlFor="contact_email">
             Email address <span className="text-destructive">*</span>
