@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const Page = async () => {
@@ -13,9 +14,10 @@ const Page = async () => {
     <>
       <h1>Profile</h1>
       <p>Hello {data.user.email}</p>
-      <p>Events created</p>
-      <p>Create event</p>
-      <p>Edit event</p>
+      <div className="flex flex-col gap-1">
+        <Link href={`/profile/events`}>To my events</Link>
+        <Link href={`/profile/events/create`}>Create event</Link>
+      </div>
     </>
   );
 };
