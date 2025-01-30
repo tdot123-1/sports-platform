@@ -13,6 +13,9 @@ const Page = async () => {
     <>
       <h1>Profile</h1>
       <p>Hello {data.user.email}</p>
+      <p>Events created</p>
+      <p>Create event</p>
+      <p>Edit event</p>
     </>
   );
 };

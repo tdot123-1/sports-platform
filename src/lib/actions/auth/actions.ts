@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -129,7 +130,7 @@ export const signupWithPassword = async (
   }
 
   // maybe redirect to page with message abt email confirmation (?)
-  return redirect("/auth/signup");
+  redirect("/auth/signup");
 };
 
 export const logOut = async () => {

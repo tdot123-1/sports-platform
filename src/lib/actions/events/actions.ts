@@ -1,7 +1,22 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { SportsEventTypeArray } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+const FormSchema = z.object({
+  id: z.string().uuid(),
+  event_name: z
+    .string({
+      invalid_type_error: "Please add a name for your event",
+    })
+    .min(3, { message: "Event name must be at least 3 characters" })
+    .max(254, { message: "Maximum characters exceeded" }),
+  event_type: z.enum([...SportsEventTypeArray] as [string, ...string[]], {
+    invalid_type_error: "Please select an event type",
+  }),
+});
 
 // test create function
 export async function createEvent(formData: FormData) {
