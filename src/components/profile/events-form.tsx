@@ -1,14 +1,19 @@
 "use client";
 
+import { State } from "@/lib/actions/events/actions";
+import { SportsEvent } from "@/lib/types";
+
 interface EventFormProps {
-  onSubmit: (payload: FormData) => void;
-  event?: Event;
+  state: State;
+  formAction: (payload: FormData) => void;
+  pending: boolean;
+  event?: SportsEvent;
 }
 
-const EventForm = ({ onSubmit, event }: EventFormProps) => {
+const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
   return (
     <>
-      <form></form>
+      <form action={formAction}></form>
     </>
   );
 };

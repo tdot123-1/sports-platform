@@ -8,11 +8,11 @@ export const SportsEventTypeArray = [
   "Other",
 ] as const;
 
-// ensure it is one of the pre defined event types
-export type SportsEventType = (typeof SportsEventTypeArray)[number];
+// create type and ensure it is one of the pre defined event types
+type SportsEventType = (typeof SportsEventTypeArray)[number];
 
 export const TargetGenderArray = ["Male", "Female", "All"] as const;
-export type TargetGender = (typeof TargetGenderArray)[number];
+type TargetGender = (typeof TargetGenderArray)[number];
 
 export const TargetLevelArray = [
   "Beginner",
@@ -20,7 +20,7 @@ export const TargetLevelArray = [
   "Advanced",
   "Any",
 ] as const;
-export type TargetLevel = (typeof TargetLevelArray)[number];
+type TargetLevel = (typeof TargetLevelArray)[number];
 
 export const TargetAgeGroupArray = [
   "U10 (8-9)",
@@ -34,7 +34,7 @@ export const TargetAgeGroupArray = [
   "All ages",
 ] as const;
 
-export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
+type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
 
 export interface SportsEvent {
   id: string;
