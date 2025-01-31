@@ -12,7 +12,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
       <Link href={`/profile/events/${eventId}/edit`}>
         <Button>Edit</Button>
       </Link>
-      <DeleteEvent />
+      <DeleteEvent eventId={eventId} />
       <EventDetails eventId={eventId} />
     </>
   );

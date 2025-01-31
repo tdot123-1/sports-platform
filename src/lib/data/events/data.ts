@@ -46,7 +46,12 @@ export const fetchOneEvent = async (eventId: string) => {
       .single();
 
     if (error) {
-      console.error("Postgres error: ", error.message);
+      console.error("Postgres error: ", error.code);
+      if (error.code === "PGRST116") {
+        console.error(error.message);
+        return null;
+      }
+
       throw new Error(error.message);
     }
 

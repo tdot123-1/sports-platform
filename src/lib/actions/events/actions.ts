@@ -328,3 +328,24 @@ export async function updateEvent(
     };
   }
 }
+
+export async function deleteEvent(eventId: string) {
+  try {
+    const supabase = await createClient();
+
+    const { error } = await supabase.from("events").delete().eq("id", eventId);
+
+    if (error) {
+      console.error("Error deleting event: ", error.message);
+      return { success: false, message: `Database error: ${error.message}` };
+    }
+
+    revalidatePath("/events");
+    revalidatePath("/profile/events");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Unexpected error deleting event: ", error);
+    return { success: false, message: "An unexpected error occurred" };
+  }
+}
