@@ -1,17 +1,23 @@
-import { createClient } from "@/lib/supabase/server";
+import { fetchAllEvents } from "@/lib/data/events/data";
+import { SportsEvent } from "@/lib/types";
+import { convertFetchedEvent } from "@/lib/utils";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
-const EventsList = async () => {
-  const supabase = await createClient();
+interface EventsListProps {
+  userId?: string;
+  currentPage?: number;
+}
 
-  const { data: events, error } = await supabase.from("events").select("*");
+const EventsList = async ({ userId, currentPage = 1 }: EventsListProps) => {
+  const fetchedEvents = userId
+    ? await fetchAllEvents(currentPage, userId)
+    : await fetchAllEvents(currentPage);
 
-  if (error) {
-    return (
-      <div>
-        <p>Error fetching events: {error.message}</p>
-      </div>
-    );
-  }
+  const events: SportsEvent[] = fetchedEvents.map((event) =>
+    convertFetchedEvent(event)
+  );
+
   return (
     <>
       <div>
@@ -21,7 +27,14 @@ const EventsList = async () => {
               <h2>{event.event_name}</h2>
               <p>{event.description}</p>
               <p>Location: {event.event_location}</p>
-              <p>Start date: {event.start_date}</p>
+              <p>Start date: {event.start_date.toLocaleDateString()}</p>
+              <Link
+                href={
+                  userId ? `/profile/events/${event.id}` : `/events/${event.id}`
+                }
+              >
+                <Button>Details</Button>
+              </Link>
             </li>
           ))}
         </ul>

@@ -39,6 +39,8 @@ type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
 //(!) allow multiple levels, ages
 export interface SportsEvent {
   id: string;
+  inserted_at: Date;
+  updated_at: Date;
   event_name: string;
   event_type: SportsEventType;
   target_age: TargetAgeGroup;
@@ -50,4 +52,5 @@ export interface SportsEvent {
   end_date: Date | null;
   contact_email: string;
   contact_phone: string;
+  user_id: string;
 }
