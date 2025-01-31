@@ -1,4 +1,4 @@
-import EventsList from "@/components/events-list";
+import EventsList from "@/components/events/events-list";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 

@@ -1,4 +1,4 @@
-import EventsList from "@/components/events-list";
+import EventsList from "@/components/events/events-list";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
