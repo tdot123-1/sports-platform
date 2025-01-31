@@ -1,4 +1,5 @@
 import EventDetails from "@/components/event-details";
+import DeleteEvent from "@/components/profile/delete-event";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -11,6 +12,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
       <Link href={`/profile/events/${eventId}/edit`}>
         <Button>Edit</Button>
       </Link>
+      <DeleteEvent />
       <EventDetails eventId={eventId} />
     </>
   );
