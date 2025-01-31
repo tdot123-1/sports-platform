@@ -9,7 +9,7 @@ import {
 } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { number, z } from "zod";
+import { z } from "zod";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -96,6 +96,8 @@ const CreateEventSchema = FormSchema.omit({ id: true }).refine(
     path: ["end_date"],
   }
 );
+
+const UpdateEventSchema = CreateEventSchema;
 
 export type State = {
   errors?: {
@@ -216,9 +218,110 @@ export async function createEvent(prevState: State, formData: FormData) {
 
     console.log("Event added: ", data);
     revalidatePath("/events");
+    revalidatePath("/profile/events");
     return { message: "", success: true };
   } catch (error) {
     console.error("Error creating event: ", error);
+    return {
+      message: "An unexpected error occurred. Please try again.",
+      success: false,
+    };
+  }
+}
+
+export async function updateEvent(
+  id: string,
+  prevState: State,
+  formData: FormData
+) {
+  const rawFormData = Object.fromEntries(formData.entries());
+
+  // get values for optional fields
+  const rawStartDate = formData.get("start_date");
+  const rawEndDate = formData.get("end_date");
+  const rawTargetLevel = formData.get("target_level");
+  const rawDescription = formData.get("description");
+  const rawContactPhone = formData.get("contact_phone");
+
+  // transform date input from string to Date object
+  const formatStartDate = rawStartDate
+    ? new Date(rawStartDate.toString())
+    : null;
+  const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
+
+  // transform undefined values to null before validating
+  const formatTargetLevel = rawTargetLevel ? rawTargetLevel : null;
+  const formatDescription = rawDescription ? rawDescription : null;
+  const formatContactPhone = rawContactPhone ? rawContactPhone : null;
+
+  const formattedFormData = {
+    ...rawFormData,
+    target_level: formatTargetLevel,
+    description: formatDescription,
+    start_date: formatStartDate,
+    end_date: formatEndDate,
+    contact_phone: formatContactPhone,
+  };
+
+  const validatedFields = UpdateEventSchema.safeParse(formattedFormData);
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing fields. Failed to create event.",
+      success: false,
+    };
+  }
+
+  const {
+    event_name,
+    event_type,
+    target_age,
+    target_level,
+    target_gender,
+    event_location,
+    description,
+    start_date,
+    end_date,
+    contact_email,
+    contact_phone,
+  } = validatedFields.data;
+
+  try {
+    const supabase = await createClient();
+
+    // let supabase RLS handle authenticated user
+    // only owner of row should be able to update
+
+    const { data, error } = await supabase
+      .from("events")
+      .update({
+        event_name,
+        event_type,
+        target_age,
+        target_level,
+        target_gender,
+        event_location,
+        description,
+        start_date,
+        end_date,
+        contact_email,
+        contact_phone,
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Database error on update event: ", error.message);
+      return { message: `Database error: ${error.message}`, success: false };
+    }
+
+    console.log("Event updated: ", data);
+    revalidatePath("/events");
+    revalidatePath("/profile/events");
+    revalidatePath(`/profile/events/${id}`);
+    return { message: "", success: true };
+  } catch (error) {
+    console.error("Error updating event: ", error);
     return {
       message: "An unexpected error occurred. Please try again.",
       success: false,

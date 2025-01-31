@@ -3,7 +3,12 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   return (
     <>
       <h1>Edit Event</h1>
-      <p>My event: {eventId}</p>
+      <div className="flex justify-center pb-6">
+        <div className="w-full md:w-1/2 lg:w-1/3">
+          <h2 className="mb-4 text-center">Update Event</h2>
+          {/* <CreateEvent /> */}
+        </div>
+      </div>
     </>
   );
 };

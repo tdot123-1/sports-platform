@@ -129,7 +129,11 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           <p className="text-xs italic">
             Provide the starting date of your event.
           </p>
-          <DatePicker name="start_date" />
+          <DatePicker
+            name="start_date"
+            eventDate={event?.start_date || undefined}
+            pending={pending}
+          />
           <div id="start_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.start_date &&
               state.errors.start_date.map((error) => (
@@ -144,7 +148,11 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           <p className="text-xs italic">
             Provide the end date of your event if applicable.
           </p>
-          <DatePicker name="end_date" />
+          <DatePicker
+            name="end_date"
+            eventDate={event?.end_date || undefined}
+            pending={pending}
+          />
           <div id="end_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.end_date &&
               state.errors.end_date.map((error) => (

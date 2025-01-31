@@ -11,16 +11,19 @@ import { Input } from "../ui/input";
 
 interface DatePickerProps {
   name: string;
+  eventDate?: Date
+  pending: boolean
 }
 
-const DatePicker = ({ name }: DatePickerProps) => {
-  const [date, setDate] = useState<Date>();
+const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
+  const [date, setDate] = useState<Date | undefined>(eventDate);
 
   return (
     <>
       <Popover>
         <PopoverTrigger asChild>
           <Button
+          disabled={pending}
             variant={"outline"}
             className={cn(
               "justify-start text-left font-normal w-full",
