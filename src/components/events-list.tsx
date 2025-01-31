@@ -3,6 +3,7 @@ import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import EventCard from "./events/event-card";
 
 interface EventsListProps {
   userId?: string;
@@ -20,21 +21,11 @@ const EventsList = async ({ userId, currentPage = 1 }: EventsListProps) => {
 
   return (
     <>
-      <div>
-        <ul>
+      <div className="py-6">
+        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {events.map((event) => (
-            <li key={event.id} className="border border-zinc-700 p-3 m-2">
-              <h2>{event.event_name}</h2>
-              <p>{event.description}</p>
-              <p>Location: {event.event_location}</p>
-              <p>Start date: {event.start_date.toLocaleDateString()}</p>
-              <Link
-                href={
-                  userId ? `/profile/events/${event.id}` : `/events/${event.id}`
-                }
-              >
-                <Button>Details</Button>
-              </Link>
+            <li key={event.id}>
+              <EventCard event={event} userId={userId ? userId : undefined} />
             </li>
           ))}
         </ul>
