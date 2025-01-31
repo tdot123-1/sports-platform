@@ -14,14 +14,6 @@ const AppSideBar = () => {
   return (
     <Sidebar variant={`sidebar`} collapsible="icon">
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarLinks links={baseNavLinks} />
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
         <AppSidebarContent />
       </SidebarContent>
     </Sidebar>

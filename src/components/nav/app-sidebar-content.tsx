@@ -16,21 +16,14 @@ const AppSidebarContent = async () => {
 
   return (
     <>
-      <SidebarGroup>
-        <SidebarGroupLabel>Profile</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {data.user ? (
-              <>
-                <SidebarLinks links={profileNavLinks} />
-                <LogoutButton />
-              </>
-            ) : (
-              <SidebarLinks links={loggedOutNavLinks} />
-            )}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
+      {data.user ? (
+        <>
+          <SidebarLinks authenticated />
+          
+        </>
+      ) : (
+        <SidebarLinks authenticated={false} />
+      )}
     </>
   );
 };

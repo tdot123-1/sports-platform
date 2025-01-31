@@ -1,10 +1,13 @@
 import {
   BookUserIcon,
   DatabaseIcon,
+  HelpCircle,
   HelpCircleIcon,
+  Home,
   HomeIcon,
   LogInIcon,
   PlusCircleIcon,
+  Trophy,
   TrophyIcon,
   UserCircleIcon,
   UserIcon,
@@ -15,17 +18,17 @@ export const baseNavLinks = [
   {
     name: "Home",
     href: "/",
-    icon: HomeIcon,
+    icon: Home,
   },
   {
     name: "Events",
     href: "/events",
-    icon: TrophyIcon,
+    icon: Trophy,
   },
   {
     name: "About",
     href: "/about",
-    icon: HelpCircleIcon,
+    icon: HelpCircle,
   },
 ];
 

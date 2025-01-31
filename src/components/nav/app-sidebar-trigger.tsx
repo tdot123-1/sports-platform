@@ -8,7 +8,7 @@ const AppSideBarTrigger = () => {
   const { toggleSidebar, open } = useSidebar();
 
   return (
-    <Button onClick={toggleSidebar} size={`icon`} variant={`outline`} className="p-1 my-0.5 absolute left-1">
+    <Button onClick={toggleSidebar} size={`icon`} variant={`outline`} className="p-1 my-0.5 absolute left-1 top-2">
       <p hidden className="hidden">
         Toggle sidebar
       </p>
