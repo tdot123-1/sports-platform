@@ -13,7 +13,12 @@ import {
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { LogOutIcon, LucideIcon } from "lucide-react";
-import { baseNavLinks, loggedOutNavLinks, profileNavLinks } from "./nav-links";
+import {
+  baseNavLinks,
+  infoNavLinks,
+  loggedOutNavLinks,
+  profileNavLinks,
+} from "./nav-links";
 import { Button } from "../ui/button";
 import LogoutButton from "../auth/logout-button";
 import LogoutMenuItem from "../auth/logout-menu-item";
@@ -100,6 +105,29 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 ))}
               </>
             )}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+      <SidebarGroup>
+        <SidebarGroupLabel>Info</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {infoNavLinks.map((link) => (
+              <SidebarMenuItem key={link.name}>
+                <SidebarMenuButton
+                  asChild
+                  className={clsx({
+                    "bg-zinc-100": pathname === link.href,
+                  })}
+                  onClick={() => isMobile && toggleSidebar()}
+                >
+                  <Link href={link.href}>
+                    <link.icon />
+                    {link.name}
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

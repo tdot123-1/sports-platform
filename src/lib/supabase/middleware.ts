@@ -2,10 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // temporary solution to make root accessible
-const allowedRoutes = ["/"]
+const allowedRoutes = ["/"];
 
 export async function updateSession(request: NextRequest) {
-
   // create response object to return session info
   let supabaseResponse = NextResponse.next({
     request,
@@ -18,11 +17,11 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll();  // retrieve all cookies from request
+          return request.cookies.getAll(); // retrieve all cookies from request
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)  // update cookies with new session data
+          cookiesToSet.forEach(
+            ({ name, value, options }) => request.cookies.set(name, value) // update cookies with new session data
           );
 
           // create new response to update cookies
@@ -57,6 +56,7 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/signup") &&
     !request.nextUrl.pathname.startsWith("/events") &&
     !request.nextUrl.pathname.startsWith("/about") &&
+    !request.nextUrl.pathname.startsWith("/info") &&
     !allowedRoutes.includes(request.nextUrl.pathname)
   ) {
     // no user, redirect to the login page

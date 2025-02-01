@@ -1,11 +1,14 @@
 import {
   BookUserIcon,
+  CookieIcon,
   DatabaseIcon,
+  HeartHandshakeIcon,
   HelpCircle,
   HelpCircleIcon,
   Home,
   HomeIcon,
   LogInIcon,
+  MessageCircle,
   PlusCircleIcon,
   Trophy,
   TrophyIcon,
@@ -60,5 +63,23 @@ export const loggedOutNavLinks = [
     name: "Signup",
     href: "/signup",
     icon: UserPlus2Icon,
+  },
+];
+
+export const infoNavLinks = [
+  {
+    name: "Privacy",
+    href: "/info/privacy",
+    icon: CookieIcon,
+  },
+  {
+    name: "Contact",
+    href: "/info/contact",
+    icon: MessageCircle,
+  },
+  {
+    name: "Support",
+    href: "/info/support",
+    icon: HeartHandshakeIcon,
   },
 ];
