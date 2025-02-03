@@ -37,12 +37,12 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
   return (
     <>
       <div className="p-6 border rounded-md shadow-md">
-        <h3 className="text-center text-lg font-semibold">
+        <h3 className="text-center text-lg font-semibold font-mono">
           {event.event_name}
         </h3>
         <ul>
           <li>
-            <h4 className="text-orange-600 italic font-medium">
+            <h4 className="text-primary italic font-medium ">
               About the event
             </h4>
             <div className="text-sm my-1">
@@ -58,7 +58,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li>
-            <h4 className="text-orange-600 italic font-medium">
+            <h4 className="text-primary italic font-medium">
               Who is it for
             </h4>
             <div className="text-sm my-1">
@@ -87,7 +87,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li>
-            <h4 className="text-orange-600 italic font-medium">
+            <h4 className="text-primary italic font-medium">
               When and where
             </h4>
             <div className="text-sm my-1">
@@ -116,7 +116,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li>
-            <h4 className="text-orange-600 italic font-medium">
+            <h4 className="text-primary italic font-medium">
               How to get in touch
             </h4>
             <div className="text-sm my-1">

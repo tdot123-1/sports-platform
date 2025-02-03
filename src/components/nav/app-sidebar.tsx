@@ -13,7 +13,7 @@ import SidebarLinks from "./sidebar-links";
 const AppSideBar = () => {
   return (
     <Sidebar variant={`sidebar`} collapsible="icon">
-      <SidebarContent>
+      <SidebarContent className="font-sans">
         <AppSidebarContent />
       </SidebarContent>
     </Sidebar>

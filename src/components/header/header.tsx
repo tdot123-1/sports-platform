@@ -10,9 +10,9 @@ const Header = async () => {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="sticky top-0 p-4 bg-orange-400 z-10 flex justify-center">
+    <header className="sticky top-0 p-4 bg-primary z-10 flex justify-center">
       <AppSideBarTrigger />
-      <h1 className="text-center text-xl font-bold">Sports Platform</h1>
+      <h1 className="text-center text-xl font-bold font-mono">Sports Platform</h1>
     </header>
   );
 };
