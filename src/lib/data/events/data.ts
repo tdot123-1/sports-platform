@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 1;
 
 export const fetchAllEvents = async (
   currentPage: number = 1,
@@ -89,7 +89,7 @@ export const fetchEventsPages = async (
       throw new Error(`Error fetching event count: ${error.message}`);
     }
 
-    const totalPages = Math.ceil(Number(count || 0) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(count || 1) / ITEMS_PER_PAGE);
 
     return totalPages;
   } catch (error) {

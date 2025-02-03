@@ -1,4 +1,6 @@
 import EventsList from "@/components/events/events-list";
+import AppPagination from "@/components/events/pagination";
+import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchEventsPages } from "@/lib/data/events/data";
@@ -14,16 +16,17 @@ const Page = async (props: {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  // fetch total pages
-  const totalPages = fetchEventsPages(query);
-
-  
   return (
     <>
       <h1>Events</h1>
       <Suspense fallback={<EventsListSkeleton />}>
-        <EventsList />
+        <EventsList currentPage={currentPage} />
       </Suspense>
+      <div className="w-fit mx-auto py-6">
+        <Suspense fallback={<Skeleton className="h-6 w-28" />}>
+          <PaginationWrapper query={query} />
+        </Suspense>
+      </div>
     </>
   );
 };
