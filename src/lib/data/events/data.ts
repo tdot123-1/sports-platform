@@ -61,3 +61,39 @@ export const fetchOneEvent = async (eventId: string) => {
     throw new Error(`Error fetching event: ${error}`);
   }
 };
+
+export const fetchEventsPages = async (
+  userId?: string,
+  searchQuery?: string
+) => {
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from("events")
+      .select("*", { count: "exact", head: true });
+
+    if (userId) {
+      query = query.eq("user_id", userId);
+    }
+
+    if (searchQuery) {
+      query = query.or(
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`
+      );
+    }
+
+    const { count, error } = await query;
+
+    if (error) {
+      console.error("Error fetching event count:", error.message, error.code);
+      throw new Error(`Error fetching event count: ${error.message}`);
+    }
+
+    const totalPages = Math.ceil(Number(count || 0) / ITEMS_PER_PAGE);
+
+    return totalPages;
+  } catch (error) {
+    console.error("Error fetching pages: ", error);
+    throw new Error(`Error fetching pages: ${error}`);
+  }
+};
