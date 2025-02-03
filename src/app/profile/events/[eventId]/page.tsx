@@ -1,8 +1,10 @@
 import EventDetails from "@/components/events/event-details";
 import DeleteEvent from "@/components/profile/delete-event";
+import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Button } from "@/components/ui/button";
 import { EditIcon, Undo2Icon } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
@@ -23,8 +25,10 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           </Link>
           <DeleteEvent eventId={eventId} />
         </div>
+        <Suspense fallback={<EventDetailsSkeleton />}>
+          <EventDetails eventId={eventId} />
+        </Suspense>
 
-        <EventDetails eventId={eventId} />
         <div className="w-fit mx-auto mt-4">
           <Link href={`/profile/events`}>
             <Button>

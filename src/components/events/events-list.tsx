@@ -9,6 +9,10 @@ interface EventsListProps {
 }
 
 const EventsList = async ({ userId, currentPage = 1 }: EventsListProps) => {
+
+  // test skeleton
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   const fetchedEvents = userId
     ? await fetchAllEvents(currentPage, userId)
     : await fetchAllEvents(currentPage);

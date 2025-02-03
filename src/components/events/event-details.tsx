@@ -13,12 +13,17 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface EventDetailsProps {
   eventId: string;
 }
 
 const EventDetails = async ({ eventId }: EventDetailsProps) => {
+
+  // test skeleton
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   // fetch event
   const fetchedEvent = await fetchOneEvent(eventId);
 
@@ -26,12 +31,15 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
     return notFound();
   }
 
+  // convert to get correct type (incl dates)
   const event: SportsEvent = convertFetchedEvent(fetchedEvent);
 
   return (
     <>
       <div className="p-6 border rounded-md shadow-md">
-        <h3 className="text-center text-lg font-semibold">{event.event_name}</h3>
+        <h3 className="text-center text-lg font-semibold">
+          {event.event_name}
+        </h3>
         <ul>
           <li>
             <h4 className="text-orange-600 italic font-medium">
@@ -39,7 +47,13 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             </h4>
             <div className="text-sm my-1">
               <p>{event.event_type}</p>
-              <p className="pt-1">{event.description}</p>
+              <ScrollArea className="h-28">
+                {event.description ? (
+                  <p className="mt-1">{event.description}</p>
+                ) : (
+                  <p className="text-xs text-muted-foreground italic mt-4">No description provided</p>
+                )}
+              </ScrollArea>
             </div>
           </li>
 
