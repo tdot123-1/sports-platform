@@ -30,7 +30,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   return (
     <>
-      <div className="p-6 border rounded-md">
+      <div className="p-6 border rounded-md shadow-md">
         <h3 className="text-center text-lg font-semibold">{event.event_name}</h3>
         <ul>
           <li>

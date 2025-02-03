@@ -53,7 +53,7 @@ const DeleteEvent = ({ eventId }: DeleteEventProps) => {
   return (
     <>
       <AlertDialog>
-        <div className="flex flex-col justify-end items-end">
+        <div className="">
           <AlertDialogTrigger asChild>
             <Button disabled={isLoading} variant={`outline`}>
               <div className="flex justify-start items-start gap-1">
@@ -63,7 +63,9 @@ const DeleteEvent = ({ eventId }: DeleteEventProps) => {
             </Button>
           </AlertDialogTrigger>
           {error && (
-            <p className="text-sm mt-2 text-destructive italic">{error}</p>
+            <p className="text-sm mt-2 text-destructive italic text-right">
+              {error}
+            </p>
           )}
         </div>
         <AlertDialogContent>
