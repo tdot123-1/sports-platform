@@ -1,27 +1,57 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { FilterOptions, SortOptions } from "@/lib/types";
+import { applyQueryFilters } from "@/lib/utils";
 
-const ITEMS_PER_PAGE = 1;
+const ITEMS_PER_PAGE = 10;
 
 export const fetchAllEvents = async (
   currentPage: number = 1,
-  userId?: string
+  userId?: string,
+  searchQuery?: string,
+  filter?: FilterOptions,
+  sort?: SortOptions
 ) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const supabase = await createClient();
 
-    const { data: events, error } = userId
-      ? await supabase
-          .from("events")
-          .select("*")
-          .eq("user_id", userId)
-          .range(offset, offset + ITEMS_PER_PAGE - 1)
-      : await supabase
-          .from("events")
-          .select("*")
-          .range(offset, offset + ITEMS_PER_PAGE - 1);
+    // const { data: events, error } = userId
+    //   ? await supabase
+    //       .from("events")
+    //       .select("*")
+    //       .eq("user_id", userId)
+    //       .range(offset, offset + ITEMS_PER_PAGE - 1)
+    //   : await supabase
+    //       .from("events")
+    //       .select("*")
+    //       .range(offset, offset + ITEMS_PER_PAGE - 1);
+
+    let query = supabase.from("events").select("*");
+
+    if (userId) {
+      query = query.eq("user_id", userId);
+    }
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
+    }
+
+    if (searchQuery) {
+      query = query.or(
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`
+      );
+    }
+
+    if (sort) {
+      query = query.order(sort.sort_by, { ascending: sort.order === "asc" });
+    }
+
+    const { data: events, error } = await query.range(
+      offset,
+      offset + ITEMS_PER_PAGE - 1
+    );
 
     if (error) {
       console.error("Postgres error: ", error.message);
@@ -64,7 +94,8 @@ export const fetchOneEvent = async (eventId: string) => {
 
 export const fetchEventsPages = async (
   userId?: string,
-  searchQuery?: string
+  searchQuery?: string,
+  filter?: FilterOptions
 ) => {
   try {
     const supabase = await createClient();
@@ -74,6 +105,10 @@ export const fetchEventsPages = async (
 
     if (userId) {
       query = query.eq("user_id", userId);
+    }
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
     }
 
     if (searchQuery) {

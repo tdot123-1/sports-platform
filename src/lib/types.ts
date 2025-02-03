@@ -9,10 +9,10 @@ export const SportsEventTypeArray = [
 ] as const;
 
 // create type and ensure it is one of the pre defined event types
-type SportsEventType = (typeof SportsEventTypeArray)[number];
+export type SportsEventType = (typeof SportsEventTypeArray)[number];
 
 export const TargetGenderArray = ["Male", "Female", "All"] as const;
-type TargetGender = (typeof TargetGenderArray)[number];
+export type TargetGender = (typeof TargetGenderArray)[number];
 
 export const TargetLevelArray = [
   "Beginner",
@@ -20,7 +20,7 @@ export const TargetLevelArray = [
   "Advanced",
   "Any",
 ] as const;
-type TargetLevel = (typeof TargetLevelArray)[number];
+export type TargetLevel = (typeof TargetLevelArray)[number];
 
 export const TargetAgeGroupArray = [
   "U10 (8-9)",
@@ -34,7 +34,7 @@ export const TargetAgeGroupArray = [
   "All ages",
 ] as const;
 
-type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
+export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
 
 //(!) allow multiple levels, ages
 export interface SportsEvent {
@@ -54,3 +54,21 @@ export interface SportsEvent {
   contact_phone: string;
   user_id: string;
 }
+
+export interface FilterOptions {
+  event_type?: SportsEventType;
+  target_gender?: TargetGender;
+  target_age?: TargetAgeGroup;
+  target_level?: TargetLevel;
+}
+
+export interface SortOptions {
+  sort_by:
+    | "inserted_at"
+    | "updated_at"
+    | "event_name"
+    | "start_date"
+    | "end_date";
+  order: "asc" | "desc";
+}
+

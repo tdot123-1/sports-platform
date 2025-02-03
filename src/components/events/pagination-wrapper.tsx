@@ -1,9 +1,15 @@
 import { fetchEventsPages } from "@/lib/data/events/data";
 import AppPagination from "./pagination";
 
-const PaginationWrapper = async ({ query }: { query: string }) => {
+const PaginationWrapper = async ({
+  query,
+  userId,
+}: {
+  query: string;
+  userId?: string;
+}) => {
   // fetch total pages
-  const totalPages = await fetchEventsPages(query);
+  const totalPages = await fetchEventsPages(userId, query);
 
   return (
     <>

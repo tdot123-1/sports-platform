@@ -10,6 +10,9 @@ const Page = async (props: {
   searchParams?: Promise<{
     query?: string;
     page?: string;
+    filter?: string;
+    sort?: string;
+    order?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;

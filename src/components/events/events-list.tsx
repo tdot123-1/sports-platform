@@ -1,21 +1,35 @@
 import { fetchAllEvents } from "@/lib/data/events/data";
-import { SportsEvent } from "@/lib/types";
+import {
+  FilterOptions,
+  SortOptions,
+  SportsEvent,
+  SportsEventType,
+  TargetAgeGroup,
+  TargetGender,
+  TargetLevel,
+} from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventCard from "./event-card";
 
 interface EventsListProps {
   userId?: string;
   currentPage?: number;
+  searchQuery?: string;
+  filter?: FilterOptions;
+  sort?: SortOptions;
 }
 
-const EventsList = async ({ userId, currentPage = 1 }: EventsListProps) => {
-
+const EventsList = async ({
+  userId,
+  currentPage = 1,
+  searchQuery,
+  filter,
+  sort,
+}: EventsListProps) => {
   // test skeleton
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  const fetchedEvents = userId
-    ? await fetchAllEvents(currentPage, userId)
-    : await fetchAllEvents(currentPage);
+  const fetchedEvents = await fetchAllEvents(currentPage, userId);
 
   const events: SportsEvent[] = fetchedEvents.map((event) =>
     convertFetchedEvent(event)
@@ -34,7 +48,7 @@ const EventsList = async ({ userId, currentPage = 1 }: EventsListProps) => {
           </ul>
         ) : (
           <div className="mt-20">
-            <h3 className="mx-auto">No events added yet!</h3>
+            <h3 className="mx-auto">No events found!</h3>
           </div>
         )}
       </div>

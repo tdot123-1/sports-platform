@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { SportsEvent } from "./types";
+import { FilterOptions, SportsEvent } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -57,4 +57,15 @@ export const generatePaginationMobile = (
   }
 
   return [1, "...", currentPage, "...", totalPages];
+};
+
+
+// dynamically apply filters to query
+export const applyQueryFilters = (query: any, filters: FilterOptions) => {
+  Object.entries(filters).forEach(([Key, value]) => {
+    if (value) {
+      query = query.eq(Key, value);
+    }
+  });
+  return query;
 };
