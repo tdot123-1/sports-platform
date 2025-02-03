@@ -22,6 +22,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import DatePicker from "./date-picker";
+import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 
 interface EventFormProps {
   state: State;
@@ -352,12 +353,27 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               ))}
           </div>
         </div>
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-4">
           <Button variant={`secondary`} type="button" disabled={pending}>
-            <Link href={"/profile"}>Cancel</Link>
+            <Link href={"/profile"}>
+              <div className="flex justify-start items-center gap-1">
+                <Undo2Icon />
+                <span className="hidden md:block">Cancel</span>
+              </div>
+            </Link>
           </Button>
           <Button type="submit" disabled={pending}>
-            {event ? "Update" : "Create"}
+            {event ? (
+              <div className="flex justify-start items-center gap-1">
+                <SaveIcon />
+                <span className="hidden md:block">Update</span>
+              </div>
+            ) : (
+              <div className="flex justify-start items-center gap-1">
+                <CirclePlusIcon />
+                <span className="hidden md:block">Create</span>
+              </div>
+            )}
           </Button>
         </div>
         <div>

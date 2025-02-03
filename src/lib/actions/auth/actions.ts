@@ -47,6 +47,7 @@ export interface State {
     confirmPassword?: string[];
   };
   message: string;
+  success: boolean;
 }
 
 // login with email + password
@@ -63,6 +64,7 @@ export const loginWithPassword = async (
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Failed to log in. Please try again.",
+      success: false,
     };
   }
 
@@ -77,17 +79,17 @@ export const loginWithPassword = async (
 
     if (error) {
       console.error("Login error: ", error.message);
-      return { message: `Login error: ${error.message}` };
+      return { message: `Login error: ${error.message}`, success: false };
     }
 
     // revalidate layout
     revalidatePath("/", "layout");
   } catch (error) {
     console.error("Unexpected error: ", error);
-    return { message: "An unexpected error occurred" };
+    return { message: "An unexpected error occurred", success: false };
   }
 
-  redirect("/");
+  return { message: "", success: true };
 };
 
 // signup with email + password
@@ -105,6 +107,7 @@ export const signupWithPassword = async (
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Failed to signup. Please try again.",
+      success: false
     };
   }
 
@@ -119,14 +122,14 @@ export const signupWithPassword = async (
 
     if (error) {
       console.error("Signup error: ", error.message);
-      return { message: `Signup error: ${error.message}` };
+      return { message: `Signup error: ${error.message}`, success: false };
     }
 
     // revalidate layout
     revalidatePath("/", "layout");
   } catch (error) {
     console.error("Unexpected error: ", error);
-    return { message: "An unexpected error occurred" };
+    return { message: "An unexpected error occurred", success: false };
   }
 
   // maybe redirect to page with message abt email confirmation (?)

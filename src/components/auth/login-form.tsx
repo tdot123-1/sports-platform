@@ -1,33 +1,33 @@
 "use client";
 
 import { loginWithPassword, State } from "@/lib/actions/auth/actions";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-// import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const initialState: State = { message: "", errors: {}};
+  const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     loginWithPassword,
     initialState
   );
-  // const router = useRouter();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!pending) {
-  //     if (state.success) {
-  //       toast("Logged in", {
-  //         description: "Welcome back!",
-  //       });
+  // show toast after log in
+  useEffect(() => {
+    if (!pending) {
+      if (state.success) {
+        toast("Logged in", {
+          description: "Welcome back!",
+        });
 
-  //       router.push("/");
-  //     }
-  //   }
-  // }, [pending, state]);
+        router.push("/");
+      }
+    }
+  }, [pending, state]);
 
   return (
     <>

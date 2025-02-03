@@ -31,7 +31,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
 
         <div className="w-fit mx-auto mt-4">
           <Link href={`/profile/events`}>
-            <Button>
+            <Button variant={`secondary`}>
               <div className="flex justify-start items-start gap-1">
                 <Undo2Icon />
                 <span className="hidden md:block">Return</span>

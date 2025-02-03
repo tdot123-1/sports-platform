@@ -7,7 +7,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
 const SignupForm = () => {
-  const initialState: State = { message: "", errors: {} };
+  const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     signupWithPassword,
     initialState
