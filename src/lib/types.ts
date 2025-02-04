@@ -69,14 +69,17 @@ export interface FilterOptions {
   target_level?: TargetLevel;
 }
 
+export const SortOptionsMap = {
+  inserted_at: "Created",
+  updated_at: "Last updated",
+  event_name: "Event name",
+  start_date: "Start date",
+  end_date: "End date",
+} as const;
 
+export type SortByKey = keyof typeof SortOptionsMap;
 
 export interface SortOptions {
-  sort_by:
-    | "inserted_at"
-    | "updated_at"
-    | "event_name"
-    | "start_date"
-    | "end_date";
+  sort_by: SortByKey;
   order: "asc" | "desc";
 }

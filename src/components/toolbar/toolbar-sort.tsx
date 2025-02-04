@@ -1,0 +1,108 @@
+"use client";
+
+import {
+  ArrowDownNarrowWide,
+  SortAscIcon,
+  SortDescIcon,
+} from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useEffect, useState } from "react";
+import { SortByKey, SortOptions, SortOptionsMap } from "@/lib/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { createSearchParams } from "@/lib/utils";
+
+const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const [ascending, setAscending] = useState(sort?.order === "asc");
+  const [sortBy, setSortBy] = useState(sort?.sort_by || "");
+
+  const handleSortBy = (value: string) => {
+    console.log(value);
+    if (Object.keys(SortOptionsMap).includes(value)) {
+      setSortBy(value);
+    }
+  };
+
+  useEffect(() => {
+    const newSort: SortOptions = {
+      sort_by: Object.keys(SortOptionsMap).includes(sortBy)
+        ? (sortBy as SortByKey)
+        : "inserted_at",
+      order: ascending ? "asc" : "desc",
+    };
+
+    const newUrl = createSearchParams(
+      pathname,
+      searchParams,
+      undefined,
+      newSort
+    );
+
+    // get current url
+    const params = new URLSearchParams(searchParams);
+
+    if (newUrl !== `${pathname}?${params.toString()}`) {
+      replace(newUrl);
+    }
+  }, [ascending, sortBy]);
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant={`outline`}>
+            <div className="flex justify-start items-center gap-1">
+              <ArrowDownNarrowWide />
+              <span className="hidden md:block">Sort</span>
+            </div>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="max-w-36">
+          <DropdownMenuLabel>Sort Events</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setAscending((prev) => !prev)}>
+            <div className="flex justify-start items-start gap-1">
+              {ascending ? (
+                <>
+                  <SortAscIcon size={18} />
+                  <span>Ascending</span>
+                </>
+              ) : (
+                <>
+                  <SortDescIcon size={18} />
+                  <span>Descending</span>
+                </>
+              )}
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuRadioGroup
+            value={sortBy}
+            onValueChange={(v) => handleSortBy(v)}
+          >
+            {Object.entries(SortOptionsMap).map(([k, v]) => (
+              <DropdownMenuRadioItem key={k} value={k}>
+                {v}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  );
+};
+
+export default ToolbarSort;

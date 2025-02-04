@@ -1,10 +1,17 @@
-import { FilterOptions } from "@/lib/types";
+import { FilterOptions, SortOptions } from "@/lib/types";
 import ToolbarFilter from "./toolbar-filter";
+import ToolbarSort from "./toolbar-sort";
 
-const Toolbar = ({ filter }: { filter?: FilterOptions }) => {
+interface ToolbarProps {
+  filter?: FilterOptions;
+  sort?: SortOptions;
+}
+
+const Toolbar = ({ filter, sort }: ToolbarProps) => {
   return (
-    <div>
+    <div className="flex justify-evenly p-4 bg-sidebar-accent">
       <ToolbarFilter filter={filter} />
+      <ToolbarSort sort={sort} />
     </div>
   );
 };

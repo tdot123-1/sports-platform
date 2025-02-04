@@ -34,7 +34,7 @@ const Page = async (props: {
   let sort: SortOptions | undefined;
   if (searchParams?.sort) {
     try {
-      sort = JSON.parse(searchParams.sort);
+      sort = JSON.parse(decodeURIComponent(searchParams.sort));
     } catch (error) {
       console.error("Error parsing sort params: ", error);
     }
@@ -43,9 +43,9 @@ const Page = async (props: {
   return (
     <>
       <h1>Events</h1>
-      <Toolbar filter={filters} />
+      <Toolbar filter={filters} sort={sort} />
       <Suspense fallback={<EventsListSkeleton />}>
-        <EventsList currentPage={currentPage} filter={filters} />
+        <EventsList currentPage={currentPage} filter={filters} sort={sort} />
       </Suspense>
       <div className="w-fit mx-auto py-6">
         <Suspense fallback={<Skeleton className="h-6 w-28" />}>

@@ -4,10 +4,8 @@ import {
   FilterOptions,
   SportsEventType,
   SportsEventTypeArray,
-  SportsEventTypeMap,
   TargetAgeGroup,
   TargetAgeGroupArray,
-  TargetAgeGroupMap,
   TargetGender,
   TargetGenderArray,
   TargetLevel,
@@ -57,11 +55,7 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
     setGenderFilter("");
     setAgeFilter("");
     setLevelFilter("");
-
-    // redirect without filter params
-    replace(createSearchParams(pathname, searchParams));
   };
-
   const handleChangeFilter = (
     value: string,
     setter: Dispatch<SetStateAction<any>>
@@ -71,26 +65,23 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
   };
 
   useEffect(() => {
-    // only run if at least one filter is applied
-    if (typeFilter || genderFilter || ageFilter || levelFilter) {
-      // construct filterOptions object
-      const newFilter: FilterOptions = {};
-      // check which filters should be applied
-      newFilter.event_type = typeFilter || undefined;
-      newFilter.target_age = ageFilter || undefined;
-      newFilter.target_gender = genderFilter || undefined;
-      newFilter.target_level = levelFilter || undefined;
+    // construct filterOptions object
+    const newFilter: FilterOptions = {};
+    // check which filters should be applied
+    newFilter.event_type = typeFilter || undefined;
+    newFilter.target_age = ageFilter || undefined;
+    newFilter.target_gender = genderFilter || undefined;
+    newFilter.target_level = levelFilter || undefined;
 
-      // construct new url with filters
-      const newUrl = createSearchParams(pathname, searchParams, newFilter);
+    // construct new url with filters
+    const newUrl = createSearchParams(pathname, searchParams, newFilter);
 
-      // get current url
-      const params = new URLSearchParams(searchParams);
+    // get current url
+    const params = new URLSearchParams(searchParams);
 
-      // only redirect if the url has changed
-      if (newUrl !== `${pathname}?${params.toString()}`) {
-        replace(newUrl);
-      }
+    // only redirect if the url has changed
+    if (newUrl !== `${pathname}?${params.toString()}`) {
+      replace(newUrl);
     }
   }, [typeFilter, genderFilter, ageFilter, levelFilter]);
 
@@ -99,7 +90,7 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={`outline`}>
-            <div className="flex justify-start items-start gap-1">
+            <div className="flex justify-start items-center gap-1">
               <FilterIcon />
               <span className="hidden md:block">Filter</span>
             </div>

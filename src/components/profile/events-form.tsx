@@ -207,7 +207,7 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               <SelectValue
                 aria-describedby="target_age-error"
                 id="target_age"
-                // placeholder="Age Group"
+                placeholder="Age group (birthyear)"
               />
             </SelectTrigger>
             <SelectContent>
