@@ -42,15 +42,16 @@ const Page = async (props: {
 
   return (
     <>
-      <h1>Events</h1>
       <Toolbar filter={filters} sort={sort} />
-      <Suspense fallback={<EventsListSkeleton />}>
-        <EventsList currentPage={currentPage} filter={filters} sort={sort} />
-      </Suspense>
-      <div className="w-fit mx-auto py-6">
-        <Suspense fallback={<Skeleton className="h-6 w-28" />}>
-          <PaginationWrapper query={query} />
+      <div className="mx-4">
+        <Suspense fallback={<EventsListSkeleton />}>
+          <EventsList currentPage={currentPage} filter={filters} sort={sort} />
         </Suspense>
+        <div className="w-fit mx-auto py-6">
+          <Suspense fallback={<Skeleton className="h-6 w-28" />}>
+            <PaginationWrapper query={query} />
+          </Suspense>
+        </div>
       </div>
     </>
   );

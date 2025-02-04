@@ -35,7 +35,7 @@ export default function RootLayout({
           <AppSideBar />
           <main className="flex-shrink w-full">
             <Header />
-            <section className="mx-2 font-sans">{children}</section>
+            <section className="font-sans">{children}</section>
           </main>
           <Toaster />
         </SidebarProvider>
