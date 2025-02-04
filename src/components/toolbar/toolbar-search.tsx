@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
@@ -20,9 +21,10 @@ const ToolbarSearch = () => {
             </div>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="max-w-36">
+        <DropdownMenuContent className="w-64">
           <DropdownMenuLabel>Search Events</DropdownMenuLabel>
-          <div>
+          <DropdownMenuSeparator />
+          <div className="py-1">
             <Input />
           </div>
         </DropdownMenuContent>
