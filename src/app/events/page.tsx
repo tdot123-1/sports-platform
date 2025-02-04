@@ -2,6 +2,7 @@ import EventsList from "@/components/events/events-list";
 import AppPagination from "@/components/events/pagination";
 import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
+import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchEventsPages } from "@/lib/data/events/data";
 import { FilterOptions, SortOptions } from "@/lib/types";
@@ -44,6 +45,7 @@ const Page = async (props: {
   return (
     <>
       <h1>Events</h1>
+      <Toolbar />
       <Suspense fallback={<EventsListSkeleton />}>
         <EventsList currentPage={currentPage} />
       </Suspense>
