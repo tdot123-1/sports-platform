@@ -1,38 +1,45 @@
+// use map to be able to use search filter
+export const SportsEventTypeMap = {
+  camp: "camp",
+  clinic: "clinic",
+  friendly: "friendly game",
+  tournament: "tournament",
+  training: "training",
+  other: "other",
+} as const;
+
 // use array so that it can be used in form validation
-export const SportsEventTypeArray = [
-  "Camp",
-  "Clinic",
-  "Friendly Game",
-  "Tournament",
-  "Training",
-  "Other",
-] as const;
+export const SportsEventTypeArray = Object.values(SportsEventTypeMap);
 
 // create type and ensure it is one of the pre defined event types
 export type SportsEventType = (typeof SportsEventTypeArray)[number];
 
-export const TargetGenderArray = ["Male", "Female", "All"] as const;
+export const TargetGenderArray = ["male", "female", "all"] as const;
 export type TargetGender = (typeof TargetGenderArray)[number];
 
 export const TargetLevelArray = [
-  "Beginner",
-  "Intermediate",
-  "Advanced",
-  "Any",
+  "beginner",
+  "intermediate",
+  "advanced",
+  "any",
 ] as const;
 export type TargetLevel = (typeof TargetLevelArray)[number];
 
-export const TargetAgeGroupArray = [
-  "U10 (8-9)",
-  "U12 (10-11)",
-  "U14 (12-13)",
-  "U16 (14-15)",
-  "U18 (16-17)",
-  "U20 (18-19)",
-  "Adults (19+)",
-  "Seniors (40+)",
-  "All ages",
-] as const;
+// use map to be able to use search filters
+export const TargetAgeGroupMap = {
+  u8: "u8 (2017 and after)",
+  u10: "u10 (2015 + 2016)",
+  u12: "u12 (2013 + 2014)",
+  u14: "u14 (2011 + 2012)",
+  u16: "u16 (2009 + 2010)",
+  u18: "u18 (2007 + 2008)",
+  u20: "u20 (2005 + 2006)",
+  u22: "u22 (2003 + 2004)",
+  seniors: "seniors (2002 and before)",
+  all: "all ages",
+} as const;
+
+export const TargetAgeGroupArray = Object.values(TargetAgeGroupMap);
 
 export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
 
@@ -71,4 +78,3 @@ export interface SortOptions {
     | "end_date";
   order: "asc" | "desc";
 }
-

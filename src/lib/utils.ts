@@ -1,6 +1,13 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { FilterOptions, SportsEvent } from "./types";
+import {
+  FilterOptions,
+  SortOptions,
+  SportsEvent,
+  SportsEventTypeMap,
+  TargetAgeGroupMap,
+} from "./types";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -59,13 +66,54 @@ export const generatePaginationMobile = (
   return [1, "...", currentPage, "...", totalPages];
 };
 
-
 // dynamically apply filters to query
 export const applyQueryFilters = (query: any, filters: FilterOptions) => {
-  Object.entries(filters).forEach(([Key, value]) => {
-    if (value) {
-      query = query.eq(Key, value);
+  Object.entries(filters).forEach(([key, value]) => {
+    // return if no value provided to filter
+    if (!value) return;
+
+    // use map to convert shortened version (ex. u8) to full version ("u8 (2017 and after)")
+    if (key === "event_type") {
+      const fullEventType =
+        SportsEventTypeMap[value as keyof typeof SportsEventTypeMap];
+
+      if (fullEventType) {
+        query = query.eq(key, fullEventType);
+      }
+    } else if (key === "target_age") {
+      const fullTargetAge =
+        TargetAgeGroupMap[value as keyof typeof TargetAgeGroupMap];
+
+      if (fullTargetAge) {
+        query = query.eq(key, fullTargetAge);
+      }
+    } else {
+      // if no map necessary, apply the filter as is
+      query = query.eq(key, value);
     }
   });
+
+  // return query with all filters applied
   return query;
+};
+
+// helper function to apply filters to search params
+export const createSearchParams = (
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams,
+  filter?: FilterOptions,
+  sort?: SortOptions
+) => {
+  const params = new URLSearchParams(searchParams);
+
+  if (filter) {
+    params.set("page", "1");
+    params.set("filter", JSON.stringify(filter));
+  }
+
+  if (sort) {
+    params.set("sort", JSON.stringify(sort));
+  }
+
+  return `${pathname}?${params.toString()}`;
 };

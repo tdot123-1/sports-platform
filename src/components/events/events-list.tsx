@@ -29,7 +29,13 @@ const EventsList = async ({
   // test skeleton
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  const fetchedEvents = await fetchAllEvents(currentPage, userId);
+  const fetchedEvents = await fetchAllEvents(
+    currentPage,
+    userId,
+    searchQuery,
+    filter,
+    sort
+  );
 
   const events: SportsEvent[] = fetchedEvents.map((event) =>
     convertFetchedEvent(event)

@@ -4,6 +4,7 @@ import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchEventsPages } from "@/lib/data/events/data";
+import { FilterOptions, SortOptions } from "@/lib/types";
 import { Suspense } from "react";
 
 const Page = async (props: {
@@ -12,12 +13,33 @@ const Page = async (props: {
     page?: string;
     filter?: string;
     sort?: string;
-    order?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
+  const query = searchParams?.query
+    ? decodeURIComponent(searchParams.query)
+    : "";
   const currentPage = Number(searchParams?.page) || 1;
+
+  // parse filters
+  let filters: FilterOptions | undefined;
+  if (searchParams?.filter) {
+    try {
+      filters = JSON.parse(searchParams.filter);
+    } catch (error) {
+      console.error("Error parsing filter params: ", error);
+    }
+  }
+
+  // parse sort options
+  let sort: SortOptions | undefined;
+  if (searchParams?.sort) {
+    try {
+      sort = JSON.parse(searchParams.sort);
+    } catch (error) {
+      console.error("Error parsing sort params: ", error);
+    }
+  }
 
   return (
     <>
