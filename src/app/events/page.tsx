@@ -1,10 +1,8 @@
 import EventsList from "@/components/events/events-list";
-import AppPagination from "@/components/events/pagination";
 import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchEventsPages } from "@/lib/data/events/data";
 import { FilterOptions, SortOptions } from "@/lib/types";
 import { Suspense } from "react";
 
@@ -26,7 +24,7 @@ const Page = async (props: {
   let filters: FilterOptions | undefined;
   if (searchParams?.filter) {
     try {
-      filters = JSON.parse(searchParams.filter);
+      filters = JSON.parse(decodeURIComponent(searchParams.filter));
     } catch (error) {
       console.error("Error parsing filter params: ", error);
     }
@@ -45,9 +43,9 @@ const Page = async (props: {
   return (
     <>
       <h1>Events</h1>
-      <Toolbar />
+      <Toolbar filter={filters} />
       <Suspense fallback={<EventsListSkeleton />}>
-        <EventsList currentPage={currentPage} />
+        <EventsList currentPage={currentPage} filter={filters} />
       </Suspense>
       <div className="w-fit mx-auto py-6">
         <Suspense fallback={<Skeleton className="h-6 w-28" />}>

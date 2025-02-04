@@ -72,25 +72,25 @@ export const applyQueryFilters = (query: any, filters: FilterOptions) => {
     // return if no value provided to filter
     if (!value) return;
 
-    // use map to convert shortened version (ex. u8) to full version ("u8 (2017 and after)")
-    if (key === "event_type") {
-      const fullEventType =
-        SportsEventTypeMap[value as keyof typeof SportsEventTypeMap];
+    // // use map to convert shortened version (ex. u8) to full version ("u8 (2017 and after)")
+    // if (key === "event_type") {
+    //   const fullEventType =
+    //     SportsEventTypeMap[value as keyof typeof SportsEventTypeMap];
 
-      if (fullEventType) {
-        query = query.eq(key, fullEventType);
-      }
-    } else if (key === "target_age") {
-      const fullTargetAge =
-        TargetAgeGroupMap[value as keyof typeof TargetAgeGroupMap];
+    //   if (fullEventType) {
+    //     query = query.eq(key, fullEventType);
+    //   }
+    // } else if (key === "target_age") {
+    //   const fullTargetAge =
+    //     TargetAgeGroupMap[value as keyof typeof TargetAgeGroupMap];
 
-      if (fullTargetAge) {
-        query = query.eq(key, fullTargetAge);
-      }
-    } else {
-      // if no map necessary, apply the filter as is
-      query = query.eq(key, value);
-    }
+    //   if (fullTargetAge) {
+    //     query = query.eq(key, fullTargetAge);
+    //   }
+    // } else {
+    // if no map necessary, apply the filter as is
+    query = query.eq(key, value);
+    // }
   });
 
   // return query with all filters applied
@@ -108,11 +108,11 @@ export const createSearchParams = (
 
   if (filter) {
     params.set("page", "1");
-    params.set("filter", JSON.stringify(filter));
+    params.set("filter", encodeURIComponent(JSON.stringify(filter)));
   }
 
   if (sort) {
-    params.set("sort", JSON.stringify(sort));
+    params.set("sort", encodeURIComponent(JSON.stringify(sort)));
   }
 
   return `${pathname}?${params.toString()}`;

@@ -1,9 +1,10 @@
+import { FilterOptions } from "@/lib/types";
 import ToolbarFilter from "./toolbar-filter";
 
-const Toolbar = () => {
+const Toolbar = ({ filter }: { filter?: FilterOptions }) => {
   return (
     <div>
-      <ToolbarFilter />
+      <ToolbarFilter filter={filter} />
     </div>
   );
 };
