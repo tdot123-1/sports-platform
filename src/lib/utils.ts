@@ -100,38 +100,19 @@ export const applyQueryFilters = (query: any, filters: FilterOptions) => {
   return query;
 };
 
-// helper function to apply filters to search params
-export const createSearchParams = (
-  pathname: string,
-  searchParams: ReadonlyURLSearchParams,
-  filter?: FilterOptions,
-  sort?: SortOptions
-) => {
-  const params = new URLSearchParams(searchParams);
-
-  if (filter) {
-    params.set("page", "1");
-    params.set("filter", encodeURIComponent(JSON.stringify(filter)));
-  }
-
-  if (sort) {
-    params.set("sort", encodeURIComponent(JSON.stringify(sort)));
-  }
-
-  return `${pathname}?${params.toString()}`;
-};
-
-
 // encode filters
 export const encodeFilters = (filters: FilterOptions) => {
-  return Object.entries(filters)
-    .map(
-      ([key, value]) =>
-        `${FilterKeyMap[key as keyof FilterOptions]}=${encodeURIComponent(
-          value
-        )}`
-    )
-    .join("&");
+  // flatmap to remove cases where no values are provided
+  return Object.entries(filters).flatMap(([key, value]) => {
+    if (value && value.length > 0) {
+      // join the array of applied filters into a comma-separated string and encode
+      return `${FilterKeyMap[key as keyof FilterOptions]}=${encodeURIComponent(
+        value?.join(",")
+      )}`;
+    }
+    // return empty array if no values are provided (to be removed)
+    return [];
+  });
 };
 
 // extract filters from search params
@@ -149,9 +130,10 @@ export const parseFilters = (
       const value = searchParams[shortKey];
       if (value) {
         // map decoded value to full key of 'FilterOptions' instance
+        // split commas to return applied filters per category as array
         filters[fullKey as keyof FilterOptions] = decodeURIComponent(
           value
-        ) as any;
+        ).split(",") as any;
       }
     });
 
@@ -167,25 +149,55 @@ export const parseSortOptions = (
 
   // check if sort params provided
   if (searchParams.sort) {
-    // decode value
-    const decodedSort = decodeURIComponent(searchParams.sort);
-
     // check if value is one of the allowed sort columns
-    if (decodedSort in SortOptionsMap) {
-      sort.sort_by = decodedSort as SortByKey;
+    if (searchParams.sort in SortOptionsMap) {
+      sort.sort_by = searchParams.sort as SortByKey;
     }
   }
 
   // check for order params
   if (searchParams.order) {
-    const decodedOrder = decodeURIComponent(searchParams.order);
-
     // check if order is one of the allowed values
-    if (decodedOrder === "asc" || decodedOrder === "desc") {
-      sort.order = decodedOrder as "asc" | "desc";
+    if (searchParams.order === "asc" || searchParams.order === "desc") {
+      sort.order = searchParams.order as "asc" | "desc";
     }
   }
 
   // return SortOptions object
   return sort;
+};
+
+// helper function to apply filters to search params
+export const createSearchParams = (
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams,
+  filter?: FilterOptions,
+  sort?: SortOptions
+) => {
+  const params = new URLSearchParams(searchParams);
+
+  params.set("page", "1");
+
+  if (filter) {
+    // encode and format filters
+    const filterParams = encodeFilters(filter);
+
+    // set each filter param one by one
+    filterParams.forEach((param) => {
+      const [k, v] = param.split("=");
+      params.set(k, v);
+    });
+  }
+
+  // apply sorting options in params
+  if (sort) {
+    if (sort.sort_by) {
+      params.set("sort", sort.sort_by);
+    }
+    if (sort.order) {
+      params.set("order", sort.order);
+    }
+  }
+
+  return `${pathname}?${params.toString()}`;
 };

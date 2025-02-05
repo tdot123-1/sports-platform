@@ -63,10 +63,10 @@ export interface SportsEvent {
 }
 
 export interface FilterOptions {
-  event_type?: SportsEventType;
-  target_gender?: TargetGender;
-  target_age?: TargetAgeGroup;
-  target_level?: TargetLevel;
+  event_type?: SportsEventType[];
+  target_gender?: TargetGender[];
+  target_age?: TargetAgeGroup[];
+  target_level?: TargetLevel[];
 }
 
 export const SortOptionsMap = {
