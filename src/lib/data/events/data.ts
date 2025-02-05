@@ -33,7 +33,7 @@ export const fetchAllEvents = async (
       );
     }
 
-    if (sort) {
+    if (sort?.sort_by) {
       query = query.order(sort.sort_by, { ascending: sort.order === "asc" });
     }
 

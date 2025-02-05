@@ -43,11 +43,16 @@ const Page = async (props: {
       <Toolbar filter={filter} sort={sort} />
       <div className="mx-4">
         <Suspense fallback={<EventsListSkeleton />}>
-          <EventsList currentPage={currentPage} filter={filter} sort={sort} searchQuery={query} />
+          <EventsList
+            currentPage={currentPage}
+            filter={filter}
+            sort={sort}
+            searchQuery={query}
+          />
         </Suspense>
         <div className="w-fit mx-auto py-6">
           <Suspense fallback={<Skeleton className="h-6 w-28" />}>
-            <PaginationWrapper query={query} />
+            <PaginationWrapper query={query} filter={filter} />
           </Suspense>
         </div>
       </div>

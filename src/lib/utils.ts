@@ -74,26 +74,8 @@ export const applyQueryFilters = (query: any, filters: FilterOptions) => {
   Object.entries(filters).forEach(([key, value]) => {
     // return if no value provided to filter
     if (!value) return;
-
-    // // use map to convert shortened version (ex. u8) to full version ("u8 (2017 and after)")
-    // if (key === "event_type") {
-    //   const fullEventType =
-    //     SportsEventTypeMap[value as keyof typeof SportsEventTypeMap];
-
-    //   if (fullEventType) {
-    //     query = query.eq(key, fullEventType);
-    //   }
-    // } else if (key === "target_age") {
-    //   const fullTargetAge =
-    //     TargetAgeGroupMap[value as keyof typeof TargetAgeGroupMap];
-
-    //   if (fullTargetAge) {
-    //     query = query.eq(key, fullTargetAge);
-    //   }
-    // } else {
-    // if no map necessary, apply the filter as is
+    
     query = query.eq(key, value);
-    // }
   });
 
   // return query with all filters applied

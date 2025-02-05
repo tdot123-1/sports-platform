@@ -2,10 +2,14 @@
 
 import { createClient } from "@/lib/supabase/server";
 import {
-  SportsEventTypeArray,
-  TargetAgeGroupArray,
-  TargetGenderArray,
-  TargetLevelArray,
+  SportsEventTypeKeys,
+  SportsEventTypeMap,
+  TargetAgeGroupKeys,
+  TargetAgeGroupMap,
+  TargetGenderKeys,
+  TargetGenderMap,
+  TargetLevelKeys,
+  TargetLevelMap,
 } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -21,18 +25,18 @@ const FormSchema = z.object({
     .trim()
     .min(3, { message: "Event name must be at least 3 characters" })
     .max(254, { message: "Maximum characters exceeded" }),
-  event_type: z.enum(SportsEventTypeArray, {
+  event_type: z.enum(SportsEventTypeKeys as [keyof typeof SportsEventTypeMap], {
     invalid_type_error: "Please select an event type",
   }),
-  target_age: z.enum(TargetAgeGroupArray, {
+  target_age: z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap], {
     invalid_type_error: "Please select from the available age groups",
   }),
   target_level: z
-    .enum(TargetLevelArray, {
+    .enum(TargetLevelKeys as [keyof typeof TargetLevelMap], {
       invalid_type_error: "Please select a skill level",
     })
     .nullable(),
-  target_gender: z.enum(TargetGenderArray, {
+  target_gender: z.enum(TargetGenderKeys as [keyof typeof TargetGenderMap], {
     invalid_type_error: "Please select a gender",
   }),
   event_location: z
