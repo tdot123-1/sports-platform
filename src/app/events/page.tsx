@@ -4,14 +4,20 @@ import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FilterOptions, SortOptions } from "@/lib/types";
+import { parseFilters, parseSortOptions } from "@/lib/utils";
 import { Suspense } from "react";
 
+// params hardcoded for now, maybe change to a map later(?)
 const Page = async (props: {
   searchParams?: Promise<{
     query?: string;
     page?: string;
-    filter?: string;
+    et?: string;
+    tg?: string;
+    ta?: string;
+    tl?: string;
     sort?: string;
+    order?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;
@@ -21,31 +27,32 @@ const Page = async (props: {
   const currentPage = Number(searchParams?.page) || 1;
 
   // parse filters
-  let filters: FilterOptions | undefined;
-  if (searchParams?.filter) {
-    try {
-      filters = JSON.parse(decodeURIComponent(searchParams.filter));
-    } catch (error) {
-      console.error("Error parsing filter params: ", error);
-    }
+  let filter: FilterOptions | undefined;
+  if (searchParams) {
+    filter = parseFilters(searchParams);
   }
 
   // parse sort options
+  // let sort: SortOptions | undefined;
+  // if (searchParams?.sort) {
+  //   try {
+  //     sort = JSON.parse(decodeURIComponent(searchParams.sort));
+  //   } catch (error) {
+  //     console.error("Error parsing sort params: ", error);
+  //   }
+  // }
+
   let sort: SortOptions | undefined;
-  if (searchParams?.sort) {
-    try {
-      sort = JSON.parse(decodeURIComponent(searchParams.sort));
-    } catch (error) {
-      console.error("Error parsing sort params: ", error);
-    }
+  if (searchParams) {
+    sort = parseSortOptions(searchParams);
   }
 
   return (
     <>
-      <Toolbar filter={filters} sort={sort} />
+      <Toolbar filter={filter} sort={sort} />
       <div className="mx-4">
         <Suspense fallback={<EventsListSkeleton />}>
-          <EventsList currentPage={currentPage} filter={filters} sort={sort} />
+          <EventsList currentPage={currentPage} filter={filter} sort={sort} />
         </Suspense>
         <div className="w-fit mx-auto py-6">
           <Suspense fallback={<Skeleton className="h-6 w-28" />}>

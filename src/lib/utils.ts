@@ -1,8 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
+  FilterKeyMap,
   FilterOptions,
+  SortByKey,
   SortOptions,
+  SortOptionsMap,
   SportsEvent,
   SportsEventTypeMap,
   TargetAgeGroupMap,
@@ -116,4 +119,73 @@ export const createSearchParams = (
   }
 
   return `${pathname}?${params.toString()}`;
+};
+
+
+// encode filters
+export const encodeFilters = (filters: FilterOptions) => {
+  return Object.entries(filters)
+    .map(
+      ([key, value]) =>
+        `${FilterKeyMap[key as keyof FilterOptions]}=${encodeURIComponent(
+          value
+        )}`
+    )
+    .join("&");
+};
+
+// extract filters from search params
+export const parseFilters = (
+  searchParams: Record<string, string | undefined>
+) => {
+  // initialize filter options
+  const filters: FilterOptions = {};
+
+  // convert filter key map to array of pairs
+  Object.entries(FilterKeyMap)
+    // loop over each pair to get full filter key and abbr key in url
+    .forEach(([fullKey, shortKey]) => {
+      // look up abbr key in search params
+      const value = searchParams[shortKey];
+      if (value) {
+        // map decoded value to full key of 'FilterOptions' instance
+        filters[fullKey as keyof FilterOptions] = decodeURIComponent(
+          value
+        ) as any;
+      }
+    });
+
+  // return filters object
+  return filters;
+};
+
+export const parseSortOptions = (
+  searchParams: Record<string, string | undefined>
+) => {
+  // default sort options
+  const sort: SortOptions = { sort_by: "inserted_at", order: "asc" };
+
+  // check if sort params provided
+  if (searchParams.sort) {
+    // decode value
+    const decodedSort = decodeURIComponent(searchParams.sort);
+
+    // check if value is one of the allowed sort columns
+    if (decodedSort in SortOptionsMap) {
+      sort.sort_by = decodedSort as SortByKey;
+    }
+  }
+
+  // check for order params
+  if (searchParams.order) {
+    const decodedOrder = decodeURIComponent(searchParams.order);
+
+    // check if order is one of the allowed values
+    if (decodedOrder === "asc" || decodedOrder === "desc") {
+      sort.order = decodedOrder as "asc" | "desc";
+    }
+  }
+
+  // return SortOptions object
+  return sort;
 };

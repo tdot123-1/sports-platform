@@ -83,3 +83,11 @@ export interface SortOptions {
   sort_by: SortByKey;
   order: "asc" | "desc";
 }
+
+// use abbreviations for search params
+export const FilterKeyMap = {
+  event_type: "et",
+  target_gender: "tg",
+  target_age: "ta",
+  target_level: "tl",
+} as const;
