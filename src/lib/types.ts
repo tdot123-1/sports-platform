@@ -2,28 +2,58 @@
 export const SportsEventTypeMap = {
   camp: "camp",
   clinic: "clinic",
-  friendly: "friendly game",
+  friendly_game: "friendly game",
   tournament: "tournament",
   training: "training",
   other: "other",
 } as const;
 
+// create entries from readonly map
+export const SportsEventTypeEntries = Object.entries(SportsEventTypeMap) as [
+  keyof typeof SportsEventTypeMap,
+  (typeof SportsEventTypeMap)[keyof typeof SportsEventTypeMap]
+][];
+
 // use array so that it can be used in form validation
 export const SportsEventTypeArray = Object.values(SportsEventTypeMap);
 
 // create type and ensure it is one of the pre defined event types
-export type SportsEventType = (typeof SportsEventTypeArray)[number];
+// export type SportsEventType = (typeof SportsEventTypeArray)[number];
 
-export const TargetGenderArray = ["male", "female", "all"] as const;
-export type TargetGender = (typeof TargetGenderArray)[number];
+export type SportsEventType = keyof typeof SportsEventTypeMap;
 
-export const TargetLevelArray = [
-  "beginner",
-  "intermediate",
-  "advanced",
-  "any",
-] as const;
-export type TargetLevel = (typeof TargetLevelArray)[number];
+export const TargetGenderMap = {
+  male: "male",
+  female: "female",
+  all: "all",
+} as const;
+
+export const TargetGenderEntries = Object.entries(TargetGenderMap) as [
+  keyof typeof TargetGenderMap,
+  (typeof TargetGenderMap)[keyof typeof TargetGenderMap]
+][];
+
+export const TargetGenderArray = Object.values(TargetGenderMap);
+// export type TargetGender = (typeof TargetGenderArray)[number];
+
+export type TargetGender = keyof typeof TargetGenderMap;
+
+export const TargetLevelMap = {
+  beginner: "beginner",
+  intermediate: "intermediate",
+  advanced: "advanced",
+  any: "any",
+} as const;
+
+export const TargetLevelEntries = Object.entries(TargetLevelMap) as [
+  keyof typeof TargetLevelMap,
+  (typeof TargetLevelMap)[keyof typeof TargetLevelMap]
+][];
+
+export const TargetLevelArray = Object.values(TargetLevelMap);
+// export type TargetLevel = (typeof TargetLevelArray)[number];
+
+export type TargetLevel = keyof typeof TargetLevelMap;
 
 // use map to be able to use search filters
 export const TargetAgeGroupMap = {
@@ -39,9 +69,16 @@ export const TargetAgeGroupMap = {
   all: "all ages",
 } as const;
 
+export const TargetAgeGroupEntries = Object.entries(TargetAgeGroupMap) as [
+  keyof typeof TargetAgeGroupMap,
+  (typeof TargetAgeGroupMap)[keyof typeof TargetAgeGroupMap]
+][];
+
 export const TargetAgeGroupArray = Object.values(TargetAgeGroupMap);
 
-export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
+// export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
+
+export type TargetAgeGroup = keyof typeof TargetAgeGroupMap;
 
 //(!) allow multiple levels, ages
 export interface SportsEvent {

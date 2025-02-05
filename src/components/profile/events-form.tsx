@@ -4,9 +4,14 @@ import { State } from "@/lib/actions/events/actions";
 import {
   SportsEvent,
   SportsEventTypeArray,
+  SportsEventTypeMap,
   TargetAgeGroupArray,
+  TargetAgeGroupEntries,
+  TargetAgeGroupMap,
   TargetGenderArray,
+  TargetGenderMap,
   TargetLevelArray,
+  TargetLevelMap,
 } from "@/lib/types";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -83,9 +88,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {SportsEventTypeArray.map((type) => (
+              {/* {SportsEventTypeArray.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
+                </SelectItem>
+              ))} */}
+              {Object.entries(SportsEventTypeMap).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -211,9 +221,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {TargetAgeGroupArray.map((type) => (
+              {/* {TargetAgeGroupArray.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
+                </SelectItem>
+              ))} */}
+              {Object.entries(TargetAgeGroupMap).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -245,12 +260,16 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {TargetLevelArray.map((type) => (
+              {/* {TargetLevelArray.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
                 </SelectItem>
+              ))} */}
+              {Object.entries(TargetLevelMap).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v}
+                </SelectItem>
               ))}
-              {/* <SelectItem value={""}>None</SelectItem> */}
             </SelectContent>
           </Select>
           <div id="target_level-error" aria-live="polite" aria-atomic="true">
@@ -280,9 +299,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {TargetGenderArray.map((type) => (
+              {/* {TargetGenderArray.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
+                </SelectItem>
+              ))} */}
+              {Object.entries(TargetGenderMap).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v}
                 </SelectItem>
               ))}
             </SelectContent>

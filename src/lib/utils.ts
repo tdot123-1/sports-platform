@@ -103,8 +103,8 @@ export const applyQueryFilters = (query: any, filters: FilterOptions) => {
 // encode filters
 export const encodeFilters = (filters: FilterOptions) => {
   // flatmap to remove cases where no values are provided
-  return Object.entries(filters).flatMap(([key, value]) => {
-    if (value && value.length > 0) {
+  const encoded = Object.entries(filters).flatMap(([key, value]) => {
+    if (Array.isArray(value) && value.length > 0) {
       // join the array of applied filters into a comma-separated string and encode
       return `${FilterKeyMap[key as keyof FilterOptions]}=${encodeURIComponent(
         value?.join(",")
@@ -113,6 +113,9 @@ export const encodeFilters = (filters: FilterOptions) => {
     // return empty array if no values are provided (to be removed)
     return [];
   });
+
+  console.log("ENCODED: ", encoded);
+  return encoded;
 };
 
 // extract filters from search params
@@ -182,6 +185,13 @@ export const createSearchParams = (
     // encode and format filters
     const filterParams = encodeFilters(filter);
 
+    console.log("FILTER PARAMS: ", filterParams);
+
+    // clear old filter params before setting new ones
+    Object.keys(FilterKeyMap).forEach((key) => {
+      params.delete(FilterKeyMap[key as keyof FilterOptions]);
+    });
+
     // set each filter param one by one
     filterParams.forEach((param) => {
       const [k, v] = param.split("=");
@@ -200,4 +210,9 @@ export const createSearchParams = (
   }
 
   return `${pathname}?${params.toString()}`;
+};
+
+// get object with boolean values, return array of true keys as strings
+export const constructFilterOptions = (state: any) => {
+  return Object.keys(state).filter((key) => state[key as keyof typeof state]);
 };

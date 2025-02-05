@@ -16,18 +16,7 @@ export const fetchAllEvents = async (
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const supabase = await createClient();
-
-    // const { data: events, error } = userId
-    //   ? await supabase
-    //       .from("events")
-    //       .select("*")
-    //       .eq("user_id", userId)
-    //       .range(offset, offset + ITEMS_PER_PAGE - 1)
-    //   : await supabase
-    //       .from("events")
-    //       .select("*")
-    //       .range(offset, offset + ITEMS_PER_PAGE - 1);
-
+    
     let query = supabase.from("events").select("*");
 
     if (userId) {

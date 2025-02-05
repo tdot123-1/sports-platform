@@ -4,12 +4,16 @@ import {
   FilterOptions,
   SportsEventType,
   SportsEventTypeArray,
+  SportsEventTypeMap,
   TargetAgeGroup,
   TargetAgeGroupArray,
+  TargetAgeGroupMap,
   TargetGender,
   TargetGenderArray,
+  TargetGenderMap,
   TargetLevel,
   TargetLevelArray,
+  TargetLevelMap,
 } from "@/lib/types";
 import {
   DropdownMenu,
@@ -18,8 +22,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -30,13 +32,14 @@ import { Button } from "../ui/button";
 import { CircleXIcon, FilterIcon, FilterXIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { createSearchParams } from "@/lib/utils";
+import { constructFilterOptions, createSearchParams } from "@/lib/utils";
 
 const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  // each state is an object where every key is a filter option, and value is boolean
   const [typeFilter, setTypeFilter] = useState<{
     [key in SportsEventType]: boolean;
   }>({} as any);
@@ -50,47 +53,34 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
     [key in TargetLevel]: boolean;
   }>({} as any);
 
-  // Initialize state based on received filter props
-  useEffect(() => {
-    // Initialize event type filter state
-    const initialEventTypeFilter = SportsEventTypeArray.reduce((acc, type) => {
-      acc[type] = filter?.event_type?.includes(type) || false; // Set to true if exists in filter, else false
+  // T is generic type variable, makes function flexible
+  const initializeFilterState = <T extends string>(
+    optionsArray: T[],
+    selectedFilters?: T[]
+  ): Record<T, boolean> => {
+    // build object where keys are filter options
+    return optionsArray.reduce((acc, option) => {
+      // values are true if included in props, false if not
+      acc[option] = selectedFilters?.includes(option) || false;
       return acc;
-    }, {} as { [key in SportsEventType]: boolean });
-    setTypeFilter(initialEventTypeFilter);
-
-    // Initialize target gender filter state
-    const initialTargetGenderFilter = TargetGenderArray.reduce(
-      (acc, gender) => {
-        acc[gender] = filter?.target_gender?.includes(gender) || false; // Set to true if exists in filter, else false
-        return acc;
-      },
-      {} as { [key in TargetGender]: boolean }
-    );
-    setGenderFilter(initialTargetGenderFilter);
-
-    // Initialize target age filter state
-    const initialTargetAgeFilter = TargetAgeGroupArray.reduce((acc, age) => {
-      acc[age] = filter?.target_age?.includes(age) || false; // Set to true if exists in filter, else false
-      return acc;
-    }, {} as { [key in TargetAgeGroup]: boolean });
-    setAgeFilter(initialTargetAgeFilter);
-
-    // Initialize target level filter state
-    const initialTargetLevelFilter = TargetLevelArray.reduce((acc, level) => {
-      acc[level] = filter?.target_level?.includes(level) || false; // Set to true if exists in filter, else false
-      return acc;
-    }, {} as { [key in TargetLevel]: boolean });
-    setLevelFilter(initialTargetLevelFilter);
-  }, [filter]); // Run when filter prop changes
-
-  const removeFilters = () => {
-    // clear all states
-    setTypeFilter("");
-    setGenderFilter("");
-    setAgeFilter("");
-    setLevelFilter("");
+    }, {} as Record<T, boolean>);
   };
+
+  // initialize state based on received filter props
+  useEffect(() => {
+    setTypeFilter(
+      initializeFilterState(SportsEventTypeArray, filter?.event_type)
+    );
+    setAgeFilter(
+      initializeFilterState(TargetAgeGroupArray, filter?.target_age)
+    );
+    setGenderFilter(
+      initializeFilterState(TargetGenderArray, filter?.target_gender)
+    );
+    setLevelFilter(
+      initializeFilterState(TargetLevelArray, filter?.target_level)
+    );
+  }, []); // run on mount
 
   const handleChangeFilter = (
     value: string,
@@ -103,11 +93,26 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
   useEffect(() => {
     // construct filterOptions object
     const newFilter: FilterOptions = {};
+
     // check which filters should be applied
-    newFilter.event_type = typeFilter || undefined;
-    newFilter.target_age = ageFilter || undefined;
-    newFilter.target_gender = genderFilter || undefined;
-    newFilter.target_level = levelFilter || undefined;
+    const eventTypeFilters = constructFilterOptions(typeFilter);
+    console.log("Type filters: ", eventTypeFilters);
+    newFilter.event_type =
+      eventTypeFilters.length > 0
+        ? eventTypeFilters.map((key) => key as SportsEventType)
+        : undefined;
+
+    newFilter.target_age = constructFilterOptions(ageFilter).map(
+      (key) => key as TargetAgeGroup
+    );
+
+    newFilter.target_gender = constructFilterOptions(genderFilter).map(
+      (key) => key as TargetGender
+    );
+
+    newFilter.target_level = constructFilterOptions(levelFilter).map(
+      (key) => key as TargetLevel
+    );
 
     // construct new url with filters
     const newUrl = createSearchParams(pathname, searchParams, newFilter);
@@ -120,6 +125,52 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
       replace(newUrl);
     }
   }, [typeFilter, genderFilter, ageFilter, levelFilter]);
+
+  // check if category has any filters applied
+  const hasFilters = (filter: any) => {
+    return Object.values(filter).some((value) => value);
+  };
+
+  // set all keys to false on specific state variable
+  const removeFilters = (setter: Dispatch<SetStateAction<any>>) => {
+    setter((prev: any) =>
+      Object.fromEntries(Object.keys(prev).map((key) => [key, false]))
+    );
+  };
+
+  const removeAllFilters = () => {
+    removeFilters(setLevelFilter);
+    removeFilters(setAgeFilter);
+    removeFilters(setGenderFilter);
+    removeFilters(setTypeFilter);
+  };
+
+  const AllFilters = [
+    {
+      trigger: "Event type",
+      options: SportsEventTypeMap,
+      state: typeFilter,
+      setter: setTypeFilter,
+    },
+    {
+      trigger: "Gender",
+      options: TargetGenderMap,
+      state: genderFilter,
+      setter: setGenderFilter,
+    },
+    {
+      trigger: "Age",
+      options: TargetAgeGroupMap,
+      state: ageFilter,
+      setter: setAgeFilter,
+    },
+    {
+      trigger: "Level",
+      options: TargetLevelMap,
+      state: levelFilter,
+      setter: setLevelFilter,
+    },
+  ];
 
   return (
     <>
@@ -135,136 +186,51 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
         <DropdownMenuContent className="max-w-36">
           <DropdownMenuLabel>Apply Filters</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuSub>
-            <div className="inline-flex w-full">
-              {typeFilter && (
-                <Button
-                  onClick={() => setTypeFilter("")}
-                  variant={`outline`}
-                  className="p-0"
-                >
-                  <CircleXIcon className="p-0" />
-                </Button>
-              )}
-
-              <DropdownMenuSubTrigger className="flex-grow">
-                Event type
-              </DropdownMenuSubTrigger>
-            </div>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {SportsEventTypeArray.map((v) => (
-                  <DropdownMenuCheckboxItem
-                    key={v}
-                    checked={typeFilter[v]}
-                    onCheckedChange={() => handleChangeFilter(v, setTypeFilter)}
+          {AllFilters.map((sub) => (
+            <DropdownMenuSub key={`${sub.trigger}`}>
+              <div className="inline-flex w-full">
+                {hasFilters(sub.state) && (
+                  <Button
+                    onClick={() => removeFilters(sub.setter)}
+                    variant={`outline`}
+                    className="p-0"
                   >
-                    {v}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <div className="inline-flex w-full">
-              {genderFilter && (
-                <Button
-                  onClick={() => setGenderFilter("")}
-                  variant={`outline`}
-                  className="p-0"
-                >
-                  <CircleXIcon className="p-0" />
-                </Button>
-              )}
+                    <p hidden className="hidden">
+                      Remove filters
+                    </p>
+                    <CircleXIcon className="p-0" />
+                  </Button>
+                )}
 
-              <DropdownMenuSubTrigger className="flex-grow">
-                Gender
-              </DropdownMenuSubTrigger>
-            </div>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {TargetGenderArray.map((v) => (
-                  <DropdownMenuCheckboxItem
-                    key={v}
-                    checked={genderFilter[v]}
-                    onCheckedChange={() =>
-                      handleChangeFilter(v, setGenderFilter)
-                    }
-                  >
-                    {v}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <div className="inline-flex w-full">
-              {ageFilter && (
-                <Button
-                  onClick={() => setAgeFilter("")}
-                  variant={`outline`}
-                  className="p-0"
-                >
-                  <CircleXIcon className="p-0" />
-                </Button>
-              )}
+                <DropdownMenuSubTrigger className="flex-grow">
+                  {sub.trigger}
+                </DropdownMenuSubTrigger>
+              </div>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  {Object.entries(sub.options).map(([k, v]) => (
+                    <DropdownMenuCheckboxItem
+                      key={k}
+                      checked={sub.state[k as keyof typeof sub.state]}
+                      onCheckedChange={() => handleChangeFilter(k, sub.setter)}
+                    >
+                      {v}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          ))}
 
-              <DropdownMenuSubTrigger className="flex-grow">
-                Age
-              </DropdownMenuSubTrigger>
-            </div>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {TargetAgeGroupArray.map((v) => (
-                  <DropdownMenuCheckboxItem
-                    key={v}
-                    checked={ageFilter[v]}
-                    onCheckedChange={() => handleChangeFilter(v, setAgeFilter)}
-                  >
-                    {v}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <div className="inline-flex w-full">
-              {levelFilter && (
-                <Button
-                  onClick={() => setLevelFilter("")}
-                  variant={`outline`}
-                  className="p-0"
-                >
-                  <CircleXIcon className="p-0" />
-                </Button>
-              )}
-
-              <DropdownMenuSubTrigger className="flex-grow">
-                Level
-              </DropdownMenuSubTrigger>
-            </div>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {TargetLevelArray.map((v) => (
-                  <DropdownMenuCheckboxItem
-                    key={v}
-                    checked={levelFilter[v]}
-                    onCheckedChange={() =>
-                      handleChangeFilter(v, setLevelFilter)
-                    }
-                  >
-                    {v}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
           <DropdownMenuItem
             disabled={
-              !typeFilter && !genderFilter && !ageFilter && !levelFilter
+              !hasFilters(levelFilter) &&
+              !hasFilters(genderFilter) &&
+              !hasFilters(ageFilter) &&
+              !hasFilters(typeFilter)
             }
             className="cursor-pointer"
-            onClick={removeFilters}
+            onClick={removeAllFilters}
           >
             <div className="flex justify-start items-start gap-1">
               <FilterXIcon size={18} />
