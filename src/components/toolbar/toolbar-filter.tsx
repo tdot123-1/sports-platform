@@ -13,6 +13,7 @@ import {
 } from "@/lib/types";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -36,18 +37,52 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const [typeFilter, setTypeFilter] = useState<SportsEventType | "">(
-    filter?.event_type || ""
-  );
-  const [genderFilter, setGenderFilter] = useState<TargetGender | "">(
-    filter?.target_gender || ""
-  );
-  const [ageFilter, setAgeFilter] = useState<TargetAgeGroup | "">(
-    filter?.target_age || ""
-  );
-  const [levelFilter, setLevelFilter] = useState<TargetLevel | "">(
-    filter?.target_level || ""
-  );
+  const [typeFilter, setTypeFilter] = useState<{
+    [key in SportsEventType]: boolean;
+  }>({} as any);
+  const [genderFilter, setGenderFilter] = useState<{
+    [key in TargetGender]: boolean;
+  }>({} as any);
+  const [ageFilter, setAgeFilter] = useState<{
+    [key in TargetAgeGroup]: boolean;
+  }>({} as any);
+  const [levelFilter, setLevelFilter] = useState<{
+    [key in TargetLevel]: boolean;
+  }>({} as any);
+
+  // Initialize state based on received filter props
+  useEffect(() => {
+    // Initialize event type filter state
+    const initialEventTypeFilter = SportsEventTypeArray.reduce((acc, type) => {
+      acc[type] = filter?.event_type?.includes(type) || false; // Set to true if exists in filter, else false
+      return acc;
+    }, {} as { [key in SportsEventType]: boolean });
+    setTypeFilter(initialEventTypeFilter);
+
+    // Initialize target gender filter state
+    const initialTargetGenderFilter = TargetGenderArray.reduce(
+      (acc, gender) => {
+        acc[gender] = filter?.target_gender?.includes(gender) || false; // Set to true if exists in filter, else false
+        return acc;
+      },
+      {} as { [key in TargetGender]: boolean }
+    );
+    setGenderFilter(initialTargetGenderFilter);
+
+    // Initialize target age filter state
+    const initialTargetAgeFilter = TargetAgeGroupArray.reduce((acc, age) => {
+      acc[age] = filter?.target_age?.includes(age) || false; // Set to true if exists in filter, else false
+      return acc;
+    }, {} as { [key in TargetAgeGroup]: boolean });
+    setAgeFilter(initialTargetAgeFilter);
+
+    // Initialize target level filter state
+    const initialTargetLevelFilter = TargetLevelArray.reduce((acc, level) => {
+      acc[level] = filter?.target_level?.includes(level) || false; // Set to true if exists in filter, else false
+      return acc;
+    }, {} as { [key in TargetLevel]: boolean });
+    setLevelFilter(initialTargetLevelFilter);
+  }, [filter]); // Run when filter prop changes
 
   const removeFilters = () => {
     // clear all states
@@ -56,12 +91,13 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
     setAgeFilter("");
     setLevelFilter("");
   };
+
   const handleChangeFilter = (
     value: string,
     setter: Dispatch<SetStateAction<any>>
   ) => {
     console.log(value);
-    setter(value);
+    setter((prev: any) => ({ ...prev, [value]: !prev[value] }));
   };
 
   useEffect(() => {
@@ -117,16 +153,15 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
             </div>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={typeFilter}
-                  onValueChange={(v) => handleChangeFilter(v, setTypeFilter)}
-                >
-                  {SportsEventTypeArray.map((v) => (
-                    <DropdownMenuRadioItem value={v} key={v}>
-                      {v}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
+                {SportsEventTypeArray.map((v) => (
+                  <DropdownMenuCheckboxItem
+                    key={v}
+                    checked={typeFilter[v]}
+                    onCheckedChange={() => handleChangeFilter(v, setTypeFilter)}
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
@@ -148,16 +183,17 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
             </div>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={genderFilter}
-                  onValueChange={(v) => handleChangeFilter(v, setGenderFilter)}
-                >
-                  {TargetGenderArray.map((v) => (
-                    <DropdownMenuRadioItem value={v} key={v}>
-                      {v}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
+                {TargetGenderArray.map((v) => (
+                  <DropdownMenuCheckboxItem
+                    key={v}
+                    checked={genderFilter[v]}
+                    onCheckedChange={() =>
+                      handleChangeFilter(v, setGenderFilter)
+                    }
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
@@ -179,16 +215,15 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
             </div>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={ageFilter}
-                  onValueChange={(v) => handleChangeFilter(v, setAgeFilter)}
-                >
-                  {TargetAgeGroupArray.map((v) => (
-                    <DropdownMenuRadioItem value={v} key={v}>
-                      {v}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
+                {TargetAgeGroupArray.map((v) => (
+                  <DropdownMenuCheckboxItem
+                    key={v}
+                    checked={ageFilter[v]}
+                    onCheckedChange={() => handleChangeFilter(v, setAgeFilter)}
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
@@ -210,16 +245,17 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
             </div>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup
-                  value={levelFilter}
-                  onValueChange={(v) => handleChangeFilter(v, setLevelFilter)}
-                >
-                  {TargetLevelArray.map((v) => (
-                    <DropdownMenuRadioItem value={v} key={v}>
-                      {v}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
+                {TargetLevelArray.map((v) => (
+                  <DropdownMenuCheckboxItem
+                    key={v}
+                    checked={levelFilter[v]}
+                    onCheckedChange={() =>
+                      handleChangeFilter(v, setLevelFilter)
+                    }
+                  >
+                    {v}
+                  </DropdownMenuCheckboxItem>
+                ))}
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
