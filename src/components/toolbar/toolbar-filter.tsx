@@ -95,12 +95,9 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
     const newFilter: FilterOptions = {};
 
     // check which filters should be applied
-    const eventTypeFilters = constructFilterOptions(typeFilter);
-    console.log("Type filters: ", eventTypeFilters);
-    newFilter.event_type =
-      eventTypeFilters.length > 0
-        ? eventTypeFilters.map((key) => key as SportsEventType)
-        : undefined;
+    newFilter.event_type = constructFilterOptions(typeFilter).map(
+      (key) => key as SportsEventType
+    );
 
     newFilter.target_age = constructFilterOptions(ageFilter).map(
       (key) => key as TargetAgeGroup

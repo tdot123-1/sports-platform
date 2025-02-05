@@ -117,8 +117,8 @@ export const SortOptionsMap = {
 export type SortByKey = keyof typeof SortOptionsMap;
 
 export interface SortOptions {
-  sort_by: SortByKey;
-  order: "asc" | "desc";
+  sort_by?: SortByKey;
+  order?: "asc" | "desc";
 }
 
 // use abbreviations for search params

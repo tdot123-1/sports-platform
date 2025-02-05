@@ -114,7 +114,6 @@ export const encodeFilters = (filters: FilterOptions) => {
     return [];
   });
 
-  console.log("ENCODED: ", encoded);
   return encoded;
 };
 

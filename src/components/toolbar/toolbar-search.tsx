@@ -1,3 +1,5 @@
+"use client";
+
 import { SearchIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -8,8 +10,28 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
+import { Label } from "../ui/label";
 
 const ToolbarSearch = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleSearch = useDebouncedCallback((term) => {
+    console.log(`Searching... ${term}`);
+
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (term) {
+      params.set("query", encodeURIComponent(term));
+    } else {
+      params.delete("query");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
   return (
     <>
       <DropdownMenu>
@@ -25,7 +47,21 @@ const ToolbarSearch = () => {
           <DropdownMenuLabel>Search Events</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <div className="py-1">
-            <Input />
+            <Label htmlFor="search" className="sr-only">
+              Search
+            </Label>
+            <Input
+              id="search"
+              defaultValue={
+                searchParams.get("query") &&
+                typeof searchParams.get("query") === "string"
+                  ? decodeURIComponent(searchParams.get("query")!)
+                  : ""
+              }
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
+            />
           </div>
         </DropdownMenuContent>
       </DropdownMenu>

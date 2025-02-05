@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ArrowDownNarrowWide,
-  SortAscIcon,
-  SortDescIcon,
-} from "lucide-react";
+import { ArrowDownNarrowWide, SortAscIcon, SortDescIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -29,14 +25,15 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
   const [ascending, setAscending] = useState(sort?.order === "asc");
   const [sortBy, setSortBy] = useState(sort?.sort_by || "");
 
+  // check if selected value is one of allowed columns, update state
   const handleSortBy = (value: string) => {
-    console.log(value);
     if (Object.keys(SortOptionsMap).includes(value)) {
       setSortBy(value);
     }
   };
 
   useEffect(() => {
+    // set sort options
     const newSort: SortOptions = {
       sort_by: Object.keys(SortOptionsMap).includes(sortBy)
         ? (sortBy as SortByKey)
@@ -44,6 +41,7 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
       order: ascending ? "asc" : "desc",
     };
 
+    // construct new url 
     const newUrl = createSearchParams(
       pathname,
       searchParams,
@@ -54,6 +52,7 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
     // get current url
     const params = new URLSearchParams(searchParams);
 
+    // only redirect if url changed
     if (newUrl !== `${pathname}?${params.toString()}`) {
       replace(newUrl);
     }
