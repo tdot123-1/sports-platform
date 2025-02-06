@@ -23,6 +23,8 @@ import Link from "next/link";
 import { Separator } from "../ui/separator";
 import DatePicker from "./date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
+import AgeSelect from "./form-components/age-select";
+import LevelSelect from "./form-components/level-select";
 
 interface EventFormProps {
   state: State;
@@ -36,7 +38,7 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
     <>
       <form action={formAction}>
         <div>
-          <h3 className="text-lg font-semibold">Event info</h3>
+          <h3 className="text-lg font-semibold font-mono">Event info</h3>
           <p className="text-muted-foreground text-sm">
             Provide some information about the event itself.
           </p>
@@ -119,8 +121,8 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
             defaultValue={event ? event.event_location : ""}
           />
           <div id="event_location-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.event_location &&
-              state.errors.event_location.map((error) => (
+            {state.errors?.event_address &&
+              state.errors.event_address.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
                   {error}
                 </p>
@@ -190,14 +192,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Target audience</h3>
+          <h3 className="text-lg font-semibold font-mono">Target audience</h3>
           <p className="text-muted-foreground text-sm">
             Provide some information about who your event is meant for.
           </p>
         </div>
         <Separator className="my-2" />
         <div className="mb-4">
-          <Label htmlFor="target_age">
+          {/* <Label htmlFor="target_age">
             Target Age Group <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
@@ -216,11 +218,6 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {/* {TargetAgeGroupArray.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))} */}
               {Object.entries(TargetAgeGroupMap).map(([k, v]) => (
                 <SelectItem key={k} value={k}>
                   {v}
@@ -235,10 +232,11 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
+          <AgeSelect />
         </div>
         <div className="mb-4">
-          <Label htmlFor="target_level">Target Skill Level</Label>
+          {/* <Label htmlFor="target_level">Target Skill Level</Label>
           <p className="text-xs italic">
             Select the skill level required for your event (if applicable).
           </p>
@@ -255,11 +253,6 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {/* {TargetLevelArray.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))} */}
               {Object.entries(TargetLevelMap).map(([k, v]) => (
                 <SelectItem key={k} value={k}>
                   {v}
@@ -274,7 +267,8 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
+          <LevelSelect />
         </div>
         <div className="mb-4">
           <Label htmlFor="target_gender">
@@ -317,7 +311,7 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold">Contact info</h3>
+          <h3 className="text-lg font-semibold font-mono">Contact info</h3>
           <p className="text-muted-foreground text-sm">
             Provide information about how to get in contact with event
             organizers.

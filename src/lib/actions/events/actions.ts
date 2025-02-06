@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import {
+  CurrencyCodes,
   SportsEventTypeKeys,
   SportsEventTypeMap,
   TargetAgeGroupKeys,
@@ -28,18 +29,20 @@ const FormSchema = z.object({
   event_type: z.enum(SportsEventTypeKeys as [keyof typeof SportsEventTypeMap], {
     invalid_type_error: "Please select an event type",
   }),
-  target_age: z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap], {
-    invalid_type_error: "Please select from the available age groups",
-  }),
+  target_age: z
+    .array(z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap]), {
+      invalid_type_error: "Please select from the available age groups",
+    })
+    .min(1, "Please select at least one age group"),
   target_level: z
-    .enum(TargetLevelKeys as [keyof typeof TargetLevelMap], {
+    .array(z.enum(TargetLevelKeys as [keyof typeof TargetLevelMap]), {
       invalid_type_error: "Please select a skill level",
     })
     .nullable(),
   target_gender: z.enum(TargetGenderKeys as [keyof typeof TargetGenderMap], {
     invalid_type_error: "Please select a gender",
   }),
-  event_location: z
+  event_address: z
     .string({
       invalid_type_error: "Please provide the location of your event",
     })
@@ -55,9 +58,13 @@ const FormSchema = z.object({
     .date({
       invalid_type_error: "Please provide the starting date of your event",
     })
-    .refine((date) => date >= new Date(), {
-      message: "Start date must be today or in the future",
-    }),
+    .nullable()
+    .refine(
+      (startDate) => {
+        return startDate === null || startDate >= new Date();
+      },
+      { message: "Start date must be today or in the future" }
+    ),
   end_date: z
     .date({
       invalid_type_error: "Please provide the end date of your event",
@@ -89,10 +96,37 @@ const FormSchema = z.object({
     .refine((v) => {
       return v === null || /^\+?[0-9]\d{1,14}$/.test(v);
     }),
+  event_links: z.array(
+    z
+      .string({
+        invalid_type_error: "Please provide a link",
+      })
+      .url({ message: "Please provide a valid URL" })
+      .max(5, { message: "Max number of links exceeded" })
+      .nullable()
+  ),
+  cost_estimate: z.coerce
+    .number({
+      invalid_type_error: "Cost estimate must be a number",
+    })
+    .int({ message: "Cost estimate must be whole number" })
+    .min(0, { message: "Cost estimate must be a positive amount" }),
+  cost_description: z
+    .string({
+      invalid_type_error: "Please provide a cost description",
+    })
+    .max(2000, { message: "Maximum characters exceeded" })
+    .nullable(),
+  cost_currency: z.enum(CurrencyCodes).default("EUR"),
 });
 
 const CreateEventSchema = FormSchema.omit({ id: true }).refine(
   (data) => {
+    // if start is null, end should be null
+    if (data.start_date === null) {
+      return data.end_date === null;
+    }
+    // if start date, end date must be null or >= start date
     return data.end_date === null || data.end_date >= data.start_date;
   },
   {
@@ -110,12 +144,16 @@ export type State = {
     target_age?: string[];
     target_level?: string[];
     target_gender?: string[];
-    event_location?: string[];
+    event_address?: string[];
     description?: string[];
     start_date?: string[];
     end_date?: string[];
     contact_email?: string[];
     contact_phone?: string[];
+    event_links?: string[];
+    cost_estimate?: string[];
+    cost_description?: string[];
+    cost_currency?: string[];
   };
   message?: string;
   success: boolean;
@@ -168,7 +206,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     target_age,
     target_level,
     target_gender,
-    event_location,
+    event_address,
     description,
     start_date,
     end_date,
@@ -205,7 +243,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         target_age,
         target_level,
         target_gender,
-        event_location,
+        event_address,
         description,
         start_date,
         end_date,
@@ -283,7 +321,7 @@ export async function updateEvent(
     target_age,
     target_level,
     target_gender,
-    event_location,
+    event_address,
     description,
     start_date,
     end_date,
@@ -305,7 +343,7 @@ export async function updateEvent(
         target_age,
         target_level,
         target_gender,
-        event_location,
+        event_address,
         description,
         start_date,
         end_date,

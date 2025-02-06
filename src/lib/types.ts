@@ -123,3 +123,5 @@ export const FilterKeyMap = {
   target_age: "ta",
   target_level: "tl",
 } as const;
+
+export const CurrencyCodes = ["EUR", "USD", "GBP", "CAD", "AUD"] as const;
