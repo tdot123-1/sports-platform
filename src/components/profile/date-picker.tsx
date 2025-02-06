@@ -37,7 +37,7 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
         <Input
           name={name}
           id={name}
-          type="text"
+          type="hidden"
           value={date ? date.toString() : ""}
           readOnly
           hidden

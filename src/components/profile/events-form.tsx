@@ -265,6 +265,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               ))}
           </div> */}
           <LevelSelect />
+          <div id="target_level-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.target_level &&
+              state.errors.target_level.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
         <div className="mb-4">
           <Label htmlFor="target_gender">

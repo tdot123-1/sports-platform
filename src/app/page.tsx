@@ -1,5 +1,4 @@
-import AgeSelect from "@/components/profile/form-components/age-select";
-import LinksInput from "@/components/profile/form-components/links-input";
+import CostEstimate from "@/components/profile/form-components/cost-estimate";
 
 export default function Home() {
   return (
@@ -7,7 +6,7 @@ export default function Home() {
       <section className="px-4">
         <h1>Sports platform</h1>
         <p>What's new</p>
-        <LinksInput />
+        <CostEstimate pending={false} name="cost_estimate" />
       </section>
     </>
   );
