@@ -202,11 +202,15 @@ export const constructFilterOptions = (state: any) => {
   return Object.keys(state).filter((key) => state[key as keyof typeof state]);
 };
 
+export const convertCurrencyStringToValue = (str: string) => {
+  // convert string (ex. 10.55) to value in cents (1055)
+  const formattedStr = str.replace(",", ".").trim();
 
-export const convertCurrencyString = (str?: string, nr?: number) => {
-  if (str) {
-    // convert string (ex. 10.55) to value in cents (1055)
-  } else if (nr) {
-    // convert value in cents (ex. 1055) to string (10.55)
-  }
-}
+  const valuInCents = Math.round(parseFloat(formattedStr) * 100);
+
+  return valuInCents;
+};
+
+export const convertCurrencyValueToString = (nr: number) => {
+  return (nr / 100).toFixed(2);
+};

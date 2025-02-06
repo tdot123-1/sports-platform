@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CurrencyCodes } from "@/lib/types";
+import { convertCurrencyValueToString } from "@/lib/utils";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface CostEstimateProps {
@@ -25,12 +26,20 @@ const CostEstimate = ({
   cost_currency,
   pending,
 }: CostEstimateProps) => {
-  const [costInput, setCostInput] = useState("0.00");
+  const [costInput, setCostInput] = useState<string>(
+    cost_estimate ? convertCurrencyValueToString(cost_estimate) : "0.00"
+  );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    value.replace(",", ".");
-    setCostInput(value.trim());
+    let value = e.target.value;
+
+    // allow only numbers, 1 comma or period
+    if (/^[0-9]*[.,]?[0-9]*$/.test(value)) {
+      // replace comma with a period
+      value = value.replace(",", ".");
+
+      setCostInput(value.trim());
+    }
   };
 
   const handleFormatInput = () => {
@@ -99,11 +108,12 @@ const CostEstimate = ({
         <Input
           id={name}
           name={name}
-          type="number"
+          type="text"
           value={costInput}
           onChange={handleInputChange}
           onBlur={handleFormatInput}
           disabled={pending}
+          maxLength={7}
         />
       </div>
     </>
