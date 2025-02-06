@@ -73,9 +73,13 @@ export const generatePaginationMobile = (
 export const applyQueryFilters = (query: any, filters: FilterOptions) => {
   Object.entries(filters).forEach(([key, value]) => {
     // return if no value provided to filter
-    if (!value) return;
-    
-    query = query.eq(key, value);
+    if (!value || value.length === 0) return;
+
+    if (value.length === 1) {
+      query = query.eq(key, value);
+    } else {
+      query = query.or(value.map((v: string) => `${key}.eq.${v}`).join(","));
+    }
   });
 
   // return query with all filters applied
