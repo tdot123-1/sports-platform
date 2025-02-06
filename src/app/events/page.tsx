@@ -41,7 +41,7 @@ const Page = async (props: {
   return (
     <>
       <Toolbar filter={filter} sort={sort} />
-      <div className="mx-4">
+      <section className="px-4">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
             currentPage={currentPage}
@@ -55,7 +55,7 @@ const Page = async (props: {
             <PaginationWrapper query={query} filter={filter} />
           </Suspense>
         </div>
-      </div>
+      </section>
     </>
   );
 };

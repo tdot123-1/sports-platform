@@ -3,14 +3,9 @@
 import { State } from "@/lib/actions/events/actions";
 import {
   SportsEvent,
-  SportsEventTypeArray,
   SportsEventTypeMap,
-  TargetAgeGroupArray,
-  TargetAgeGroupEntries,
   TargetAgeGroupMap,
-  TargetGenderArray,
   TargetGenderMap,
-  TargetLevelArray,
   TargetLevelMap,
 } from "@/lib/types";
 import { Label } from "../ui/label";

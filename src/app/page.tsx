@@ -1,9 +1,10 @@
-
 export default function Home() {
   return (
     <>
-      <h1>Sports platform</h1>
-      <p>What's new</p>
+      <section className="px-4">
+        <h1>Sports platform</h1>
+        <p>What's new</p>
+      </section>
     </>
   );
 }

@@ -12,12 +12,14 @@ const Page = async () => {
 
   return (
     <>
-      <h1>Profile</h1>
-      <p>Hello {data.user.email}</p>
-      <div className="flex flex-col gap-1">
-        <Link href={`/profile/events`}>To my events</Link>
-        <Link href={`/profile/events/create`}>Create event</Link>
-      </div>
+      <section className="px-4">
+        <h1>Profile</h1>
+        <p>Hello {data.user.email}</p>
+        <div className="flex flex-col gap-1">
+          <Link href={`/profile/events`}>To my events</Link>
+          <Link href={`/profile/events/create`}>Create event</Link>
+        </div>
+      </section>
     </>
   );
 };

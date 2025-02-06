@@ -43,7 +43,7 @@ const Page = async (props: {
   return (
     <>
       <Toolbar filter={filter} sort={sort} />
-      <div className="mx-4">
+      <section className="px-4">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
             userId={data.user.id}
@@ -62,7 +62,7 @@ const Page = async (props: {
             />
           </Suspense>
         </div>
-      </div>
+      </section>
     </>
   );
 };

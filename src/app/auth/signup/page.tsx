@@ -1,7 +1,7 @@
 const Page = () => {
   return (
     <>
-      <div className="my-12">
+      <section className="my-12 px-4">
         <h1 className="text-center font-semibold text-lg">
           Confirm your email
         </h1>
@@ -9,7 +9,7 @@ const Page = () => {
           A confirmation email has been sent to the submitted address. Please
           click the link in your email to complete the signup process.
         </p>
-      </div>
+      </section>
     </>
   );
 };
