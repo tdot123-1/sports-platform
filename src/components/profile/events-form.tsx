@@ -25,6 +25,7 @@ import DatePicker from "./date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import AgeSelect from "./form-components/age-select";
 import LevelSelect from "./form-components/level-select";
+import LinksInput from "./form-components/links-input";
 
 interface EventFormProps {
   state: State;
@@ -85,11 +86,6 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {/* {SportsEventTypeArray.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))} */}
               {Object.entries(SportsEventTypeMap).map(([k, v]) => (
                 <SelectItem key={k} value={k}>
                   {v}
@@ -107,20 +103,20 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           </div>
         </div>
         <div className="mb-4">
-          <Label htmlFor="event_location">
-            Event Location <span className="text-destructive">*</span>
+          <Label htmlFor="event_address">
+            Event Address <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
             Provide the address where your event will be held
           </p>
           <Textarea
-            id="event_location"
-            name="event_location"
-            aria-describedby="event_location-error"
+            id="event_address"
+            name="event_address"
+            aria-describedby="event_address-error"
             disabled={pending}
             defaultValue={event ? event.event_location : ""}
           />
-          <div id="event_location-error" aria-live="polite" aria-atomic="true">
+          <div id="event_address-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_address &&
               state.errors.event_address.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
@@ -365,6 +361,9 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
                 </p>
               ))}
           </div>
+        </div>
+        <div className="mb-4">
+          <LinksInput />
         </div>
         <div className="flex justify-center gap-4">
           <Button variant={`secondary`} type="button" disabled={pending}>

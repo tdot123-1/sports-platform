@@ -28,19 +28,23 @@ const FormSchema = z.object({
     .max(254, { message: "Maximum characters exceeded" }),
   event_type: z.enum(SportsEventTypeKeys as [keyof typeof SportsEventTypeMap], {
     invalid_type_error: "Please select an event type",
+    message: "Please select from the available events",
   }),
   target_age: z
     .array(z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap]), {
       invalid_type_error: "Please select from the available age groups",
+      message: "Please select from the available age groups",
     })
     .min(1, "Please select at least one age group"),
   target_level: z
     .array(z.enum(TargetLevelKeys as [keyof typeof TargetLevelMap]), {
       invalid_type_error: "Please select a skill level",
+      message: "Please select a skill level",
     })
     .nullable(),
   target_gender: z.enum(TargetGenderKeys as [keyof typeof TargetGenderMap], {
     invalid_type_error: "Please select a gender",
+    message: "Please select a gender",
   }),
   event_address: z
     .string({
@@ -101,7 +105,7 @@ const FormSchema = z.object({
       .string({
         invalid_type_error: "Please provide a link",
       })
-      .url({ message: "Please provide a valid URL" })
+      .url({ message: "Please only valid URLs" })
       .max(5, { message: "Max number of links exceeded" })
       .nullable()
   ),
@@ -117,7 +121,9 @@ const FormSchema = z.object({
     })
     .max(2000, { message: "Maximum characters exceeded" })
     .nullable(),
-  cost_currency: z.enum(CurrencyCodes).default("EUR"),
+  cost_currency: z
+    .enum(CurrencyCodes, { message: "Please select a valid currency" })
+    .default("EUR"),
 });
 
 const CreateEventSchema = FormSchema.omit({ id: true }).refine(
