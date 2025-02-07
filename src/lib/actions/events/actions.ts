@@ -16,6 +16,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+// temporary validation for address format
+const AddressSchema = z.object({
+  address_one: z.string().min(1, "Address line 1 is required").trim(),
+  address_two: z.string().trim().optional(),
+  city: z.string().trim().min(1, "City is required"),
+  region: z.string().min(1, "Region is required").trim(),
+  postal: z.string().min(1, "Postal code is required").trim(),
+});
+
 // (!) Add phone number validation
 const FormSchema = z.object({
   id: z.string().uuid(),
@@ -46,11 +55,12 @@ const FormSchema = z.object({
     invalid_type_error: "Please select a gender",
     message: "Please select a gender",
   }),
-  event_address: z
+  event_address: AddressSchema,
+  event_country: z
     .string({
-      invalid_type_error: "Please provide the location of your event",
+      invalid_type_error: "Please add a name for your event",
     })
-    .trim(),
+    .length(2, { message: "Invalid country code" }),
   description: z
     .string({
       invalid_type_error: "Please provide a description of your event",
@@ -151,6 +161,7 @@ export type State = {
     target_level?: string[];
     target_gender?: string[];
     event_address?: string[];
+    event_country?: string[];
     description?: string[];
     start_date?: string[];
     end_date?: string[];

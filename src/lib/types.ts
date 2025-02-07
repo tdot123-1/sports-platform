@@ -129,3 +129,8 @@ export const FilterKeyMap = {
 } as const;
 
 export const CurrencyCodes = ["EUR", "USD", "GBP", "CAD", "AUD"] as const;
+
+export interface Country {
+  code: string;
+  name: string;
+}

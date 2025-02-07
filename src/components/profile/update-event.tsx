@@ -1,6 +1,6 @@
 "use client";
 
-import { SportsEvent } from "@/lib/types";
+import { Country, SportsEvent } from "@/lib/types";
 import EventForm from "./events-form";
 import { State, updateEvent } from "@/lib/actions/events/actions";
 import { useActionState, useEffect } from "react";
@@ -9,9 +9,10 @@ import { toast } from "sonner";
 
 interface UpdateEventProps {
   event: SportsEvent;
+  countryList: Country[];
 }
 
-const UpdateEvent = ({ event }: UpdateEventProps) => {
+const UpdateEvent = ({ event, countryList }: UpdateEventProps) => {
   const initialState: State = { message: "", errors: {}, success: false };
 
   const updateEventWithId = updateEvent.bind(null, event.id);
@@ -41,6 +42,7 @@ const UpdateEvent = ({ event }: UpdateEventProps) => {
         formAction={formAction}
         pending={pending}
         event={event}
+        countryList={countryList}
       />
     </>
   );

@@ -1,6 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+
+// temporary solution for address format
 const addressComponents = [
   {
     label: "Address Line 1",
@@ -56,8 +58,6 @@ const AddressInput = () => {
             </div>
           </div>
         ))}
-
-        
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import CreateEvent from "@/components/profile/create-event";
+import FormWrapper from "@/components/profile/events-form/form-wrapper";
 
 const Page = () => {
   return (
@@ -8,7 +8,7 @@ const Page = () => {
         <div className="flex justify-center pb-6">
           <div className="w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
             <h2 className="mb-4 text-center">New Event</h2>
-            <CreateEvent />
+            <FormWrapper />
           </div>
         </div>
       </section>

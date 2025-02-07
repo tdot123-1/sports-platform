@@ -2,6 +2,7 @@
 
 import { State } from "@/lib/actions/events/actions";
 import {
+  Country,
   SportsEvent,
   SportsEventTypeMap,
   TargetAgeGroupMap,
@@ -23,22 +24,27 @@ import Link from "next/link";
 import { Separator } from "../ui/separator";
 import DatePicker from "./date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
-import AgeSelect from "./form-components/age-select";
-import LevelSelect from "./form-components/level-select";
-import LinksInput from "./form-components/links-input";
-import MultiSelect from "./form-components/multiselect";
-import CostEstimate from "./form-components/cost-estimate";
-import AddressInput from "./form-components/address-input";
-import CountrySelectWrapper from "./form-components/country-select-wrapper";
+import LinksInput from "./events-form/form-components/links-input";
+import MultiSelect from "./events-form/form-components/multiselect";
+import CostEstimate from "./events-form/form-components/cost-estimate";
+import AddressInput from "./events-form/form-components/address-input";
+import CountrySelect from "./events-form/form-components/country-select";
 
 interface EventFormProps {
   state: State;
   formAction: (payload: FormData) => void;
   pending: boolean;
   event?: SportsEvent;
+  countryList: Country[];
 }
 
-const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
+const EventForm = ({
+  state,
+  formAction,
+  pending,
+  event,
+  countryList,
+}: EventFormProps) => {
   return (
     <>
       <form action={formAction}>
@@ -114,19 +120,27 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
             Provide the address where your event will be held
           </p>
           <AddressInput />
-          <CountrySelectWrapper
-            pending={pending}
-            name="event_country"
-            describedBy="event_country-error"
-          />
-          {/* <Textarea
-            id="event_address"
-            name="event_address"
-            aria-describedby="event_address-error"
-            disabled={pending}
-            defaultValue={event ? event.event_location : ""}
-          /> */}
+          <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
+            <Label className="text-muted-foreground" htmlFor="event_country">
+              Country :
+            </Label>
+            <CountrySelect
+              countryList={countryList}
+              pending={pending}
+              name="event_country"
+              describedBy="event_country-error"
+            />
+          </div>
+
           <div id="event_address-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.event_address &&
+              state.errors.event_address.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+          <div id="event_country-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_address &&
               state.errors.event_address.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>

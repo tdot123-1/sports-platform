@@ -5,8 +5,13 @@ import { useActionState, useEffect } from "react";
 import EventForm from "./events-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Country } from "@/lib/types";
 
-const CreateEvent = () => {
+interface CreateEventProps {
+  countryList: Country[];
+}
+
+const CreateEvent = ({ countryList }: CreateEventProps) => {
   const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     createEvent,
@@ -26,10 +31,15 @@ const CreateEvent = () => {
       }
     }
   }, [pending, state]);
-  
+
   return (
     <>
-      <EventForm state={state} formAction={formAction} pending={pending} />
+      <EventForm
+        countryList={countryList}
+        state={state}
+        formAction={formAction}
+        pending={pending}
+      />
     </>
   );
 };
