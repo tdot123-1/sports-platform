@@ -19,7 +19,7 @@ const MultiSelect = <T extends Record<string, string>>({
   initial_values,
   pending,
   optionsMap,
-  describedBy
+  describedBy,
 }: MultiSelectProps<T>) => {
   // initialize selectedValues based on initial_values
   const [selectedValues, setSelectedValues] = useState(() =>
@@ -60,7 +60,10 @@ const MultiSelect = <T extends Record<string, string>>({
 
   return (
     <>
-      <div aria-describedby={describedBy} className="grid grid-cols-1 sm:grid-cols-2 gap-1 py-1">
+      <div
+        aria-describedby={describedBy}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-1 py-1"
+      >
         {Object.entries(optionsMap).map(([k, v]) => (
           <div key={k} className="flex items-center gap-1">
             <Checkbox

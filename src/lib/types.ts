@@ -91,6 +91,10 @@ export interface SportsEvent {
   end_date: Date | null;
   contact_email: string;
   contact_phone: string;
+  cost_estimate: number;
+  cost_currency: string;
+  cost_description: string;
+  event_links: string[];
   user_id: string;
 }
 

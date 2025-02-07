@@ -27,6 +27,7 @@ import AgeSelect from "./form-components/age-select";
 import LevelSelect from "./form-components/level-select";
 import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";
+import CostEstimate from "./form-components/cost-estimate";
 
 interface EventFormProps {
   state: State;
@@ -262,11 +263,6 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               />
             </SelectTrigger>
             <SelectContent>
-              {/* {TargetGenderArray.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))} */}
               {Object.entries(TargetGenderMap).map(([k, v]) => (
                 <SelectItem key={k} value={k}>
                   {v}
@@ -283,7 +279,64 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
               ))}
           </div>
         </div>
-
+        <div>
+          <h3 className="text-lg font-semibold font-mono">Event cost</h3>
+          <p className="text-muted-foreground text-sm">
+            Provide information about what your event will cost for attendees.
+          </p>
+        </div>
+        <Separator className="my-2" />
+        <Label htmlFor="cost_estimate">
+          Cost estimate <span className="text-destructive">*</span>
+        </Label>
+        <p className="text-xs italic">
+          Provide an estimation of the total price for attending your event.
+        </p>
+        <div className="mb-4">
+          <CostEstimate
+            name="cost_estimate"
+            pending={pending}
+            cost_estimate={event?.cost_estimate}
+            cost_currency={event?.cost_currency}
+            describedBy="cost_estimate-error"
+          />
+          {/** errors */}
+          <div id="cost_estimate-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.cost_estimate &&
+              state.errors.cost_estimate.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          {/** cost description */}
+          <Label htmlFor="cost_description">Cost description</Label>
+          <p className="text-xs italic">
+            Optionally describe what attendees receive for the price of your
+            event (access, catering, hotel stay etc.).
+          </p>
+          <Textarea
+            id="cost_description"
+            name="cost_description"
+            aria-describedby="cost_description-error"
+            disabled={pending}
+            defaultValue={event?.cost_description ? event.cost_description : ""}
+          />
+          <div
+            id="cost_description-error"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {state.errors?.cost_description &&
+              state.errors.cost_description.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
         <div>
           <h3 className="text-lg font-semibold font-mono">Contact info</h3>
           <p className="text-muted-foreground text-sm">
@@ -341,7 +394,21 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           </div>
         </div>
         <div className="mb-4">
-          <LinksInput />
+          <LinksInput
+            name="event_links"
+            pending={pending}
+            describedBy="event_links-error"
+            event_links={event?.event_links}
+          />
+          {/** errors */}
+          <div id="event_links-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.event_links &&
+              state.errors.event_links.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
         <div className="flex justify-center gap-4">
           <Button variant={`secondary`} type="button" disabled={pending}>

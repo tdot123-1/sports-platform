@@ -18,6 +18,7 @@ interface CostEstimateProps {
   cost_estimate?: number;
   cost_currency?: string;
   pending: boolean;
+  describedBy: string
 }
 
 const CostEstimate = ({
@@ -25,6 +26,7 @@ const CostEstimate = ({
   cost_estimate,
   cost_currency,
   pending,
+  describedBy
 }: CostEstimateProps) => {
   const [costInput, setCostInput] = useState<string>(
     cost_estimate ? convertCurrencyValueToString(cost_estimate) : "0.00"
@@ -82,12 +84,7 @@ const CostEstimate = ({
 
   return (
     <>
-      <Label htmlFor="target_age">
-        Cost estimate <span className="text-destructive">*</span>
-      </Label>
-      <p className="text-xs italic">
-        Provide an estimation of the total price for attending your event.
-      </p>
+      
       <div className="flex gap-1">
         <Select
           name="cost_currency"
@@ -114,6 +111,7 @@ const CostEstimate = ({
           onBlur={handleFormatInput}
           disabled={pending}
           maxLength={7}
+          aria-describedby={describedBy}
         />
       </div>
     </>

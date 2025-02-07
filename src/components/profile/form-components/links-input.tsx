@@ -5,19 +5,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CircleXIcon } from "lucide-react";
-import {
+import { ChangeEvent, useMemo, useState } from "react";
 
-  ChangeEvent,
+interface LinksInputProps {
+  event_links?: string[];
+  name: string;
+  describedBy: string;
+  pending: boolean;
+}
 
-  useState,
-} from "react";
-
-const LinksInput = () => {
-  const [addedLinks, setAddedLinks] = useState<string[]>([]);
+const LinksInput = ({
+  event_links,
+  name,
+  describedBy,
+  pending,
+}: LinksInputProps) => {
+  const [addedLinks, setAddedLinks] = useState<string[]>(
+    event_links ? event_links : []
+  );
   const [linkInput, setLinkInput] = useState("");
 
+  // compute linksStr dynamically
+  const linksStr = useMemo(() => addedLinks.join(","), [addedLinks]);
+
   const handleSubmit = () => {
-    if (!addedLinks.includes(linkInput)) {
+    if (!addedLinks.includes(linkInput) && addedLinks.length < 5) {
       setAddedLinks((prev) => [...prev, linkInput]);
     }
     setLinkInput("");
@@ -28,9 +40,10 @@ const LinksInput = () => {
     setLinkInput(value.trim());
   };
 
+  // allow enter key for submitting link
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
-        e.preventDefault()
+      e.preventDefault();
       if (linkInput.length > 0) {
         handleSubmit();
       }
@@ -43,13 +56,14 @@ const LinksInput = () => {
 
   return (
     <>
-      <Label htmlFor="event_links">Links</Label>
+      <Label htmlFor={name}>Links</Label>
       <p className="text-xs italic">
-        Optionally, provide some links to further inform about your event (social media, event website, etc.).
+        Optionally, provide some links to further inform about your event
+        (social media, event website, etc.).
       </p>
       <div className="flex min-h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors mb-2">
         <ScrollArea className="w-full">
-          <ul>
+          <ul aria-describedby={describedBy}>
             {addedLinks.length ? (
               addedLinks.map((link, i) => (
                 <li
@@ -60,6 +74,8 @@ const LinksInput = () => {
                     variant={`outline`}
                     className="p-0"
                     onClick={() => removeLink(link)}
+                    type="button"
+                    disabled={pending}
                   >
                     <p hidden className="hidden">
                       Remove link
@@ -81,13 +97,30 @@ const LinksInput = () => {
       </div>
 
       <div className="flex gap-1">
+        <Label hidden className="hidden" htmlFor="add_links">
+          Add links
+        </Label>
         <Input
           onKeyDown={handleKeyDown}
           value={linkInput}
           onChange={handleInputChange}
+          id="add_links"
+          name="add_links"
+          disabled={pending }
         />
-        <Button onClick={handleSubmit}>Add</Button>
+        <Button disabled={pending} onClick={handleSubmit} type="button">
+          Add link
+        </Button>
       </div>
+      <Input
+        name={name}
+        id={name}
+        type="hidden"
+        value={linksStr}
+        readOnly
+        hidden
+        className="hidden"
+      />
     </>
   );
 };
