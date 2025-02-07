@@ -82,8 +82,8 @@ export interface SportsEvent {
   updated_at: Date;
   event_name: string;
   event_type: SportsEventType;
-  target_age: TargetAgeGroup;
-  target_level: TargetLevel | null;
+  target_age: TargetAgeGroup[];
+  target_level: TargetLevel[] | null;
   target_gender: TargetGender;
   event_location: string;
   description: string | null;

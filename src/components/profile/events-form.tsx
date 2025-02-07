@@ -26,6 +26,7 @@ import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import AgeSelect from "./form-components/age-select";
 import LevelSelect from "./form-components/level-select";
 import LinksInput from "./form-components/links-input";
+import MultiSelect from "./form-components/multiselect";
 
 interface EventFormProps {
   state: State;
@@ -195,32 +196,22 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
         </div>
         <Separator className="my-2" />
         <div className="mb-4">
-          {/* <Label htmlFor="target_age">
+          <Label htmlFor={"target_age"}>
             Target Age Group <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
-            Select the age group you are organizing the event for.
+            Select the age group(s) you are organizing the event for.
           </p>
-          <Select
-            disabled={pending}
+          <p className="text-sm text-muted-foreground py-1">
+            Age group (birthyear)
+          </p>
+          <MultiSelect
             name="target_age"
-            defaultValue={event ? event.target_age : ""}
-          >
-            <SelectTrigger>
-              <SelectValue
-                aria-describedby="target_age-error"
-                id="target_age"
-                placeholder="Age group (birthyear)"
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(TargetAgeGroupMap).map(([k, v]) => (
-                <SelectItem key={k} value={k}>
-                  {v}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            pending={pending}
+            optionsMap={TargetAgeGroupMap}
+            describedBy="target_age-error"
+            initial_values={event ? event.target_age : undefined}
+          />
           <div id="target_age-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_age &&
               state.errors.target_age.map((error) => (
@@ -228,43 +219,22 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
                   {error}
                 </p>
               ))}
-          </div> */}
-          <AgeSelect />
+          </div>
         </div>
         <div className="mb-4">
-          {/* <Label htmlFor="target_level">Target Skill Level</Label>
+          <Label htmlFor="target_level">Target Skill Level</Label>
           <p className="text-xs italic">
-            Select the skill level required for your event (if applicable).
+            Select the skill level(s) required for your event if applicable.
           </p>
-          <Select
-            disabled={pending}
+          <MultiSelect
             name="target_level"
-            defaultValue={event?.target_level ? event.target_level : ""}
-          >
-            <SelectTrigger>
-              <SelectValue
-                aria-describedby="target_level-error"
-                id="target_level"
-                // placeholder="Skill level"
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(TargetLevelMap).map(([k, v]) => (
-                <SelectItem key={k} value={k}>
-                  {v}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div id="target_level-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.target_level &&
-              state.errors.target_level.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div> */}
-          <LevelSelect />
+            pending={pending}
+            optionsMap={TargetLevelMap}
+            describedBy="target_level-error"
+            initial_values={
+              event?.target_level ? event.target_level : undefined
+            }
+          />
           <div id="target_level-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_level &&
               state.errors.target_level.map((error) => (
