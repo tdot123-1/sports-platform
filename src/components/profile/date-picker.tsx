@@ -23,7 +23,7 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id={name}
+            type="button"
             disabled={pending}
             variant={"outline"}
             className={cn(
@@ -37,6 +37,7 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
         </PopoverTrigger>
         <Input
           name={name}
+          id={name}
           type="hidden"
           value={date ? date.toString() : ""}
           readOnly

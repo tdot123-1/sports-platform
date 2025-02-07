@@ -20,15 +20,20 @@ const LinksInput = ({
   describedBy,
   pending,
 }: LinksInputProps) => {
+
+  // list of added links
   const [addedLinks, setAddedLinks] = useState<string[]>(
     event_links ? event_links : []
   );
+
+  // newly inputted links
   const [linkInput, setLinkInput] = useState("");
 
-  // compute linksStr dynamically
+  // compute linksStr dynamically, to submit along form
   const linksStr = useMemo(() => addedLinks.join(","), [addedLinks]);
 
   const handleSubmit = () => {
+    // check if link is unique, and list of links is within range
     if (!addedLinks.includes(linkInput) && addedLinks.length < 5) {
       setAddedLinks((prev) => [...prev, linkInput]);
     }

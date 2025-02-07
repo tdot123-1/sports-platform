@@ -28,6 +28,7 @@ import LevelSelect from "./form-components/level-select";
 import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
+import AddressInput from "./form-components/address-input";
 
 interface EventFormProps {
   state: State;
@@ -111,13 +112,14 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
           <p className="text-xs italic">
             Provide the address where your event will be held
           </p>
-          <Textarea
+          <AddressInput />
+          {/* <Textarea
             id="event_address"
             name="event_address"
             aria-describedby="event_address-error"
             disabled={pending}
             defaultValue={event ? event.event_location : ""}
-          />
+          /> */}
           <div id="event_address-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_address &&
               state.errors.event_address.map((error) => (

@@ -31,11 +31,14 @@ const MultiSelect = <T extends Record<string, string>>({
     )
   );
 
-  // compute valuesStr dynamically
+  // compute valuesStr dynamically, to be submitted along form
   const valuesStr = useMemo(
     () =>
+      // construct array from selected values object keys
       Object.keys(selectedValues)
+        // filter out false values to remain with array of only 'true' keys
         .filter((key) => selectedValues[key])
+        // join together into comma seperated string
         .join(","),
     [selectedValues]
   );
@@ -44,17 +47,19 @@ const MultiSelect = <T extends Record<string, string>>({
   // maybe not necessary as it is part of props(?)
   useEffect(() => {
     if (initial_values) {
-      setSelectedValues((prev) =>
+      setSelectedValues(() =>
+        // create new object
         Object.fromEntries(
+          // map over keys from initial map,
+          // set key to true if value is included in initial_values array
           Object.keys(optionsMap).map((k) => [k, initial_values.includes(k)])
         )
       );
     }
   }, [initial_values]);
 
-  const handleCheckedChange = (checked: any, key: string) => {
+  const handleCheckedChange = (checked: boolean, key: string) => {
     // update selected values state
-    console.log(`value: ${checked}, key: ${key}`);
     setSelectedValues((prev) => ({ ...prev, [key]: checked }));
   };
 
@@ -71,7 +76,9 @@ const MultiSelect = <T extends Record<string, string>>({
               name={k}
               disabled={pending}
               checked={selectedValues[k]}
-              onCheckedChange={(checked) => handleCheckedChange(checked, k)}
+              onCheckedChange={(checked) =>
+                handleCheckedChange(checked as boolean, k)
+              }
             />
             <Label htmlFor={k}>{v}</Label>
           </div>

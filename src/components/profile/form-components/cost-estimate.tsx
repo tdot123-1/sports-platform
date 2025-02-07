@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/select";
 import { CurrencyCodes } from "@/lib/types";
 import { convertCurrencyValueToString } from "@/lib/utils";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface CostEstimateProps {
   name: string;
   cost_estimate?: number;
   cost_currency?: string;
   pending: boolean;
-  describedBy: string
+  describedBy: string;
 }
 
 const CostEstimate = ({
@@ -26,8 +26,9 @@ const CostEstimate = ({
   cost_estimate,
   cost_currency,
   pending,
-  describedBy
+  describedBy,
 }: CostEstimateProps) => {
+  // set initial input
   const [costInput, setCostInput] = useState<string>(
     cost_estimate ? convertCurrencyValueToString(cost_estimate) : "0.00"
   );
@@ -44,11 +45,12 @@ const CostEstimate = ({
     }
   };
 
+  // format to correct input on blur
   const handleFormatInput = () => {
     // trim spaces
     let formatted = costInput.trim();
 
-    // if input is empty or just ".", return "0.00"
+    // if input is empty or ".", return "0.00"
     if (formatted === "" || formatted === ".") {
       setCostInput("0.00");
       return;
@@ -84,8 +86,10 @@ const CostEstimate = ({
 
   return (
     <>
-      
       <div className="flex gap-1">
+        <Label hidden className="hidden" htmlFor="cost_currency">
+          Select currency
+        </Label>
         <Select
           name="cost_currency"
           defaultValue={cost_currency ? cost_currency : "EUR"}
@@ -110,7 +114,7 @@ const CostEstimate = ({
           onChange={handleInputChange}
           onBlur={handleFormatInput}
           disabled={pending}
-          maxLength={7}
+          maxLength={10}
           aria-describedby={describedBy}
         />
       </div>
