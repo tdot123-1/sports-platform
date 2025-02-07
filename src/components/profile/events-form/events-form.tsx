@@ -337,7 +337,7 @@ const EventForm = ({
           <Label htmlFor="cost_description">Cost description</Label>
           <p className="text-xs italic">
             Optionally describe what attendees receive for the price of your
-            event (access, catering, hotel stay etc.).
+            event (access, catering, lodging etc.).
           </p>
           <Textarea
             id="cost_description"
