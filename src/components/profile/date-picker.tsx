@@ -11,8 +11,8 @@ import { Input } from "../ui/input";
 
 interface DatePickerProps {
   name: string;
-  eventDate?: Date
-  pending: boolean
+  eventDate?: Date;
+  pending: boolean;
 }
 
 const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
@@ -23,7 +23,7 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
       <Popover>
         <PopoverTrigger asChild>
           <Button
-          disabled={pending}
+            disabled={pending}
             variant={"outline"}
             className={cn(
               "justify-start text-left font-normal w-full",

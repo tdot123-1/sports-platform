@@ -6,9 +6,9 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CircleXIcon } from "lucide-react";
 import {
-  BaseSyntheticEvent,
+
   ChangeEvent,
-  SyntheticEvent,
+
   useState,
 } from "react";
 
