@@ -106,7 +106,7 @@ const LinksInput = ({
           onChange={handleInputChange}
           id="add_links"
           name="add_links"
-          disabled={pending }
+          disabled={pending || addedLinks.length >= 5}
         />
         <Button disabled={pending} onClick={handleSubmit} type="button">
           Add link
