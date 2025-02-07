@@ -29,6 +29,7 @@ import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
 import AddressInput from "./form-components/address-input";
+import CountrySelectWrapper from "./form-components/country-select-wrapper";
 
 interface EventFormProps {
   state: State;
@@ -113,6 +114,11 @@ const EventForm = ({ state, formAction, pending, event }: EventFormProps) => {
             Provide the address where your event will be held
           </p>
           <AddressInput />
+          <CountrySelectWrapper
+            pending={pending}
+            name="event_country"
+            describedBy="event_country-error"
+          />
           {/* <Textarea
             id="event_address"
             name="event_address"

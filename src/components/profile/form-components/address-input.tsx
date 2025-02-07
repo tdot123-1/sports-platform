@@ -39,27 +39,25 @@ const AddressInput = () => {
     <>
       <div className="mt-2">
         {addressComponents.map((x) => (
-          <div key={x.name}>
-            <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
-              <Label className="text-muted-foreground" htmlFor={x.name}>
-                {x.label}
-                {/* {x.required && <span className="text-destructive"> *</span>} */}
-                {" "}:
-              </Label>
-              <div className="w-full lg:w-1/2">
-                <Input id={x.name} name={x.name} type="text" />
-                {x.instruction && (
-                  <p className="text-xs italic">{x.instruction}</p>
-                )}
-              </div>
+          <div
+            key={x.name}
+            className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1"
+          >
+            <Label className="text-muted-foreground" htmlFor={x.name}>
+              {x.label}
+              {/* {x.required && <span className="text-destructive"> *</span>} */}{" "}
+              :
+            </Label>
+            <div className="w-full lg:w-1/2">
+              <Input id={x.name} name={x.name} type="text" />
+              {x.instruction && (
+                <p className="text-xs italic">{x.instruction}</p>
+              )}
             </div>
           </div>
         ))}
 
-        <div className="flex flex-col lg:flex-row mb-2">
-          <Label>Country:</Label>
-          <Input type="text" />
-        </div>
+        
       </div>
     </>
   );
