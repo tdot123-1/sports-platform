@@ -9,26 +9,26 @@ import {
   TargetGenderMap,
   TargetLevelMap,
 } from "@/lib/types";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+} from "../../ui/select";
+import { Textarea } from "../../ui/textarea";
+import { Button } from "../../ui/button";
 import Link from "next/link";
-import { Separator } from "../ui/separator";
-import DatePicker from "./date-picker";
+import { Separator } from "../../ui/separator";
+import DatePicker from "../date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
-import LinksInput from "./events-form/form-components/links-input";
-import MultiSelect from "./events-form/form-components/multiselect";
-import CostEstimate from "./events-form/form-components/cost-estimate";
-import AddressInput from "./events-form/form-components/address-input";
-import CountrySelect from "./events-form/form-components/country-select";
+import LinksInput from "./form-components/links-input";
+import MultiSelect from "./form-components/multiselect";
+import CostEstimate from "./form-components/cost-estimate";
+import AddressInput from "./form-components/address-input";
+import CountrySelect from "./form-components/country-select";
 
 interface EventFormProps {
   state: State;

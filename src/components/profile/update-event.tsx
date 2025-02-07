@@ -1,7 +1,7 @@
 "use client";
 
 import { Country, SportsEvent } from "@/lib/types";
-import EventForm from "./events-form";
+import EventForm from "./events-form/events-form";
 import { State, updateEvent } from "@/lib/actions/events/actions";
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";

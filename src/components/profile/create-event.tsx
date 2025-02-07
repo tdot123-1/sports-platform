@@ -2,7 +2,7 @@
 
 import { createEvent, State } from "@/lib/actions/events/actions";
 import { useActionState, useEffect } from "react";
-import EventForm from "./events-form";
+import EventForm from "./events-form/events-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Country } from "@/lib/types";

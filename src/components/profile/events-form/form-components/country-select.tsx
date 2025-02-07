@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
@@ -40,9 +41,10 @@ const CountrySelect = ({
   name,
   describedBy,
 }: CountrySelectProps) => {
-  // const [selectedCountry, setSelectedCountry] = useState(event_country)
   const [open, setOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(event_country);
+  const [selectedCountry, setSelectedCountry] = useState(
+    event_country ? event_country : ""
+  );
 
   return (
     <>
@@ -64,14 +66,14 @@ const CountrySelect = ({
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full lg:w-1/2 p-0">
+        <PopoverContent className="w-10/12  p-0">
           <Command>
-            {/** set value here */}
             <CommandInput
               disabled={pending}
               placeholder="Search country..."
               className="h-9"
             />
+
             <CommandList>
               <CommandEmpty>Country not found.</CommandEmpty>
               <CommandGroup>
