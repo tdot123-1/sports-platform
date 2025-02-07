@@ -18,7 +18,11 @@ import { z } from "zod";
 
 // temporary validation for address format
 const AddressSchema = z.object({
-  address_one: z.string().min(1, "Address line 1 is required").trim(),
+  address_one: z
+    .string()
+    .min(1, "Address line 1 is required")
+    .trim()
+    .nonempty("Please add an address"),
   address_two: z.string().trim().optional(),
   city: z.string().trim().min(1, "City is required"),
   region: z.string().min(1, "Region is required").trim(),
@@ -55,7 +59,9 @@ const FormSchema = z.object({
     invalid_type_error: "Please select a gender",
     message: "Please select a gender",
   }),
-  event_address: AddressSchema,
+  event_address: AddressSchema.refine((val) => !val, {
+    message: "Please add an address to your event",
+  }),
   event_country: z
     .string({
       invalid_type_error: "Please add a name for your event",
@@ -176,7 +182,7 @@ export type State = {
   success: boolean;
 };
 
-// test create function
+// CREATE event
 export async function createEvent(prevState: State, formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
 
@@ -206,6 +212,8 @@ export async function createEvent(prevState: State, formData: FormData) {
     end_date: formatEndDate,
     contact_phone: formatContactPhone,
   };
+
+  console.log("FORM DATA: ", formattedFormData);
 
   const validatedFields = CreateEventSchema.safeParse(formattedFormData);
 

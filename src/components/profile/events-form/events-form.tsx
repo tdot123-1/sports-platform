@@ -119,7 +119,7 @@ const EventForm = ({
           <p className="text-xs italic">
             Provide the address where your event will be held
           </p>
-          <AddressInput />
+          <AddressInput pending={pending} state={state} />
           <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="event_country">
               Country :
