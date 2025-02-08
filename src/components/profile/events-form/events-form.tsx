@@ -161,6 +161,7 @@ const EventForm = ({
             name="start_date"
             eventDate={event?.start_date || undefined}
             pending={pending}
+            required
           />
           <div id="start_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.start_date &&

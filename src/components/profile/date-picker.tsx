@@ -8,15 +8,31 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
 
 interface DatePickerProps {
   name: string;
   eventDate?: Date;
   pending: boolean;
+  required?: boolean;
 }
 
-const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
+const DatePicker = ({
+  name,
+  eventDate,
+  pending,
+  required,
+}: DatePickerProps) => {
   const [date, setDate] = useState<Date | undefined>(eventDate);
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckedChange = (e: any) => {
+    if (e === true) {
+      setDate(undefined)
+    }
+    setChecked((prev) => !prev)
+  }
 
   return (
     <>
@@ -24,7 +40,7 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
         <PopoverTrigger asChild>
           <Button
             type="button"
-            disabled={pending}
+            disabled={pending || checked}
             variant={"outline"}
             className={cn(
               "justify-start text-left font-normal w-full",
@@ -53,6 +69,17 @@ const DatePicker = ({ name, eventDate, pending }: DatePickerProps) => {
           />
         </PopoverContent>
       </Popover>
+      {required && (
+        <>
+          <p className="text-xs italic mt-1">
+            Check this option if your event doesn't have a start date yet.
+          </p>
+          <div className="flex items-center gap-1">
+            <Checkbox checked={checked} onCheckedChange={handleCheckedChange} />
+            <Label>TBD</Label>
+          </div>
+        </>
+      )}
     </>
   );
 };
