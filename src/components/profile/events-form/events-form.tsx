@@ -132,7 +132,7 @@ const EventForm = ({
             />
           </div>
 
-          <div id="event_address-error" aria-live="polite" aria-atomic="true">
+          {/* <div id="event_address-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_address &&
               state.errors.event_address.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
@@ -147,7 +147,7 @@ const EventForm = ({
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
         </div>
 
         <div className="mb-4">

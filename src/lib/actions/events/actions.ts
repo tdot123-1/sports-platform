@@ -1,5 +1,6 @@
 "use server";
 
+import { validCountryCodes } from "@/lib/countries";
 import { createClient } from "@/lib/supabase/server";
 import {
   CurrencyCodes,
@@ -17,17 +18,17 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 // temporary validation for address format
-const AddressSchema = z.object({
-  address_one: z
-    .string()
-    .min(1, "Address line 1 is required")
-    .trim()
-    .nonempty("Please add an address"),
-  address_two: z.string().trim().optional(),
-  city: z.string().trim().min(1, "City is required"),
-  region: z.string().min(1, "Region is required").trim(),
-  postal: z.string().min(1, "Postal code is required").trim(),
-});
+// const AddressSchema = z.object({
+//   address_one: z
+//     .string()
+//     .min(1, "Address line 1 is required")
+//     .trim()
+//     .nonempty("Please add an address"),
+//   address_two: z.string().trim().optional(),
+//   city: z.string().trim().min(1, "City is required"),
+//   region: z.string().min(1, "Region is required").trim(),
+//   postal: z.string().min(1, "Postal code is required").trim(),
+// });
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -59,14 +60,46 @@ const FormSchema = z.object({
     invalid_type_error: "Please select a gender",
     message: "Please select a gender",
   }),
-  event_address: AddressSchema.refine((val) => !val, {
-    message: "Please add an address to your event",
-  }),
-  event_country: z
-    .string({
-      invalid_type_error: "Please add a name for your event",
+  address_line_one: z
+    .string({ invalid_type_error: "Please add an address to your event" })
+    .min(5, { message: "Address is too short" })
+    .max(100, { message: "Maximum characters exceeded" })
+    .trim(),
+  address_line_two: z
+    .string({ invalid_type_error: "Please add an address to your event" })
+    .min(1, { message: "Address line 2 is too short" })
+    .max(100, { message: "Maximum characters exceeded" })
+    .trim()
+    .nullable(),
+  address_city: z
+    .string({ invalid_type_error: "Please add a city" })
+    .min(2, { message: "City name is too short" })
+    .max(100, { message: "Maximum characters exceeded" })
+    .trim(),
+  address_region: z
+    .string({ invalid_type_error: "Please add a region/state/province" })
+    .min(2, { message: "Region/state/province is too short" })
+    .max(100, { message: "Maximum characters exceeded" })
+    .trim()
+    .nullable(),
+  address_postal_code: z
+    .string({ invalid_type_error: "Please enter a valid postal code" })
+    .min(3, { message: "Postal code is too short" })
+    .max(15, { message: "Postal code is too long" })
+    .regex(/^[A-Za-z0-9\s\-]+$/, {
+      message: "Invalid characters in postal code",
     })
-    .length(2, { message: "Invalid country code" }),
+    .trim()
+    .nullable(),
+  address_country: z
+    .string({
+      invalid_type_error: "Please add a country for your event",
+    })
+    .length(2, { message: "Country code must be 2 characters" })
+    .toUpperCase()
+    .refine((code) => validCountryCodes.has(code), {
+      message: "Invalid country code",
+    }),
   description: z
     .string({
       invalid_type_error: "Please provide a description of your event",
@@ -166,7 +199,12 @@ export type State = {
     target_age?: string[];
     target_level?: string[];
     target_gender?: string[];
-    event_address?: string[];
+    address_line_one?: string[];
+    address_line_two?: string[];
+    address_city?: string[];
+    address_region?: string[];
+    address_postal_code?: string[];
+    address_country?: string[];
     event_country?: string[];
     description?: string[];
     start_date?: string[];
@@ -231,7 +269,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     target_age,
     target_level,
     target_gender,
-    event_address,
+    // event_address,
     description,
     start_date,
     end_date,
@@ -268,7 +306,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         target_age,
         target_level,
         target_gender,
-        event_address,
+        // event_address,
         description,
         start_date,
         end_date,
@@ -346,7 +384,7 @@ export async function updateEvent(
     target_age,
     target_level,
     target_gender,
-    event_address,
+    // event_address,
     description,
     start_date,
     end_date,
@@ -368,7 +406,7 @@ export async function updateEvent(
         target_age,
         target_level,
         target_gender,
-        event_address,
+        // event_address,
         description,
         start_date,
         end_date,

@@ -29,10 +29,10 @@ const DatePicker = ({
 
   const handleCheckedChange = (e: any) => {
     if (e === true) {
-      setDate(undefined)
+      setDate(undefined);
     }
-    setChecked((prev) => !prev)
-  }
+    setChecked((prev) => !prev);
+  };
 
   return (
     <>
@@ -66,6 +66,7 @@ const DatePicker = ({
             selected={date}
             onSelect={setDate}
             initialFocus
+            disabled={pending || checked}
           />
         </PopoverContent>
       </Popover>
@@ -75,8 +76,14 @@ const DatePicker = ({
             Check this option if your event doesn't have a start date yet.
           </p>
           <div className="flex items-center gap-1">
-            <Checkbox checked={checked} onCheckedChange={handleCheckedChange} />
-            <Label>TBD</Label>
+            <Checkbox
+              disabled={pending || !!date}
+              checked={checked}
+              onCheckedChange={handleCheckedChange}
+              name="start_date_tbd"
+              id="start_date_tbd"
+            />
+            <Label htmlFor="start_date_tbd">TBD</Label>
           </div>
         </>
       )}
