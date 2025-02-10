@@ -35,7 +35,9 @@ const EventCard = ({ event, userId }: EventCardProps) => {
             <li>
               <h4 className="text-muted-foreground">When:</h4>
               <p className="text-right text-sm">
-              {event.start_date ? event.start_date.toLocaleDateString() : "N/A"}
+                {event.start_date
+                  ? event.start_date.toLocaleDateString()
+                  : "TBD"}
               </p>
             </li>
             <Separator className="my-1" />

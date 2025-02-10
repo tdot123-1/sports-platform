@@ -1,15 +1,18 @@
 import { fetchOneEvent } from "@/lib/data/events/data";
 import { SportsEvent } from "@/lib/types";
-import { convertFetchedEvent } from "@/lib/utils";
+import { convertCurrencyValueToString, convertFetchedEvent } from "@/lib/utils";
 import {
+  BanknoteIcon,
   BicepsFlexedIcon,
   CalendarCheck,
   CalendarCheck2Icon,
   CalendarX2Icon,
+  HandCoinsIcon,
   MailIcon,
   MapPinIcon,
   PersonStandingIcon,
   PhoneIcon,
+  ReceiptTextIcon,
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -20,7 +23,6 @@ interface EventDetailsProps {
 }
 
 const EventDetails = async ({ eventId }: EventDetailsProps) => {
-
   // test skeleton
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
@@ -48,19 +50,19 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             <div className="text-sm my-1">
               <p>{event.event_type}</p>
               <ScrollArea className="h-28">
-                {event.description ? (
-                  <p className="mt-1">{event.description}</p>
+                {event.event_description ? (
+                  <p className="mt-1">{event.event_description}</p>
                 ) : (
-                  <p className="text-xs text-muted-foreground italic mt-4">No description provided</p>
+                  <p className="text-xs text-muted-foreground italic mt-4">
+                    No description provided
+                  </p>
                 )}
               </ScrollArea>
             </div>
           </li>
 
           <li>
-            <h4 className="text-primary italic font-medium">
-              Who is it for
-            </h4>
+            <h4 className="text-primary italic font-medium">Who is it for</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
@@ -87,16 +89,14 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li>
-            <h4 className="text-primary italic font-medium">
-              When and where
-            </h4>
+            <h4 className="text-primary italic font-medium">When and where</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <CalendarCheck2Icon size={18} />
                   <p>Starts on:</p>
                 </div>
-                <p>{event.start_date.toLocaleDateString()}</p>
+                <p>"Start date"</p>
               </div>
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
@@ -111,7 +111,40 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 <MapPinIcon size={18} />
                 <p>Address:</p>
               </div>
-              <p className="text-right">{event.event_location}</p>
+              <p className="text-right">{event.address_line_one}</p>
+              <p className="text-right">{event.address_line_two}</p>
+              <p className="text-right">{event.address_city}</p>
+              <p className="text-right">{event.address_region}</p>
+              <p className="text-right">{event.address_postal_code}</p>
+              <p className="text-right">{event.address_country}</p>
+            </div>
+          </li>
+
+          <li>
+            <h4 className="text-primary italic font-medium">Pricing info</h4>
+            <div className="text-sm my-1">
+              <div className="flex justify-between">
+                <div className="flex justify-start items-center gap-1">
+                  <HandCoinsIcon size={18} />
+                  <p>Price estimate:</p>
+                </div>
+
+                <p>
+                  {convertCurrencyValueToString(event.cost_estimate)}{" "}
+                  {event.cost_currency}
+                </p>
+              </div>
+              {event.cost_description && (
+                <div>
+                  <div className="flex justify-start items-center gap-1">
+                    <ReceiptTextIcon size={18} />
+                    <p>Additional pricing info:</p>
+                  </div>
+                  <ScrollArea className="max-h-28">
+                    <p className="text-right">{event.cost_description}</p>
+                  </ScrollArea>
+                </div>
+              )}
             </div>
           </li>
 

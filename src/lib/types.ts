@@ -98,7 +98,7 @@ export interface SportsEvent {
   contact_phone: string;
   cost_estimate: number;
   cost_currency: string;
-  cost_description: string;
+  cost_description: string | null;
   event_links: string[];
   user_id: string;
 }

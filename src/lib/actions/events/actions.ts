@@ -352,34 +352,8 @@ export async function updateEvent(
   prevState: State,
   formData: FormData
 ) {
-  const rawFormData = Object.fromEntries(formData.entries());
-
-  // get values for optional fields
-  const rawStartDate = formData.get("start_date");
-  const rawEndDate = formData.get("end_date");
-  const rawTargetLevel = formData.get("target_level");
-  const rawDescription = formData.get("description");
-  const rawContactPhone = formData.get("contact_phone");
-
-  // transform date input from string to Date object
-  const formatStartDate = rawStartDate
-    ? new Date(rawStartDate.toString())
-    : null;
-  const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
-
-  // transform undefined values to null before validating
-  const formatTargetLevel = rawTargetLevel ? rawTargetLevel : null;
-  const formatDescription = rawDescription ? rawDescription : null;
-  const formatContactPhone = rawContactPhone ? rawContactPhone : null;
-
-  const formattedFormData = {
-    ...rawFormData,
-    target_level: formatTargetLevel,
-    description: formatDescription,
-    start_date: formatStartDate,
-    end_date: formatEndDate,
-    contact_phone: formatContactPhone,
-  };
+  // format raw form data
+  const formattedFormData = formatRawFormData(formData);
 
   const validatedFields = UpdateEventSchema.safeParse(formattedFormData);
 
@@ -397,12 +371,21 @@ export async function updateEvent(
     target_age,
     target_level,
     target_gender,
-    // event_address,
-    // description,
+    address_line_one,
+    address_line_two,
+    address_city,
+    address_region,
+    address_postal_code,
+    address_country,
+    event_description,
     start_date,
     end_date,
     contact_email,
     contact_phone,
+    event_links,
+    cost_estimate,
+    cost_description,
+    cost_currency,
   } = validatedFields.data;
 
   try {
@@ -419,12 +402,21 @@ export async function updateEvent(
         target_age,
         target_level,
         target_gender,
-        // event_address,
-        // description,
+        address_line_one,
+        address_line_two,
+        address_city,
+        address_region,
+        address_postal_code,
+        address_country,
+        event_description,
         start_date,
         end_date,
         contact_email,
         contact_phone,
+        event_links,
+        cost_estimate,
+        cost_description,
+        cost_currency,
       })
       .eq("id", id);
 
