@@ -89,6 +89,7 @@ export interface SportsEvent {
   address_line_two: string | null;
   address_city: string;
   address_region: string | null;
+  address_postal_code: string | null;
   address_country: string;
   event_description: string | null;
   start_date: Date | null;

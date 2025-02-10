@@ -49,6 +49,7 @@ interface AddressInputProps {
   address_line_two?: string;
   address_region?: string;
   address_postal_code?: string;
+  address_city?: string;
 }
 
 const AddressInput = ({
@@ -58,12 +59,14 @@ const AddressInput = ({
   address_line_two,
   address_region,
   address_postal_code,
+  address_city,
 }: AddressInputProps) => {
   const defaultValues: Record<string, string | undefined> = {
     address_line_one,
     address_line_two,
     address_region,
     address_postal_code,
+    address_city,
   };
   return (
     <>

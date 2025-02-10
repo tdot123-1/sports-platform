@@ -1,8 +1,7 @@
-import { SportsEvent } from "@/lib/types";
+import { SportsEvent, TargetAgeGroupMap, TargetLevelMap } from "@/lib/types";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -35,15 +34,16 @@ const EventCard = ({ event, userId }: EventCardProps) => {
             <Separator className="my-1" />
             <li>
               <h4 className="text-muted-foreground">When:</h4>
-              <p className="text-right">
-                {event.start_date.toLocaleDateString()}
+              <p className="text-right text-sm">
+              {event.start_date ? event.start_date.toLocaleDateString() : "N/A"}
               </p>
             </li>
             <Separator className="my-1" />
             <li>
               <h4 className="text-muted-foreground">Where:</h4>
-              <ScrollArea className="w-full h-16">
-                <p className="text-right">{event.event_location}</p>
+              <ScrollArea className="w-full">
+                <p className="text-right text-sm">{event.address_city}</p>
+                <p className="text-right text-sm">{event.address_country}</p>
               </ScrollArea>
             </li>
             <Separator className="my-1" />
@@ -51,18 +51,32 @@ const EventCard = ({ event, userId }: EventCardProps) => {
               <h4 className="text-muted-foreground">For:</h4>
               <div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Age</p>
-                  <p className="overflow-hidden">{event.target_age}</p>
+                  <p className="text-sm">Age(s)</p>
+                  <ScrollArea className="h-20">
+                    {event.target_age.map((age) => (
+                      <p className="text-right text-sm" key={age}>
+                        {TargetAgeGroupMap[age]}
+                      </p>
+                    ))}
+                  </ScrollArea>
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Level</p>
-                  <p className="overflow-hidden">
-                    {event.target_level ? event.target_level : "N/A"}
-                  </p>
+                  <p className="text-sm">Level(s)</p>
+                  <ScrollArea className="h-20">
+                    {event.target_level ? (
+                      event.target_level.map((level) => (
+                        <p className="text-right text-sm" key={level}>
+                          {TargetLevelMap[level]}
+                        </p>
+                      ))
+                    ) : (
+                      <p>"N/A"</p>
+                    )}
+                  </ScrollArea>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Gender</p>
-                  <p className="overflow-hidden">{event.target_gender}</p>
+                  <p className="text-sm">{event.target_gender}</p>
                 </div>
               </div>
             </li>
