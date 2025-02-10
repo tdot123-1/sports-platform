@@ -1,5 +1,10 @@
 import { fetchOneEvent } from "@/lib/data/events/data";
-import { SportsEvent } from "@/lib/types";
+import {
+  SportsEvent,
+  SportsEventTypeMap,
+  TargetAgeGroupMap,
+  TargetLevelMap,
+} from "@/lib/types";
 import { convertCurrencyValueToString, convertFetchedEvent } from "@/lib/utils";
 import {
   BanknoteIcon,
@@ -7,7 +12,9 @@ import {
   CalendarCheck,
   CalendarCheck2Icon,
   CalendarX2Icon,
+  ExternalLinkIcon,
   HandCoinsIcon,
+  LinkIcon,
   MailIcon,
   MapPinIcon,
   PersonStandingIcon,
@@ -17,6 +24,7 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
+import { countryNameMap } from "@/lib/countries";
 
 interface EventDetailsProps {
   eventId: string;
@@ -48,7 +56,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               About the event
             </h4>
             <div className="text-sm my-1">
-              <p>{event.event_type}</p>
+              <p>{SportsEventTypeMap[event.event_type]}</p>
               <ScrollArea className="h-28">
                 {event.event_description ? (
                   <p className="mt-1">{event.event_description}</p>
@@ -67,21 +75,39 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <PersonStandingIcon size={18} />
-                  <p>Age:</p>
+                  <h5>Age:</h5>
                 </div>
-                <p>{event.target_age}</p>
+                <h6 className="text-muted-foreground">Age group (birthyear)</h6>
               </div>
-              <div className="flex justify-between">
+              <ScrollArea className="max-h-28">
+                <div className="text-right">
+                  {event.target_age.map((age) => (
+                    <p key={age}>{TargetAgeGroupMap[age]}</p>
+                  ))}
+                </div>
+              </ScrollArea>
+
+              <div className="flex justify-between items-start">
                 <div className="flex justify-start items-center gap-1">
                   <BicepsFlexedIcon size={18} />
-                  <p>Skill level:</p>
+                  <h5>Skill level:</h5>
                 </div>
-                <p>{event.target_level ? event.target_level : "N/A"}</p>
+                <ScrollArea className="max-h-28">
+                  <div className="text-right">
+                    {event.target_level ? (
+                      event.target_level.map((level) => (
+                        <p key={level}>{TargetLevelMap[level]}</p>
+                      ))
+                    ) : (
+                      <p>N/A</p>
+                    )}
+                  </div>
+                </ScrollArea>
               </div>
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <UsersIcon size={18} />
-                  <p>Gender:</p>
+                  <h5>Gender:</h5>
                 </div>
                 <p>{event.target_gender}</p>
               </div>
@@ -94,14 +120,18 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <CalendarCheck2Icon size={18} />
-                  <p>Starts on:</p>
+                  <h5>Starts on:</h5>
                 </div>
-                <p>"Start date"</p>
+                <p>
+                  {event.start_date
+                    ? event.start_date.toLocaleDateString()
+                    : "TBD"}
+                </p>
               </div>
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <CalendarX2Icon size={18} />
-                  <p>Ends on:</p>
+                  <h5>Ends on:</h5>
                 </div>
                 <p>
                   {event.end_date ? event.end_date.toLocaleDateString() : "N/A"}
@@ -109,14 +139,19 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               </div>
               <div className="flex justify-start items-center gap-1">
                 <MapPinIcon size={18} />
-                <p>Address:</p>
+                <h5>Address:</h5>
               </div>
-              <p className="text-right">{event.address_line_one}</p>
-              <p className="text-right">{event.address_line_two}</p>
+              <p className="text-right">
+                {event.address_line_one} {event.address_line_two}
+              </p>
+
+              <p className="text-right">{event.address_postal_code}</p>
               <p className="text-right">{event.address_city}</p>
               <p className="text-right">{event.address_region}</p>
-              <p className="text-right">{event.address_postal_code}</p>
-              <p className="text-right">{event.address_country}</p>
+
+              <p className="text-right">
+                {countryNameMap[event.address_country]}
+              </p>
             </div>
           </li>
 
@@ -165,6 +200,22 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <p>Phone:</p>
                   </div>
                   <p className="text-right">{event.contact_phone}</p>
+                </>
+              )}
+              {event.event_links && (
+                <>
+                  <div className="flex justify-start items-center gap-1">
+                    <LinkIcon size={18} />
+                    <p>Links:</p>
+                  </div>
+                  {event.event_links.map((link) => (
+                    <div key={link} className="text-right flex justify-end">
+                      <ExternalLinkIcon size={14} />
+                      <a target="_blank" className="underline" href={link}>
+                        {link}
+                      </a>
+                    </div>
+                  ))}
                 </>
               )}
             </div>

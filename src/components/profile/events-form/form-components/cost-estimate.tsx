@@ -30,7 +30,7 @@ const CostEstimate = ({
 }: CostEstimateProps) => {
   // set initial input
   const [costInput, setCostInput] = useState<string | undefined>(
-    cost_estimate ? convertCurrencyValueToString(cost_estimate) : ""
+    cost_estimate !== undefined ? convertCurrencyValueToString(cost_estimate) : ""
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

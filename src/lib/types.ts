@@ -99,7 +99,7 @@ export interface SportsEvent {
   cost_estimate: number;
   cost_currency: string;
   cost_description: string | null;
-  event_links: string[];
+  event_links: string[] | null;
   user_id: string;
 }
 

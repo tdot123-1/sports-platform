@@ -1,4 +1,4 @@
-import { SportsEvent, TargetAgeGroupMap, TargetLevelMap } from "@/lib/types";
+import { SportsEvent, SportsEventTypeMap, TargetAgeGroupMap, TargetLevelMap } from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ const EventCard = ({ event, userId }: EventCardProps) => {
           <ul>
             <li>
               <h4 className="text-muted-foreground">What:</h4>
-              <p className="text-right">{event.event_type}</p>
+              <p className="text-right">{SportsEventTypeMap[event.event_type]}</p>
             </li>
             <Separator className="my-1" />
             <li>
@@ -57,7 +57,7 @@ const EventCard = ({ event, userId }: EventCardProps) => {
                   <ScrollArea className="h-20">
                     {event.target_age.map((age) => (
                       <p className="text-right text-sm" key={age}>
-                        {TargetAgeGroupMap[age]}
+                        {age}
                       </p>
                     ))}
                   </ScrollArea>

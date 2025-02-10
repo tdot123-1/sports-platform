@@ -199,20 +199,24 @@ const EventForm = ({
           </div>
         </div>
         <div className="mb-4">
-          <Label htmlFor="description">Event Description</Label>
+          <Label htmlFor="event_description">Event Description</Label>
           <p className="text-xs italic">
             Optionally provide some extra info about your event.
           </p>
           <Textarea
-            id="description"
-            name="description"
-            aria-describedby="description-error"
+            id="event_description"
+            name="event_description"
+            aria-describedby="event_description-error"
             disabled={pending}
             defaultValue={
               event?.event_description ? event.event_description : ""
             }
           />
-          <div id="description-error" aria-live="polite" aria-atomic="true">
+          <div
+            id="event_description-error"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {state.errors?.event_description &&
               state.errors.event_description.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
@@ -431,7 +435,7 @@ const EventForm = ({
             name="event_links"
             pending={pending}
             describedBy="event_links-error"
-            event_links={event?.event_links}
+            event_links={event?.event_links ? event.event_links : undefined}
           />
           {/** errors */}
           <div id="event_links-error" aria-live="polite" aria-atomic="true">
