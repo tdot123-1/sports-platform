@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { State } from "@/lib/actions/events/actions";
+import { SportsEvent } from "@/lib/types";
 
 // temporary solution for address format
 const addressComponents = [
@@ -44,9 +45,26 @@ const addressComponents = [
 interface AddressInputProps {
   state: State;
   pending: boolean;
+  address_line_one?: string;
+  address_line_two?: string;
+  address_region?: string;
+  address_postal_code?: string;
 }
 
-const AddressInput = ({ state, pending }: AddressInputProps) => {
+const AddressInput = ({
+  state,
+  pending,
+  address_line_one,
+  address_line_two,
+  address_region,
+  address_postal_code,
+}: AddressInputProps) => {
+  const defaultValues: Record<string, string | undefined> = {
+    address_line_one,
+    address_line_two,
+    address_region,
+    address_postal_code,
+  };
   return (
     <>
       <div className="mt-2">
@@ -64,6 +82,7 @@ const AddressInput = ({ state, pending }: AddressInputProps) => {
                   disabled={pending}
                   type="text"
                   aria-describedby={x.describedby}
+                  defaultValue={defaultValues[x.name] ?? ""}
                 />
                 {x.instruction && (
                   <p className="text-xs italic">{x.instruction}</p>

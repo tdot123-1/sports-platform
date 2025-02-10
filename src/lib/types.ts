@@ -85,9 +85,13 @@ export interface SportsEvent {
   target_age: TargetAgeGroup[];
   target_level: TargetLevel[] | null;
   target_gender: TargetGender;
-  event_location: string;
-  description: string | null;
-  start_date: Date;
+  address_line_one: string;
+  address_line_two: string | null;
+  address_city: string;
+  address_region: string | null;
+  address_country: string;
+  event_description: string | null;
+  start_date: Date | null;
   end_date: Date | null;
   contact_email: string;
   contact_phone: string;

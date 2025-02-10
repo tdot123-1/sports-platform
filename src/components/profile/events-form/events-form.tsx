@@ -193,11 +193,13 @@ const EventForm = ({
             name="description"
             aria-describedby="description-error"
             disabled={pending}
-            defaultValue={event?.description ? event.description : ""}
+            defaultValue={
+              event?.event_description ? event.event_description : ""
+            }
           />
           <div id="description-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.description &&
-              state.errors.description.map((error) => (
+            {state.errors?.event_description &&
+              state.errors.event_description.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
                   {error}
                 </p>

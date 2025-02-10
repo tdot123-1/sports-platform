@@ -13,6 +13,7 @@ import {
   TargetLevelKeys,
   TargetLevelMap,
 } from "@/lib/types";
+import { formatRawFormData } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -62,45 +63,46 @@ const FormSchema = z.object({
   }),
   address_line_one: z
     .string({ invalid_type_error: "Please add an address to your event" })
+    .trim()
     .min(5, { message: "Address is too short" })
-    .max(100, { message: "Maximum characters exceeded" })
-    .trim(),
+    .max(100, { message: "Maximum characters exceeded" }),
   address_line_two: z
     .string({ invalid_type_error: "Please add an address to your event" })
+    .trim()
     .min(1, { message: "Address line 2 is too short" })
     .max(100, { message: "Maximum characters exceeded" })
-    .trim()
     .nullable(),
   address_city: z
     .string({ invalid_type_error: "Please add a city" })
+    .trim()
     .min(2, { message: "City name is too short" })
-    .max(100, { message: "Maximum characters exceeded" })
-    .trim(),
+    .max(100, { message: "Maximum characters exceeded" }),
   address_region: z
     .string({ invalid_type_error: "Please add a region/state/province" })
+    .trim()
     .min(2, { message: "Region/state/province is too short" })
     .max(100, { message: "Maximum characters exceeded" })
-    .trim()
     .nullable(),
   address_postal_code: z
     .string({ invalid_type_error: "Please enter a valid postal code" })
+    .trim()
     .min(3, { message: "Postal code is too short" })
     .max(15, { message: "Postal code is too long" })
     .regex(/^[A-Za-z0-9\s\-]+$/, {
       message: "Invalid characters in postal code",
     })
-    .trim()
     .nullable(),
   address_country: z
     .string({
       invalid_type_error: "Please add a country for your event",
     })
+    .trim()
     .length(2, { message: "Please select from the available countries" })
     .toUpperCase()
     .refine((code) => validCountryCodes.has(code), {
       message: "Invalid country code",
     }),
-  description: z
+  event_description: z
     .string({
       invalid_type_error: "Please provide a description of your event",
     })
@@ -169,6 +171,7 @@ const FormSchema = z.object({
     .string({
       invalid_type_error: "Please provide a cost description",
     })
+    .trim()
     .max(2000, { message: "Maximum characters exceeded" })
     .nullable(),
   cost_currency: z
@@ -224,7 +227,7 @@ export type State = {
     address_region?: string[];
     address_postal_code?: string[];
     address_country?: string[];
-    description?: string[];
+    event_description?: string[];
     start_date?: string[];
     end_date?: string[];
     contact_email?: string[];
@@ -240,41 +243,7 @@ export type State = {
 
 // CREATE event
 export async function createEvent(prevState: State, formData: FormData) {
-  const rawFormData = Object.fromEntries(formData.entries());
-
-  // console.log("RAW: ", rawFormData);
-
-  // get values for optional fields
-  const rawStartDate = formData.get("start_date");
-  const rawEndDate = formData.get("end_date");
-  const rawTargetLevel = formData.get("target_level");
-  const rawDescription = formData.get("description");
-  const rawContactPhone = formData.get("contact_phone");
-
-  // get string value for cost estimare
-  const rawCostEstimate = formData.get("cost_estimate");
-
-  
-
-  // transform date input from string to Date object
-  const formatStartDate = rawStartDate
-    ? new Date(rawStartDate.toString())
-    : null;
-  const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
-
-  // transform undefined values to null before validating
-  const formatTargetLevel = rawTargetLevel ? rawTargetLevel : null;
-  const formatDescription = rawDescription ? rawDescription : null;
-  const formatContactPhone = rawContactPhone ? rawContactPhone : null;
-
-  const formattedFormData = {
-    ...rawFormData,
-    target_level: formatTargetLevel,
-    description: formatDescription,
-    start_date: formatStartDate,
-    end_date: formatEndDate,
-    contact_phone: formatContactPhone,
-  };
+  const formattedFormData = formatRawFormData(formData);
 
   // console.log("FORM DATA: ", formattedFormData);
 
@@ -294,12 +263,21 @@ export async function createEvent(prevState: State, formData: FormData) {
     target_age,
     target_level,
     target_gender,
-    // event_address,
-    description,
+    address_line_one,
+    address_line_two,
+    address_city,
+    address_region,
+    address_postal_code,
+    address_country,
+    event_description,
     start_date,
     end_date,
     contact_email,
     contact_phone,
+    event_links,
+    cost_estimate,
+    cost_description,
+    cost_currency,
   } = validatedFields.data;
 
   try {
@@ -331,12 +309,21 @@ export async function createEvent(prevState: State, formData: FormData) {
         target_age,
         target_level,
         target_gender,
-        // event_address,
-        description,
+        address_line_one,
+        address_line_two,
+        address_city,
+        address_region,
+        address_postal_code,
+        address_country,
+        event_description,
         start_date,
         end_date,
         contact_email,
         contact_phone,
+        event_links,
+        cost_estimate,
+        cost_description,
+        cost_currency,
         user_id: user.id,
       },
     ]);
@@ -410,7 +397,7 @@ export async function updateEvent(
     target_level,
     target_gender,
     // event_address,
-    description,
+    // description,
     start_date,
     end_date,
     contact_email,
@@ -432,7 +419,7 @@ export async function updateEvent(
         target_level,
         target_gender,
         // event_address,
-        description,
+        // description,
         start_date,
         end_date,
         contact_email,

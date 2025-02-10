@@ -7,8 +7,6 @@ import {
   SortOptions,
   SortOptionsMap,
   SportsEvent,
-  SportsEventTypeMap,
-  TargetAgeGroupMap,
 } from "./types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
@@ -215,59 +213,127 @@ export const convertCurrencyValueToString = (nr: number) => {
   return (nr / 100).toFixed(2);
 };
 
-type RawFormData = {
-  [k: string]: FormDataEntryValue;
-};
+// export const formatRawFormData = (formData: FormData) => {
+//   const rawFormData = Object.fromEntries(formData.entries());
 
+//   // get values for optional fields / fields that need to be formatted
+//   // optional address fields
+//   const rawAddressTwo = formData.get("address_line_two");
+//   const rawAddressRegion = formData.get("address_region");
+//   const rawAddressPostal = formData.get("address_postal_code");
+
+//   // other optional fields
+//   const rawDescription = formData.get("description");
+//   const rawCostDescription = formData.get("cost_description");
+//   const rawContactPhone = formData.get("contact_phone");
+
+//   // get dates for transforming into Date objects
+//   const rawStartDate = formData.get("start_date");
+//   const rawEndDate = formData.get("end_date");
+
+//   // get values to be transformed to arrays
+//   const rawTargetAge = formData.get("target_age");
+//   const rawTargetLevel = formData.get("target_level");
+//   const rawEventLinks = formData.get("event_links");
+
+//   // get string value for cost estimate to be transformed to number
+//   const rawCostEstimate = formData.get("cost_estimate");
+
+//   // set optionals to null
+//   // transform undefined values to null before validating
+//   const formatAddressTwo = rawAddressTwo ? rawAddressTwo : null;
+//   const formatAddressRegion = rawAddressRegion ? rawAddressRegion : null;
+//   const formatAddressPostal = rawAddressPostal ? rawAddressPostal : null;
+
+//   const formatDescription = rawDescription ? rawDescription : null;
+//   const formatCostDescription = rawCostDescription ? rawCostDescription : null;
+//   const formatContactPhone = rawContactPhone ? rawContactPhone : null;
+
+//   // transform dates
+//   // transform date input from string to Date object
+//   const formatStartDate = rawStartDate
+//     ? new Date(rawStartDate.toString())
+//     : null;
+//   const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
+
+//   // transform arrays
+//   // split comma seperated strings into arrays
+//   const formatTargetAge = rawTargetAge
+//     ? rawTargetAge.toString().split(",")
+//     : null;
+//   const formatTargetLevel = rawTargetLevel
+//     ? rawTargetLevel.toString().split(",")
+//     : null;
+//   const formatEventLinks = rawEventLinks
+//     ? rawEventLinks.toString().split(",")
+//     : null;
+
+//   // transform number
+//   // convert string value into number value in cents
+//   const formatCostEstimate = rawCostEstimate
+//     ? convertCurrencyStringToValue(rawCostEstimate.toString())
+//     : null;
+
+//   // return formatted form data object
+//   return {
+//     ...rawFormData,
+//     address_line_two: formatAddressTwo,
+//     address_region: formatAddressRegion,
+//     address_postal_code: formatAddressPostal,
+//     event_description: formatDescription,
+//     cost_description: formatCostDescription,
+//     contact_phone: formatContactPhone,
+//     start_date: formatStartDate,
+//     end_date: formatEndDate,
+//     target_age: formatTargetAge,
+//     target_level: formatTargetLevel,
+//     event_links: formatEventLinks,
+//     cost_estimate: formatCostEstimate,
+//   };
+// };
+
+// improved function -> less repitition, less unnecessary variables
 export const formatRawFormData = (formData: FormData) => {
   const rawFormData = Object.fromEntries(formData.entries());
-  // console.log("RAW: ", rawFormData);
 
-  // get values for optional fields / fields that need to be formatted
-  // optional address fields
-  const rawAddressTwo = formData.get("address_line_two");
-  const rawAddressRegion = formData.get("address_region");
-  const rawAddressPostal = formData.get("address_postal_code");
+  // returns null if value is empty
+  const getOptional = (key: string) => {
+    const value = formData.get(key);
+    return value && value.toString().trim() !== "" ? value.toString() : null;
+  };
 
-  // other optional fields
-  const rawDescription = formData.get("description");
-  const rawCostDescription = formData.get("cost_description");
-  const rawContactPhone = formData.get("contact_phone");
+  // splits comma-separated strings into arrays
+  const getArray = (key: string) => {
+    const value = formData.get(key);
+    return value ? value.toString().split(",") : null;
+  };
 
-  // get dates for transforming into Date objects
-  const rawStartDate = formData.get("start_date");
-  const rawEndDate = formData.get("end_date");
-
-  // get values to be transformed to arrays
-  const rawTargetAge = formData.get("target_age");
-  const rawTargetLevel = formData.get("target_level");
-  const rawEventLinks = formData.get("event_links");
-
-  // get string value for cost estimate to be transformed to number
-  const rawCostEstimate = formData.get("cost_estimate");
-
-  // set optionals to null
-  // transform dates
-  // transform arrays
-  // transform number
-
-  // transform date input from string to Date object
-  const formatStartDate = rawStartDate
-    ? new Date(rawStartDate.toString())
-    : null;
-  const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
-
-  // transform undefined values to null before validating
-  const formatTargetLevel = rawTargetLevel ? rawTargetLevel : null;
-  const formatDescription = rawDescription ? rawDescription : null;
-  const formatContactPhone = rawContactPhone ? rawContactPhone : null;
-
-  const formattedFormData = {
+  return {
     ...rawFormData,
-    target_level: formatTargetLevel,
-    description: formatDescription,
-    start_date: formatStartDate,
-    end_date: formatEndDate,
-    contact_phone: formatContactPhone,
+    // set empty or missing fields to null
+    address_line_two: getOptional("address_line_two"),
+    address_region: getOptional("address_region"),
+    address_postal_code: getOptional("address_postal_code"),
+    event_description: getOptional("event_description"),
+    cost_description: getOptional("cost_description"),
+    contact_phone: getOptional("contact_phone"),
+
+    // transform dates to Date objects
+    start_date: getOptional("start_date")
+      ? new Date(getOptional("start_date")!)
+      : null,
+    end_date: getOptional("end_date")
+      ? new Date(getOptional("end_date")!)
+      : null,
+
+    // transform comma-separated strings into arrays
+    target_age: getArray("target_age"),
+    target_level: getArray("target_level"),
+    event_links: getArray("event_links"),
+
+    // convert string cost to numeric cents value
+    cost_estimate: getOptional("cost_estimate")
+      ? convertCurrencyStringToValue(getOptional("cost_estimate")!)
+      : null,
   };
 };
