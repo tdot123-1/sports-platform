@@ -118,6 +118,7 @@ const FormSchema = z.object({
       },
       { message: "Start date must be today or in the future" }
     ),
+  start_date_tbd: z.coerce.boolean(),
   end_date: z
     .date({
       invalid_type_error: "Please provide the end date of your event",
@@ -175,20 +176,36 @@ const FormSchema = z.object({
     .default("EUR"),
 });
 
-const CreateEventSchema = FormSchema.omit({ id: true }).refine(
-  (data) => {
-    // if start is null, end should be null
-    if (data.start_date === null) {
-      return data.end_date === null;
+const CreateEventSchema = FormSchema.omit({ id: true })
+  .refine(
+    (data) => {
+      // if start is null, end should be null
+      if (data.start_date === null) {
+        return data.end_date === null;
+      }
+      // if start date, end date must be null or >= start date
+      return data.end_date === null || data.end_date >= data.start_date;
+    },
+    {
+      message: "End date must be the same as or after the start date",
+      path: ["end_date"],
     }
-    // if start date, end date must be null or >= start date
-    return data.end_date === null || data.end_date >= data.start_date;
-  },
-  {
-    message: "End date must be the same as or after the start date",
-    path: ["end_date"],
-  }
-);
+  )
+  .refine(
+    (data) => {
+      // if tbd is checked, start date must be null
+      if (data.start_date_tbd && data.start_date !== null) return false;
+
+      // if tbd is not checked, start date must be provided
+      if (!data.start_date_tbd && data.start_date === null) return false;
+
+      return true;
+    },
+    {
+      message: "Please provide a start date, or check the TBD option",
+      path: ["start_date"],
+    }
+  );
 
 const UpdateEventSchema = CreateEventSchema;
 
@@ -205,7 +222,6 @@ export type State = {
     address_region?: string[];
     address_postal_code?: string[];
     address_country?: string[];
-    event_country?: string[];
     description?: string[];
     start_date?: string[];
     end_date?: string[];

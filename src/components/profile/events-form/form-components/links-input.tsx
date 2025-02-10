@@ -61,11 +61,7 @@ const LinksInput = ({
 
   return (
     <>
-      <Label htmlFor={name}>Links</Label>
-      <p className="text-xs italic">
-        Optionally, provide some links to further inform about your event
-        (social media, event website, etc.).
-      </p>
+      
       <div className="flex min-h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors mb-2">
         <ScrollArea className="w-full">
           <ul aria-describedby={describedBy}>

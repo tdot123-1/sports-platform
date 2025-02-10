@@ -6,33 +6,38 @@ import { State } from "@/lib/actions/events/actions";
 const addressComponents = [
   {
     label: "Address Line 1",
-    name: "address_one",
+    name: "address_line_one",
     instruction: "Street name",
     required: true,
+    describedby: "address_line_one-error",
   },
   {
     label: "Address Line 2",
-    name: "address_two",
-    instruction: "Apartment, suite, unit etc. (optional)",
+    name: "address_line_two",
+    instruction: "Building number, suite, unit, floor etc. (optional)",
     required: false,
+    describedby: "address_line_two-error",
   },
   {
     label: "City",
-    name: "city",
+    name: "address_city",
     instruction: "",
     required: true,
+    describedby: "address_city-error",
   },
   {
     label: "Region / Province / State",
-    name: "region",
+    name: "address_region",
     instruction: "",
-    required: true,
+    required: false,
+    describedby: "address_region-error",
   },
   {
     label: "Postal Code / ZIP",
-    name: "postal",
+    name: "address_postal_code",
     instruction: "",
-    required: true,
+    required: false,
+    describedby: "address_postal_code-error",
   },
 ];
 
@@ -49,7 +54,8 @@ const AddressInput = ({ state, pending }: AddressInputProps) => {
           <div key={x.name}>
             <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
               <Label className="text-muted-foreground" htmlFor={x.name}>
-                {x.label}:
+                {x.label}
+                {x.required && <span className="text-destructive">*</span>}:
               </Label>
               <div className="w-full lg:w-1/2">
                 <Input
@@ -57,19 +63,25 @@ const AddressInput = ({ state, pending }: AddressInputProps) => {
                   name={x.name}
                   disabled={pending}
                   type="text"
+                  aria-describedby={x.describedby}
                 />
                 {x.instruction && (
                   <p className="text-xs italic">{x.instruction}</p>
                 )}
               </div>
             </div>
-            {/* <div id={`${x.name}-error`} aria-live="polite" aria-atomic="true">
-              {state.errors?.event_address?.[`${x.name}`] && (
-                <p className="text-sm mt-2 text-destructive italic">
-                  {state.errors.event_address[`${x.name}`]}
-                </p>
+            <div id={x.describedby} aria-live="polite" aria-atomic="true">
+              {(state.errors as Record<string, string[]>)?.[x.name]?.map(
+                (error) => (
+                  <p
+                    className="text-sm my-1 text-right text-destructive italic"
+                    key={error}
+                  >
+                    {error}
+                  </p>
+                )
               )}
-            </div> */}
+            </div>
           </div>
         ))}
       </div>

@@ -88,12 +88,8 @@ const EventForm = ({
             name="event_type"
             defaultValue={event ? event.event_type : ""}
           >
-            <SelectTrigger>
-              <SelectValue
-                aria-describedby="event_type-error"
-                id="event_type"
-                // placeholder="Event"
-              />
+            <SelectTrigger id="event_type">
+              <SelectValue aria-describedby="event_type-error" />
             </SelectTrigger>
             <SelectContent>
               {Object.entries(SportsEventTypeMap).map(([k, v]) => (
@@ -113,41 +109,32 @@ const EventForm = ({
           </div>
         </div>
         <div className="mb-4">
-          <Label htmlFor="event_address">
+          <p className="text-sm font-medium leading-none">
             Event Address <span className="text-destructive">*</span>
-          </Label>
+          </p>
           <p className="text-xs italic">
             Provide the address where your event will be held
           </p>
           <AddressInput pending={pending} state={state} />
           <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
-            <Label className="text-muted-foreground" htmlFor="event_country">
+            <Label className="text-muted-foreground" htmlFor="address_country">
               Country :
             </Label>
             <CountrySelect
               countryList={countryList}
               pending={pending}
-              name="event_country"
-              describedBy="event_country-error"
+              name="address_country"
+              describedBy="address_country-error"
             />
           </div>
-
-          {/* <div id="event_address-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.event_address &&
-              state.errors.event_address.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+          <div id="address_country-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.address_country &&
+              state.errors.address_country.map((error) => (
+                <p className="text-sm mt-2 text-right text-destructive italic" key={error}>
                   {error}
                 </p>
               ))}
           </div>
-          <div id="event_country-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.event_address &&
-              state.errors.event_address.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div> */}
         </div>
 
         <div className="mb-4">
@@ -161,6 +148,7 @@ const EventForm = ({
             name="start_date"
             eventDate={event?.start_date || undefined}
             pending={pending}
+            describedBy="start_date-error"
             required
           />
           <div id="start_date-error" aria-live="polite" aria-atomic="true">
@@ -181,6 +169,7 @@ const EventForm = ({
             name="end_date"
             eventDate={event?.end_date || undefined}
             pending={pending}
+            describedBy="end_date-error"
           />
           <div id="end_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.end_date &&
@@ -220,9 +209,9 @@ const EventForm = ({
         </div>
         <Separator className="my-2" />
         <div className="mb-4">
-          <Label htmlFor={"target_age"}>
+          <p className="text-sm font-medium leading-none">
             Target Age Group <span className="text-destructive">*</span>
-          </Label>
+          </p>
           <p className="text-xs italic">
             Select the age group(s) you are organizing the event for.
           </p>
@@ -246,7 +235,7 @@ const EventForm = ({
           </div>
         </div>
         <div className="mb-4">
-          <Label htmlFor="target_level">Target Skill Level</Label>
+          <p className="text-sm font-medium leading-none">Target Skill Level</p>
           <p className="text-xs italic">
             Select the skill level(s) required for your event if applicable.
           </p>
@@ -278,12 +267,8 @@ const EventForm = ({
             name="target_gender"
             defaultValue={event ? event.target_gender : ""}
           >
-            <SelectTrigger>
-              <SelectValue
-                aria-describedby="target_gender-error"
-                id="target_gender"
-                // placeholder="Gender"
-              />
+            <SelectTrigger id="target_gender">
+              <SelectValue aria-describedby="target_gender-error" />
             </SelectTrigger>
             <SelectContent>
               {Object.entries(TargetGenderMap).map(([k, v]) => (
@@ -417,6 +402,11 @@ const EventForm = ({
           </div>
         </div>
         <div className="mb-4">
+          <p className="text-sm font-medium leading-none">Links</p>
+          <p className="text-xs italic">
+            Optionally, provide some links to further inform about your event
+            (social media, event website, etc.).
+          </p>
           <LinksInput
             name="event_links"
             pending={pending}

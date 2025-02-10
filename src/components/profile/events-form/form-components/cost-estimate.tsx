@@ -95,8 +95,8 @@ const CostEstimate = ({
           defaultValue={cost_currency ? cost_currency : "EUR"}
           disabled={pending}
         >
-          <SelectTrigger className="w-fit">
-            <SelectValue id={"cost_currency"} />
+          <SelectTrigger id={"cost_currency"} className="w-fit">
+            <SelectValue aria-describedby="cost_currency-error" />
           </SelectTrigger>
           <SelectContent>
             {CurrencyCodes.map((code) => (

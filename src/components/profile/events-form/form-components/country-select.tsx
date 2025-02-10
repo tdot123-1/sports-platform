@@ -16,7 +16,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
@@ -58,6 +57,7 @@ const CountrySelect = ({
             disabled={pending}
             aria-describedby={describedBy}
             value={selectedCountry}
+            id={name}
           >
             {selectedCountry
               ? countryList.find((country) => country.code === selectedCountry)
@@ -106,7 +106,6 @@ const CountrySelect = ({
       </Popover>
       <Input
         name={name}
-        id={name}
         type="hidden"
         value={selectedCountry}
         readOnly

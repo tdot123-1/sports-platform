@@ -16,6 +16,7 @@ interface DatePickerProps {
   eventDate?: Date;
   pending: boolean;
   required?: boolean;
+  describedBy: string;
 }
 
 const DatePicker = ({
@@ -23,12 +24,14 @@ const DatePicker = ({
   eventDate,
   pending,
   required,
+  describedBy,
 }: DatePickerProps) => {
   const [date, setDate] = useState<Date | undefined>(eventDate);
   const [checked, setChecked] = useState(false);
 
   const handleCheckedChange = (e: any) => {
     if (e === true) {
+      // console.log(e);
       setDate(undefined);
     }
     setChecked((prev) => !prev);
@@ -39,9 +42,11 @@ const DatePicker = ({
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            id={name}
             type="button"
             disabled={pending || checked}
             variant={"outline"}
+            aria-describedby={describedBy}
             className={cn(
               "justify-start text-left font-normal w-full",
               !date && "text-muted-foreground"
@@ -53,7 +58,6 @@ const DatePicker = ({
         </PopoverTrigger>
         <Input
           name={name}
-          id={name}
           type="hidden"
           value={date ? date.toString() : ""}
           readOnly
