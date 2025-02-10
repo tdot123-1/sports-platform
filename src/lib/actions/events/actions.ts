@@ -95,7 +95,7 @@ const FormSchema = z.object({
     .string({
       invalid_type_error: "Please add a country for your event",
     })
-    .length(2, { message: "Country code must be 2 characters" })
+    .length(2, { message: "Please select from the available countries" })
     .toUpperCase()
     .refine((code) => validCountryCodes.has(code), {
       message: "Invalid country code",
@@ -159,7 +159,7 @@ const FormSchema = z.object({
       .max(5, { message: "Max number of links exceeded" })
       .nullable()
   ),
-  cost_estimate: z.coerce
+  cost_estimate: z
     .number({
       invalid_type_error: "Cost estimate must be a number",
     })
@@ -179,6 +179,7 @@ const FormSchema = z.object({
 const CreateEventSchema = FormSchema.omit({ id: true })
   .refine(
     (data) => {
+      console.log("REFINE 1");
       // if start is null, end should be null
       if (data.start_date === null) {
         return data.end_date === null;
@@ -193,6 +194,7 @@ const CreateEventSchema = FormSchema.omit({ id: true })
   )
   .refine(
     (data) => {
+      console.log("REFINE 2");
       // if tbd is checked, start date must be null
       if (data.start_date_tbd && data.start_date !== null) return false;
 
@@ -240,12 +242,19 @@ export type State = {
 export async function createEvent(prevState: State, formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
 
+  // console.log("RAW: ", rawFormData);
+
   // get values for optional fields
   const rawStartDate = formData.get("start_date");
   const rawEndDate = formData.get("end_date");
   const rawTargetLevel = formData.get("target_level");
   const rawDescription = formData.get("description");
   const rawContactPhone = formData.get("contact_phone");
+
+  // get string value for cost estimare
+  const rawCostEstimate = formData.get("cost_estimate");
+
+  
 
   // transform date input from string to Date object
   const formatStartDate = rawStartDate
@@ -267,7 +276,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     contact_phone: formatContactPhone,
   };
 
-  console.log("FORM DATA: ", formattedFormData);
+  // console.log("FORM DATA: ", formattedFormData);
 
   const validatedFields = CreateEventSchema.safeParse(formattedFormData);
 

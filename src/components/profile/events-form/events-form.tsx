@@ -86,7 +86,7 @@ const EventForm = ({
           <Select
             disabled={pending}
             name="event_type"
-            defaultValue={event ? event.event_type : ""}
+            defaultValue={event ? event.event_type : undefined}
           >
             <SelectTrigger id="event_type">
               <SelectValue aria-describedby="event_type-error" />
@@ -118,7 +118,7 @@ const EventForm = ({
           <AddressInput pending={pending} state={state} />
           <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="address_country">
-              Country :
+              Country<span className="text-destructive">*</span>:
             </Label>
             <CountrySelect
               countryList={countryList}
@@ -130,7 +130,10 @@ const EventForm = ({
           <div id="address_country-error" aria-live="polite" aria-atomic="true">
             {state.errors?.address_country &&
               state.errors.address_country.map((error) => (
-                <p className="text-sm mt-2 text-right text-destructive italic" key={error}>
+                <p
+                  className="text-sm mt-2 text-right text-destructive italic"
+                  key={error}
+                >
                   {error}
                 </p>
               ))}
@@ -265,7 +268,7 @@ const EventForm = ({
           <Select
             disabled={pending}
             name="target_gender"
-            defaultValue={event ? event.target_gender : ""}
+            defaultValue={event ? event.target_gender : undefined}
           >
             <SelectTrigger id="target_gender">
               <SelectValue aria-describedby="target_gender-error" />

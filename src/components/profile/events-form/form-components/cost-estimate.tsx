@@ -29,8 +29,8 @@ const CostEstimate = ({
   describedBy,
 }: CostEstimateProps) => {
   // set initial input
-  const [costInput, setCostInput] = useState<string>(
-    cost_estimate ? convertCurrencyValueToString(cost_estimate) : "0.00"
+  const [costInput, setCostInput] = useState<string | undefined>(
+    cost_estimate ? convertCurrencyValueToString(cost_estimate) : ""
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,38 +48,40 @@ const CostEstimate = ({
   // format to correct input on blur
   const handleFormatInput = () => {
     // trim spaces
-    let formatted = costInput.trim();
+    if (costInput !== undefined) {
+      let formatted = costInput.trim();
 
-    // if input is empty or ".", return "0.00"
-    if (formatted === "" || formatted === ".") {
-      setCostInput("0.00");
-      return;
+      // if input is empty or ".", return "0.00"
+      if (formatted === "" || formatted === ".") {
+        setCostInput("0.00");
+        return;
+      }
+
+      // if input starts with ".", add "0" in front
+      if (formatted.startsWith(".")) {
+        formatted = "0" + formatted;
+      }
+
+      // split into whole number and decimal part
+      let [integerPart, decimalPart = ""] = formatted.split(".");
+
+      // convert integer part to number to remove leading 0's, then back to string
+      integerPart = String(Number(integerPart) || 0);
+
+      // limit decimal to 2 digits
+      decimalPart = decimalPart.slice(0, 2);
+
+      // if decimal is empty, add "00"
+      if (decimalPart.length === 0) {
+        decimalPart = "00";
+      } else if (decimalPart.length === 1) {
+        // if only one digit, add a trailing "0"
+        decimalPart += "0";
+      }
+
+      // set input
+      setCostInput(`${integerPart}.${decimalPart}`);
     }
-
-    // if input starts with ".", add "0" in front
-    if (formatted.startsWith(".")) {
-      formatted = "0" + formatted;
-    }
-
-    // split into whole number and decimal part
-    let [integerPart, decimalPart = ""] = formatted.split(".");
-
-    // convert integer part to number to remove leading 0's, then back to string
-    integerPart = String(Number(integerPart) || 0);
-
-    // limit decimal to 2 digits
-    decimalPart = decimalPart.slice(0, 2);
-
-    // if decimal is empty, add "00"
-    if (decimalPart.length === 0) {
-      decimalPart = "00";
-    } else if (decimalPart.length === 1) {
-      // if only one digit, add a trailing "0"
-      decimalPart += "0";
-    }
-
-    // set input
-    setCostInput(`${integerPart}.${decimalPart}`);
   };
 
   // format price in cents on server action

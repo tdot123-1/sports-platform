@@ -28,7 +28,7 @@ interface Country {
 interface CountrySelectProps {
   countryList: Country[];
   pending: boolean;
-  event_country?: string;
+  address_country?: string;
   name: string;
   describedBy: string;
 }
@@ -36,13 +36,13 @@ interface CountrySelectProps {
 const CountrySelect = ({
   countryList,
   pending,
-  event_country,
+  address_country,
   name,
   describedBy,
 }: CountrySelectProps) => {
   const [open, setOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(
-    event_country ? event_country : ""
+    address_country ? address_country : ""
   );
 
   return (

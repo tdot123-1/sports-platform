@@ -214,3 +214,60 @@ export const convertCurrencyStringToValue = (str: string) => {
 export const convertCurrencyValueToString = (nr: number) => {
   return (nr / 100).toFixed(2);
 };
+
+type RawFormData = {
+  [k: string]: FormDataEntryValue;
+};
+
+export const formatRawFormData = (formData: FormData) => {
+  const rawFormData = Object.fromEntries(formData.entries());
+  // console.log("RAW: ", rawFormData);
+
+  // get values for optional fields / fields that need to be formatted
+  // optional address fields
+  const rawAddressTwo = formData.get("address_line_two");
+  const rawAddressRegion = formData.get("address_region");
+  const rawAddressPostal = formData.get("address_postal_code");
+
+  // other optional fields
+  const rawDescription = formData.get("description");
+  const rawCostDescription = formData.get("cost_description");
+  const rawContactPhone = formData.get("contact_phone");
+
+  // get dates for transforming into Date objects
+  const rawStartDate = formData.get("start_date");
+  const rawEndDate = formData.get("end_date");
+
+  // get values to be transformed to arrays
+  const rawTargetAge = formData.get("target_age");
+  const rawTargetLevel = formData.get("target_level");
+  const rawEventLinks = formData.get("event_links");
+
+  // get string value for cost estimate to be transformed to number
+  const rawCostEstimate = formData.get("cost_estimate");
+
+  // set optionals to null
+  // transform dates
+  // transform arrays
+  // transform number
+
+  // transform date input from string to Date object
+  const formatStartDate = rawStartDate
+    ? new Date(rawStartDate.toString())
+    : null;
+  const formatEndDate = rawEndDate ? new Date(rawEndDate.toString()) : null;
+
+  // transform undefined values to null before validating
+  const formatTargetLevel = rawTargetLevel ? rawTargetLevel : null;
+  const formatDescription = rawDescription ? rawDescription : null;
+  const formatContactPhone = rawContactPhone ? rawContactPhone : null;
+
+  const formattedFormData = {
+    ...rawFormData,
+    target_level: formatTargetLevel,
+    description: formatDescription,
+    start_date: formatStartDate,
+    end_date: formatEndDate,
+    contact_phone: formatContactPhone,
+  };
+};
