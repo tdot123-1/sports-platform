@@ -86,7 +86,7 @@ const FormSchema = z.object({
   address_postal_code: z
     .string({ invalid_type_error: "Please enter a valid postal code" })
     .trim()
-    .min(3, { message: "Postal code is too short" })
+    .min(2, { message: "Postal code is too short" })
     .max(15, { message: "Postal code is too long" })
     .regex(/^[A-Za-z0-9\s\-]+$/, {
       message: "Invalid characters in postal code",
@@ -152,15 +152,17 @@ const FormSchema = z.object({
     .refine((v) => {
       return v === null || /^\+?[0-9]\d{1,14}$/.test(v);
     }),
-  event_links: z.array(
-    z
-      .string({
-        invalid_type_error: "Please provide a link",
-      })
-      .url({ message: "Please only valid URLs" })
-      .max(5, { message: "Max number of links exceeded" })
-      .nullable()
-  ),
+  event_links: z
+    .array(
+      z
+        .string({
+          invalid_type_error: "Please provide a link",
+        })
+        .trim()
+        .url({ message: "Please only valid URLs" })
+    )
+    .max(5, { message: "Max number of links exceeded" })
+    .nullable(),
   cost_estimate: z
     .number({
       invalid_type_error: "Cost estimate must be a number",
@@ -243,9 +245,8 @@ export type State = {
 
 // CREATE event
 export async function createEvent(prevState: State, formData: FormData) {
+  // format raw form data
   const formattedFormData = formatRawFormData(formData);
-
-  // console.log("FORM DATA: ", formattedFormData);
 
   const validatedFields = CreateEventSchema.safeParse(formattedFormData);
 
