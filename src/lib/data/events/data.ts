@@ -11,12 +11,13 @@ export const fetchAllEvents = async (
   userId?: string,
   searchQuery?: string,
   filter?: FilterOptions,
-  sort?: SortOptions
+  sort?: SortOptions,
+  priceFilter?: number
 ) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const supabase = await createClient();
-    
+
     let query = supabase.from("events").select("*");
 
     if (userId) {
@@ -25,6 +26,10 @@ export const fetchAllEvents = async (
 
     if (filter) {
       query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      query = query.lte("cost_estimate", priceFilter * 100);
     }
 
     if (searchQuery) {

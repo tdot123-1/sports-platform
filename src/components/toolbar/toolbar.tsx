@@ -13,9 +13,10 @@ import { SlidersHorizontalIcon } from "lucide-react";
 interface ToolbarProps {
   filter?: FilterOptions;
   sort?: SortOptions;
+  priceFilter?: number;
 }
 
-const Toolbar = ({ filter, sort }: ToolbarProps) => {
+const Toolbar = ({ filter, sort, priceFilter }: ToolbarProps) => {
   return (
     <div className="sticky top-14 z-10">
       <Collapsible>
@@ -31,7 +32,7 @@ const Toolbar = ({ filter, sort }: ToolbarProps) => {
         </div>
         <CollapsibleContent>
           <div className="flex justify-evenly p-4 bg-sidebar-accent shadow-md">
-            <ToolbarFilter filter={filter} />
+            <ToolbarFilter filter={filter} priceFilter={priceFilter} />
             <ToolbarSearch />
             <ToolbarSort sort={sort} />
           </div>

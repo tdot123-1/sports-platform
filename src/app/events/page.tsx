@@ -18,6 +18,7 @@ const Page = async (props: {
     tl?: string;
     sort?: string;
     order?: string;
+    price?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;
@@ -38,9 +39,12 @@ const Page = async (props: {
     sort = parseSortOptions(searchParams);
   }
 
+  const priceFilter =
+    Number(searchParams?.price) > 0 ? Number(searchParams?.price) : undefined;
+
   return (
     <>
-      <Toolbar filter={filter} sort={sort} />
+      <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
       <section className="px-4">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
@@ -48,6 +52,7 @@ const Page = async (props: {
             filter={filter}
             sort={sort}
             searchQuery={query}
+            priceFilter={priceFilter}
           />
         </Suspense>
         <div className="w-fit mx-auto py-6">

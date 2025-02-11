@@ -33,8 +33,15 @@ import { CircleXIcon, FilterIcon, FilterXIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { constructFilterOptions, createSearchParams } from "@/lib/utils";
+import FilterPrice from "./filter-price";
 
-const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
+const ToolbarFilter = ({
+  filter,
+  priceFilter,
+}: {
+  filter?: FilterOptions;
+  priceFilter?: number;
+}) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -218,7 +225,12 @@ const ToolbarFilter = ({ filter }: { filter?: FilterOptions }) => {
               </DropdownMenuPortal>
             </DropdownMenuSub>
           ))}
-
+          <FilterPrice
+            pathname={pathname}
+            searchParams={searchParams}
+            replace={replace}
+            priceFilter={priceFilter}
+          />
           <DropdownMenuItem
             disabled={
               !hasFilters(levelFilter) &&

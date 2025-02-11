@@ -17,6 +17,7 @@ interface EventsListProps {
   searchQuery?: string;
   filter?: FilterOptions;
   sort?: SortOptions;
+  priceFilter?: number;
 }
 
 const EventsList = async ({
@@ -25,6 +26,7 @@ const EventsList = async ({
   searchQuery,
   filter,
   sort,
+  priceFilter,
 }: EventsListProps) => {
   // test skeleton
   // await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -34,7 +36,8 @@ const EventsList = async ({
     userId,
     searchQuery,
     filter,
-    sort
+    sort,
+    priceFilter
   );
 
   const events: SportsEvent[] = fetchedEvents.map((event) =>

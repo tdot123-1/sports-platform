@@ -166,7 +166,8 @@ export const createSearchParams = (
   pathname: string,
   searchParams: ReadonlyURLSearchParams,
   filter?: FilterOptions,
-  sort?: SortOptions
+  sort?: SortOptions,
+  priceFilter?: number
 ) => {
   const params = new URLSearchParams(searchParams);
 
@@ -198,6 +199,10 @@ export const createSearchParams = (
     if (sort.order) {
       params.set("order", sort.order);
     }
+  }
+
+  if (priceFilter) {
+    params.set("price", priceFilter.toString());
   }
 
   return `${pathname}?${params.toString()}`;
