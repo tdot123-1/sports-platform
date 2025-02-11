@@ -57,7 +57,11 @@ const Page = async (props: {
         </Suspense>
         <div className="w-fit mx-auto py-6">
           <Suspense fallback={<Skeleton className="h-6 w-28" />}>
-            <PaginationWrapper query={query} filter={filter} />
+            <PaginationWrapper
+              query={query}
+              filter={filter}
+              priceFilter={priceFilter}
+            />
           </Suspense>
         </div>
       </section>

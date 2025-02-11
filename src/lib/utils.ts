@@ -167,7 +167,7 @@ export const createSearchParams = (
   searchParams: ReadonlyURLSearchParams,
   filter?: FilterOptions,
   sort?: SortOptions,
-  priceFilter?: number
+  priceFilter?: { filter: number; max: number }
 ) => {
   const params = new URLSearchParams(searchParams);
 
@@ -201,8 +201,12 @@ export const createSearchParams = (
     }
   }
 
-  if (priceFilter) {
-    params.set("price", priceFilter.toString());
+  if (priceFilter !== undefined) {
+    if (priceFilter.filter !== priceFilter.max) {
+      params.set("price", priceFilter.filter.toString());
+    } else {
+      params.delete("price");
+    }
   }
 
   return `${pathname}?${params.toString()}`;

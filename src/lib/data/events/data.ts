@@ -89,7 +89,8 @@ export const fetchOneEvent = async (eventId: string) => {
 export const fetchEventsPages = async (
   userId?: string,
   searchQuery?: string,
-  filter?: FilterOptions
+  filter?: FilterOptions,
+  priceFilter?: number
 ) => {
   try {
     const supabase = await createClient();
@@ -103,6 +104,10 @@ export const fetchEventsPages = async (
 
     if (filter) {
       query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      query = query.lte("cost_estimate", priceFilter * 100);
     }
 
     if (searchQuery) {
@@ -124,5 +129,27 @@ export const fetchEventsPages = async (
   } catch (error) {
     console.error("Error fetching pages: ", error);
     throw new Error(`Error fetching pages: ${error}`);
+  }
+};
+
+export const fetchMaxCostEstimate = async () => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("events")
+      .select("cost_estimate")
+      .order("cost_estimate", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error("Error fetching max cost estimate:", error.message);
+      return 1000; // default fallback max
+    }
+
+    // return actual max or fallback
+    return data?.[0]?.cost_estimate ? data[0].cost_estimate / 100 : 1000;
+  } catch (error) {
+    console.error("Unexpected rror fetching max cost estimate: ", error);
+    return 1000;
   }
 };

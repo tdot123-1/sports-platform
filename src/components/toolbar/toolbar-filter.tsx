@@ -35,6 +35,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { constructFilterOptions, createSearchParams } from "@/lib/utils";
 import FilterPrice from "./filter-price";
 
+const MAX_PRICE = 1000;
+
 const ToolbarFilter = ({
   filter,
   priceFilter,
@@ -45,6 +47,11 @@ const ToolbarFilter = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+
+  // seperate state for price filter
+  const [priceRange, setPriceRange] = useState(
+    priceFilter !== undefined ? [priceFilter] : [MAX_PRICE]
+  );
 
   // each state is an object where every key is a filter option, and value is boolean
   const [typeFilter, setTypeFilter] = useState<{
@@ -147,6 +154,14 @@ const ToolbarFilter = ({
     removeFilters(setAgeFilter);
     removeFilters(setGenderFilter);
     removeFilters(setTypeFilter);
+
+    //(!) TEMPORARY reset price filter immediatly
+    setPriceRange([MAX_PRICE]);
+
+    const params = new URLSearchParams(searchParams);
+    params.delete("price");
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const AllFilters = [
@@ -230,13 +245,16 @@ const ToolbarFilter = ({
             searchParams={searchParams}
             replace={replace}
             priceFilter={priceFilter}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
           />
           <DropdownMenuItem
             disabled={
               !hasFilters(levelFilter) &&
               !hasFilters(genderFilter) &&
               !hasFilters(ageFilter) &&
-              !hasFilters(typeFilter)
+              !hasFilters(typeFilter) &&
+              priceRange[0] === MAX_PRICE
             }
             className="cursor-pointer"
             onClick={removeAllFilters}

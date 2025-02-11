@@ -9,7 +9,7 @@ import {
   DropdownMenuSubTrigger,
 } from "../ui/dropdown-menu";
 import { Slider } from "../ui/slider";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useDebouncedCallback } from "use-debounce";
@@ -21,6 +21,8 @@ interface FilterPriceProps {
   searchParams: ReadonlyURLSearchParams;
   replace: (href: string, options?: NavigateOptions) => void;
   priceFilter?: number;
+  priceRange: number[]
+  setPriceRange: Dispatch<SetStateAction<number[]>>
 }
 
 const FilterPrice = ({
@@ -28,10 +30,10 @@ const FilterPrice = ({
   searchParams,
   replace,
   priceFilter,
+  priceRange,
+  setPriceRange
 }: FilterPriceProps) => {
-  const [priceRange, setPriceRange] = useState(
-    priceFilter !== undefined ? [priceFilter] : [MAX_PRICE]
-  );
+  
 
   const handlePriceFilter = useDebouncedCallback((newPrice: number[]) => {
     const params = new URLSearchParams(searchParams);
