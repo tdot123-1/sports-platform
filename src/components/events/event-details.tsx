@@ -23,7 +23,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { countryNameMap } from "@/lib/countries";
 
 interface EventDetailsProps {
@@ -79,7 +79,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
                 <h6 className="text-muted-foreground">Age group (birthyear)</h6>
               </div>
-              <ScrollArea className="max-h-28">
+              <ScrollArea className="h-20">
                 <div className="text-right">
                   {event.target_age.map((age) => (
                     <p key={age}>{TargetAgeGroupMap[age]}</p>
@@ -92,7 +92,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   <BicepsFlexedIcon size={18} />
                   <h5>Skill level:</h5>
                 </div>
-                <ScrollArea className="max-h-28">
+                <ScrollArea className="h-14">
                   <div className="text-right">
                     {event.target_level ? (
                       event.target_level.map((level) => (
@@ -175,7 +175,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <ReceiptTextIcon size={18} />
                     <p>Additional pricing info:</p>
                   </div>
-                  <ScrollArea className="max-h-28">
+                  <ScrollArea className="h-28">
                     <p className="text-right">{event.cost_description}</p>
                   </ScrollArea>
                 </div>
@@ -208,14 +208,24 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <LinkIcon size={18} />
                     <p>Links:</p>
                   </div>
-                  {event.event_links.map((link) => (
-                    <div key={link} className="text-right flex justify-end">
-                      <ExternalLinkIcon size={14} />
-                      <a target="_blank" className="underline" href={link}>
-                        {link}
-                      </a>
-                    </div>
-                  ))}
+                  <ScrollArea className="w-full">
+                    {event.event_links.map((link) => (
+                      <div
+                        key={link}
+                        className="text-right flex justify-end flex-nowrap overflow-hidden"
+                      >
+                        <ExternalLinkIcon size={14} />
+                        <a
+                          target="_blank"
+                          className="underline text-xs whitespace-nowrap"
+                          href={link}
+                        >
+                          {link}
+                        </a>
+                      </div>
+                    ))}
+                    <ScrollBar orientation={`horizontal`} />
+                  </ScrollArea>
                 </>
               )}
             </div>

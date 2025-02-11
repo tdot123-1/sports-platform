@@ -73,10 +73,18 @@ export const applyQueryFilters = (query: any, filters: FilterOptions) => {
     // return if no value provided to filter
     if (!value || value.length === 0) return;
 
-    if (value.length === 1) {
-      query = query.eq(key, value);
+    // check if the key is one of the array fields
+    const isArray = ["target_age", "target_level"].includes(key);
+
+    if (isArray) {
+      // use overlaps to check if any value in array matches
+      query = query.overlaps(key, value);
     } else {
-      query = query.or(value.map((v: string) => `${key}.eq.${v}`).join(","));
+      if (value.length === 1) {
+        query = query.eq(key, value);
+      } else {
+        query = query.or(value.map((v: string) => `${key}.eq.${v}`).join(","));
+      }
     }
   });
 

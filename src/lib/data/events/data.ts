@@ -29,7 +29,7 @@ export const fetchAllEvents = async (
 
     if (searchQuery) {
       query = query.or(
-        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,event_description.ilike.%${searchQuery}%,cost_description.ilike.%${searchQuery}%,address_city.ilike.%${searchQuery}%`
       );
     }
 
@@ -102,7 +102,7 @@ export const fetchEventsPages = async (
 
     if (searchQuery) {
       query = query.or(
-        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,event_description.ilike.%${searchQuery}%,cost_description.ilike.%${searchQuery}%,address_city.ilike.%${searchQuery}%`
       );
     }
 

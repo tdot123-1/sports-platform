@@ -1,4 +1,9 @@
-import { SportsEvent, SportsEventTypeMap, TargetAgeGroupMap, TargetLevelMap } from "@/lib/types";
+import {
+  SportsEvent,
+  SportsEventTypeMap,
+  TargetAgeGroupMap,
+  TargetLevelMap,
+} from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -29,7 +34,9 @@ const EventCard = ({ event, userId }: EventCardProps) => {
           <ul>
             <li>
               <h4 className="text-muted-foreground">What:</h4>
-              <p className="text-right">{SportsEventTypeMap[event.event_type]}</p>
+              <p className="text-right text-sm">
+                {SportsEventTypeMap[event.event_type]}
+              </p>
             </li>
             <Separator className="my-1" />
             <li>
@@ -43,10 +50,10 @@ const EventCard = ({ event, userId }: EventCardProps) => {
             <Separator className="my-1" />
             <li>
               <h4 className="text-muted-foreground">Where:</h4>
-              <ScrollArea className="w-full">
+              <div>
                 <p className="text-right text-sm">{event.address_city}</p>
                 <p className="text-right text-sm">{event.address_country}</p>
-              </ScrollArea>
+              </div>
             </li>
             <Separator className="my-1" />
             <li>
@@ -54,7 +61,7 @@ const EventCard = ({ event, userId }: EventCardProps) => {
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>
-                  <ScrollArea className="h-20">
+                  <ScrollArea className="h-16">
                     {event.target_age.map((age) => (
                       <p className="text-right text-sm" key={age}>
                         {age}
@@ -64,7 +71,7 @@ const EventCard = ({ event, userId }: EventCardProps) => {
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Level(s)</p>
-                  <ScrollArea className="h-20">
+                  <ScrollArea className="h-16">
                     {event.target_level ? (
                       event.target_level.map((level) => (
                         <p className="text-right text-sm" key={level}>
