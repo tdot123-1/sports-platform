@@ -1,5 +1,5 @@
 const Page = () => {
-  return <h1>Table view</h1>;
+  return <h1>Map view</h1>;
 };
 
 export default Page;
