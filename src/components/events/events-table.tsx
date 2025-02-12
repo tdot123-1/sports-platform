@@ -1,4 +1,9 @@
-import { FilterOptions, SortOptions, SportsEvent } from "@/lib/types";
+import {
+  FilterOptions,
+  SortOptions,
+  SportsEvent,
+  SportsEventTypeMap,
+} from "@/lib/types";
 import { Button } from "../ui/button";
 import {
   Table,
@@ -31,7 +36,7 @@ const EventsTable = async ({
   priceFilter,
 }: EventsTableProps) => {
   // test skeleton
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  //   await new Promise((resolve) => setTimeout(resolve, 5000));
 
   const fetchedEvents = await fetchAllEvents(
     currentPage,
@@ -46,6 +51,19 @@ const EventsTable = async ({
     convertFetchedEvent(event)
   );
 
+  const renderArrayField = (field: string[]) => {
+    if (!field.length) return;
+
+    if (field.length === 1) {
+      return `${field[0]}`;
+    }
+    if (field.length === 2) {
+      return `${field[0]}, ${field[1]}`;
+    }
+
+    return `${field[0]}, ${field[1]}, ...+${field.length - 2}`;
+  };
+
   return (
     <>
       <Table className="my-6">
@@ -57,7 +75,10 @@ const EventsTable = async ({
             <TableHead>What</TableHead>
             <TableHead>When</TableHead>
             <TableHead>Where</TableHead>
-            <TableHead>For</TableHead>
+            <TableHead>For: </TableHead>
+            <TableHead>Age groups(s)</TableHead>
+            <TableHead>Skill level(s)</TableHead>
+            <TableHead>Gender</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -70,7 +91,7 @@ const EventsTable = async ({
                   </Link>
                 </TableCell>
                 <TableCell>{event.event_name}</TableCell>
-                <TableCell>{event.event_type}</TableCell>
+                <TableCell>{SportsEventTypeMap[event.event_type]}</TableCell>
                 <TableCell>
                   {event.start_date
                     ? event.start_date.toLocaleDateString()
@@ -79,7 +100,14 @@ const EventsTable = async ({
                 <TableCell>
                   {event.address_city} {event.address_country}
                 </TableCell>
-                <TableCell>Age group/skill level/gender</TableCell>
+                <TableCell></TableCell>
+                <TableCell>{renderArrayField(event.target_age)}</TableCell>
+                <TableCell>
+                  {event.target_level
+                    ? renderArrayField(event.target_level)
+                    : "N/A"}
+                </TableCell>
+                <TableCell>{event.target_gender}</TableCell>
               </TableRow>
             ))
           ) : (

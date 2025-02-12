@@ -1,5 +1,6 @@
 import EventsTable from "@/components/events/events-table";
 import PaginationWrapper from "@/components/events/pagination-wrapper";
+import EventsTableSkeleton from "@/components/skeletons/events-table-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FilterOptions, SortOptions } from "@/lib/types";
@@ -38,7 +39,7 @@ const Page = async (props: {
   }
 
   const priceFilter =
-    Number(searchParams?.price) > 0 ? Number(searchParams?.price) : undefined;
+    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
 
   return (
     <>
@@ -46,7 +47,7 @@ const Page = async (props: {
         <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
       </Suspense>
       <section className="px-0 md:px-4">
-        <Suspense fallback={<Skeleton className="w-full h-80" />}>
+        <Suspense fallback={<EventsTableSkeleton />}>
           <EventsTable
             currentPage={currentPage}
             filter={filter}

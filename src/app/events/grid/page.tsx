@@ -40,7 +40,7 @@ const Page = async (props: {
   }
 
   const priceFilter =
-    Number(searchParams?.price) > 0 ? Number(searchParams?.price) : undefined;
+    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
 
   return (
     <>

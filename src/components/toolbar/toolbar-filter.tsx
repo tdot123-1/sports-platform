@@ -176,14 +176,6 @@ const ToolbarFilter = ({
     removeFilters(setGenderFilter);
     removeFilters(setTypeFilter);
     removePriceFilter();
-
-    //(!) TEMPORARY reset price filter immediatly
-    // setPriceRange([MAX_PRICE]);
-
-    // const params = new URLSearchParams(searchParams);
-    // params.delete("price");
-
-    // replace(`${pathname}?${params.toString()}`);
   };
 
   const AllFilters = [
