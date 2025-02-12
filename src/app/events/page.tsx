@@ -44,7 +44,10 @@ const Page = async (props: {
 
   return (
     <>
-      <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
+      <Suspense fallback={<Skeleton className="w-full h-12" />}>
+        <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
+      </Suspense>
+
       <section className="px-4">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList

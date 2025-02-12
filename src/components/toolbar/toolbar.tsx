@@ -9,6 +9,7 @@ import {
 } from "../ui/collapsible";
 import { Button } from "../ui/button";
 import { SlidersHorizontalIcon } from "lucide-react";
+import { fetchMaxCostEstimate } from "@/lib/data/events/data";
 
 interface ToolbarProps {
   filter?: FilterOptions;
@@ -16,7 +17,9 @@ interface ToolbarProps {
   priceFilter?: number;
 }
 
-const Toolbar = ({ filter, sort, priceFilter }: ToolbarProps) => {
+const Toolbar = async ({ filter, sort, priceFilter }: ToolbarProps) => {
+  const maxCostEstimate = await fetchMaxCostEstimate();
+
   return (
     <div className="sticky top-14 z-10">
       <Collapsible>
@@ -32,7 +35,11 @@ const Toolbar = ({ filter, sort, priceFilter }: ToolbarProps) => {
         </div>
         <CollapsibleContent>
           <div className="flex justify-evenly p-4 bg-sidebar-accent shadow-md">
-            <ToolbarFilter filter={filter} priceFilter={priceFilter} />
+            <ToolbarFilter
+              filter={filter}
+              priceFilter={priceFilter}
+              maxPrice={maxCostEstimate}
+            />
             <ToolbarSearch />
             <ToolbarSort sort={sort} />
           </div>

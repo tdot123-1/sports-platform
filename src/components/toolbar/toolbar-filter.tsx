@@ -35,14 +35,16 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { constructFilterOptions, createSearchParams } from "@/lib/utils";
 import FilterPrice from "./filter-price";
 
-const MAX_PRICE = 1000;
+// const MAX_PRICE = 1000;
 
 const ToolbarFilter = ({
   filter,
   priceFilter,
+  maxPrice
 }: {
   filter?: FilterOptions;
   priceFilter?: number;
+  maxPrice: number
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -50,7 +52,7 @@ const ToolbarFilter = ({
 
   // seperate state for price filter
   const [priceRange, setPriceRange] = useState(
-    priceFilter !== undefined ? [priceFilter] : [MAX_PRICE]
+    priceFilter !== undefined ? [priceFilter] : [maxPrice]
   );
 
   // state to trigger use effect to update search params with 'price range' when
@@ -131,7 +133,7 @@ const ToolbarFilter = ({
       (key) => key as TargetLevel
     );
 
-    const priceFilter = { filter: priceRange[0], max: MAX_PRICE };
+    const priceFilter = { filter: priceRange[0], max: maxPrice };
 
     // construct new url with filters
     const newUrl = createSearchParams(
@@ -164,7 +166,7 @@ const ToolbarFilter = ({
   };
 
   const removePriceFilter = () => {
-    setPriceRange([MAX_PRICE]);
+    setPriceRange([maxPrice]);
     setDeletePriceRange((prev) => !prev);
   };
 
@@ -267,6 +269,7 @@ const ToolbarFilter = ({
             priceFilter={priceFilter}
             priceRange={priceRange}
             setPriceRange={setPriceRange}
+            maxPrice={maxPrice}
           />
           <DropdownMenuItem
             disabled={
@@ -274,7 +277,7 @@ const ToolbarFilter = ({
               !hasFilters(genderFilter) &&
               !hasFilters(ageFilter) &&
               !hasFilters(typeFilter) &&
-              priceRange[0] === MAX_PRICE
+              priceRange[0] === maxPrice
             }
             className="cursor-pointer"
             onClick={removeAllFilters}

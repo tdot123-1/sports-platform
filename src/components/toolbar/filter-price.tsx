@@ -14,7 +14,7 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useDebouncedCallback } from "use-debounce";
 
-const MAX_PRICE = 1000;
+// const MAX_PRICE = 1000;
 
 interface FilterPriceProps {
   pathname: string;
@@ -23,6 +23,7 @@ interface FilterPriceProps {
   priceFilter?: number;
   priceRange: number[]
   setPriceRange: Dispatch<SetStateAction<number[]>>
+  maxPrice: number;
 }
 
 const FilterPrice = ({
@@ -31,6 +32,7 @@ const FilterPrice = ({
   replace,
   priceFilter,
   priceRange,
+  maxPrice,
   setPriceRange
 }: FilterPriceProps) => {
   
@@ -38,7 +40,7 @@ const FilterPrice = ({
   const handlePriceFilter = useDebouncedCallback((newPrice: number[]) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
-    if (newPrice[0] !== MAX_PRICE) {
+    if (newPrice[0] !== maxPrice) {
       params.set("price", newPrice[0].toString());
     } else {
       params.delete("price");
@@ -56,9 +58,9 @@ const FilterPrice = ({
     <>
       <DropdownMenuSub>
         <div className="inline-flex w-full">
-          {priceRange[0] !== MAX_PRICE && (
+          {priceRange[0] !== maxPrice && (
             <Button
-              onClick={() => handleValueChange([MAX_PRICE])}
+              onClick={() => handleValueChange([maxPrice])}
               variant={`outline`}
               className="p-0"
             >
@@ -79,7 +81,7 @@ const FilterPrice = ({
               <p>0,00 - {priceRange[0]},00</p>
               <Slider
                 className="w-44"
-                max={MAX_PRICE}
+                max={maxPrice}
                 value={priceRange}
                 onValueChange={handleValueChange}
                 step={5}

@@ -1,4 +1,4 @@
-import { fetchAllEvents } from "@/lib/data/events/data";
+import { fetchAllEvents, fetchMaxCostEstimate } from "@/lib/data/events/data";
 import {
   FilterOptions,
   SortOptions,
