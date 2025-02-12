@@ -53,6 +53,10 @@ const ToolbarFilter = ({
     priceFilter !== undefined ? [priceFilter] : [MAX_PRICE]
   );
 
+  // state to trigger use effect to update search params with 'price range' when
+  // 'delete all filters' is clicked
+  const [deletePriceRange, setDeletePriceRange] = useState(false);
+
   // each state is an object where every key is a filter option, and value is boolean
   const [typeFilter, setTypeFilter] = useState<{
     [key in SportsEventType]: boolean;
@@ -100,13 +104,15 @@ const ToolbarFilter = ({
     value: string,
     setter: Dispatch<SetStateAction<any>>
   ) => {
-    console.log(value);
+    // console.log(value);
     setter((prev: any) => ({ ...prev, [value]: !prev[value] }));
   };
 
   useEffect(() => {
     // construct filterOptions object
     const newFilter: FilterOptions = {};
+
+    console.log("EFFECT TRIGGERED");
 
     // check which filters should be applied
     newFilter.event_type = constructFilterOptions(typeFilter).map(
@@ -125,8 +131,16 @@ const ToolbarFilter = ({
       (key) => key as TargetLevel
     );
 
+    const priceFilter = { filter: priceRange[0], max: MAX_PRICE };
+
     // construct new url with filters
-    const newUrl = createSearchParams(pathname, searchParams, newFilter);
+    const newUrl = createSearchParams(
+      pathname,
+      searchParams,
+      newFilter,
+      undefined,
+      priceFilter
+    );
 
     // get current url
     const params = new URLSearchParams(searchParams);
@@ -135,7 +149,7 @@ const ToolbarFilter = ({
     if (newUrl !== `${pathname}?${params.toString()}`) {
       replace(newUrl);
     }
-  }, [typeFilter, genderFilter, ageFilter, levelFilter]);
+  }, [typeFilter, genderFilter, ageFilter, levelFilter, deletePriceRange]);
 
   // check if category has any filters applied
   const hasFilters = (filter: any) => {
@@ -149,19 +163,25 @@ const ToolbarFilter = ({
     );
   };
 
+  const removePriceFilter = () => {
+    setPriceRange([MAX_PRICE]);
+    setDeletePriceRange((prev) => !prev);
+  };
+
   const removeAllFilters = () => {
     removeFilters(setLevelFilter);
     removeFilters(setAgeFilter);
     removeFilters(setGenderFilter);
     removeFilters(setTypeFilter);
+    removePriceFilter();
 
     //(!) TEMPORARY reset price filter immediatly
-    setPriceRange([MAX_PRICE]);
+    // setPriceRange([MAX_PRICE]);
 
-    const params = new URLSearchParams(searchParams);
-    params.delete("price");
+    // const params = new URLSearchParams(searchParams);
+    // params.delete("price");
 
-    replace(`${pathname}?${params.toString()}`);
+    // replace(`${pathname}?${params.toString()}`);
   };
 
   const AllFilters = [
