@@ -2,14 +2,17 @@ import {
   BookUserIcon,
   CookieIcon,
   DatabaseIcon,
+  GridIcon,
   HeartHandshakeIcon,
   HelpCircle,
   HelpCircleIcon,
   Home,
   HomeIcon,
   LogInIcon,
+  MapIcon,
   MessageCircle,
   PlusCircleIcon,
+  Table2Icon,
   Trophy,
   TrophyIcon,
   UserCircleIcon,
@@ -23,15 +26,33 @@ export const baseNavLinks = [
     href: "/",
     icon: Home,
   },
-  {
-    name: "Events",
-    href: "/events",
-    icon: Trophy,
-  },
+  // {
+  //   name: "Events",
+  //   href: "/events",
+  //   icon: Trophy,
+  // },
   {
     name: "About",
     href: "/about",
     icon: HelpCircle,
+  },
+];
+
+export const eventSubLinks = [
+  {
+    name: "Grid view",
+    href: "/events/grid",
+    icon: GridIcon,
+  },
+  {
+    name: "Table view",
+    href: "/events/table",
+    icon: Table2Icon,
+  },
+  {
+    name: "Map view",
+    href: "/events/map",
+    icon: MapIcon,
   },
 ];
 

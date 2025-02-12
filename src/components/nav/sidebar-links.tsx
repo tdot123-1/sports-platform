@@ -19,9 +19,8 @@ import {
   loggedOutNavLinks,
   profileNavLinks,
 } from "./nav-links";
-import { Button } from "../ui/button";
-import LogoutButton from "../auth/logout-button";
 import LogoutMenuItem from "../auth/logout-menu-item";
+import SidebarEventsSub from "./sidebar-events-sub";
 
 interface SidebarLink {
   name: string;
@@ -58,6 +57,11 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+            <SidebarEventsSub
+              pathname={pathname}
+              isMobile={isMobile}
+              toggleSidebar={toggleSidebar}
+            />
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

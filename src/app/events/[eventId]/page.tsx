@@ -1,7 +1,6 @@
 import EventDetails from "@/components/events/event-details";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Undo2Icon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
