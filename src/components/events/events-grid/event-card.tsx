@@ -10,12 +10,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../../ui/card";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator";
+import { ScrollArea } from "../../ui/scroll-area";
 import { renderArrayField } from "@/lib/utils";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface EventCardProps {
   event: SportsEvent;
@@ -25,8 +26,14 @@ interface EventCardProps {
 const EventCard = ({ event, userId }: EventCardProps) => {
   return (
     <>
-      <Card className="">
+      <Card className="relative">
         <CardHeader className="text-center">
+          <Avatar className="absolute top-2 right-2">
+            <AvatarFallback className="bg-primary opacity-55">
+              Sports
+            </AvatarFallback>
+          </Avatar>
+
           <ScrollArea className="w-full h-8">
             <CardTitle>{event.event_name}</CardTitle>
           </ScrollArea>

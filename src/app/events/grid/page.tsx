@@ -1,4 +1,4 @@
-import EventsList from "@/components/events/events-list";
+import EventsList from "@/components/events/events-grid/events-list";
 import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
