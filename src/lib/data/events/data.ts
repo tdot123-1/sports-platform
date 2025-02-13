@@ -147,7 +147,9 @@ export const fetchMaxCostEstimate = async () => {
     }
 
     // return actual max or fallback
-    return data?.[0]?.cost_estimate ? data[0].cost_estimate / 100 : 1000;
+    return data?.[0]?.cost_estimate
+      ? Math.ceil(data[0].cost_estimate / 100)
+      : 1000;
   } catch (error) {
     console.error("Unexpected rror fetching max cost estimate: ", error);
     return 1000;

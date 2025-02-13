@@ -1,38 +1,53 @@
-"use client";
-
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { Undo2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+// import { usePathname, useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
 
 interface ReturnButtonProps {
   userId?: string;
 }
 
 const ReturnButton = ({ userId }: ReturnButtonProps) => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const isInternalReferrer =
-    document.referrer &&
-    new URL(document.referrer).origin === window.location.origin;
+  // const [isInternalReferrer, setIsInternalReferrer] = useState(false);
 
-  const handleClick = () => {
-    if (window.history.length > 1 && isInternalReferrer) {
-      return router.back();
-    } else {
-      return userId
-        ? router.push(`/profile/events`)
-        : router.push(`/events/grid`);
-    }
-  };
+  // useEffect(() => {
+  //   console.log("WINDOW: ",window.se)
+  //   console.log("REFERRER: ", document.referrer)
+  //   if (typeof document !== "undefined") {
+
+  //     const referrerOrigin = document.referrer
+  //       ? new URL(document.referrer).origin
+  //       : "";
+  //     setIsInternalReferrer(referrerOrigin === window.location.origin);
+  //   }
+  // }, []);
+
+  // const handleClick = () => {
+  //   console.log("RETURN");
+  //   console.log("INTERNAL REFERRER: ", isInternalReferrer);
+  //   if (window.history.length > 1 && isInternalReferrer) {
+  //     console.log("REFERRER");
+  //     return router.back();
+  //   } else {
+  //     return userId
+  //       ? router.push(`/profile/events`)
+  //       : router.push(`/events/grid`);
+  //   }
+  // };
 
   return (
     <>
-      <Button variant={`secondary`} onClick={handleClick}>
-        <div className="flex justify-start items-start gap-1">
-          <Undo2Icon />
-          <span className="hidden md:block">Return</span>
-        </div>
-      </Button>
+      <Link href={userId ? `/profile/events` : `/events/grid`}>
+        <Button variant={`secondary`}>
+          <div className="flex justify-start items-start gap-1">
+            <Undo2Icon />
+            <span className="hidden md:block">Return</span>
+          </div>
+        </Button>
+      </Link>
     </>
   );
 };

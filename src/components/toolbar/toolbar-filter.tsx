@@ -4,15 +4,19 @@ import {
   FilterOptions,
   SportsEventType,
   SportsEventTypeArray,
+  SportsEventTypeKeys,
   SportsEventTypeMap,
   TargetAgeGroup,
   TargetAgeGroupArray,
+  TargetAgeGroupKeys,
   TargetAgeGroupMap,
   TargetGender,
   TargetGenderArray,
+  TargetGenderKeys,
   TargetGenderMap,
   TargetLevel,
   TargetLevelArray,
+  TargetLevelKeys,
   TargetLevelMap,
 } from "@/lib/types";
 import {
@@ -59,22 +63,8 @@ const ToolbarFilter = ({
   // 'delete all filters' is clicked
   const [deletePriceRange, setDeletePriceRange] = useState(false);
 
-  // each state is an object where every key is a filter option, and value is boolean
-  const [typeFilter, setTypeFilter] = useState<{
-    [key in SportsEventType]: boolean;
-  }>({} as any);
-  const [genderFilter, setGenderFilter] = useState<{
-    [key in TargetGender]: boolean;
-  }>({} as any);
-  const [ageFilter, setAgeFilter] = useState<{
-    [key in TargetAgeGroup]: boolean;
-  }>({} as any);
-  const [levelFilter, setLevelFilter] = useState<{
-    [key in TargetLevel]: boolean;
-  }>({} as any);
-
-  // T is generic type variable, makes function flexible
-  const initializeFilterState = <T extends string>(
+   // T is generic type variable, makes function flexible
+   const initializeFilterState = <T extends string>(
     optionsArray: T[],
     selectedFilters?: T[]
   ): Record<T, boolean> => {
@@ -86,21 +76,37 @@ const ToolbarFilter = ({
     }, {} as Record<T, boolean>);
   };
 
+  // each state is an object where every key is a filter option, and value is boolean
+  const [typeFilter, setTypeFilter] = useState<{
+    [key in SportsEventType]: boolean;
+  }>(initializeFilterState(SportsEventTypeKeys, filter?.event_type));
+  const [genderFilter, setGenderFilter] = useState<{
+    [key in TargetGender]: boolean;
+  }>(initializeFilterState(TargetGenderKeys, filter?.target_gender));
+  const [ageFilter, setAgeFilter] = useState<{
+    [key in TargetAgeGroup]: boolean;
+  }>(initializeFilterState(TargetAgeGroupKeys, filter?.target_age));
+  const [levelFilter, setLevelFilter] = useState<{
+    [key in TargetLevel]: boolean;
+  }>(initializeFilterState(TargetLevelKeys, filter?.target_level));
+
+ 
+
   // initialize state based on received filter props
-  useEffect(() => {
-    setTypeFilter(
-      initializeFilterState(SportsEventTypeArray, filter?.event_type)
-    );
-    setAgeFilter(
-      initializeFilterState(TargetAgeGroupArray, filter?.target_age)
-    );
-    setGenderFilter(
-      initializeFilterState(TargetGenderArray, filter?.target_gender)
-    );
-    setLevelFilter(
-      initializeFilterState(TargetLevelArray, filter?.target_level)
-    );
-  }, []); // run on mount
+  // useEffect(() => {
+  //   setTypeFilter(
+  //     initializeFilterState(SportsEventTypeArray, filter?.event_type)
+  //   );
+  //   setAgeFilter(
+  //     initializeFilterState(TargetAgeGroupArray, filter?.target_age)
+  //   );
+  //   setGenderFilter(
+  //     initializeFilterState(TargetGenderArray, filter?.target_gender)
+  //   );
+  //   setLevelFilter(
+  //     initializeFilterState(TargetLevelArray, filter?.target_level)
+  //   );
+  // }, []); // run on mount
 
   const handleChangeFilter = (
     value: string,

@@ -72,14 +72,14 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           <li>
             <h4 className="text-primary italic font-medium">Who is it for</h4>
             <div className="text-sm my-1">
-              <div className="flex justify-between">
+              <div className=" flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <PersonStandingIcon size={18} />
                   <h5>Age:</h5>
                 </div>
                 <h6 className="text-muted-foreground">Age group (birthyear)</h6>
               </div>
-              <ScrollArea className="h-20">
+              <ScrollArea className="mb-1 h-20">
                 <div className="text-right">
                   {event.target_age.map((age) => (
                     <p key={age}>{TargetAgeGroupMap[age]}</p>
@@ -87,7 +87,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
               </ScrollArea>
 
-              <div className="flex justify-between items-start">
+              <div className="mb-1 flex justify-between items-start">
                 <div className="flex justify-start items-center gap-1">
                   <BicepsFlexedIcon size={18} />
                   <h5>Skill level:</h5>
@@ -208,7 +208,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <LinkIcon size={18} />
                     <p>Links:</p>
                   </div>
-                  <ScrollArea className="w-full">
+                  <ScrollArea className="w-full min-h-10">
                     {event.event_links.map((link) => (
                       <div
                         key={link}

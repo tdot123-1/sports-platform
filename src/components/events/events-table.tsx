@@ -79,9 +79,9 @@ const EventsTable = async ({
                     <Button size={`sm`}>View</Button>
                   </Link>
                 </TableCell>
-                <TableCell>{event.event_name}</TableCell>
+                <TableCell className="max-w-32 overflow-hidden text-ellipsis text-nowrap">{event.event_name}</TableCell>
                 <TableCell>{SportsEventTypeMap[event.event_type]}</TableCell>
-                <TableCell>
+                <TableCell className="text-nowrap">
                   {event.start_date
                     ? event.start_date.toLocaleDateString()
                     : "TBD"}

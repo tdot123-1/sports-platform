@@ -185,6 +185,7 @@ export const createSearchParams = (
   priceFilter?: { filter: number; max: number }
 ) => {
   const params = new URLSearchParams(searchParams);
+  console.log("PARAMS: ", params.toString())
 
   params.set("page", "1");
 
