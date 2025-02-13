@@ -2,10 +2,12 @@ import {
   BicepsFlexedIcon,
   CalendarCheck2Icon,
   CalendarX2Icon,
+  HandCoinsIcon,
   MailIcon,
   MapPinIcon,
   PersonStandingIcon,
   PhoneIcon,
+  ReceiptTextIcon,
   UsersIcon,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
@@ -26,27 +28,32 @@ const EventDetailsSkeleton = () => {
         </li>
 
         <li>
-          <h4 className="text-orange-600 italic font-medium">Who is it for</h4>
+          <h4 className="text-primary italic font-medium">Who is it for</h4>
           <div className="text-sm my-1">
             <div className="flex justify-between">
               <div className="flex justify-start items-center gap-1">
                 <PersonStandingIcon size={18} />
-                <p>Age:</p>
+                <h5>Age:</h5>
               </div>
-
-              <Skeleton className="w-20 h-5" />
+              <h6 className="text-muted-foreground">Age group (birthyear)</h6>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-end">
+              <Skeleton className="w-36 h-16" />
+            </div>
+
+            <div className="flex justify-between items-start">
               <div className="flex justify-start items-center gap-1">
                 <BicepsFlexedIcon size={18} />
-                <p>Skill level:</p>
+                <h5>Skill level:</h5>
               </div>
-              <Skeleton className="w-20 h-5" />
+              <div className="flex justify-end">
+                <Skeleton className="w-36 h-16" />
+              </div>
             </div>
             <div className="flex justify-between">
               <div className="flex justify-start items-center gap-1">
                 <UsersIcon size={18} />
-                <p>Gender:</p>
+                <h5>Gender:</h5>
               </div>
               <Skeleton className="w-20 h-5" />
             </div>
@@ -76,7 +83,31 @@ const EventDetailsSkeleton = () => {
             </div>
 
             <div className="flex justify-end">
-              <Skeleton className="w-36 h-5" />
+              <Skeleton className="w-36 h-20" />
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <h4 className="text-primary italic font-medium">Pricing info</h4>
+          <div className="text-sm my-1">
+            <div className="flex justify-between">
+              <div className="flex justify-start items-center gap-1">
+                <HandCoinsIcon size={18} />
+                <p>Price estimate:</p>
+              </div>
+
+              <Skeleton className="w-20 h-5" />
+            </div>
+
+            <div>
+              <div className="flex justify-start items-center gap-1">
+                <ReceiptTextIcon size={18} />
+                <p>Additional pricing info:</p>
+              </div>
+              <div className="flex justify-end">
+                <Skeleton className="w-36 h-20" />
+              </div>
             </div>
           </div>
         </li>

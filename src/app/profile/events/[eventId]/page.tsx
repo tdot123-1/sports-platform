@@ -1,13 +1,24 @@
 import EventDetails from "@/components/events/event-details";
+import ReturnButton from "@/components/events/return-button";
 import DeleteEvent from "@/components/profile/delete-event";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
 import { EditIcon, Undo2Icon } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
+
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
+  
   return (
     <>
       <section className="px-4">
@@ -31,14 +42,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           </Suspense>
 
           <div className="w-fit mx-auto mt-4">
-            <Link href={`/profile/events`}>
-              <Button variant={`secondary`}>
-                <div className="flex justify-start items-start gap-1">
-                  <Undo2Icon />
-                  <span className="hidden md:block">Return</span>
-                </div>
-              </Button>
-            </Link>
+            <ReturnButton userId={data.user.id} />
           </div>
         </div>
       </section>

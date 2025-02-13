@@ -36,12 +36,12 @@ const EventCardSkeleton = () => {
               <h4 className="text-muted-foreground">For:</h4>
               <div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Age</p>
-                  <Skeleton className="w-20 h-5" />
+                  <p className="text-sm">Age(s)</p>
+                  <Skeleton className="w-20 h-12" />
                 </div>
                 <div className="flex justify-between">
-                  <p className="text-sm">Level</p>
-                  <Skeleton className="w-20 h-5" />
+                  <p className="text-sm">Level(s)</p>
+                  <Skeleton className="w-20 h-12" />
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Gender</p>

@@ -27,7 +27,7 @@ const EventsList = async ({
   priceFilter,
 }: EventsListProps) => {
   // test skeleton
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   const fetchedEvents = await fetchAllEvents(
     currentPage,
