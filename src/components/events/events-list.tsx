@@ -3,8 +3,6 @@ import {
   FilterOptions,
   SortOptions,
   SportsEvent,
-  SportsEventType,
-  TargetAgeGroup,
   TargetGender,
   TargetLevel,
 } from "@/lib/types";

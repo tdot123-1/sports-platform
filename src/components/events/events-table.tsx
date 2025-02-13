@@ -17,6 +17,7 @@ import {
 import { fetchAllEvents } from "@/lib/data/events/data";
 import { convertFetchedEvent } from "@/lib/utils";
 import Link from "next/link";
+import ViewDetailsButton from "./view-details-button";
 
 interface EventsTableProps {
   userId?: string;
@@ -86,9 +87,11 @@ const EventsTable = async ({
             events.map((event) => (
               <TableRow key={event.id}>
                 <TableCell>
-                  <Link href={`/events/${event.id}`}>
-                    <Button size={`sm`}>View</Button>
-                  </Link>
+                  <ViewDetailsButton
+                    eventId={event.id}
+                    size={`sm`}
+                    innerText="View"
+                  />
                 </TableCell>
                 <TableCell>{event.event_name}</TableCell>
                 <TableCell>{SportsEventTypeMap[event.event_type]}</TableCell>
@@ -111,7 +114,11 @@ const EventsTable = async ({
               </TableRow>
             ))
           ) : (
-            <div className="w-full mt-16 text-center">No events found!</div>
+            <TableRow>
+              <TableCell colSpan={9} className="py-4 text-center">
+                No events found!
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>

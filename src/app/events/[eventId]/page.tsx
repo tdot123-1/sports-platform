@@ -1,8 +1,6 @@
 import EventDetails from "@/components/events/event-details";
+import ReturnButton from "@/components/events/return-button";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
-import { Button } from "@/components/ui/button";
-import { Undo2Icon } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
@@ -16,15 +14,9 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           <Suspense fallback={<EventDetailsSkeleton />}>
             <EventDetails eventId={eventId} />
           </Suspense>
+
           <div className="w-fit mx-auto mt-4">
-            <Link href={`/events`}>
-              <Button variant={`secondary`}>
-                <div className="flex justify-start items-start gap-1">
-                  <Undo2Icon />
-                  <span className="hidden md:block">Return</span>
-                </div>
-              </Button>
-            </Link>
+            <ReturnButton origin={`table`} />
           </div>
         </div>
       </section>
