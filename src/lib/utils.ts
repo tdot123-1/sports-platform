@@ -67,6 +67,21 @@ export const generatePaginationMobile = (
   return [1, "...", currentPage, "...", totalPages];
 };
 
+// render array values in ui
+export const renderArrayField = (field: string[]) => {
+  if (!field.length) return;
+
+  if (field.length === 1) {
+    return `${field[0]}`;
+  }
+  if (field.length === 2) {
+    return `${field[0]}, ${field[1]}`;
+  }
+
+  return `${field[0]}, ${field[1]}, ...+${field.length - 2}`;
+};
+
+
 // dynamically apply filters to query
 export const applyQueryFilters = (query: any, filters: FilterOptions) => {
   Object.entries(filters).forEach(([key, value]) => {

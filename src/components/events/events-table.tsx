@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { fetchAllEvents } from "@/lib/data/events/data";
-import { convertFetchedEvent } from "@/lib/utils";
+import { convertFetchedEvent, renderArrayField } from "@/lib/utils";
 import Link from "next/link";
 
 interface EventsTableProps {
@@ -51,18 +51,7 @@ const EventsTable = async ({
     convertFetchedEvent(event)
   );
 
-  const renderArrayField = (field: string[]) => {
-    if (!field.length) return;
-
-    if (field.length === 1) {
-      return `${field[0]}`;
-    }
-    if (field.length === 2) {
-      return `${field[0]}, ${field[1]}`;
-    }
-
-    return `${field[0]}, ${field[1]}, ...+${field.length - 2}`;
-  };
+  
 
   return (
     <>

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
+import { renderArrayField } from "@/lib/utils";
 
 interface EventCardProps {
   event: SportsEvent;
@@ -61,13 +62,16 @@ const EventCard = ({ event, userId }: EventCardProps) => {
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>
-                  <ScrollArea className="h-16">
+                  {/* <ScrollArea className="h-16">
                     {event.target_age.map((age) => (
                       <p className="text-right text-sm" key={age}>
                         {age}
                       </p>
                     ))}
-                  </ScrollArea>
+                  </ScrollArea> */}
+                  <p className="text-right text-sm">
+                    {renderArrayField(event.target_age)}
+                  </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Level(s)</p>

@@ -37,7 +37,7 @@ const EventCardSkeleton = () => {
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>
-                  <Skeleton className="w-20 h-12" />
+                  <Skeleton className="w-20 h-6" />
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Level(s)</p>
