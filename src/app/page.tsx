@@ -1,4 +1,5 @@
 import NewEventsCarousel from "@/components/events/new-events/new-events-carousel";
+import UploadLogo from "@/components/profile/storage/upload-logo";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 
@@ -16,6 +17,9 @@ export default function Home() {
             </Suspense>
           </div>
         </div>
+      </section>
+      <section>
+        
       </section>
     </>
   );

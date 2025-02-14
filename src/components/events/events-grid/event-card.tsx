@@ -16,19 +16,24 @@ import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import { ScrollArea } from "../../ui/scroll-area";
 import { renderArrayField } from "@/lib/utils";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { fetchEventLogo } from "@/lib/data/storage/data";
 
 interface EventCardProps {
   event: SportsEvent;
   userId?: string;
 }
 
-const EventCard = ({ event, userId }: EventCardProps) => {
+const EventCard = async ({ event, userId }: EventCardProps) => {
+  const logoPublicUrl = event.event_logo_url
+    ? await fetchEventLogo(event.event_logo_url)
+    : null;
   return (
     <>
       <Card className="relative">
         <CardHeader className="text-center">
           <Avatar className="absolute top-2 right-2">
+            {logoPublicUrl && <AvatarImage src={logoPublicUrl} />}
             <AvatarFallback className="bg-primary opacity-55">
               Sports
             </AvatarFallback>

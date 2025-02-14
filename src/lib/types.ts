@@ -100,6 +100,7 @@ export interface SportsEvent {
   cost_currency: string;
   cost_description: string | null;
   event_links: string[] | null;
+  event_logo_url: string | null;
   user_id: string;
 }
 

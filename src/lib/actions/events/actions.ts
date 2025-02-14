@@ -303,7 +303,7 @@ export async function createEvent(prevState: State, formData: FormData) {
       return redirect("/login");
     }
 
-    const { data, error } = await supabase.from("events").insert([
+    const { error } = await supabase.from("events").insert([
       {
         event_name,
         event_type,
@@ -334,9 +334,11 @@ export async function createEvent(prevState: State, formData: FormData) {
       return { message: `Database error: ${error.message}`, success: false };
     }
 
-    console.log("Event added: ", data);
-    revalidatePath("/events");
+    revalidatePath("/events/grid");
+    revalidatePath("/events/table");
     revalidatePath("/profile/events");
+    revalidatePath("/profile/events");
+
     return { message: "", success: true };
   } catch (error) {
     console.error("Error creating event: ", error);
@@ -394,7 +396,7 @@ export async function updateEvent(
     // let supabase RLS handle authenticated user
     // only owner of row should be able to update
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("events")
       .update({
         event_name,
@@ -425,8 +427,9 @@ export async function updateEvent(
       return { message: `Database error: ${error.message}`, success: false };
     }
 
-    console.log("Event updated: ", data);
-    revalidatePath("/events");
+    revalidatePath("/events/grid");
+    revalidatePath("/events/table");
+    revalidatePath(`/events/${id}`);
     revalidatePath("/profile/events");
     revalidatePath(`/profile/events/${id}`);
     return { message: "", success: true };
@@ -450,7 +453,10 @@ export async function deleteEvent(eventId: string) {
       return { success: false, message: `Database error: ${error.message}` };
     }
 
-    revalidatePath("/events");
+    revalidatePath("/events/grid");
+    revalidatePath("/events/table");
+    revalidatePath(`/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}`);
     revalidatePath("/profile/events");
 
     return { success: true };
