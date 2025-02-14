@@ -33,7 +33,6 @@ const EventCard = ({ event, userId }: EventCardProps) => {
               Sports
             </AvatarFallback>
           </Avatar>
-
           <ScrollArea className="w-full h-8">
             <CardTitle>{event.event_name}</CardTitle>
           </ScrollArea>

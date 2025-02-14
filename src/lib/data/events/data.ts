@@ -86,6 +86,28 @@ export const fetchOneEvent = async (eventId: string) => {
   }
 };
 
+export const fetchNewEvents = async () => {
+  try {
+    const supabase = await createClient();
+
+    const { data: events, error } = await supabase
+      .from("events")
+      .select("*")
+      .order("updated_at", { ascending: false })
+      .range(0, 5);
+
+    if (error) {
+      console.error("Postgres error: ", error.message);
+      throw new Error(`Database error: ${error.code} ${error.message}`);
+    }
+
+    return events;
+  } catch (error) {
+    console.error("Error fetching newest events");
+    return [];
+  }
+};
+
 export const fetchEventsPages = async (
   userId?: string,
   searchQuery?: string,
