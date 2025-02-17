@@ -42,8 +42,11 @@ const SidebarEventsSub = ({
                 "bg-zinc-100": pathname.startsWith("/events"),
               })}
             >
-              <TrophyIcon />
-              <span>Events</span>
+              
+                <TrophyIcon />
+                <span>Events</span>
+             
+
               {isOpen ? <ChevronDown /> : <ChevronRight />}
             </SidebarMenuButton>
           </CollapsibleTrigger>

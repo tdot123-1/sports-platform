@@ -12,6 +12,8 @@ import {
 import { CurrencyCodes } from "@/lib/types";
 import { convertCurrencyValueToString } from "@/lib/utils";
 import { ChangeEvent, useState } from "react";
+import CurrencySelect from "./currency-select";
+import { currencyList } from "@/lib/countries";
 
 interface CostEstimateProps {
   name: string;
@@ -30,7 +32,9 @@ const CostEstimate = ({
 }: CostEstimateProps) => {
   // set initial input
   const [costInput, setCostInput] = useState<string | undefined>(
-    cost_estimate !== undefined ? convertCurrencyValueToString(cost_estimate) : ""
+    cost_estimate !== undefined
+      ? convertCurrencyValueToString(cost_estimate)
+      : ""
   );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +96,7 @@ const CostEstimate = ({
         <Label hidden className="hidden" htmlFor="cost_currency">
           Select currency
         </Label>
-        <Select
+        {/* <Select
           name="cost_currency"
           defaultValue={cost_currency ? cost_currency : "EUR"}
           disabled={pending}
@@ -107,7 +111,14 @@ const CostEstimate = ({
               </SelectItem>
             ))}
           </SelectContent>
-        </Select>
+        </Select> */}
+        <CurrencySelect
+          currencyList={currencyList}
+          cost_currency={cost_currency}
+          name="cost_currency"
+          pending={pending}
+          describedBy="cost_currency-error"
+        />
         <Input
           id={name}
           name={name}

@@ -64,10 +64,12 @@ const CurrencySelect = ({
             value={selectedCurrency}
             id={name}
           >
-            {/* {selectedCurrency
-              ? currencyList.find((c) => c.code === selectedCurrency)?.currency
-              : "Select currency..."} */}
-            {displayValue}
+            {/* <span className="hidden md:block">{displayValue}</span> */}
+            <span>
+              {selectedCurrency
+                ? currencyList.find((c) => c.code === selectedCurrency)?.code
+                : "Select currency..."}
+            </span>
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>

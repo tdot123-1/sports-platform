@@ -346,6 +346,14 @@ const EventForm = ({
                 </p>
               ))}
           </div>
+          <div id="cost_currency-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.cost_currency &&
+              state.errors.cost_currency.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
         <div className="mb-4">
           {/** cost description */}
@@ -425,7 +433,7 @@ const EventForm = ({
             pattern="^\+?[0-9]\d{1,14}$"
             placeholder="+123456789"
           />
-          
+
           <div id="contact_phone-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_phone &&
               state.errors.contact_phone.map((error) => (
