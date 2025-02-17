@@ -15,31 +15,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Country } from "@/lib/types";
-
+import { Currency } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 
-interface CountrySelectProps {
-  countryList: Country[];
+interface CurrencySelectProps {
+  currencyList: Currency[];
   pending: boolean;
-  address_country?: string;
+  cost_currency?: string;
   name: string;
   describedBy: string;
 }
 
-const CountrySelect = ({
-  countryList,
+const CurrencySelect = ({
+  currencyList,
   pending,
-  address_country,
+  cost_currency,
   name,
   describedBy,
-}: CountrySelectProps) => {
+}: CurrencySelectProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(
-    address_country ? address_country : ""
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    cost_currency ? cost_currency : "EUR"
   );
+
+  // find selected currency code in list
+  const selectedCurrencyInfo = selectedCurrency
+    ? currencyList.find((c) => c.code === selectedCurrency)
+    : null;
+
+  // format display: "Currency Name (Code)"
+  const displayValue = selectedCurrencyInfo
+    ? `${selectedCurrencyInfo.currency} (${selectedCurrencyInfo.code})`
+    : "Select currency...";
 
   return (
     <>
@@ -49,16 +58,16 @@ const CountrySelect = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full lg:w-1/2 justify-between"
+            className="w-fit justify-between"
             disabled={pending}
             aria-describedby={describedBy}
-            value={selectedCountry}
+            value={selectedCurrency}
             id={name}
           >
-            {selectedCountry
-              ? countryList.find((country) => country.code === selectedCountry)
-                  ?.name
-              : "Select country..."}
+            {/* {selectedCurrency
+              ? currencyList.find((c) => c.code === selectedCurrency)?.currency
+              : "Select currency..."} */}
+            {displayValue}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -66,29 +75,29 @@ const CountrySelect = ({
           <Command>
             <CommandInput
               disabled={pending}
-              placeholder="Search country..."
+              placeholder="Search currency..."
               className="h-9"
             />
 
             <CommandList>
-              <CommandEmpty>Country not found.</CommandEmpty>
+              <CommandEmpty>Currency not found.</CommandEmpty>
               <CommandGroup>
-                {countryList?.map((country) => (
+                {currencyList?.map((c) => (
                   <CommandItem
-                    key={country.code}
-                    value={country.name}
+                    key={c.code}
+                    value={c.currency}
                     onSelect={() => {
-                      setSelectedCountry(
-                        country.code === selectedCountry ? "" : country.code
+                      setSelectedCurrency(
+                        c.code === selectedCurrency ? "" : c.code
                       );
                       setOpen(false);
                     }}
                   >
-                    {country.name}
+                    {`${c.currency} (${c.code})`}
                     <Check
                       className={cn(
                         "ml-auto",
-                        selectedCountry === country.code
+                        selectedCurrency === c.code
                           ? "opacity-100"
                           : "opacity-0"
                       )}
@@ -103,7 +112,7 @@ const CountrySelect = ({
       <Input
         name={name}
         type="hidden"
-        value={selectedCountry}
+        value={selectedCurrency}
         readOnly
         hidden
         className="hidden"
@@ -113,4 +122,4 @@ const CountrySelect = ({
   );
 };
 
-export default CountrySelect;
+export default CurrencySelect;

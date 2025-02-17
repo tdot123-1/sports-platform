@@ -18,10 +18,10 @@ const NewEventsCarousel = ({ events }: { events: SportsEvent[] }) => {
         opts={{ loop: true, align: `center` }}
         plugins={[
           Autoplay({
-            delay: 3000,
+            delay: 2500,
           }),
         ]}
-        className="w-48 md:w-96 lg:w-9/12 max-w-screen-lg"
+        className="w-48 md:w-96 lg:w-9/12 max-w-screen-lg cursor-grab"
       >
         <CarouselContent>
           {events.map((event) => (

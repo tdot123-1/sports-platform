@@ -117,7 +117,7 @@ export const SortOptionsMap = {
   event_name: "Event name",
   start_date: "Start date",
   end_date: "End date",
-  cost_estimate: "Price"
+  cost_estimate: "Price",
 } as const;
 
 export type SortByKey = keyof typeof SortOptionsMap;
@@ -140,4 +140,9 @@ export const CurrencyCodes = ["EUR", "USD", "GBP", "CAD", "AUD"] as const;
 export interface Country {
   code: string;
   name: string;
+}
+
+export interface Currency {
+  code: string;
+  currency: string;
 }

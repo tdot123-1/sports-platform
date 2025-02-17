@@ -1,5 +1,7 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
+import CurrencySelect from "@/components/profile/events-form/form-components/currency-select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { currencyList } from "@/lib/countries";
 import { Suspense } from "react";
 
 export default function Home() {
@@ -17,7 +19,14 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section></section>
+      <section>
+        <CurrencySelect
+          pending={false}
+          name="cost_currency"
+          describedBy="cost_currency-error"
+          currencyList={currencyList}
+        />
+      </section>
     </>
   );
 }

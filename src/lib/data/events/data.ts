@@ -40,6 +40,8 @@ export const fetchAllEvents = async (
 
     if (sort?.sort_by) {
       query = query.order(sort.sort_by, { ascending: sort.order === "asc" });
+    } else {
+      query = query.order("inserted_at", { ascending: false });
     }
 
     const { data: events, error } = await query.range(

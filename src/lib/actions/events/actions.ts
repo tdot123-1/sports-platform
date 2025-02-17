@@ -1,6 +1,6 @@
 "use server";
 
-import { validCountryCodes } from "@/lib/countries";
+import { validCountryCodes, validCurrencyCodes } from "@/lib/countries";
 import { createClient } from "@/lib/supabase/server";
 import {
   CurrencyCodes,
@@ -177,7 +177,7 @@ const FormSchema = z.object({
     .max(2000, { message: "Maximum characters exceeded" })
     .nullable(),
   cost_currency: z
-    .enum(CurrencyCodes, { message: "Please select a valid currency" })
+    .enum(validCurrencyCodes, { message: "Please select a valid currency" })
     .default("EUR"),
 });
 
