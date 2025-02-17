@@ -108,6 +108,7 @@ const LinksInput = ({
           id="add_links"
           name="add_links"
           disabled={pending || addedLinks.length >= 5}
+          type={`url`}
         />
         <Button disabled={pending} onClick={handleSubmit} type="button">
           Add link

@@ -118,6 +118,7 @@ const CostEstimate = ({
           disabled={pending}
           maxLength={10}
           aria-describedby={describedBy}
+          required
         />
       </div>
     </>

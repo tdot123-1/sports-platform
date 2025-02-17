@@ -86,6 +86,8 @@ const AddressInput = ({
                   type="text"
                   aria-describedby={x.describedby}
                   defaultValue={defaultValues[x.name] ?? ""}
+                  required={x.required}
+                  maxLength={254}
                 />
                 {x.instruction && (
                   <p className="text-xs italic">{x.instruction}</p>

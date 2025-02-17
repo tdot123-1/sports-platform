@@ -22,7 +22,7 @@ import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
 import Link from "next/link";
 import { Separator } from "../../ui/separator";
-import DatePicker from "../date-picker";
+import DatePicker from "./form-components/date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";
@@ -66,6 +66,8 @@ const EventForm = ({
             aria-describedby="event_name-error"
             disabled={pending}
             defaultValue={event ? event.event_name : ""}
+            required
+            maxLength={254}
           />
           <div id="event_name-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_name &&
@@ -87,6 +89,7 @@ const EventForm = ({
             disabled={pending}
             name="event_type"
             defaultValue={event ? event.event_type : undefined}
+            required
           >
             <SelectTrigger id="event_type">
               <SelectValue aria-describedby="event_type-error" />
@@ -211,6 +214,7 @@ const EventForm = ({
             defaultValue={
               event?.event_description ? event.event_description : ""
             }
+            maxLength={2000}
           />
           <div
             id="event_description-error"
@@ -290,6 +294,7 @@ const EventForm = ({
             disabled={pending}
             name="target_gender"
             defaultValue={event ? event.target_gender : undefined}
+            required
           >
             <SelectTrigger id="target_gender">
               <SelectValue aria-describedby="target_gender-error" />
@@ -388,10 +393,11 @@ const EventForm = ({
           <Input
             id="contact_email"
             name="contact_email"
-            type="text"
+            type={`email`}
             aria-describedby="contact_email-error"
             disabled={pending}
             defaultValue={event ? event.contact_email : ""}
+            required
           />
           <div id="contact_email-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_email &&
@@ -411,11 +417,15 @@ const EventForm = ({
           <Input
             id="contact_phone"
             name="contact_phone"
-            type="text"
+            type={`tel`}
             aria-describedby="contact_phone-error"
             disabled={pending}
             defaultValue={event ? event.contact_phone : ""}
+            maxLength={15}
+            pattern="^\+?[0-9]\d{1,14}$"
+            placeholder="+123456789"
           />
+          
           <div id="contact_phone-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_phone &&
               state.errors.contact_phone.map((error) => (

@@ -1,15 +1,15 @@
 "use client";
 
 import { CalendarIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../../../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import { useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Calendar } from "../ui/calendar";
-import { Input } from "../ui/input";
-import { Checkbox } from "../ui/checkbox";
-import { Label } from "../ui/label";
+import { Calendar } from "../../../ui/calendar";
+import { Input } from "../../../ui/input";
+import { Checkbox } from "../../../ui/checkbox";
+import { Label } from "../../../ui/label";
 
 interface DatePickerProps {
   name: string;

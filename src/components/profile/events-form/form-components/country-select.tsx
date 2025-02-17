@@ -111,6 +111,7 @@ const CountrySelect = ({
         readOnly
         hidden
         className="hidden"
+        required
       />
     </>
   );
