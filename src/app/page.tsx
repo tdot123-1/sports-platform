@@ -1,5 +1,6 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
 import CurrencySelect from "@/components/profile/events-form/form-components/currency-select";
+import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { currencyList } from "@/lib/countries";
 import { Suspense } from "react";
@@ -13,7 +14,7 @@ export default function Home() {
         <div className="">
           <h2 className="text-2xl font-mono text-primary px-4">What's New</h2>
           <div className="w-full flex-shrink flex justify-center">
-            <Suspense fallback={<Skeleton className="w-1/2 h-36" />}>
+            <Suspense fallback={<CarouselSkeleton />}>
               <NewEventsCarouselWrapper />
             </Suspense>
           </div>
