@@ -11,9 +11,9 @@ export default function Home() {
       <h1>Sports platform</h1>
 
       <section className="my-16">
-        <div className="">
+        <div className="flex flex-col">
           <h2 className="text-2xl font-mono text-primary px-4">What's New</h2>
-          <div className="w-full flex-shrink flex justify-center">
+          <div className="flex-1 min-w-0 flex justify-center">
             <Suspense fallback={<CarouselSkeleton />}>
               <NewEventsCarouselWrapper />
             </Suspense>

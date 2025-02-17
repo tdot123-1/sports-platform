@@ -21,11 +21,11 @@ const NewEventsCarousel = ({ events }: { events: SportsEvent[] }) => {
             delay: 2500,
           }),
         ]}
-        className="w-48 sm:w-9/12  max-w-screen-lg cursor-grab"
+        className="w-full max-w-48 sm:max-w-sm md:max-w-lg lg:max-w-4xl cursor-grab"
       >
         <CarouselContent>
           {events.map((event) => (
-            <CarouselItem className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4" key={event.id}>
+            <CarouselItem className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex-shrink" key={event.id}>
               <div className="p-1">
                 <NewEventCard event={event} />
               </div>

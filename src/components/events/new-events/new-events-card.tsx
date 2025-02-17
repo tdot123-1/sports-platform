@@ -15,7 +15,7 @@ const NewEventCard = ({ event }: { event: SportsEvent }) => {
           </div>
 
           <p>{SportsEventTypeMap[event.event_type]}</p>
-          <p className="mb-8">
+          <p className="mb-2 text-ellipsis overflow-hidden text-nowrap">
             {event.address_city}, {event.address_country}
           </p>
 
