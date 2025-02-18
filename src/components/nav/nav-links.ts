@@ -1,5 +1,6 @@
 import {
   BookUserIcon,
+  CalendarIcon,
   CookieIcon,
   DatabaseIcon,
   GridIcon,
@@ -53,6 +54,11 @@ export const eventSubLinks = [
     name: "Map view",
     href: "/events/map",
     icon: MapIcon,
+  },
+  {
+    name: "Calendar view",
+    href: "/events/calendar",
+    icon: CalendarIcon,
   },
 ];
 
