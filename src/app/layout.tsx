@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSideBar />
-          <main className="flex-shrink w-screen">
+          <main className="flex-1 min-w-0">
             <Header />
             <section className="font-sans">{children}</section>
           </main>

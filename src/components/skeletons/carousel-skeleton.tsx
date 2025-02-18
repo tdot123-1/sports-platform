@@ -16,18 +16,18 @@ const CarouselSkeleton = () => {
     <>
       <Carousel
         opts={{ loop: true, align: `center` }}
-        className="w-48 sm:w-9/12  max-w-screen-lg"
+        className="w-full min-w-0 max-w-48 sm:max-w-sm md:max-w-lg lg:max-w-2xl xl:max-w-3xl"
       >
         <CarouselContent>
           {events.map((_, i) => (
             <CarouselItem
-              className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+              className="sm:basis-1/2 md:basis-1/3 xl:basis-1/4 flex-shrink"
               key={i}
             >
               <div className="p-1">
                 <Card className="max-w-md">
                   <CardContent className="flex flex-col gap-2 aspect-square items-center justify-center">
-                    <div className="w-full mb-3">
+                    <div className="w-full mb-3 mt-2">
                       <Skeleton className="w-full h-4" />
                     </div>
                     <div className="w-full mb-3">
