@@ -5,7 +5,11 @@ import {
   TargetAgeGroupMap,
   TargetLevelMap,
 } from "@/lib/types";
-import { convertCurrencyValueToString, convertFetchedEvent } from "@/lib/utils";
+import {
+  convertCurrencyValueToString,
+  convertFetchedEvent,
+  formatCurrencyForDisplay,
+} from "@/lib/utils";
 import {
   BanknoteIcon,
   BicepsFlexedIcon,
@@ -169,8 +173,10 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
 
                 <p>
-                  {convertCurrencyValueToString(event.cost_estimate)}{" "}
-                  {event.cost_currency}
+                  {formatCurrencyForDisplay(
+                    event.cost_estimate,
+                    event.cost_currency
+                  )}
                 </p>
               </div>
 

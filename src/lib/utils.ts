@@ -234,15 +234,29 @@ export const constructFilterOptions = (state: any) => {
 
 export const convertCurrencyStringToValue = (str: string) => {
   // convert string (ex. 10.55) to value in cents (1055)
+  // normalize input
   const formattedStr = str.replace(",", ".").trim();
 
-  const valuInCents = Math.round(parseFloat(formattedStr) * 100);
+  // validate input
+  const parsedValue = parseFloat(formattedStr);
+  if (isNaN(parsedValue)) {
+    throw new Error("Invalid currency string format");
+  }
 
-  return valuInCents;
+  const valueInCents = Math.round(parsedValue * 100);
+  return valueInCents;
 };
 
 export const convertCurrencyValueToString = (nr: number) => {
+  // convert value in cents (1055) to currency string (10.55)
   return (nr / 100).toFixed(2);
+};
+
+export const formatCurrencyForDisplay = (nr: number, currency: string) => {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: currency,
+  }).format(nr / 100);
 };
 
 // improved function -> less repitition, less unnecessary variables
@@ -263,7 +277,6 @@ export const formatRawFormData = (formData: FormData) => {
 
   const parseDate = (key: string) => {
     const value = formData.get(key);
-    console.log("DATE: ", value)
     return typeof value === "string" ? new Date(value) : null;
   };
 
@@ -278,12 +291,6 @@ export const formatRawFormData = (formData: FormData) => {
     contact_phone: getOptional("contact_phone"),
 
     // transform dates to Date objects
-    // start_date: getOptional("start_date")
-    //   ? new Date(getOptional("start_date")!)
-    //   : null,
-    // end_date: getOptional("end_date")
-    //   ? new Date(getOptional("end_date")!)
-    //   : null,
     start_date: parseDate("start_date"),
     end_date: parseDate("end_date"),
 
