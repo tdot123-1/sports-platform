@@ -81,7 +81,6 @@ export const renderArrayField = (field: string[]) => {
   return `${field[0]}, ${field[1]}, ...+${field.length - 2}`;
 };
 
-
 // dynamically apply filters to query
 export const applyQueryFilters = (query: any, filters: FilterOptions) => {
   Object.entries(filters).forEach(([key, value]) => {
@@ -185,7 +184,7 @@ export const createSearchParams = (
   priceFilter?: { filter: number; max: number }
 ) => {
   const params = new URLSearchParams(searchParams);
-  console.log("PARAMS: ", params.toString())
+  console.log("PARAMS: ", params.toString());
 
   params.set("page", "1");
 
@@ -262,6 +261,12 @@ export const formatRawFormData = (formData: FormData) => {
     return value ? value.toString().split(",") : null;
   };
 
+  const parseDate = (key: string) => {
+    const value = formData.get(key);
+    console.log("DATE: ", value)
+    return typeof value === "string" ? new Date(value) : null;
+  };
+
   return {
     ...rawFormData,
     // set empty or missing fields to null
@@ -273,12 +278,14 @@ export const formatRawFormData = (formData: FormData) => {
     contact_phone: getOptional("contact_phone"),
 
     // transform dates to Date objects
-    start_date: getOptional("start_date")
-      ? new Date(getOptional("start_date")!)
-      : null,
-    end_date: getOptional("end_date")
-      ? new Date(getOptional("end_date")!)
-      : null,
+    // start_date: getOptional("start_date")
+    //   ? new Date(getOptional("start_date")!)
+    //   : null,
+    // end_date: getOptional("end_date")
+    //   ? new Date(getOptional("end_date")!)
+    //   : null,
+    start_date: parseDate("start_date"),
+    end_date: parseDate("end_date"),
 
     // transform comma-separated strings into arrays
     target_age: getArray("target_age"),

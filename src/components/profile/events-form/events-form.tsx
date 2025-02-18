@@ -29,6 +29,7 @@ import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
 import AddressInput from "./form-components/address-input";
 import CountrySelect from "./form-components/country-select";
+import DateRangePicker from "./form-components/date-range-picker";
 
 interface EventFormProps {
   state: State;
@@ -160,17 +161,17 @@ const EventForm = ({
 
         <div className="mb-4">
           <Label htmlFor="start_date">
-            Start date <span className="text-destructive">*</span>
+            Dates <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
-            Provide the starting date of your event.
+            Provide the start and end dates of your event.
           </p>
-          <DatePicker
-            name="start_date"
-            eventDate={event?.start_date || undefined}
+          <DateRangePicker
+            name={`start_date`}
+            startDate={event?.start_date ? event.start_date : undefined}
+            endDate={event?.end_date ? event.end_date : undefined}
             pending={pending}
             describedBy="start_date-error"
-            required
           />
           <div id="start_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.start_date &&
@@ -179,20 +180,6 @@ const EventForm = ({
                   {error}
                 </p>
               ))}
-          </div>
-        </div>
-        <div className="mb-4">
-          <Label htmlFor="end_date">End date</Label>
-          <p className="text-xs italic">
-            Provide the end date of your event if applicable.
-          </p>
-          <DatePicker
-            name="end_date"
-            eventDate={event?.end_date || undefined}
-            pending={pending}
-            describedBy="end_date-error"
-          />
-          <div id="end_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.end_date &&
               state.errors.end_date.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
@@ -201,6 +188,7 @@ const EventForm = ({
               ))}
           </div>
         </div>
+
         <div className="mb-4">
           <Label htmlFor="event_description">Event Description</Label>
           <p className="text-xs italic">

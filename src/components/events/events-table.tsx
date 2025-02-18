@@ -17,6 +17,7 @@ import {
 import { fetchAllEvents } from "@/lib/data/events/data";
 import { convertFetchedEvent, renderArrayField } from "@/lib/utils";
 import Link from "next/link";
+import { format } from "date-fns";
 
 interface EventsTableProps {
   userId?: string;
@@ -51,8 +52,6 @@ const EventsTable = async ({
     convertFetchedEvent(event)
   );
 
-  
-
   return (
     <>
       <Table className="my-6">
@@ -79,11 +78,13 @@ const EventsTable = async ({
                     <Button size={`sm`}>View</Button>
                   </Link>
                 </TableCell>
-                <TableCell className="max-w-32 overflow-hidden text-ellipsis text-nowrap">{event.event_name}</TableCell>
+                <TableCell className="max-w-32 overflow-hidden text-ellipsis text-nowrap">
+                  {event.event_name}
+                </TableCell>
                 <TableCell>{SportsEventTypeMap[event.event_type]}</TableCell>
                 <TableCell className="text-nowrap">
                   {event.start_date
-                    ? event.start_date.toLocaleDateString()
+                    ? format(event.start_date, "LLL dd, y")
                     : "TBD"}
                 </TableCell>
                 <TableCell>

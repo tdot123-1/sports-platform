@@ -18,6 +18,7 @@ import { ScrollArea } from "../../ui/scroll-area";
 import { renderArrayField } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchEventLogo } from "@/lib/data/storage/data";
+import { format } from "date-fns";
 
 interface EventCardProps {
   event: SportsEvent;
@@ -55,7 +56,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
               <h4 className="text-muted-foreground">When:</h4>
               <p className="text-right text-sm">
                 {event.start_date
-                  ? event.start_date.toLocaleDateString()
+                  ? format(event.start_date, "LLL dd, y")
                   : "TBD"}
               </p>
             </li>
@@ -63,8 +64,9 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
             <li>
               <h4 className="text-muted-foreground">Where:</h4>
               <div>
-                <p className="text-right text-sm">{event.address_city}</p>
-                <p className="text-right text-sm">{event.address_country}</p>
+                <p className="text-right text-sm">
+                  {event.address_city}, {event.address_country}
+                </p>
               </div>
             </li>
             <Separator className="my-1" />

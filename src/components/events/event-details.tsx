@@ -27,6 +27,7 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { countryNameMap } from "@/lib/countries";
 import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
+import { format } from "date-fns";
 
 interface EventDetailsProps {
   eventId: string;
@@ -134,7 +135,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
                 <p>
                   {event.start_date
-                    ? event.start_date.toLocaleDateString()
+                    ? format(event.start_date, "LLL dd, y")
                     : "TBD"}
                 </p>
               </div>
@@ -144,7 +145,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   <h5 className="font-semibold">Ends on:</h5>
                 </div>
                 <p>
-                  {event.end_date ? event.end_date.toLocaleDateString() : "N/A"}
+                  {event.end_date ? format(event.end_date, "LLL dd, y") : "N/A"}
                 </p>
               </div>
               <div className="flex justify-start items-center gap-1">

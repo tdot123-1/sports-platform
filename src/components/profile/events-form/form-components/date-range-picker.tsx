@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -46,8 +46,8 @@ const DateRangePicker = ({
   };
 
   useEffect(() => {
-    console.log("from: ", date?.from?.toString());
-    console.log("to: ", date?.to?.toString());
+    console.log("from: ", date?.from ? format(date.from, "yyyy-MM-dd") : null);
+    console.log("to: ", date?.to ? format(date.to, "yyyy-MM-dd") : null);
   }, [date]);
 
   return (
@@ -89,6 +89,7 @@ const DateRangePicker = ({
               selected={date}
               onSelect={setDate}
               numberOfMonths={1}
+              disabled={pending || checked}
             />
           </PopoverContent>
         </Popover>
@@ -96,7 +97,7 @@ const DateRangePicker = ({
       <Input
         name={"start_date"}
         type="hidden"
-        value={date?.from ? date.from.toString() : ""}
+        value={date?.from ? format(date.from, "yyyy-MM-dd") : ""}
         readOnly
         hidden
         className="hidden"
@@ -104,7 +105,7 @@ const DateRangePicker = ({
       <Input
         name={"end_date"}
         type="hidden"
-        value={date?.to ? date.to.toString() : ""}
+        value={date?.to ? format(date.to, "yyyy-MM-dd") : ""}
         readOnly
         hidden
         className="hidden"
