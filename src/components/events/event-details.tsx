@@ -25,6 +25,8 @@ import {
 import { notFound } from "next/navigation";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { countryNameMap } from "@/lib/countries";
+import { Separator } from "../ui/separator";
+import { Skeleton } from "../ui/skeleton";
 
 interface EventDetailsProps {
   eventId: string;
@@ -51,13 +53,13 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           {event.event_name}
         </h3>
         <ul>
-          <li>
+          <li className="py-2">
             <h4 className="text-primary italic font-medium ">
               About the event
             </h4>
             <div className="text-sm my-1">
               <p>{SportsEventTypeMap[event.event_type]}</p>
-              <ScrollArea className="h-28">
+              <ScrollArea className="min-h-14 max-h-28">
                 {event.event_description ? (
                   <p className="mt-1">{event.event_description}</p>
                 ) : (
@@ -68,59 +70,67 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               </ScrollArea>
             </div>
           </li>
+          <li className="py-2">
+            <div className="flex justify-evenly">
+              <Skeleton className="w-1/5 aspect-square" />
+              <Skeleton className="w-1/5 aspect-square" />
+              <Skeleton className="w-1/5 aspect-square" />
+            </div>
+          </li>
 
-          <li>
+          <li className="py-2">
             <h4 className="text-primary italic font-medium">Who is it for</h4>
             <div className="text-sm my-1">
-              <div className=" flex justify-between">
+              <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <PersonStandingIcon size={18} />
-                  <h5>Age:</h5>
+                  <h5 className="font-semibold">Age(s):</h5>
                 </div>
                 <h6 className="text-muted-foreground">Age group (birthyear)</h6>
               </div>
-              <ScrollArea className="mb-1 h-20">
-                <div className="text-right">
-                  {event.target_age.map((age) => (
-                    <p key={age}>{TargetAgeGroupMap[age]}</p>
-                  ))}
-                </div>
-              </ScrollArea>
-
-              <div className="mb-1 flex justify-between items-start">
+              {/* <ScrollArea className="mb-1 h-20"> */}
+              <div className="text-right">
+                {event.target_age.map((age) => (
+                  <p key={age}>{TargetAgeGroupMap[age]}</p>
+                ))}
+              </div>
+              {/* </ScrollArea> */}
+              <Separator className="my-2" />
+              <div className="flex justify-between items-start">
                 <div className="flex justify-start items-center gap-1">
                   <BicepsFlexedIcon size={18} />
-                  <h5>Skill level:</h5>
+                  <h5 className="font-semibold">Skill level(s):</h5>
                 </div>
-                <ScrollArea className="h-14">
-                  <div className="text-right">
-                    {event.target_level ? (
-                      event.target_level.map((level) => (
-                        <p key={level}>{TargetLevelMap[level]}</p>
-                      ))
-                    ) : (
-                      <p>N/A</p>
-                    )}
-                  </div>
-                </ScrollArea>
+                {/* <ScrollArea className="h-14"> */}
+                <div className="text-right">
+                  {event.target_level ? (
+                    event.target_level.map((level) => (
+                      <p key={level}>{TargetLevelMap[level]}</p>
+                    ))
+                  ) : (
+                    <p>N/A</p>
+                  )}
+                </div>
+                {/* </ScrollArea> */}
               </div>
+              <Separator className="my-2" />
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <UsersIcon size={18} />
-                  <h5>Gender:</h5>
+                  <h5 className="font-semibold">Gender:</h5>
                 </div>
                 <p>{event.target_gender}</p>
               </div>
             </div>
           </li>
 
-          <li>
+          <li className="py-2">
             <h4 className="text-primary italic font-medium">When and where</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <CalendarCheck2Icon size={18} />
-                  <h5>Starts on:</h5>
+                  <h5 className="font-semibold">Starts on:</h5>
                 </div>
                 <p>
                   {event.start_date
@@ -131,7 +141,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <CalendarX2Icon size={18} />
-                  <h5>Ends on:</h5>
+                  <h5 className="font-semibold">Ends on:</h5>
                 </div>
                 <p>
                   {event.end_date ? event.end_date.toLocaleDateString() : "N/A"}
@@ -139,29 +149,22 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               </div>
               <div className="flex justify-start items-center gap-1">
                 <MapPinIcon size={18} />
-                <h5>Address:</h5>
+                <h5 className="font-semibold">Location:</h5>
               </div>
-              <p className="text-right">
-                {event.address_line_one} {event.address_line_two}
-              </p>
-
-              <p className="text-right">{event.address_postal_code}</p>
-              <p className="text-right">{event.address_city}</p>
-              <p className="text-right">{event.address_region}</p>
 
               <p className="text-right">
-                {countryNameMap[event.address_country]}
+                {event.address_city}, {countryNameMap[event.address_country]}
               </p>
             </div>
           </li>
 
-          <li>
+          <li className="py-2">
             <h4 className="text-primary italic font-medium">Pricing info</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
                   <HandCoinsIcon size={18} />
-                  <p>Price estimate:</p>
+                  <h5 className="font-semibold">Price estimate:</h5>
                 </div>
 
                 <p>
@@ -169,13 +172,15 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   {event.cost_currency}
                 </p>
               </div>
+
               {event.cost_description && (
                 <div>
+                  <Separator className="my-2" />
                   <div className="flex justify-start items-center gap-1">
                     <ReceiptTextIcon size={18} />
-                    <p>Additional pricing info:</p>
+                    <h5 className="font-semibold">Additional pricing info:</h5>
                   </div>
-                  <ScrollArea className="h-28">
+                  <ScrollArea className="min-h-14 max-h-28">
                     <p className="text-right">{event.cost_description}</p>
                   </ScrollArea>
                 </div>
@@ -183,21 +188,21 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             </div>
           </li>
 
-          <li>
+          <li className="py-2">
             <h4 className="text-primary italic font-medium">
               How to get in touch
             </h4>
             <div className="text-sm my-1">
               <div className="flex justify-start items-center gap-1">
                 <MailIcon size={18} />
-                <p>Email:</p>
+                <h5 className="font-semibold">Email:</h5>
               </div>
               <p className="text-right">{event.contact_email}</p>
               {event.contact_phone && (
                 <>
                   <div className="flex justify-start items-center gap-1">
                     <PhoneIcon size={18} />
-                    <p>Phone:</p>
+                    <h5 className="font-semibold">Phone:</h5>
                   </div>
                   <p className="text-right">{event.contact_phone}</p>
                 </>
@@ -206,7 +211,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 <>
                   <div className="flex justify-start items-center gap-1">
                     <LinkIcon size={18} />
-                    <p>Links:</p>
+                    <h5 className="font-semibold">Links:</h5>
                   </div>
                   <ScrollArea className="w-full min-h-10">
                     {event.event_links.map((link) => (

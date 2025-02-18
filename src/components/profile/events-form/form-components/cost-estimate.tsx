@@ -2,14 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { CurrencyCodes } from "@/lib/types";
+
 import { convertCurrencyValueToString } from "@/lib/utils";
 import { ChangeEvent, useState } from "react";
 import CurrencySelect from "./currency-select";
@@ -96,22 +89,7 @@ const CostEstimate = ({
         <Label hidden className="hidden" htmlFor="cost_currency">
           Select currency
         </Label>
-        {/* <Select
-          name="cost_currency"
-          defaultValue={cost_currency ? cost_currency : "EUR"}
-          disabled={pending}
-        >
-          <SelectTrigger id={"cost_currency"} className="w-fit">
-            <SelectValue aria-describedby="cost_currency-error" />
-          </SelectTrigger>
-          <SelectContent>
-            {CurrencyCodes.map((code) => (
-              <SelectItem key={code} value={code}>
-                {code}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select> */}
+        
         <CurrencySelect
           currencyList={currencyList}
           cost_currency={cost_currency}
@@ -127,7 +105,6 @@ const CostEstimate = ({
           onChange={handleInputChange}
           onBlur={handleFormatInput}
           disabled={pending}
-          maxLength={10}
           aria-describedby={describedBy}
           required
         />

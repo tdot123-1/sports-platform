@@ -3,7 +3,6 @@
 import { validCountryCodes, validCurrencyCodes } from "@/lib/countries";
 import { createClient } from "@/lib/supabase/server";
 import {
-  CurrencyCodes,
   SportsEventTypeKeys,
   SportsEventTypeMap,
   TargetAgeGroupKeys,

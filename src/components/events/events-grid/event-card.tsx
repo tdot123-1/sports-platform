@@ -73,30 +73,18 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>
-                  {/* <ScrollArea className="h-16">
-                    {event.target_age.map((age) => (
-                      <p className="text-right text-sm" key={age}>
-                        {age}
-                      </p>
-                    ))}
-                  </ScrollArea> */}
+
                   <p className="text-right text-sm">
                     {renderArrayField(event.target_age)}
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Level(s)</p>
-                  <ScrollArea className="h-16">
-                    {event.target_level ? (
-                      event.target_level.map((level) => (
-                        <p className="text-right text-sm" key={level}>
-                          {TargetLevelMap[level]}
-                        </p>
-                      ))
-                    ) : (
-                      <p>"N/A"</p>
-                    )}
-                  </ScrollArea>
+                  <p className="text-right text-sm">
+                    {event.target_level
+                      ? renderArrayField(event.target_level)
+                      : "N/A"}
+                  </p>
                 </div>
                 <div className="flex justify-between">
                   <p className="text-sm">Gender</p>

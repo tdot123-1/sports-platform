@@ -36,9 +36,9 @@ export const TargetGenderKeys = Object.keys(TargetGenderMap) as Array<
 >;
 
 export const TargetLevelMap = {
-  beginner: "beginner",
-  intermediate: "intermediate",
-  advanced: "advanced",
+  beg: "beginner",
+  mid: "intermediate",
+  adv: "advanced",
   any: "any",
 } as const;
 
@@ -135,7 +135,6 @@ export const FilterKeyMap = {
   target_level: "tl",
 } as const;
 
-export const CurrencyCodes = ["EUR", "USD", "GBP", "CAD", "AUD"] as const;
 
 export interface Country {
   code: string;
