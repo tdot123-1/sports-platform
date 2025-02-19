@@ -302,7 +302,7 @@ export async function createEvent(prevState: State, formData: FormData) {
       return redirect("/login");
     }
 
-    const { error } = await supabase.from("events").insert([
+    const { error } = await supabase.from("events").insert(
       {
         event_name,
         event_type,
@@ -326,7 +326,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         cost_currency,
         user_id: user.id,
       },
-    ]);
+    );
 
     if (error) {
       console.error("Database error on create event: ", error.message);

@@ -131,3 +131,110 @@ export const deleteLogoFromStorage = async (
     };
   }
 };
+
+export const insertImageUrl = async (filePath: string, eventId: string) => {
+  try {
+    const supabase = await createClient();
+
+    // get the current user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error("Error fetching user: ", userError?.message);
+      return {
+        message: "Failed to fetch user information. Please try again.",
+        success: false,
+      };
+    }
+
+    const { error } = await supabase.from("event_images").insert({
+      event_id: eventId,
+      image_url: filePath,
+      user_id: user?.id,
+    });
+
+    if (error) {
+      console.error("Database error on insert event image: ", error.message);
+      return { message: `Database error: ${error.message}`, success: false };
+    }
+
+    revalidatePath(`/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}/media`);
+
+    return { message: "", success: true };
+  } catch (error) {
+    console.error("Error inserting image url into db: ", error);
+    return { message: "An unexpected error occurred", success: false };
+  }
+};
+
+export const uploadImage = async (
+  eventId: string,
+  prevState: UploadFormState,
+  formData: FormData
+) => {
+  const filePath = `events/${eventId}/image-${Date.now()}`;
+
+  const file = formData.get("event_image");
+
+  if (!(file instanceof File)) {
+    return { message: "Incorrect file type", success: false };
+  }
+
+  if (!file.size) {
+    return { message: "Please select a file to upload", success: false };
+  }
+
+  if (file.size > logoMaxSize) {
+    return {
+      message: "File size exceeds 2MB. Please upload a smaller file",
+      success: false,
+    };
+  }
+  try {
+    const supabase = await createClient();
+
+    const { count } = await supabase
+      .from("event_images")
+      .select("*", { count: "exact", head: true })
+      .eq("event_id", eventId);
+
+    if (count && count >= 3) {
+      return {
+        message: "You can only upload up to 3 images per event.",
+        success: false,
+      };
+    }
+
+    const { data, error } = await supabase.storage
+      .from("event_images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Storage error: ", error.message);
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    const result = await insertImageUrl(eventId, data.path);
+
+    if (!result.success) {
+      return {
+        message:
+          result.message || "An unexpected error occurred, please try again",
+        success: false,
+      };
+    }
+
+    return { message: "", success: true };
+  } catch (error) {
+    console.error("Error uploading file: ", error);
+    return {
+      message: "An unexpected error occurred, please try again",
+      success: false,
+    };
+  }
+};

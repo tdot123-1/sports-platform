@@ -4,7 +4,6 @@ import { fetchEventLogo } from "@/lib/data/storage/data";
 import { ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import UploadMediaForm from "./upload-media";
 import { uploadLogo } from "@/lib/actions/storage/actions";
-import { Button } from "@/components/ui/button";
 import DeleteLogoButton from "./delete-logo";
 
 const AddEventLogo = async ({
