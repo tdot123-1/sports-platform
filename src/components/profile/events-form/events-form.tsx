@@ -22,7 +22,6 @@ import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
 import Link from "next/link";
 import { Separator } from "../../ui/separator";
-import DatePicker from "./form-components/date-picker";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";

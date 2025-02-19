@@ -3,13 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormState, uploadLogo } from "@/lib/actions/storage/actions";
+import { UploadFormState, uploadLogo } from "@/lib/actions/storage/actions";
 import { useRouter } from "next/navigation";
 import { FormEvent, useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 const UploadLogo = ({ eventId }: { eventId: string }) => {
-  const initialState: FormState = { message: "", success: false };
+  const initialState: UploadFormState = { message: "", success: false };
   const uploadLogoWithId = uploadLogo.bind(null, eventId);
   const [state, formAction, pending] = useActionState(
     uploadLogoWithId,
