@@ -2,9 +2,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { fetchEventLogo } from "@/lib/data/storage/data";
 import { ExternalLinkIcon, Trash2Icon } from "lucide-react";
-import UploadMediaForm from "./upload-media";
+import UploadMediaForm from "../upload-media";
 import { uploadLogo } from "@/lib/actions/storage/actions";
-import DeleteLogoButton from "./delete-logo";
+import DeleteLogoButton from "../delete-logo";
 
 const AddEventLogo = async ({
   event_logo_url,

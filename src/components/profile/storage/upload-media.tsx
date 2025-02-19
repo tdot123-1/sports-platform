@@ -44,9 +44,7 @@ const UploadMediaForm = ({
   useEffect(() => {
     if (!pending) {
       if (state.success) {
-        toast.success("Media uploaded", {
-          description: toastDescription,
-        });
+        toast.success(toastDescription);
       }
     }
   }, [pending, state]);

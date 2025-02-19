@@ -2,7 +2,8 @@ import { fetchOneEvent } from "@/lib/data/events/data";
 import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import AddEventLogo from "./add-event-logo";
+import AddEventLogo from "./logo/add-event-logo";
+import AddEventImage from "./images/add-event-image";
 
 const EventMediaWrapper = async ({ eventId }: { eventId: string }) => {
   // test skeleton
@@ -21,7 +22,13 @@ const EventMediaWrapper = async ({ eventId }: { eventId: string }) => {
   return (
     <>
       <section>
-        <AddEventLogo eventId={event.id} event_logo_url={event.event_logo_url} />
+        <AddEventLogo
+          eventId={event.id}
+          event_logo_url={event.event_logo_url}
+        />
+      </section>
+      <section>
+        <AddEventImage eventId={event.id} />
       </section>
     </>
   );

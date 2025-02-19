@@ -219,7 +219,7 @@ export const uploadImage = async (
       throw new Error(`Database error: ${error.message}`);
     }
 
-    const result = await insertImageUrl(eventId, data.path);
+    const result = await insertImageUrl(data.path, eventId);
 
     if (!result.success) {
       return {
