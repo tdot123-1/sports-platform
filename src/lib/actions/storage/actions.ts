@@ -2,6 +2,7 @@
 
 import { logoMaxSize } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export const insertLogoUrl = async (eventId: string, filePath: string) => {
   try {
@@ -17,6 +18,13 @@ export const insertLogoUrl = async (eventId: string, filePath: string) => {
       console.error("Database error: ", error.code, error.message);
       return { message: `Database error: ${error.message}`, success: false };
     }
+
+    revalidatePath("/events/grid");
+    revalidatePath(`/events/${eventId}`);
+
+    revalidatePath("/profile/events");
+    revalidatePath(`/profile/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}/media`);
 
     return { success: true };
   } catch (error) {
@@ -37,7 +45,7 @@ export const uploadLogo = async (
 ) => {
   const filePath = `events/${eventId}/logo`;
 
-  const file = formData.get("event_logo"); // get correct name
+  const file = formData.get("event_logo");
 
   if (!(file instanceof File)) {
     return { message: "Incorrect file type", success: false };
@@ -60,13 +68,9 @@ export const uploadLogo = async (
       .upload(filePath, file);
 
     if (error) {
-      // HERE IS THE ERROR THROWN
       console.error("Storage error: ", error.message);
       throw new Error(`Database error: ${error.message}`);
     }
-
-    // console.log("path: ", data.path);
-    // console.log("full path: ", data.fullPath);
 
     const result = await insertLogoUrl(eventId, data.path);
 
@@ -86,4 +90,12 @@ export const uploadLogo = async (
       success: false,
     };
   }
+};
+
+export const deleteLogoUrl = async () => {
+  // set logo field in db to null
+};
+
+export const deleteLogoFromStorage = () => {
+  // delete file from storage
 };
