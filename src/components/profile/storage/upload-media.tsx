@@ -22,6 +22,7 @@ interface UploadMediaFormProps {
   formInstruction: string;
   toastDescription: string;
   name: string;
+  previousImgUrl?: string | null;
 }
 
 const UploadMediaForm = ({
@@ -31,6 +32,7 @@ const UploadMediaForm = ({
   formInstruction,
   toastDescription,
   name,
+  previousImgUrl,
 }: UploadMediaFormProps) => {
   const initialState: UploadFormState = { message: "", success: false };
   const uploadMediaWithId = serverAction.bind(null, eventId);
@@ -42,7 +44,7 @@ const UploadMediaForm = ({
   useEffect(() => {
     if (!pending) {
       if (state.success) {
-        toast("Media uploaded", {
+        toast.success("Media uploaded", {
           description: toastDescription,
         });
       }
@@ -64,7 +66,20 @@ const UploadMediaForm = ({
               name={name}
               type={`file`}
               accept="image/jpeg, image/png, image/webp, image/svg+xml"
+              required
             />
+            {previousImgUrl && (
+              <Input
+                type={`hidden`}
+                readOnly
+                hidden
+                className="hidden"
+                value={previousImgUrl}
+                id="previous_url"
+                name="previous_url"
+              />
+            )}
+
             {state.message && (
               <p className="text-sm text-destructive mt-1">{state.message}</p>
             )}

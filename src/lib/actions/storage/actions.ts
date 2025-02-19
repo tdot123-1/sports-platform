@@ -4,13 +4,16 @@ import { logoMaxSize } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export const insertLogoUrl = async (eventId: string, filePath: string) => {
+export const updateLogoUrl = async (
+  eventId: string,
+  filePath: string | null
+) => {
   try {
     const supabase = await createClient();
     const { error } = await supabase
       .from("events")
       .update({
-        event_logo_url: filePath,
+        event_logo_url: filePath ? filePath : null,
       })
       .eq("id", eventId);
 
@@ -43,12 +46,17 @@ export const uploadLogo = async (
   prevState: UploadFormState,
   formData: FormData
 ) => {
-  const filePath = `events/${eventId}/logo`;
+  const filePath = `events/${eventId}/logo-${Date.now()}`;
 
   const file = formData.get("event_logo");
+  const previousFile = formData.get("previous_url");
 
   if (!(file instanceof File)) {
     return { message: "Incorrect file type", success: false };
+  }
+
+  if (!file.size) {
+    return { message: "Please select a file to upload", success: false };
   }
 
   if (file.size > logoMaxSize) {
@@ -61,7 +69,11 @@ export const uploadLogo = async (
     const supabase = await createClient();
 
     // delete existing logo
-    await supabase.storage.from("event_logos").remove([filePath]);
+    if (previousFile) {
+      await supabase.storage
+        .from("event_logos")
+        .remove([previousFile.toString()]);
+    }
 
     const { data, error } = await supabase.storage
       .from("event_logos")
@@ -72,7 +84,7 @@ export const uploadLogo = async (
       throw new Error(`Database error: ${error.message}`);
     }
 
-    const result = await insertLogoUrl(eventId, data.path);
+    const result = await updateLogoUrl(eventId, data.path);
 
     if (!result.success) {
       return {
@@ -92,10 +104,30 @@ export const uploadLogo = async (
   }
 };
 
-export const deleteLogoUrl = async () => {
-  // set logo field in db to null
-};
-
-export const deleteLogoFromStorage = () => {
+export const deleteLogoFromStorage = async (
+  filePath: string,
+  eventId: string
+) => {
   // delete file from storage
+  try {
+    const supabase = await createClient();
+
+    // delete existing logo
+    await supabase.storage.from("event_logos").remove([filePath]);
+
+    const result = await updateLogoUrl(eventId, null);
+
+    if (!result.success) {
+      console.error("Error updating db column: ", result.message);
+      throw new Error(`Error updating logo_url db column: ${result.message}`);
+    }
+
+    return { message: "", success: true };
+  } catch (error) {
+    console.error("Error deleting file: ", error);
+    return {
+      message: "Failed to delete logo, please try again",
+      success: false,
+    };
+  }
 };

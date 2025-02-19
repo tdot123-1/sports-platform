@@ -1,9 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { fetchEventLogo } from "@/lib/data/storage/data";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import UploadMediaForm from "./upload-media";
 import { uploadLogo } from "@/lib/actions/storage/actions";
+import { Button } from "@/components/ui/button";
+import DeleteLogoButton from "./delete-logo";
 
 const AddEventLogo = async ({
   event_logo_url,
@@ -37,22 +39,33 @@ const AddEventLogo = async ({
                   <span>Click here to view full image</span>
                   <ExternalLinkIcon size={14} />
                 </a>
-                <div className="py-3">
+                <div className="relative py-3">
                   <Avatar>
                     <AvatarFallback className="bg-primary opacity-55">
                       Sports
                     </AvatarFallback>
                     <AvatarImage src={logoPublicUrl} />
                   </Avatar>
+                  {/* <Button className="absolute bottom-0 left-10 p-1" variant={`ghost`}>
+                    <Trash2Icon />
+                  </Button> */}
+                  <div className="absolute bottom-0 left-10">
+                    <DeleteLogoButton
+                      eventId={eventId}
+                      event_logo_url={event_logo_url!}
+                    />
+                  </div>
                 </div>
               </>
             ) : (
-              <p className="text-xs italic text-muted-foreground mt-3">No logo uploaded yet.</p>
+              <p className="text-xs italic text-muted-foreground mt-3">
+                No logo uploaded yet.
+              </p>
             )}
           </div>
         </div>
         <div>
-            {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 2MB */}
+          {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 2MB */}
           <UploadMediaForm
             serverAction={uploadLogo}
             eventId={eventId}
@@ -60,6 +73,7 @@ const AddEventLogo = async ({
             formInstruction="Uploading a new file will delete any existing logo for this event"
             toastDescription="A new logo was added to your event!"
             name="event_logo"
+            previousImgUrl={event_logo_url}
           />
         </div>
       </div>
