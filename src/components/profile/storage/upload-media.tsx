@@ -54,44 +54,42 @@ const UploadMediaForm = ({
 
   return (
     <>
-      <div>
-        <form action={formAction}>
-          <div className="mb-4">
-            <Label htmlFor={name}>{formLabel}</Label>
-            <p className="text-muted-foreground text-sm">{formInstruction}</p>
+      <form action={formAction}>
+        <div className="mb-4">
+          <Label htmlFor={name}>{formLabel}</Label>
+          <p className="text-muted-foreground text-sm">{formInstruction}</p>
+          <Input
+            disabled={pending}
+            id={name}
+            name={name}
+            type={`file`}
+            accept="image/jpeg, image/png, image/webp, image/svg+xml"
+            required
+          />
+          {previousImgUrl && (
             <Input
-              disabled={pending}
-              id={name}
-              name={name}
-              type={`file`}
-              accept="image/jpeg, image/png, image/webp, image/svg+xml"
-              required
+              type={`hidden`}
+              readOnly
+              hidden
+              className="hidden"
+              value={previousImgUrl}
+              id="previous_url"
+              name="previous_url"
             />
-            {previousImgUrl && (
-              <Input
-                type={`hidden`}
-                readOnly
-                hidden
-                className="hidden"
-                value={previousImgUrl}
-                id="previous_url"
-                name="previous_url"
-              />
-            )}
+          )}
 
-            {state.message && (
-              <p className="text-sm text-destructive mt-1">{state.message}</p>
-            )}
+          {state.message && (
+            <p className="text-sm text-destructive mt-1">{state.message}</p>
+          )}
+        </div>
+
+        <Button disabled={pending} type={`submit`}>
+          <div className="flex justify-start items-start gap-1">
+            <UploadIcon />
+            <span className="hidden md:block">Upload</span>
           </div>
-
-          <Button disabled={pending} type={`submit`}>
-            <div className="flex justify-start items-start gap-1">
-              <UploadIcon />
-              <span className="hidden md:block">Upload</span>
-            </div>
-          </Button>
-        </form>
-      </div>
+        </Button>
+      </form>
     </>
   );
 };

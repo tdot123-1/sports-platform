@@ -68,8 +68,8 @@ const AddEventImage = async ({
                 </div>
               </>
             ) : (
-              <p className="text-xs italic text-muted-foreground mt-3">
-                No logo uploaded yet.
+              <p className="text-center text-xs italic text-muted-foreground mt-3">
+                No images uploaded yet.
               </p>
             )}
           </div>
