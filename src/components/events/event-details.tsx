@@ -41,7 +41,7 @@ interface EventDetailsProps {
 
 const EventDetails = async ({ eventId }: EventDetailsProps) => {
   // test skeleton
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   // fetch event
   const fetchedEvent = await fetchOneEvent(eventId);
@@ -101,20 +101,19 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
                 <h6 className="text-muted-foreground">Age group (birthyear)</h6>
               </div>
-              {/* <ScrollArea className="mb-1 h-20"> */}
+
               <div className="text-right">
                 {event.target_age.map((age) => (
                   <p key={age}>{TargetAgeGroupMap[age]}</p>
                 ))}
               </div>
-              {/* </ScrollArea> */}
+
               <Separator className="my-2" />
               <div className="flex justify-between items-start">
                 <div className="flex justify-start items-center gap-1">
                   <BicepsFlexedIcon size={18} />
                   <h5 className="font-semibold">Skill level(s):</h5>
                 </div>
-                {/* <ScrollArea className="h-14"> */}
                 <div className="text-right">
                   {event.target_level ? (
                     event.target_level.map((level) => (
@@ -124,7 +123,6 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <p>N/A</p>
                   )}
                 </div>
-                {/* </ScrollArea> */}
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between">

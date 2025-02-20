@@ -56,7 +56,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           </Suspense>
 
           <div className="w-fit mx-auto mt-4">
-            <ReturnButton userId={data.user.id} />
+            <ReturnButton returnUrl={`/profile/events`} />
           </div>
         </div>
       </section>

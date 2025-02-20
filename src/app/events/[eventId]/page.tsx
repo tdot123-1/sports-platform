@@ -16,7 +16,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           </Suspense>
 
           <div className="w-fit mx-auto mt-4">
-            <ReturnButton />
+            <ReturnButton returnUrl="/events/grid" />
           </div>
         </div>
       </section>

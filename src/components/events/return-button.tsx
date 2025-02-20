@@ -5,10 +5,10 @@ import { Undo2Icon } from "lucide-react";
 // import { useEffect, useState } from "react";
 
 interface ReturnButtonProps {
-  userId?: string;
+  returnUrl: string
 }
 
-const ReturnButton = ({ userId }: ReturnButtonProps) => {
+const ReturnButton = ({ returnUrl }: ReturnButtonProps) => {
   // const router = useRouter();
 
   // const [isInternalReferrer, setIsInternalReferrer] = useState(false);
@@ -40,7 +40,7 @@ const ReturnButton = ({ userId }: ReturnButtonProps) => {
 
   return (
     <>
-      <Link href={userId ? `/profile/events` : `/events/grid`}>
+      <Link href={returnUrl}>
         <Button variant={`secondary`}>
           <div className="flex justify-start items-start gap-1">
             <Undo2Icon />
