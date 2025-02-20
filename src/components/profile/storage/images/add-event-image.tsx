@@ -7,7 +7,6 @@ import { Separator } from "@/components/ui/separator";
 import { EventImage } from "@/lib/types";
 import { fetchImagePublicUrls } from "@/lib/data/storage/data";
 import Image from "next/image";
-import DeleteLogoButton from "../delete-logo";
 import { ExternalLinkIcon } from "lucide-react";
 import DeleteMediaButton from "../delete-media";
 

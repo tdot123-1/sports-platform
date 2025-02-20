@@ -7,7 +7,7 @@ import {
   deleteLogoFromStorage,
   uploadLogo,
 } from "@/lib/actions/storage/actions";
-import DeleteLogoButton from "../delete-logo";
+
 import DeleteMediaButton from "../delete-media";
 
 const AddEventLogo = async ({

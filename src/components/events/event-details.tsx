@@ -32,6 +32,8 @@ import { countryNameMap } from "@/lib/countries";
 import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
 import { format } from "date-fns";
+import { fetchImagePublicUrls } from "@/lib/data/storage/data";
+import EventImage from "./event-image";
 
 interface EventDetailsProps {
   eventId: string;
@@ -50,6 +52,11 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   // convert to get correct type (incl dates)
   const event: SportsEvent = convertFetchedEvent(fetchedEvent);
+
+  const imagePublicUrls =
+    event.event_images.length > 0
+      ? await fetchImagePublicUrls(event.event_images)
+      : [];
 
   return (
     <>
@@ -76,10 +83,11 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             </div>
           </li>
           <li className="py-2">
-            <div className="flex justify-evenly">
-              <Skeleton className="w-1/5 aspect-square" />
-              <Skeleton className="w-1/5 aspect-square" />
-              <Skeleton className="w-1/5 aspect-square" />
+            <div className="flex justify-evenly gap-1">
+              {imagePublicUrls.length > 0 &&
+                imagePublicUrls.map((img, i) => (
+                  <EventImage key={`img-${i}`} src={img.publicUrl} />
+                ))}
             </div>
           </li>
 
