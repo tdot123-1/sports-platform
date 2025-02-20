@@ -4,11 +4,13 @@ import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
 
 const EventCardSkeleton = () => {
+  // <Skeleton className="h-12 w-12 rounded-full" />
   return (
     <>
-      <Card className="">
+      <Card className="relative">
         <CardHeader className="text-center">
-          <Skeleton className="w-full h-8" />
+          <Skeleton className="w-8/12 mx-auto h-5 mt-4" />
+          <Skeleton className="h-12 w-12 rounded-full absolute top-2 right-2" />
         </CardHeader>
         <CardContent>
           <ul>
@@ -29,7 +31,7 @@ const EventCardSkeleton = () => {
             <li>
               <h4 className="text-muted-foreground">Where:</h4>
 
-              <Skeleton className="w-full h-16" />
+              <Skeleton className="ml-auto w-9/12 h-5" />
             </li>
             <Separator className="my-1" />
             <li>
