@@ -13,6 +13,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useDebouncedCallback } from "use-debounce";
+import { formatCurrencyForDisplay } from "@/lib/utils";
 
 // const MAX_PRICE = 1000;
 
@@ -21,8 +22,8 @@ interface FilterPriceProps {
   searchParams: ReadonlyURLSearchParams;
   replace: (href: string, options?: NavigateOptions) => void;
   priceFilter?: number;
-  priceRange: number[]
-  setPriceRange: Dispatch<SetStateAction<number[]>>
+  priceRange: number[];
+  setPriceRange: Dispatch<SetStateAction<number[]>>;
   maxPrice: number;
 }
 
@@ -33,10 +34,8 @@ const FilterPrice = ({
   priceFilter,
   priceRange,
   maxPrice,
-  setPriceRange
+  setPriceRange,
 }: FilterPriceProps) => {
-  
-
   const handlePriceFilter = useDebouncedCallback((newPrice: number[]) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
@@ -78,7 +77,10 @@ const FilterPrice = ({
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
             <div className="p-2">
-              <p>0,00 - {priceRange[0]},00</p>
+              <p>
+                {formatCurrencyForDisplay(0, "EUR")} -{" "}
+                {formatCurrencyForDisplay(priceRange[0] * 100, "EUR")}
+              </p>
               <Slider
                 className="w-44"
                 max={maxPrice}
