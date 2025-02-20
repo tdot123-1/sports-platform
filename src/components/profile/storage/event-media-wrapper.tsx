@@ -28,7 +28,7 @@ const EventMediaWrapper = async ({ eventId }: { eventId: string }) => {
         />
       </section>
       <section>
-        <AddEventImage eventId={event.id} />
+        <AddEventImage eventId={event.id} event_images={event.event_images} />
       </section>
     </>
   );

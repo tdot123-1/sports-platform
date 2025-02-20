@@ -75,6 +75,10 @@ export const TargetAgeGroupKeys = Object.keys(TargetAgeGroupMap) as Array<
   keyof typeof TargetAgeGroupMap
 >;
 
+export interface EventImage {
+  image_url: string;
+}
+
 //(!) allow multiple levels, ages
 export interface SportsEvent {
   id: string;
@@ -101,6 +105,7 @@ export interface SportsEvent {
   cost_description: string | null;
   event_links: string[] | null;
   event_logo_url: string | null;
+  event_images: EventImage[] 
   user_id: string;
 }
 
@@ -134,7 +139,6 @@ export const FilterKeyMap = {
   target_age: "ta",
   target_level: "tl",
 } as const;
-
 
 export interface Country {
   code: string;

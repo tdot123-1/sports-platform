@@ -67,7 +67,7 @@ export const fetchOneEvent = async (eventId: string) => {
 
     const { data: event, error } = await supabase
       .from("events")
-      .select("*")
+      .select("*, event_images(image_url)")
       .eq("id", eventId)
       .single();
 
