@@ -3,8 +3,12 @@ import { Separator } from "@/components/ui/separator";
 import { fetchEventLogo } from "@/lib/data/storage/data";
 import { ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import UploadMediaForm from "../upload-media";
-import { uploadLogo } from "@/lib/actions/storage/actions";
+import {
+  deleteLogoFromStorage,
+  uploadLogo,
+} from "@/lib/actions/storage/actions";
 import DeleteLogoButton from "../delete-logo";
+import DeleteMediaButton from "../delete-media";
 
 const AddEventLogo = async ({
   event_logo_url,
@@ -19,12 +23,12 @@ const AddEventLogo = async ({
 
   return (
     <>
-      <div className="border rounded-md shadow-md p-6 w-fit">
+      <div className="border rounded-md shadow-md p-6 w-full max-w-screen-lg">
         <div>
           <h3 className="font-mono text-primary text-lg">Event logo</h3>
           <Separator />
           <p className="text-sm text-muted-foreground italic">
-            Add a logo to your event to be displayed in the top right corner.
+            Add a logo to your event.
           </p>
           <div className="flex flex-col items-center py-3">
             <h4>Current logo:</h4>
@@ -49,9 +53,10 @@ const AddEventLogo = async ({
                     <Trash2Icon />
                   </Button> */}
                   <div className="absolute bottom-0 left-10">
-                    <DeleteLogoButton
+                    <DeleteMediaButton
+                      filePath={event_logo_url!}
                       eventId={eventId}
-                      event_logo_url={event_logo_url!}
+                      serverAction={deleteLogoFromStorage}
                     />
                   </div>
                 </div>

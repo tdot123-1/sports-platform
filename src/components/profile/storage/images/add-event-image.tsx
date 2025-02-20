@@ -1,10 +1,15 @@
-import { uploadImage } from "@/lib/actions/storage/actions";
+import {
+  deleteImageFromStorage,
+  uploadImage,
+} from "@/lib/actions/storage/actions";
 import UploadMediaForm from "../upload-media";
 import { Separator } from "@/components/ui/separator";
 import { EventImage } from "@/lib/types";
 import { fetchImagePublicUrls } from "@/lib/data/storage/data";
 import Image from "next/image";
 import DeleteLogoButton from "../delete-logo";
+import { ExternalLinkIcon } from "lucide-react";
+import DeleteMediaButton from "../delete-media";
 
 const AddEventImage = async ({
   eventId,
@@ -17,7 +22,7 @@ const AddEventImage = async ({
 
   return (
     <>
-      <div className="border rounded-md shadow-md p-6 w-fit">
+      <div className="border rounded-md shadow-md p-6 w-full max-w-screen-lg">
         <div>
           <h3 className="font-mono text-primary text-lg">Event images</h3>
           <Separator />
@@ -26,24 +31,43 @@ const AddEventImage = async ({
           </p>
           <div className="py-4">
             {imagePublicUrls.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {imagePublicUrls.map((img, i) => (
-                  <div key={i} className="relative w-full aspect-square">
-                    <Image
-                      src={img.publicUrl}
-                      alt={`event-img-${i + 1}`}
-                      className="object-cover rounded-md border"
-                      fill
-                    />
-                    <div className="absolute bottom-0 z-10 -right-3">
-                      <DeleteLogoButton
-                        eventId={eventId}
-                        event_logo_url={img.filePath}
+              <>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                  {imagePublicUrls.map((img, i) => (
+                    <div
+                      key={`src-${i}`}
+                      className="relative w-full aspect-square"
+                    >
+                      <Image
+                        src={img.publicUrl}
+                        alt={`event-img-${i + 1}`}
+                        className="object-cover rounded-md border"
+                        fill
                       />
+                      <div className="absolute -bottom-5 z-10 -right-3">
+                        <DeleteMediaButton
+                          eventId={eventId}
+                          filePath={img.filePath}
+                          serverAction={deleteImageFromStorage}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  {imagePublicUrls.map((img, i) => (
+                    <a
+                      key={`href-${i}`}
+                      className="flex underline underline-offset-2 text-sm text-muted-foreground mb-1"
+                      href={img.publicUrl}
+                      target="_blank"
+                    >
+                      <span>Click here to view full image {i + 1}</span>
+                      <ExternalLinkIcon size={14} />
+                    </a>
+                  ))}
+                </div>
+              </>
             ) : (
               <p className="text-xs italic text-muted-foreground mt-3">
                 No logo uploaded yet.

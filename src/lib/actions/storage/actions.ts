@@ -31,7 +31,7 @@ export const updateLogoUrl = async (
 
     return { success: true };
   } catch (error) {
-    console.error("Error updating event: ", error);
+    console.error("Error updating event logo url: ", error);
     return { message: "An unexpected error occurred", success: false };
   }
 };
@@ -234,6 +234,59 @@ export const uploadImage = async (
     console.error("Error uploading file: ", error);
     return {
       message: "An unexpected error occurred, please try again",
+      success: false,
+    };
+  }
+};
+
+export const deleteImageUrl = async (filePath: string, eventId: string) => {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("event_images")
+      .delete()
+      .eq("event_id", eventId)
+      .eq("image_url", filePath);
+
+    if (error) {
+      console.error("Error deleting image url: ", error.message);
+      return { success: false, message: `Database error: ${error.message}` };
+    }
+
+    revalidatePath(`/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}`);
+    revalidatePath(`/profile/events/${eventId}/media`);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting image url: ", error);
+    return { message: "An unexpected error occurred", success: false };
+  }
+};
+
+export const deleteImageFromStorage = async (
+  filePath: string,
+  eventId: string
+) => {
+  // delete file from storage
+  try {
+    const supabase = await createClient();
+
+    // delete existing logo
+    await supabase.storage.from("event_images").remove([filePath]);
+
+    const result = await deleteImageUrl(filePath, eventId);
+
+    if (!result.success) {
+      console.error("Error updating db column: ", result.message);
+      throw new Error(`Error updating logo_url db column: ${result.message}`);
+    }
+
+    return { message: "", success: true };
+  } catch (error) {
+    console.error("Error deleting file: ", error);
+    return {
+      message: "Failed to delete image, please try again",
       success: false,
     };
   }
