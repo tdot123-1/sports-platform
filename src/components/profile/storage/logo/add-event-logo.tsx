@@ -21,7 +21,7 @@ const AddEventLogo = async ({
     <>
       <div className="border rounded-md shadow-md p-6 w-fit">
         <div>
-          <h3 className="font-mono text-primary text-lg">Upload new logo</h3>
+          <h3 className="font-mono text-primary text-lg">Event logo</h3>
           <Separator />
           <p className="text-sm text-muted-foreground italic">
             Add a logo to your event to be displayed in the top right corner.

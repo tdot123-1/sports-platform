@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UploadFormState } from "@/lib/actions/storage/actions";
+import { UploadIcon } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -84,7 +85,10 @@ const UploadMediaForm = ({
           </div>
 
           <Button disabled={pending} type={`submit`}>
-            Upload
+            <div className="flex justify-start items-start gap-1">
+              <UploadIcon />
+              <span className="hidden md:block">Upload</span>
+            </div>
           </Button>
         </form>
       </div>

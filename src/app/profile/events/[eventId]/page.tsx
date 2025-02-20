@@ -4,7 +4,7 @@ import DeleteEvent from "@/components/profile/delete-event";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
-import { EditIcon, Undo2Icon } from "lucide-react";
+import { EditIcon, ImageUpIcon, Undo2Icon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -25,12 +25,12 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
         <h1 className="text-center mt-4">
           My event: <span className="text-muted-foreground">{eventId}</span>
         </h1>
-        <Link
+        {/* <Link
           className="underline underline-offset-2"
           href={`/profile/events/${eventId}/media`}
         >
           Upload media
-        </Link>
+        </Link> */}
         <div className="mx-auto py-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <div className="flex justify-between items-start pb-4">
             <Link href={`/profile/events/${eventId}/edit`}>
@@ -38,6 +38,14 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
                 <div className="flex justify-start items-start gap-1">
                   <EditIcon />
                   <span className="hidden md:block">Edit</span>
+                </div>
+              </Button>
+            </Link>
+            <Link href={`/profile/events/${eventId}/media`}>
+              <Button variant={`secondary`}>
+                <div className="flex justify-start items-start gap-1">
+                  <ImageUpIcon />
+                  <span className="hidden md:block">Upload media</span>
                 </div>
               </Button>
             </Link>

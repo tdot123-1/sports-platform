@@ -454,7 +454,7 @@ const EventForm = ({
         </div>
         <div className="flex justify-center gap-4">
           <Button variant={`secondary`} type="button" disabled={pending}>
-            <Link href={"/profile"}>
+            <Link href={ event ? `/profile/events/${event.id}` : "/profile"}>
               <div className="flex justify-start items-center gap-1">
                 <Undo2Icon />
                 <span className="hidden md:block">Cancel</span>
