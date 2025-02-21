@@ -9,6 +9,7 @@ import {
   PersonStandingIcon,
   PhoneIcon,
   ReceiptTextIcon,
+  ThumbsUpIcon,
   UsersIcon,
 } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
@@ -129,7 +130,12 @@ const EventDetailsSkeleton = () => {
             <Skeleton className="ml-auto w-28 h-5" />
             <div className="flex justify-start items-center gap-1">
               <LinkIcon size={18} />
-              <h5 className="font-semibold">Links:</h5>
+              <h5 className="font-semibold">Event link:</h5>
+            </div>
+            <Skeleton className="ml-auto w-8/12 h-5" />
+            <div className="flex justify-start items-center gap-1">
+              <ThumbsUpIcon size={18} />
+              <h5 className="font-semibold">Socials:</h5>
             </div>
             <Skeleton className="ml-auto w-8/12 h-5" />
           </div>

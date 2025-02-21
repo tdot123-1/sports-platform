@@ -11,9 +11,7 @@ import {
   formatCurrencyForDisplay,
 } from "@/lib/utils";
 import {
-  BanknoteIcon,
   BicepsFlexedIcon,
-  CalendarCheck,
   CalendarCheck2Icon,
   CalendarX2Icon,
   ExternalLinkIcon,
@@ -24,6 +22,8 @@ import {
   PersonStandingIcon,
   PhoneIcon,
   ReceiptTextIcon,
+  ThumbsUp,
+  ThumbsUpIcon,
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -220,30 +220,45 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   <p className="text-right">{event.contact_phone}</p>
                 </>
               )}
-              {event.event_links && (
+              {event.event_link && (
                 <>
                   <div className="flex justify-start items-center gap-1">
                     <LinkIcon size={18} />
-                    <h5 className="font-semibold">Links:</h5>
+                    <h5 className="font-semibold">Event link:</h5>
                   </div>
-                  <ScrollArea className="w-full min-h-10">
-                    {event.event_links.map((link) => (
-                      <div
-                        key={link}
-                        className="text-right flex justify-end flex-nowrap overflow-hidden"
+                  <div className="text-right flex justify-end flex-nowrap overflow-hidden">
+                    <ExternalLinkIcon size={14} />
+                    <a
+                      target="_blank"
+                      className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
+                      href={event.event_link}
+                    >
+                      {event.event_link}
+                    </a>
+                  </div>
+                </>
+              )}
+              {event.social_links && (
+                <>
+                  <div className="flex justify-start items-center gap-1">
+                    <ThumbsUpIcon size={18} />
+                    <h5 className="font-semibold">Socials:</h5>
+                  </div>
+                  {event.social_links.map((link, i) => (
+                    <div
+                      key={`social-${i}`}
+                      className="text-right flex justify-end flex-nowrap overflow-hidden"
+                    >
+                      <ExternalLinkIcon size={14} />
+                      <a
+                        target="_blank"
+                        className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
+                        href={link}
                       >
-                        <ExternalLinkIcon size={14} />
-                        <a
-                          target="_blank"
-                          className="underline text-xs whitespace-nowrap"
-                          href={link}
-                        >
-                          {link}
-                        </a>
-                      </div>
-                    ))}
-                    <ScrollBar orientation={`horizontal`} />
-                  </ScrollArea>
+                        {link}
+                      </a>
+                    </div>
+                  ))}
                 </>
               )}
             </div>

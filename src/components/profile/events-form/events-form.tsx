@@ -118,21 +118,6 @@ const EventForm = ({
           <p className="text-xs italic">
             Provide the location where your event will be held
           </p>
-          {/* <AddressInput
-            address_line_one={event?.address_line_one}
-            address_line_two={
-              event?.address_line_two ? event.address_line_two : undefined
-            }
-            address_region={
-              event?.address_region ? event.address_region : undefined
-            }
-            address_postal_code={
-              event?.address_postal_code ? event.address_postal_code : undefined
-            }
-            address_city={event?.address_city}
-            pending={pending}
-            state={state}
-          /> */}
           <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="address_city">
               City<span className="text-destructive">*</span>:
