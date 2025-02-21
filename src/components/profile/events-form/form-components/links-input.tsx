@@ -20,7 +20,6 @@ const LinksInput = ({
   describedBy,
   pending,
 }: LinksInputProps) => {
-
   // list of added links
   const [addedLinks, setAddedLinks] = useState<string[]>(
     event_links ? event_links : []
@@ -61,10 +60,9 @@ const LinksInput = ({
 
   return (
     <>
-      
       <div className="flex min-h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors mb-2">
-        <ScrollArea className="w-full">
-          <ul aria-describedby={describedBy}>
+        {/* <ScrollArea className="w-full"> */}
+          <ul className="overflow-hidden text-sm" aria-describedby={describedBy}>
             {addedLinks.length ? (
               addedLinks.map((link, i) => (
                 <li
@@ -84,22 +82,24 @@ const LinksInput = ({
                     <CircleXIcon className="p-0" />
                   </Button>
 
-                  <span className="underline overflow-hidden">{link}</span>
+                  <span className="underline overflow-hidden text-ellipsis text-nowrap">
+                    {link}
+                  </span>
                 </li>
               ))
             ) : (
-              <li className="text-sm text-muted-foreground italic">
+              <li className=" text-muted-foreground italic">
                 None added
               </li>
             )}
           </ul>
-          <ScrollBar orientation={`horizontal`} />
-        </ScrollArea>
+          {/* <ScrollBar orientation={`horizontal`} /> */}
+        {/* </ScrollArea> */}
       </div>
 
       <div className="flex gap-1">
         <Label hidden className="hidden" htmlFor="add_links">
-          Add links
+          Add social links
         </Label>
         <Input
           onKeyDown={handleKeyDown}
@@ -109,6 +109,7 @@ const LinksInput = ({
           name="add_links"
           disabled={pending || addedLinks.length >= 5}
           type={`url`}
+          maxLength={2048}
         />
         <Button disabled={pending} onClick={handleSubmit} type="button">
           Add link

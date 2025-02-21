@@ -113,12 +113,12 @@ const EventForm = ({
         </div>
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">
-            Event Address <span className="text-destructive">*</span>
+            Event Location <span className="text-destructive">*</span>
           </p>
           <p className="text-xs italic">
-            Provide the address where your event will be held
+            Provide the location where your event will be held
           </p>
-          <AddressInput
+          {/* <AddressInput
             address_line_one={event?.address_line_one}
             address_line_two={
               event?.address_line_two ? event.address_line_two : undefined
@@ -132,7 +132,35 @@ const EventForm = ({
             address_city={event?.address_city}
             pending={pending}
             state={state}
-          />
+          /> */}
+          <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
+            <Label className="text-muted-foreground" htmlFor="address_city">
+              City<span className="text-destructive">*</span>:
+            </Label>
+            <Input
+              id="address_city"
+              name="address_city"
+              type="text"
+              aria-describedby="address_city-error"
+              disabled={pending}
+              defaultValue={event ? event.address_city : ""}
+              required
+              maxLength={100}
+              className="w-full lg:w-1/2"
+            />
+          </div>
+          <div id="address_city-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.address_city &&
+              state.errors.address_city.map((error) => (
+                <p
+                  className="text-sm mt-2 text-right text-destructive italic"
+                  key={error}
+                >
+                  {error}
+                </p>
+              ))}
+          </div>
+
           <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="address_country">
               Country<span className="text-destructive">*</span>:
@@ -191,7 +219,7 @@ const EventForm = ({
         <div className="mb-4">
           <Label htmlFor="event_description">Event Description</Label>
           <p className="text-xs italic">
-            Optionally provide some extra info about your event.
+            (Optional) Provide some extra info about your event.
           </p>
           <Textarea
             id="event_description"
@@ -252,7 +280,8 @@ const EventForm = ({
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">Target Skill Level</p>
           <p className="text-xs italic">
-            Select the skill level(s) required for your event if applicable.
+            (Optional) Select the skill level(s) required for your event if
+            applicable.
           </p>
           <MultiSelect
             name="target_level"
@@ -346,7 +375,7 @@ const EventForm = ({
           {/** cost description */}
           <Label htmlFor="cost_description">Cost description</Label>
           <p className="text-xs italic">
-            Optionally describe what attendees receive for the price of your
+            (Optional) Describe what attendees receive for the price of your
             event (access, catering, lodging etc.).
           </p>
           <Textarea
@@ -406,7 +435,7 @@ const EventForm = ({
         <div className="mb-4">
           <Label htmlFor="contact_phone">Phone number</Label>
           <p className="text-xs italic">
-            Optionally, provide a phone number via which you can be contacted
+            (Optional) Provide a phone number via which you can be contacted
             about your event.
           </p>
           <Input
@@ -431,21 +460,44 @@ const EventForm = ({
           </div>
         </div>
         <div className="mb-4">
-          <p className="text-sm font-medium leading-none">Links</p>
+          <Label htmlFor="event_link">Event Link</Label>
           <p className="text-xs italic">
-            Optionally, provide some links to further inform about your event
-            (social media, event website, etc.).
+            (Optional) Provide a link to your event website.
+          </p>
+          <Input
+            id="event_link"
+            name="event_link"
+            type={`url`}
+            aria-describedby="event_link-error"
+            disabled={pending}
+            defaultValue={event?.event_link ? event.event_link : ""}
+            maxLength={2048}
+          />
+          <div id="event_link-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.event_link &&
+              state.errors.event_link.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          <p className="text-sm font-medium leading-none">Social media</p>
+          <p className="text-xs italic">
+            (Optional) Link any social media where attendees can find more
+            details.
           </p>
           <LinksInput
-            name="event_links"
+            name="social_links"
             pending={pending}
-            describedBy="event_links-error"
-            event_links={event?.event_links ? event.event_links : undefined}
+            describedBy="social_links-error"
+            event_links={event?.social_links ? event.social_links : undefined}
           />
           {/** errors */}
-          <div id="event_links-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.event_links &&
-              state.errors.event_links.map((error) => (
+          <div id="social_links-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.social_links &&
+              state.errors.social_links.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
                   {error}
                 </p>
@@ -454,7 +506,7 @@ const EventForm = ({
         </div>
         <div className="flex justify-center gap-4">
           <Button variant={`secondary`} type="button" disabled={pending}>
-            <Link href={ event ? `/profile/events/${event.id}` : "/profile"}>
+            <Link href={event ? `/profile/events/${event.id}` : "/profile"}>
               <div className="flex justify-start items-center gap-1">
                 <Undo2Icon />
                 <span className="hidden md:block">Cancel</span>
