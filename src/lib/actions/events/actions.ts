@@ -292,7 +292,7 @@ export async function createEvent(prevState: State, formData: FormData) {
       return redirect("/login");
     }
 
-    const { error } = await supabase.from("events").insert({
+    const { error, data } = await supabase.from("events").insert({
       event_name,
       event_type,
       event_description,
@@ -318,7 +318,7 @@ export async function createEvent(prevState: State, formData: FormData) {
       social_links,
 
       user_id: user.id,
-    });
+    }).select("id").single();
 
     if (error) {
       console.error("Database error on create event: ", error.message);
@@ -330,7 +330,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     revalidatePath("/events/calendar");
     revalidatePath("/profile/events");
 
-    return { message: "", success: true };
+    return { message: `${data.id}`, success: true };
   } catch (error) {
     console.error("Error creating event: ", error);
     return {

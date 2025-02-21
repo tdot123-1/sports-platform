@@ -25,7 +25,7 @@ const CreateEvent = ({ countryList }: CreateEventProps) => {
       if (state.success) {
         toast.success("New event created!");
 
-        router.push("/profile");
+        router.push(`/profile/events/${state.message}`);
       }
     }
   }, [pending, state]);
