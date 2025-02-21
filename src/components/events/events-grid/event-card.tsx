@@ -1,8 +1,6 @@
 import {
   SportsEvent,
   SportsEventTypeMap,
-  TargetAgeGroupMap,
-  TargetLevelMap,
 } from "@/lib/types";
 import {
   Card,

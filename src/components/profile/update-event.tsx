@@ -31,7 +31,7 @@ const UpdateEvent = ({ event, countryList }: UpdateEventProps) => {
         router.push(`/profile/events/${event.id}`);
       }
     }
-  }, [pending, state]);
+  }, [pending, state, event.id, router]);
 
   return (
     <>

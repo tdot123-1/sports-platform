@@ -1,15 +1,14 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
-import CurrencySelect from "@/components/profile/events-form/form-components/currency-select";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
-import { Skeleton } from "@/components/ui/skeleton";
-import { currencyList } from "@/lib/countries";
 import { Suspense } from "react";
 
 export default function Home() {
   return (
     <>
       <section className="my-12 px-4">
-        <h1 className="text-2xl font-mono text-primary w-fit mx-auto">Sports platform</h1>
+        <h1 className="text-2xl font-mono text-primary w-fit mx-auto">
+          Sports platform
+        </h1>
         <p className="text-center md:w-1/2 mx-auto">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
           voluptatibus tempore voluptates consequuntur aperiam possimus aliquam
@@ -19,7 +18,7 @@ export default function Home() {
       </section>
 
       <section className="my-12">
-        <h2 className="text-2xl font-mono text-primary px-4">What's New</h2>
+        <h2 className="text-2xl font-mono text-primary px-4">What&apos;s New</h2>
         <div className="flex-1 min-w-0 flex justify-center">
           <Suspense fallback={<CarouselSkeleton />}>
             <NewEventsCarouselWrapper />

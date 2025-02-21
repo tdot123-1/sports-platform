@@ -9,7 +9,7 @@ import {
   DropdownMenuSubTrigger,
 } from "../ui/dropdown-menu";
 import { Slider } from "../ui/slider";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useDebouncedCallback } from "use-debounce";
@@ -31,7 +31,6 @@ const FilterPrice = ({
   pathname,
   searchParams,
   replace,
-  priceFilter,
   priceRange,
   maxPrice,
   setPriceRange,

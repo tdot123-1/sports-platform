@@ -27,7 +27,7 @@ const LoginForm = () => {
         router.push("/");
       }
     }
-  }, [pending, state]);
+  }, [pending, state, router]);
 
   return (
     <>

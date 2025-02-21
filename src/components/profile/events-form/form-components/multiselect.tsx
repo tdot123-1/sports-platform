@@ -56,7 +56,7 @@ const MultiSelect = <T extends Record<string, string>>({
         )
       );
     }
-  }, [initial_values]);
+  }, [initial_values, optionsMap]);
 
   const handleCheckedChange = (checked: boolean, key: string) => {
     // update selected values state

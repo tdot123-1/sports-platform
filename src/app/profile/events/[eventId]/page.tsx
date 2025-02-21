@@ -4,7 +4,7 @@ import DeleteEvent from "@/components/profile/delete-event";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
-import { EditIcon, ImageUpIcon, Undo2Icon } from "lucide-react";
+import { EditIcon, ImageUpIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";

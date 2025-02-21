@@ -26,7 +26,6 @@ import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import LinksInput from "./form-components/links-input";
 import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
-import AddressInput from "./form-components/address-input";
 import CountrySelect from "./form-components/country-select";
 import DateRangePicker from "./form-components/date-range-picker";
 
@@ -83,7 +82,7 @@ const EventForm = ({
             Event Type <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
-            Select the type that best describes the event you're organizing.
+            Select the type that best describes the event you&apos;re organizing.
           </p>
           <Select
             disabled={pending}

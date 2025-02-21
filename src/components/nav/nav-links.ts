@@ -1,22 +1,16 @@
 import {
-  BookUserIcon,
   CalendarIcon,
   CookieIcon,
   DatabaseIcon,
   GridIcon,
   HeartHandshakeIcon,
-  HelpCircle,
   HelpCircleIcon,
-  Home,
   HomeIcon,
   LogInIcon,
   MapIcon,
   MessageCircle,
   PlusCircleIcon,
   Table2Icon,
-  Trophy,
-  TrophyIcon,
-  UserCircleIcon,
   UserIcon,
   UserPlus2Icon,
 } from "lucide-react";
@@ -25,7 +19,7 @@ export const baseNavLinks = [
   {
     name: "Home",
     href: "/",
-    icon: Home,
+    icon: HomeIcon,
   },
   // {
   //   name: "Events",
@@ -35,7 +29,7 @@ export const baseNavLinks = [
   {
     name: "About",
     href: "/about",
-    icon: HelpCircle,
+    icon: HelpCircleIcon,
   },
 ];
 

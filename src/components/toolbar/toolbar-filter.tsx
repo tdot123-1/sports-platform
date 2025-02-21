@@ -3,19 +3,15 @@
 import {
   FilterOptions,
   SportsEventType,
-  SportsEventTypeArray,
   SportsEventTypeKeys,
   SportsEventTypeMap,
   TargetAgeGroup,
-  TargetAgeGroupArray,
   TargetAgeGroupKeys,
   TargetAgeGroupMap,
   TargetGender,
-  TargetGenderArray,
   TargetGenderKeys,
   TargetGenderMap,
   TargetLevel,
-  TargetLevelArray,
   TargetLevelKeys,
   TargetLevelMap,
 } from "@/lib/types";
@@ -44,11 +40,11 @@ import FilterPrice from "./filter-price";
 const ToolbarFilter = ({
   filter,
   priceFilter,
-  maxPrice
+  maxPrice,
 }: {
   filter?: FilterOptions;
   priceFilter?: number;
-  maxPrice: number
+  maxPrice: number;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -63,8 +59,8 @@ const ToolbarFilter = ({
   // 'delete all filters' is clicked
   const [deletePriceRange, setDeletePriceRange] = useState(false);
 
-   // T is generic type variable, makes function flexible
-   const initializeFilterState = <T extends string>(
+  // T is generic type variable, makes function flexible
+  const initializeFilterState = <T extends string>(
     optionsArray: T[],
     selectedFilters?: T[]
   ): Record<T, boolean> => {
@@ -89,24 +85,6 @@ const ToolbarFilter = ({
   const [levelFilter, setLevelFilter] = useState<{
     [key in TargetLevel]: boolean;
   }>(initializeFilterState(TargetLevelKeys, filter?.target_level));
-
- 
-
-  // initialize state based on received filter props
-  // useEffect(() => {
-  //   setTypeFilter(
-  //     initializeFilterState(SportsEventTypeArray, filter?.event_type)
-  //   );
-  //   setAgeFilter(
-  //     initializeFilterState(TargetAgeGroupArray, filter?.target_age)
-  //   );
-  //   setGenderFilter(
-  //     initializeFilterState(TargetGenderArray, filter?.target_gender)
-  //   );
-  //   setLevelFilter(
-  //     initializeFilterState(TargetLevelArray, filter?.target_level)
-  //   );
-  // }, []); // run on mount
 
   const handleChangeFilter = (
     value: string,

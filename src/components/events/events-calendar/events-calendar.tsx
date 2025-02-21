@@ -21,15 +21,13 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const myEventsList = [
-  {
-    title: "Test Event",
-    start: new Date("2025-03-01T10:00:00"),
-    end: new Date("2025-03-01T12:00:00"),
-  },
-];
+export interface CalendarEvent {
+  start: Date;
+  end: Date;
+  title: string;
+}
 
-const EventsCalendar = ({ eventList }: { eventList: any[] }) => {
+const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
   return (
     <>
       <Calendar

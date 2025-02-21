@@ -3,9 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CircleXIcon } from "lucide-react";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useMemo, useState } from "react";
 
 interface LinksInputProps {
   event_links?: string[];
@@ -45,7 +44,7 @@ const LinksInput = ({
   };
 
   // allow enter key for submitting link
-  const handleKeyDown = (e: any) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (linkInput.length > 0) {

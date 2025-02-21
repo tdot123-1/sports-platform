@@ -1,7 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { fetchEventLogo } from "@/lib/data/storage/data";
+import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
 import Link from "next/link";
 

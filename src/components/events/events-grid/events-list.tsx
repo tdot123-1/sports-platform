@@ -1,10 +1,8 @@
-import { fetchAllEvents, fetchMaxCostEstimate } from "@/lib/data/events/data";
+import { fetchAllEvents } from "@/lib/data/events/data";
 import {
   FilterOptions,
   SortOptions,
   SportsEvent,
-  TargetGender,
-  TargetLevel,
 } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventCard from "./event-card";

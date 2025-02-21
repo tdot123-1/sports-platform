@@ -105,7 +105,7 @@ export const fetchNewEvents = async () => {
 
     return events;
   } catch (error) {
-    console.error("Error fetching newest events");
+    console.error("Error fetching newest events: ", error);
     return [];
   }
 };

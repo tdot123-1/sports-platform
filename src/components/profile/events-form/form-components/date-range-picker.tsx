@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { CheckedState } from "@radix-ui/react-checkbox";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -38,7 +39,7 @@ const DateRangePicker = ({
 
   const [checked, setChecked] = useState(false);
 
-  const handleCheckedChange = (e: any) => {
+  const handleCheckedChange = (e: CheckedState) => {
     if (e === true) {
       setDate(undefined);
     }
@@ -111,11 +112,11 @@ const DateRangePicker = ({
         className="hidden"
       />
       <p className="text-xs italic mt-1">
-        Check this option if your event doesn't have a start date yet.
+        Check this option if your event doesn&apos;t have a start date yet.
       </p>
       <div className="flex items-center gap-1">
         <Checkbox
-          disabled={pending || !!date}
+          disabled={pending || !!date?.from}
           checked={checked}
           onCheckedChange={handleCheckedChange}
           name="start_date_tbd"

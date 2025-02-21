@@ -48,7 +48,7 @@ const UploadMediaForm = ({
         toast.success(toastDescription);
       }
     }
-  }, [pending, state]);
+  }, [pending, state, toastDescription]);
 
   // add frontend validation for file size (?)
 

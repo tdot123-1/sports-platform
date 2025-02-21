@@ -1,7 +1,6 @@
 "use client";
 
 import { logOut } from "@/lib/actions/auth/actions";
-import { Button } from "../ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -30,6 +29,7 @@ const LogoutMenuItem = () => {
         setError(result.message || "Failed to logout. Please try again.");
       }
     } catch (error) {
+      console.error("Error on logout: ", error)
       setError("Failed to logout. Please try again.");
     } finally {
       setIsLoading(false);

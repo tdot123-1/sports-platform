@@ -12,7 +12,6 @@ import {
 } from "../ui/sidebar";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { LogOutIcon, LucideIcon } from "lucide-react";
 import {
   baseNavLinks,
   infoNavLinks,
@@ -21,12 +20,6 @@ import {
 } from "./nav-links";
 import LogoutMenuItem from "../auth/logout-menu-item";
 import SidebarEventsSub from "./sidebar-events-sub";
-
-interface SidebarLink {
-  name: string;
-  href: string;
-  icon: LucideIcon;
-}
 
 interface SidebarLinksProps {
   authenticated: boolean;

@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { fetchEventLogo } from "@/lib/data/storage/data";
-import { ExternalLinkIcon, Trash2Icon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import UploadMediaForm from "../upload-media";
 import {
   deleteLogoFromStorage,

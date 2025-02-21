@@ -40,16 +40,6 @@ const CurrencySelect = ({
     cost_currency ? cost_currency : "EUR"
   );
 
-  // find selected currency code in list
-  const selectedCurrencyInfo = selectedCurrency
-    ? currencyList.find((c) => c.code === selectedCurrency)
-    : null;
-
-  // format display: "Currency Name (Code)"
-  const displayValue = selectedCurrencyInfo
-    ? `${selectedCurrencyInfo.currency} (${selectedCurrencyInfo.code})`
-    : "Select currency...";
-
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -64,7 +54,6 @@ const CurrencySelect = ({
             value={selectedCurrency}
             id={name}
           >
-            {/* <span className="hidden md:block">{displayValue}</span> */}
             <span>
               {selectedCurrency
                 ? currencyList.find((c) => c.code === selectedCurrency)?.code

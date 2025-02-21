@@ -28,7 +28,7 @@ const CreateEvent = ({ countryList }: CreateEventProps) => {
         router.push(`/profile/events/${state.message}`);
       }
     }
-  }, [pending, state]);
+  }, [pending, state, router]);
 
   return (
     <>

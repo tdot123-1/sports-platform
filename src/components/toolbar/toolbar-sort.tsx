@@ -41,7 +41,7 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
       order: ascending ? "asc" : "desc",
     };
 
-    // construct new url 
+    // construct new url
     const newUrl = createSearchParams(
       pathname,
       searchParams,
@@ -56,7 +56,7 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
     if (newUrl !== `${pathname}?${params.toString()}`) {
       replace(newUrl);
     }
-  }, [ascending, sortBy]);
+  }, [ascending, sortBy, pathname, replace, searchParams]);
 
   return (
     <>
