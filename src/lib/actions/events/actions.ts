@@ -115,7 +115,11 @@ const FormSchema = z.object({
     .nullable()
     .refine(
       (startDate) => {
-        return startDate === null || startDate >= new Date();
+        return (
+          startDate === null ||
+          new Date(startDate).setHours(0, 0, 0, 0) >=
+            new Date().setHours(0, 0, 0, 0)
+        );
       },
       { message: "Start date must be today or in the future" }
     ),
@@ -127,7 +131,11 @@ const FormSchema = z.object({
     .nullable()
     .refine(
       (endDate) => {
-        return endDate === null || endDate >= new Date();
+        return (
+          endDate === null ||
+          new Date(endDate).setHours(0, 0, 0, 0) >=
+            new Date().setHours(0, 0, 0, 0)
+        );
       },
       { message: "End date must be today or in the future" }
     ),
@@ -302,31 +310,29 @@ export async function createEvent(prevState: State, formData: FormData) {
       return redirect("/login");
     }
 
-    const { error } = await supabase.from("events").insert(
-      {
-        event_name,
-        event_type,
-        target_age,
-        target_level,
-        target_gender,
-        address_line_one,
-        address_line_two,
-        address_city,
-        address_region,
-        address_postal_code,
-        address_country,
-        event_description,
-        start_date,
-        end_date,
-        contact_email,
-        contact_phone,
-        event_links,
-        cost_estimate,
-        cost_description,
-        cost_currency,
-        user_id: user.id,
-      },
-    );
+    const { error } = await supabase.from("events").insert({
+      event_name,
+      event_type,
+      target_age,
+      target_level,
+      target_gender,
+      address_line_one,
+      address_line_two,
+      address_city,
+      address_region,
+      address_postal_code,
+      address_country,
+      event_description,
+      start_date,
+      end_date,
+      contact_email,
+      contact_phone,
+      event_links,
+      cost_estimate,
+      cost_description,
+      cost_currency,
+      user_id: user.id,
+    });
 
     if (error) {
       console.error("Database error on create event: ", error.message);

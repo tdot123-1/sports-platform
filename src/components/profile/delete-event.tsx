@@ -36,9 +36,7 @@ const DeleteEvent = ({ eventId }: DeleteEventProps) => {
       if (result.success) {
         router.replace("/profile/events");
         setTimeout(() => {
-          toast.info("Event deleted", {
-            description: "Your event has been deleted from the database",
-          });
+          toast.info("Event deleted!");
         }, 100);
       } else {
         setError(result.message || "An unexpected error occurred");

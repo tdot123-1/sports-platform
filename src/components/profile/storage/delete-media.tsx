@@ -44,7 +44,7 @@ const DeleteMediaButton = ({
         throw new Error(`Failure to delete image: ${result.message}`);
       }
 
-      toast.success("Image deleted succesfully");
+      toast.info("Image deleted!");
     } catch (error) {
       console.error("Error deleting file: ", error);
       toast.error("Failed to delete image", {

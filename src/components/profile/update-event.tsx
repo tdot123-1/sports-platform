@@ -26,11 +26,9 @@ const UpdateEvent = ({ event, countryList }: UpdateEventProps) => {
   useEffect(() => {
     if (!pending) {
       if (state.success) {
-        toast("Event updated", {
-          description: "Changes to this event have been saved!",
-        });
+        toast.success("Event updated!");
 
-        router.push("/profile");
+        router.push(`/profile/events/${event.id}`);
       }
     }
   }, [pending, state]);

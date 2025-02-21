@@ -277,7 +277,7 @@ export const formatRawFormData = (formData: FormData) => {
 
   const parseDate = (key: string) => {
     const value = formData.get(key);
-    return typeof value === "string" ? new Date(value) : null;
+    return typeof value === "string" && value.length > 0 ? new Date(value) : null;
   };
 
   return {

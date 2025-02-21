@@ -23,9 +23,7 @@ const CreateEvent = ({ countryList }: CreateEventProps) => {
   useEffect(() => {
     if (!pending) {
       if (state.success) {
-        toast("Event created", {
-          description: "Your event was added to the database!",
-        });
+        toast.success("New event created!");
 
         router.push("/profile");
       }

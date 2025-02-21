@@ -1,4 +1,3 @@
-import EventsCalendar from "@/components/events/events-calendar/events-calendar";
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
 
 const Page = () => {
