@@ -71,7 +71,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             </h4>
             <div className="text-sm my-1">
               <p>{SportsEventTypeMap[event.event_type]}</p>
-              <ScrollArea className="min-h-14 max-h-28">
+              <ScrollArea className="h-28">
                 {event.event_description ? (
                   <p className="mt-1">{event.event_description}</p>
                 ) : (
@@ -193,7 +193,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                     <ReceiptTextIcon size={18} />
                     <h5 className="font-semibold">Additional pricing info:</h5>
                   </div>
-                  <ScrollArea className="min-h-14 max-h-28">
+                  <ScrollArea className="h-28">
                     <p className="text-right">{event.cost_description}</p>
                   </ScrollArea>
                 </div>
