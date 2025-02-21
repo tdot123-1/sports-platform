@@ -277,18 +277,18 @@ export const formatRawFormData = (formData: FormData) => {
 
   const parseDate = (key: string) => {
     const value = formData.get(key);
-    return typeof value === "string" && value.length > 0 ? new Date(value) : null;
+    return typeof value === "string" && value.length > 0
+      ? new Date(value)
+      : null;
   };
 
   return {
     ...rawFormData,
     // set empty or missing fields to null
-    address_line_two: getOptional("address_line_two"),
-    address_region: getOptional("address_region"),
-    address_postal_code: getOptional("address_postal_code"),
     event_description: getOptional("event_description"),
     cost_description: getOptional("cost_description"),
     contact_phone: getOptional("contact_phone"),
+    event_link: getOptional("event_link"),
 
     // transform dates to Date objects
     start_date: parseDate("start_date"),
@@ -297,7 +297,7 @@ export const formatRawFormData = (formData: FormData) => {
     // transform comma-separated strings into arrays
     target_age: getArray("target_age"),
     target_level: getArray("target_level"),
-    event_links: getArray("event_links"),
+    social_links: getArray("social_links"),
 
     // convert string cost to numeric cents value
     cost_estimate: getOptional("cost_estimate")

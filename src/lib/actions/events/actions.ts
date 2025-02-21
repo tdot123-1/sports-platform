@@ -17,19 +17,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// temporary validation for address format
-// const AddressSchema = z.object({
-//   address_one: z
-//     .string()
-//     .min(1, "Address line 1 is required")
-//     .trim()
-//     .nonempty("Please add an address"),
-//   address_two: z.string().trim().optional(),
-//   city: z.string().trim().min(1, "City is required"),
-//   region: z.string().min(1, "Region is required").trim(),
-//   postal: z.string().min(1, "Postal code is required").trim(),
-// });
-
 // (!) Add phone number validation
 const FormSchema = z.object({
   id: z.string().uuid(),
@@ -44,6 +31,14 @@ const FormSchema = z.object({
     invalid_type_error: "Please select an event type",
     message: "Please select from the available events",
   }),
+  event_description: z
+    .string({
+      invalid_type_error: "Please provide a description of your event",
+    })
+    .trim()
+    .max(2000, { message: "Maximum characters exceeded" })
+    .nullable(),
+
   target_age: z
     .array(z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap]), {
       invalid_type_error: "Please select from the available age groups",
@@ -60,37 +55,12 @@ const FormSchema = z.object({
     invalid_type_error: "Please select a gender",
     message: "Please select a gender",
   }),
-  address_line_one: z
-    .string({ invalid_type_error: "Please add an address to your event" })
-    .trim()
-    .min(5, { message: "Address is too short" })
-    .max(100, { message: "Maximum characters exceeded" }),
-  address_line_two: z
-    .string({ invalid_type_error: "Please add an address to your event" })
-    .trim()
-    .min(1, { message: "Address line 2 is too short" })
-    .max(100, { message: "Maximum characters exceeded" })
-    .nullable(),
+
   address_city: z
     .string({ invalid_type_error: "Please add a city" })
     .trim()
     .min(2, { message: "City name is too short" })
     .max(100, { message: "Maximum characters exceeded" }),
-  address_region: z
-    .string({ invalid_type_error: "Please add a region/state/province" })
-    .trim()
-    .min(2, { message: "Region/state/province is too short" })
-    .max(100, { message: "Maximum characters exceeded" })
-    .nullable(),
-  address_postal_code: z
-    .string({ invalid_type_error: "Please enter a valid postal code" })
-    .trim()
-    .min(2, { message: "Postal code is too short" })
-    .max(15, { message: "Postal code is too long" })
-    .regex(/^[A-Za-z0-9\s\-]+$/, {
-      message: "Invalid characters in postal code",
-    })
-    .nullable(),
   address_country: z
     .string({
       invalid_type_error: "Please add a country for your event",
@@ -101,13 +71,7 @@ const FormSchema = z.object({
     .refine((code) => validCountryCodes.has(code), {
       message: "Invalid country code",
     }),
-  event_description: z
-    .string({
-      invalid_type_error: "Please provide a description of your event",
-    })
-    .trim()
-    .max(2000, { message: "Maximum characters exceeded" })
-    .nullable(),
+
   start_date: z
     .date({
       invalid_type_error: "Please provide the starting date of your event",
@@ -139,6 +103,7 @@ const FormSchema = z.object({
       },
       { message: "End date must be today or in the future" }
     ),
+
   contact_email: z
     .string({
       invalid_type_error: "Please provide an email address",
@@ -159,7 +124,32 @@ const FormSchema = z.object({
     .refine((v) => {
       return v === null || /^\+?[0-9]\d{1,14}$/.test(v);
     }),
-  event_links: z
+
+  cost_estimate: z
+    .number({
+      invalid_type_error: "Cost estimate must be a number",
+    })
+    .int({ message: "Cost estimate must be whole number" })
+    .min(0, { message: "Cost estimate must be a positive amount" }),
+  cost_currency: z
+    .enum(validCurrencyCodes, { message: "Please select a valid currency" })
+    .default("EUR"),
+  cost_description: z
+    .string({
+      invalid_type_error: "Please provide a cost description",
+    })
+    .trim()
+    .max(2000, { message: "Maximum characters exceeded" })
+    .nullable(),
+
+  event_link: z
+    .string({
+      invalid_type_error: "Invalid input type",
+    })
+    .trim()
+    .url({ message: "Please only valid URLs" })
+    .nullable(),
+  social_links: z
     .array(
       z
         .string({
@@ -168,30 +158,13 @@ const FormSchema = z.object({
         .trim()
         .url({ message: "Please only valid URLs" })
     )
-    .max(5, { message: "Max number of links exceeded" })
+    .max(4, { message: "Max number of links exceeded" })
     .nullable(),
-  cost_estimate: z
-    .number({
-      invalid_type_error: "Cost estimate must be a number",
-    })
-    .int({ message: "Cost estimate must be whole number" })
-    .min(0, { message: "Cost estimate must be a positive amount" }),
-  cost_description: z
-    .string({
-      invalid_type_error: "Please provide a cost description",
-    })
-    .trim()
-    .max(2000, { message: "Maximum characters exceeded" })
-    .nullable(),
-  cost_currency: z
-    .enum(validCurrencyCodes, { message: "Please select a valid currency" })
-    .default("EUR"),
 });
 
 const CreateEventSchema = FormSchema.omit({ id: true })
   .refine(
     (data) => {
-      console.log("REFINE 1");
       // if start is null, end should be null
       if (data.start_date === null) {
         return data.end_date === null;
@@ -206,7 +179,6 @@ const CreateEventSchema = FormSchema.omit({ id: true })
   )
   .refine(
     (data) => {
-      console.log("REFINE 2");
       // if tbd is checked, start date must be null
       if (data.start_date_tbd && data.start_date !== null) return false;
 
@@ -227,24 +199,27 @@ export type State = {
   errors?: {
     event_name?: string[];
     event_type?: string[];
+    event_description?: string[];
+
     target_age?: string[];
     target_level?: string[];
     target_gender?: string[];
-    address_line_one?: string[];
-    address_line_two?: string[];
+
     address_city?: string[];
-    address_region?: string[];
-    address_postal_code?: string[];
     address_country?: string[];
-    event_description?: string[];
+
     start_date?: string[];
     end_date?: string[];
+
     contact_email?: string[];
     contact_phone?: string[];
-    event_links?: string[];
+
     cost_estimate?: string[];
-    cost_description?: string[];
     cost_currency?: string[];
+    cost_description?: string[];
+
+    event_link?: string[];
+    social_links?: string[];
   };
   message?: string;
   success: boolean;
@@ -268,24 +243,27 @@ export async function createEvent(prevState: State, formData: FormData) {
   const {
     event_name,
     event_type,
+    event_description,
+
     target_age,
     target_level,
     target_gender,
-    address_line_one,
-    address_line_two,
+
     address_city,
-    address_region,
-    address_postal_code,
     address_country,
-    event_description,
+
     start_date,
     end_date,
+
     contact_email,
     contact_phone,
-    event_links,
+
     cost_estimate,
     cost_description,
     cost_currency,
+
+    event_link,
+    social_links,
   } = validatedFields.data;
 
   try {
@@ -313,24 +291,28 @@ export async function createEvent(prevState: State, formData: FormData) {
     const { error } = await supabase.from("events").insert({
       event_name,
       event_type,
+      event_description,
+
       target_age,
       target_level,
       target_gender,
-      address_line_one,
-      address_line_two,
+
       address_city,
-      address_region,
-      address_postal_code,
       address_country,
-      event_description,
+
       start_date,
       end_date,
+
       contact_email,
       contact_phone,
-      event_links,
+
       cost_estimate,
       cost_description,
       cost_currency,
+
+      event_link,
+      social_links,
+
       user_id: user.id,
     });
 
@@ -341,7 +323,7 @@ export async function createEvent(prevState: State, formData: FormData) {
 
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
-    revalidatePath("/profile/events");
+    revalidatePath("/events/calendar");
     revalidatePath("/profile/events");
 
     return { message: "", success: true };
@@ -375,24 +357,27 @@ export async function updateEvent(
   const {
     event_name,
     event_type,
+    event_description,
+
     target_age,
     target_level,
     target_gender,
-    address_line_one,
-    address_line_two,
+
     address_city,
-    address_region,
-    address_postal_code,
     address_country,
-    event_description,
+
     start_date,
     end_date,
+
     contact_email,
     contact_phone,
-    event_links,
+
     cost_estimate,
     cost_description,
     cost_currency,
+
+    event_link,
+    social_links,
   } = validatedFields.data;
 
   try {
@@ -406,24 +391,27 @@ export async function updateEvent(
       .update({
         event_name,
         event_type,
+        event_description,
+
         target_age,
         target_level,
         target_gender,
-        address_line_one,
-        address_line_two,
+
         address_city,
-        address_region,
-        address_postal_code,
         address_country,
-        event_description,
+
         start_date,
         end_date,
+
         contact_email,
         contact_phone,
-        event_links,
+
         cost_estimate,
         cost_description,
         cost_currency,
+
+        event_link,
+        social_links,
       })
       .eq("id", id);
 
@@ -434,6 +422,8 @@ export async function updateEvent(
 
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
+    revalidatePath("/events/calendar");
+
     revalidatePath(`/events/${id}`);
     revalidatePath("/profile/events");
     revalidatePath(`/profile/events/${id}`);
@@ -460,6 +450,8 @@ export async function deleteEvent(eventId: string) {
 
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
+    revalidatePath("/events/calendar");
+
     revalidatePath(`/events/${eventId}`);
     revalidatePath(`/profile/events/${eventId}`);
     revalidatePath("/profile/events");

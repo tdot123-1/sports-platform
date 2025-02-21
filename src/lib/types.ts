@@ -79,34 +79,47 @@ export interface EventImage {
   image_url: string;
 }
 
-//(!) allow multiple levels, ages
 export interface SportsEvent {
+  // row
   id: string;
   inserted_at: Date;
   updated_at: Date;
+  user_id: string;
+
+  // event
   event_name: string;
   event_type: SportsEventType;
+  event_description: string | null;
+
+  // target
   target_age: TargetAgeGroup[];
   target_level: TargetLevel[] | null;
   target_gender: TargetGender;
-  address_line_one: string;
-  address_line_two: string | null;
+
+  // location
   address_city: string;
-  address_region: string | null;
-  address_postal_code: string | null;
   address_country: string;
-  event_description: string | null;
+
+  // dates
   start_date: Date | null;
   end_date: Date | null;
+
+  // contact
   contact_email: string;
   contact_phone: string;
+
+  // cost
   cost_estimate: number;
   cost_currency: string;
   cost_description: string | null;
-  event_links: string[] | null;
+
+  // links
+  event_link: string | null;
+  social_links: string[] | null;
+
+  // images
   event_logo_url: string | null;
-  event_images: EventImage[] 
-  user_id: string;
+  event_images: EventImage[];
 }
 
 export interface FilterOptions {
