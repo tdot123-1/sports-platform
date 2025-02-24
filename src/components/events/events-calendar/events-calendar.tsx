@@ -8,6 +8,7 @@ import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useCallback, useState } from "react";
 
 const locales = {
   "en-US": enUS,
@@ -22,15 +23,26 @@ const localizer = dateFnsLocalizer({
 });
 
 export interface CalendarEvent {
-  start: Date;
-  end: Date;
+  start: Date | null;
+  end: Date | null;
   title: string;
 }
 
 const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const handleNavigate = (newDate: Date) => {
+    console.log(
+      `Current month: ${newDate.getMonth().toString()} / ${newDate
+        .getFullYear()
+        .toString()}`
+    );
+    setCurrentMonth(newDate);
+  };
   return (
     <>
       <Calendar
+        date={currentMonth}
         localizer={localizer}
         events={eventList}
         startAccessor="start"
@@ -38,6 +50,7 @@ const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
         defaultView="month"
         views={["month"]}
         style={{ height: "100%", width: "100%" }}
+        onNavigate={handleNavigate}
       />
     </>
   );

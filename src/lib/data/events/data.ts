@@ -175,7 +175,45 @@ export const fetchMaxCostEstimate = async () => {
       ? Math.ceil(data[0].cost_estimate / 100)
       : 1000;
   } catch (error) {
-    console.error("Unexpected rror fetching max cost estimate: ", error);
+    console.error("Unexpected error fetching max cost estimate: ", error);
     return 1000;
+  }
+};
+
+export const ITEMS_PER_MONTH = 25;
+
+export const fetchEventsPerMonth = async (
+  month: number,
+  year: number,
+  currentBatch: number = 1
+) => {
+  const offset = (currentBatch - 1) * ITEMS_PER_MONTH;
+
+  // get first day of month
+  const start = new Date(year, month - 1, 1).toISOString().split("T")[0];
+
+  // get last day of month
+  const end = new Date(year, month, 0).toISOString().split("T")[0];
+
+  try {
+    const supabase = await createClient();
+
+    const { data: events, error } = await supabase
+      .from("events")
+      .select("*")
+      .gte("start_date", start)
+      .lte("start_date", end)
+      .order("start_date")
+      .range(offset, offset + ITEMS_PER_MONTH - 1);
+
+    if (error) {
+      console.error("Postgres error: ", error.message);
+      throw new Error(error.message);
+    }
+
+    return events;
+  } catch (error) {
+    console.error("Error fetching calendar events: ", error);
+    throw new Error(`Error fetching calendar events: ${error}`);
   }
 };
