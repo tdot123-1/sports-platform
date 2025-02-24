@@ -6,6 +6,8 @@ import { applyQueryFilters } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 10;
 
+const ITEMS_PER_MONTH = 25;
+
 export const fetchAllEvents = async (
   currentPage: number = 1,
   userId?: string,
@@ -180,8 +182,6 @@ export const fetchMaxCostEstimate = async () => {
   }
 };
 
-export const ITEMS_PER_MONTH = 25;
-
 export const fetchEventsPerMonth = async (
   month: number,
   year: number,
@@ -201,6 +201,7 @@ export const fetchEventsPerMonth = async (
     const { data: events, error } = await supabase
       .from("events")
       .select("*")
+      .not("start_date", "is", null)
       .gte("start_date", start)
       .lte("start_date", end)
       .order("start_date")

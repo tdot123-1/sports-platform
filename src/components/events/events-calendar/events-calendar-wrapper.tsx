@@ -1,10 +1,20 @@
-import { fetchAllEvents } from "@/lib/data/events/data";
 import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventsCalendar from "./events-calendar";
+import { fetchEventsPerMonth } from "@/lib/data/events/data";
 
-const EventsCalendarWrapper = async () => {
-  const fetchedEvents = await fetchAllEvents();
+interface EventsCalendarWrapperProps {
+  month: number;
+  year: number;
+  batch: number;
+}
+
+const EventsCalendarWrapper = async ({
+  month,
+  year,
+  batch,
+}: EventsCalendarWrapperProps) => {
+  const fetchedEvents = await fetchEventsPerMonth(month, year, batch);
 
   const events: SportsEvent[] = fetchedEvents.map((event) =>
     convertFetchedEvent(event)
