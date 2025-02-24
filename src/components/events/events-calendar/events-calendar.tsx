@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, SlotInfo } from "react-big-calendar";
 import { format } from "date-fns/format";
 import { parse } from "date-fns/parse";
 import { startOfWeek } from "date-fns/startOfWeek";
@@ -8,7 +8,10 @@ import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { SportsEventType } from "@/lib/types";
+import SelectedDateEvents from "./selected-date-events";
 
 const locales = {
   "en-US": enUS,
@@ -22,14 +25,71 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+const eventStyleGetter = () => {
+  return {
+    style: {
+      backgroundColor: `hsl(var(--primary))`,
+      fontSize: "0.9rem",
+      // color: "white",
+      // borderRadius: "6px",
+      // padding: "2px 5px",
+    },
+  };
+};
+
 export interface CalendarEvent {
-  start: Date | null;
+  start: Date;
   end: Date | null;
   title: string;
+  id: string;
+  event_type: SportsEventType;
+  address_city: string;
+  address_country: string;
 }
 
-const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+interface EventsCalendarProps {
+  month?: number;
+  year?: number;
+  batch?: number;
+  eventList: CalendarEvent[];
+}
+
+const EventsCalendar = ({
+  eventList,
+  month,
+  year,
+  batch,
+}: EventsCalendarProps) => {
+  // initialize start month
+  const startMonth = month && year ? new Date(year, month - 1, 1) : new Date();
+
+  const [currentMonth, setCurrentMonth] = useState(startMonth);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  // open modal and set date on click of slot/event/+X more text
+  const handleSelectSlot = (slotInfo: SlotInfo) => {
+    setSelectedDate(slotInfo.start);
+    setIsDialogOpen(true);
+  };
+
+  const handleSelectEvent = (event: CalendarEvent) => {
+    setSelectedDate(event.start);
+    setIsDialogOpen(true);
+  };
+
+  const handleDrillDown = (date: Date) => {
+    setSelectedDate(date);
+    setIsDialogOpen(true);
+  };
+
+  const handleOpenChange = () => {
+    setIsDialogOpen((prev) => !prev);
+  };
 
   const handleNavigate = (newDate: Date) => {
     console.log(
@@ -39,6 +99,17 @@ const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
     );
     setCurrentMonth(newDate);
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    const month = currentMonth.getMonth() + 1;
+    params.set("month", month.toString());
+    params.set("year", currentMonth.getFullYear().toString());
+    params.set("batch", "1");
+
+    replace(`${pathname}?${params.toString()}`);
+  }, [currentMonth]);
+
   return (
     <>
       <Calendar
@@ -51,6 +122,17 @@ const EventsCalendar = ({ eventList }: { eventList: CalendarEvent[] }) => {
         views={["month"]}
         style={{ height: "100%", width: "100%" }}
         onNavigate={handleNavigate}
+        eventPropGetter={eventStyleGetter}
+        selectable
+        onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleSelectEvent}
+        onDrillDown={handleDrillDown}
+      />
+      <SelectedDateEvents
+        selectedDate={selectedDate}
+        isDialogOpen={isDialogOpen}
+        handleOpenChange={handleOpenChange}
+        events={eventList}
       />
     </>
   );

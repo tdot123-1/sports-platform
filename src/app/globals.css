@@ -79,6 +79,11 @@ body {
   }
 }
 
+/* text color in calendar */
+.rbc-show-more {
+  color: hsl(var(--foreground)) !important; 
+}
+
 @layer base {
   * {
     @apply border-border;

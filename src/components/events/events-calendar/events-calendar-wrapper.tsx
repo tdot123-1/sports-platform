@@ -24,13 +24,19 @@ const EventsCalendarWrapper = async ({
     .filter((event) => event.start_date !== null)
     .map((e) => ({
       title: e.event_name,
-      start: e.start_date,
+      start: e.start_date!,
       //   end: e.end_date ? e.end_date : e.start_date,
       end: e.start_date,
+      id: e.id,
+      event_type: e.event_type,
+      address_city: e.address_city,
+      address_country: e.address_country,
     }));
+
+  console.log("Events: ", filteredEvents.length);
   return (
     <>
-      <EventsCalendar eventList={filteredEvents} />
+      <EventsCalendar month={month} year={year} eventList={filteredEvents} />
     </>
   );
 };
