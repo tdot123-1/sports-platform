@@ -16,8 +16,8 @@ const EventsCalendarWrapper = async ({
 }: EventsCalendarWrapperProps) => {
   const fetchedEvents = await fetchEventsPerMonth(month, year, batch);
 
-  const events: SportsEvent[] = fetchedEvents.map((event) =>
-    convertFetchedEvent(event)
+  const events: SportsEvent[] = await Promise.all(
+    fetchedEvents.map(convertFetchedEvent)
   );
 
   const filteredEvents = events
@@ -31,6 +31,7 @@ const EventsCalendarWrapper = async ({
       event_type: e.event_type,
       address_city: e.address_city,
       address_country: e.address_country,
+      event_logo_url: e.event_logo_url,
     }));
 
   console.log("Events: ", filteredEvents.length);

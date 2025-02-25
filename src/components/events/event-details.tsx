@@ -45,7 +45,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
   }
 
   // convert to get correct type (incl dates)
-  const event: SportsEvent = convertFetchedEvent(fetchedEvent);
+  const event: SportsEvent = await convertFetchedEvent(fetchedEvent);
 
   const imagePublicUrls =
     event.event_images.length > 0

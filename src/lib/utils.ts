@@ -9,18 +9,25 @@ import {
   SportsEvent,
 } from "./types";
 import { ReadonlyURLSearchParams } from "next/navigation";
+import { fetchEventLogo } from "./data/storage/data";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const convertFetchedEvent = (data: any): SportsEvent => {
+export const convertFetchedEvent = async (data: any): Promise<SportsEvent> => {
+  // "use server";
+
+  const logoPublicUrl = data.event_logo_url
+    ? await fetchEventLogo(data.event_logo_url)
+    : null;
   return {
     ...data,
     inserted_at: new Date(data.inserted_at),
     updated_at: new Date(data.updated_at),
     start_date: data.start_date ? new Date(data.start_date) : null,
     end_date: data.end_date ? new Date(data.end_date) : null,
+    event_logo_url: logoPublicUrl,
   };
 };
 
@@ -309,6 +316,5 @@ export const formatRawFormData = (formData: FormData) => {
 // const getMOnthRange = (date: Date) => {
 //   const monthStart = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
 //   const monthEnd = new Date(Date.UTC(date.getFullYear(), date.getMonth() + 1, 0));
-
 
 // };

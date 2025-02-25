@@ -45,6 +45,7 @@ export interface CalendarEvent {
   event_type: SportsEventType;
   address_city: string;
   address_country: string;
+  event_logo_url: string | null;
 }
 
 interface EventsCalendarProps {

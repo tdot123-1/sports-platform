@@ -1,9 +1,5 @@
 import { fetchAllEvents } from "@/lib/data/events/data";
-import {
-  FilterOptions,
-  SortOptions,
-  SportsEvent,
-} from "@/lib/types";
+import { FilterOptions, SortOptions, SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventCard from "./event-card";
 
@@ -36,8 +32,9 @@ const EventsList = async ({
     priceFilter
   );
 
-  const events: SportsEvent[] = fetchedEvents.map((event) =>
-    convertFetchedEvent(event)
+  // convert Dates and get public logo url
+  const events: SportsEvent[] = await Promise.all(
+    fetchedEvents.map(convertFetchedEvent)
   );
 
   return (

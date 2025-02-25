@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SportsEventTypeMap } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface SelectedDateEventsProps {
   selectedDate: Date;
@@ -56,7 +57,14 @@ const SelectedDateEvents = ({
                     <p className="mb-2 text-ellipsis overflow-hidden text-nowrap">
                       {event.address_city}, {event.address_country}
                     </p>
-
+                    <Avatar className="">
+                      {event.event_logo_url && (
+                        <AvatarImage src={event.event_logo_url} />
+                      )}
+                      <AvatarFallback className="bg-primary opacity-55">
+                        Sports
+                      </AvatarFallback>
+                    </Avatar>
                     <Link href={`/events/${event.id}`}>
                       <Button>Details</Button>
                     </Link>
@@ -65,7 +73,9 @@ const SelectedDateEvents = ({
               ))}
             </div>
           ) : (
-            <p className="text-center italic text-muted-foreground">No events scheduled today!</p>
+            <p className="text-center italic text-muted-foreground">
+              No events scheduled today!
+            </p>
           )}
         </DialogContent>
       </Dialog>

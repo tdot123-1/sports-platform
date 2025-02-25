@@ -14,6 +14,7 @@ export const fetchEventLogo = async (filePath: string) => {
     return data.publicUrl;
   } catch (error) {
     console.error("Error fetching event logo: ", error);
+    return null;
   }
 };
 

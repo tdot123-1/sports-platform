@@ -48,8 +48,8 @@ const EventsTable = async ({
     priceFilter
   );
 
-  const events: SportsEvent[] = fetchedEvents.map((event) =>
-    convertFetchedEvent(event)
+  const events: SportsEvent[] = await Promise.all(
+    fetchedEvents.map(convertFetchedEvent)
   );
 
   return (
