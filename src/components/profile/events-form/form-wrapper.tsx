@@ -22,7 +22,8 @@ const FormWrapper = async ({ eventId }: { eventId?: string }) => {
       return notFound();
     }
 
-    const event: SportsEvent = convertFetchedEvent(fetchedEvent);
+    // convert to get correct type (incl dates)
+    const event: SportsEvent = await convertFetchedEvent(fetchedEvent);
 
     return (
       <>

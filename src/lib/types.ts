@@ -112,6 +112,7 @@ export interface SportsEvent {
   cost_estimate: number;
   cost_currency: string;
   cost_description: string | null;
+  cost_estimate_eur: number;
 
   // links
   event_link: string | null;

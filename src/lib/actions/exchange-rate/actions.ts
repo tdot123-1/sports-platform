@@ -2,9 +2,9 @@
 
 import { validCurrencyCodesSet } from "@/lib/countries";
 
-export const getExchangeRate = async (from: string, to: string = "EUR") => {
-  const API_KEY = process.env.EXCHANGE_API_KEY;
-  const BASE_URL = process.env.EXCHANGERATE_URL;
+export const getExchangeRate = async (from: string) => {
+  const API_KEY = process.env.EXCHANGERATE_API_KEY;
+  const BASE_URL = process.env.NEXT_PUBLIC_EXCHANGERATE_URL;
 
   if (!API_KEY || !BASE_URL) {
     console.error("No API key or URL found!");
@@ -17,7 +17,7 @@ export const getExchangeRate = async (from: string, to: string = "EUR") => {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/${API_KEY}/pair/${from}/${to}`);
+    const response = await fetch(`${BASE_URL}/${API_KEY}/pair/${from}/EUR`);
 
     if (!response.ok) {
       throw new Error("Exchange rate response not ok");
@@ -34,4 +34,25 @@ export const getExchangeRate = async (from: string, to: string = "EUR") => {
     console.error("Error fetching exchange rate: ", error);
     return null;
   }
+};
+
+export const convertCostToEuro = async (
+  cost_estimate: number,
+  cost_currency: string
+) => {
+  let cost_estimate_eur = cost_estimate;
+
+  if (cost_currency === "EUR") {
+    return cost_estimate_eur;
+  }
+
+  const exchangeRate = await getExchangeRate(cost_currency);
+
+  if (exchangeRate) {
+    cost_estimate_eur = Math.round(cost_estimate * exchangeRate);
+  } else {
+    console.error("Error fetching exchange rate, cannot store converted value");
+  }
+
+  return cost_estimate_eur;
 };

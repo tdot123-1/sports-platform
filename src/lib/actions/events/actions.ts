@@ -16,6 +16,7 @@ import { formatRawFormData } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { convertCostToEuro } from "../exchange-rate/actions";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -270,6 +271,11 @@ export async function createEvent(prevState: State, formData: FormData) {
     social_links,
   } = validatedFields.data;
 
+  const cost_estimate_eur = await convertCostToEuro(
+    cost_estimate,
+    cost_currency
+  );
+
   try {
     const supabase = await createClient();
 
@@ -292,33 +298,38 @@ export async function createEvent(prevState: State, formData: FormData) {
       return redirect("/login");
     }
 
-    const { error, data } = await supabase.from("events").insert({
-      event_name,
-      event_type,
-      event_description,
+    const { error, data } = await supabase
+      .from("events")
+      .insert({
+        event_name,
+        event_type,
+        event_description,
 
-      target_age,
-      target_level,
-      target_gender,
+        target_age,
+        target_level,
+        target_gender,
 
-      address_city,
-      address_country,
+        address_city,
+        address_country,
 
-      start_date,
-      end_date,
+        start_date,
+        end_date,
 
-      contact_email,
-      contact_phone,
+        contact_email,
+        contact_phone,
 
-      cost_estimate,
-      cost_description,
-      cost_currency,
+        cost_estimate,
+        cost_description,
+        cost_currency,
+        cost_estimate_eur,
 
-      event_link,
-      social_links,
+        event_link,
+        social_links,
 
-      user_id: user.id,
-    }).select("id").single();
+        user_id: user.id,
+      })
+      .select("id")
+      .single();
 
     if (error) {
       console.error("Database error on create event: ", error.message);
@@ -384,6 +395,11 @@ export async function updateEvent(
     social_links,
   } = validatedFields.data;
 
+  const cost_estimate_eur = await convertCostToEuro(
+    cost_estimate,
+    cost_currency
+  );
+
   try {
     const supabase = await createClient();
 
@@ -413,6 +429,7 @@ export async function updateEvent(
         cost_estimate,
         cost_description,
         cost_currency,
+        cost_estimate_eur,
 
         event_link,
         social_links,
