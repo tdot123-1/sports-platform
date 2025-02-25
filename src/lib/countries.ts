@@ -23,7 +23,7 @@ const validCountryCodes = new Set(countryList.map((c) => c.code.toUpperCase()));
 const currencyList = cc.data
   .filter(
     ({ number, code, countries }) =>
-      number !== undefined && // Must have a numeric ISO 4217 code
+      number !== undefined && // must have a numeric ISO 4217 code
       !code.startsWith("X") &&
       Array.isArray(countries) &&
       countries.length > 0
@@ -39,10 +39,13 @@ const validCurrencyCodes = currencyList.map((c) => c.code.toUpperCase()) as [
   ...string[]
 ];
 
+const validCurrencyCodesSet = new Set(currencyList.map((c) => c.code.toUpperCase()));
+
 export {
   countryList,
   validCountryCodes,
   countryNameMap,
   currencyList,
   validCurrencyCodes,
+  validCurrencyCodesSet
 };
