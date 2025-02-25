@@ -8,10 +8,12 @@ import { getDay } from "date-fns/getDay";
 import { enUS } from "date-fns/locale/en-US";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SportsEventType } from "@/lib/types";
 import SelectedDateEvents from "./selected-date-events";
+import EventsBatchSelect from "./events-batch-select";
+import ToolbarFilter from "@/components/toolbar/toolbar-filter";
 
 const locales = {
   "en-US": enUS,
@@ -53,6 +55,7 @@ interface EventsCalendarProps {
   year?: number;
   batch?: number;
   eventList: CalendarEvent[];
+  totalBatches?: number;
 }
 
 const EventsCalendar = ({
@@ -60,6 +63,7 @@ const EventsCalendar = ({
   month,
   year,
   batch,
+  totalBatches = 1,
 }: EventsCalendarProps) => {
   // initialize start month
   const startMonth = month && year ? new Date(year, month - 1, 1) : new Date();
@@ -93,11 +97,11 @@ const EventsCalendar = ({
   };
 
   const handleNavigate = (newDate: Date) => {
-    console.log(
-      `Current month: ${newDate.getMonth().toString()} / ${newDate
-        .getFullYear()
-        .toString()}`
-    );
+    // console.log(
+    //   `Current month: ${newDate.getMonth().toString()} / ${newDate
+    //     .getFullYear()
+    //     .toString()}`
+    // );
     setCurrentMonth(newDate);
   };
 
@@ -113,6 +117,11 @@ const EventsCalendar = ({
 
   return (
     <>
+      <div className="mb-1 px-4 flex justify-between">
+        <ToolbarFilter maxPrice={1000} />
+        <EventsBatchSelect totalBatches={totalBatches} />
+      </div>
+
       <Calendar
         date={currentMonth}
         localizer={localizer}

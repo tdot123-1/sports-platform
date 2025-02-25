@@ -1,12 +1,11 @@
 "use server";
 
+import { ITEMS_PER_MONTH, ITEMS_PER_PAGE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SortOptions } from "@/lib/types";
 import { applyQueryFilters } from "@/lib/utils";
 
-const ITEMS_PER_PAGE = 10;
 
-const ITEMS_PER_MONTH = 25;
 
 export const fetchAllEvents = async (
   currentPage: number = 1,
@@ -122,7 +121,7 @@ export const fetchEventsPages = async (
     const supabase = await createClient();
     let query = supabase
       .from("events")
-      .select("*", { count: "exact", head: true });
+      .select("id", { count: "exact", head: true });
 
     if (userId) {
       query = query.eq("user_id", userId);
@@ -216,5 +215,51 @@ export const fetchEventsPerMonth = async (
   } catch (error) {
     console.error("Error fetching calendar events: ", error);
     throw new Error(`Error fetching calendar events: ${error}`);
+  }
+};
+
+export const fetchEventsBatches = async (
+  month: number,
+  year: number,
+  filter?: FilterOptions,
+  priceFilter?: number
+) => {
+  // get first day of month
+  const start = new Date(year, month - 1, 1).toISOString().split("T")[0];
+
+  // get last day of month
+  const end = new Date(year, month, 0).toISOString().split("T")[0];
+
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from("events")
+      .select("id", { count: "exact", head: true })
+      .not("start_date", "is", null)
+      .gte("start_date", start)
+      .lte("start_date", end);
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      query = query.lte("cost_estimate", priceFilter * 100);
+    }
+    const { count, error } = await query;
+
+    if (error) {
+      console.error("Error fetching event count:", error.message, error.code);
+      throw new Error(`Error fetching event count: ${error.message}`);
+    }
+
+    const totalBatches = Math.ceil(Number(count || 1) / ITEMS_PER_MONTH);
+
+    console.log("BATCHES COUNT: ", totalBatches);
+
+    return totalBatches;
+  } catch (error) {
+    console.error("Error fetching batches: ", error);
+    throw new Error(`Error fetching batches: ${error}`);
   }
 };

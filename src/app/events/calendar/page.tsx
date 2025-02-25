@@ -29,8 +29,7 @@ const Page = async (props: {
 
   return (
     <>
-      <h1>Calendar view</h1>
-      <div className="h-[80vh] w-full">
+      <div className="py-4 h-[80vh] w-full">
         <EventsCalendarWrapper month={month} year={year} batch={batch} />
       </div>
     </>

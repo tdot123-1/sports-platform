@@ -1,7 +1,10 @@
 import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventsCalendar from "./events-calendar";
-import { fetchEventsPerMonth } from "@/lib/data/events/data";
+import {
+  fetchEventsBatches,
+  fetchEventsPerMonth,
+} from "@/lib/data/events/data";
 
 interface EventsCalendarWrapperProps {
   month: number;
@@ -34,10 +37,18 @@ const EventsCalendarWrapper = async ({
       event_logo_url: e.event_logo_url,
     }));
 
+  const totalBatches = await fetchEventsBatches(month, year);
+
   console.log("Events: ", filteredEvents.length);
   return (
     <>
-      <EventsCalendar month={month} year={year} eventList={filteredEvents} />
+      <EventsCalendar
+        month={month}
+        year={year}
+        eventList={filteredEvents}
+        batch={batch}
+        totalBatches={totalBatches}
+      />
     </>
   );
 };

@@ -16,8 +16,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const convertFetchedEvent = async (data: any): Promise<SportsEvent> => {
-  // "use server";
-
   const logoPublicUrl = data.event_logo_url
     ? await fetchEventLogo(data.event_logo_url)
     : null;
@@ -188,18 +186,23 @@ export const createSearchParams = (
   searchParams: ReadonlyURLSearchParams,
   filter?: FilterOptions,
   sort?: SortOptions,
-  priceFilter?: { filter: number; max: number }
+  priceFilter?: { filter: number; max: number },
+  batch?: boolean
 ) => {
   const params = new URLSearchParams(searchParams);
-  console.log("PARAMS: ", params.toString());
+  // console.log("PARAMS: ", params.toString());
 
-  params.set("page", "1");
+  if (batch) {
+    params.set("batch", "1");
+  } else {
+    params.set("page", "1");
+  }
 
   if (filter) {
     // encode and format filters
     const filterParams = encodeFilters(filter);
 
-    console.log("FILTER PARAMS: ", filterParams);
+    // console.log("FILTER PARAMS: ", filterParams);
 
     // clear old filter params before setting new ones
     Object.keys(FilterKeyMap).forEach((key) => {
