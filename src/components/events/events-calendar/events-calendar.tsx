@@ -10,7 +10,7 @@ import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SportsEventType } from "@/lib/types";
+import { FilterOptions, SportsEventType } from "@/lib/types";
 import SelectedDateEvents from "./selected-date-events";
 import EventsBatchSelect from "./events-batch-select";
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
@@ -118,7 +118,7 @@ const EventsCalendar = ({
   return (
     <>
       <div className="mb-1 px-4 flex justify-between">
-        <ToolbarFilter maxPrice={1000} />
+        <ToolbarFilter maxPrice={1000} batch />
         <EventsBatchSelect totalBatches={totalBatches} />
       </div>
 

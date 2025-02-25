@@ -1,4 +1,4 @@
-import { SportsEvent } from "@/lib/types";
+import { FilterOptions, SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventsCalendar from "./events-calendar";
 import {
@@ -10,14 +10,24 @@ interface EventsCalendarWrapperProps {
   month: number;
   year: number;
   batch: number;
+  filter?: FilterOptions;
+  priceFilter?: number;
 }
 
 const EventsCalendarWrapper = async ({
   month,
   year,
   batch,
+  filter,
+  priceFilter,
 }: EventsCalendarWrapperProps) => {
-  const fetchedEvents = await fetchEventsPerMonth(month, year, batch);
+  const fetchedEvents = await fetchEventsPerMonth(
+    month,
+    year,
+    batch,
+    filter,
+    priceFilter
+  );
 
   const events: SportsEvent[] = await Promise.all(
     fetchedEvents.map(convertFetchedEvent)
@@ -37,7 +47,12 @@ const EventsCalendarWrapper = async ({
       event_logo_url: e.event_logo_url,
     }));
 
-  const totalBatches = await fetchEventsBatches(month, year);
+  const totalBatches = await fetchEventsBatches(
+    month,
+    year,
+    filter,
+    priceFilter
+  );
 
   console.log("Events: ", filteredEvents.length);
   return (

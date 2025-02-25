@@ -41,10 +41,12 @@ const ToolbarFilter = ({
   filter,
   priceFilter,
   maxPrice,
+  batch,
 }: {
   filter?: FilterOptions;
   priceFilter?: number;
   maxPrice: number;
+  batch?: boolean;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -125,7 +127,8 @@ const ToolbarFilter = ({
       searchParams,
       newFilter,
       undefined,
-      priceFilter
+      priceFilter,
+      batch
     );
 
     // get current url
@@ -246,6 +249,7 @@ const ToolbarFilter = ({
             priceRange={priceRange}
             setPriceRange={setPriceRange}
             maxPrice={maxPrice}
+            batch={batch}
           />
           <DropdownMenuItem
             disabled={

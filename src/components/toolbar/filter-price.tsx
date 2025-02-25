@@ -25,6 +25,7 @@ interface FilterPriceProps {
   priceRange: number[];
   setPriceRange: Dispatch<SetStateAction<number[]>>;
   maxPrice: number;
+  batch?: boolean;
 }
 
 const FilterPrice = ({
@@ -34,10 +35,16 @@ const FilterPrice = ({
   priceRange,
   maxPrice,
   setPriceRange,
+  batch,
 }: FilterPriceProps) => {
   const handlePriceFilter = useDebouncedCallback((newPrice: number[]) => {
     const params = new URLSearchParams(searchParams);
-    params.set("page", "1");
+    if (batch) {
+      params.set("batch", "1");
+    } else {
+      params.set("page", "1");
+    }
+
     if (newPrice[0] !== maxPrice) {
       params.set("price", newPrice[0].toString());
     } else {

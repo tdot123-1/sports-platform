@@ -1,10 +1,17 @@
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
+import { FilterOptions } from "@/lib/types";
+import { parseFilters } from "@/lib/utils";
 
 const Page = async (props: {
   searchParams?: Promise<{
     month?: string;
     year?: string;
     batch?: string;
+    price?: string;
+    et?: string;
+    tg?: string;
+    ta?: string;
+    tl?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;
@@ -27,10 +34,25 @@ const Page = async (props: {
 
   const batch = Number(searchParams?.batch) || 1;
 
+  const priceFilter =
+    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
+
+  // parse filters
+  let filter: FilterOptions | undefined;
+  if (searchParams) {
+    filter = parseFilters(searchParams);
+  }
+
   return (
     <>
       <div className="py-4 h-[80vh] w-full">
-        <EventsCalendarWrapper month={month} year={year} batch={batch} />
+        <EventsCalendarWrapper
+          month={month}
+          year={year}
+          batch={batch}
+          filter={filter}
+          priceFilter={priceFilter}
+        />
       </div>
     </>
   );

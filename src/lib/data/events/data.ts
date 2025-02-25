@@ -5,8 +5,6 @@ import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SortOptions } from "@/lib/types";
 import { applyQueryFilters } from "@/lib/utils";
 
-
-
 export const fetchAllEvents = async (
   currentPage: number = 1,
   userId?: string,
@@ -184,7 +182,9 @@ export const fetchMaxCostEstimate = async () => {
 export const fetchEventsPerMonth = async (
   month: number,
   year: number,
-  currentBatch: number = 1
+  currentBatch: number = 1,
+  filter?: FilterOptions,
+  priceFilter?: number
 ) => {
   const offset = (currentBatch - 1) * ITEMS_PER_MONTH;
 
@@ -197,14 +197,35 @@ export const fetchEventsPerMonth = async (
   try {
     const supabase = await createClient();
 
-    const { data: events, error } = await supabase
+    // const { data: events, error } = await supabase
+    //   .from("events")
+    //   .select("*")
+    //   .not("start_date", "is", null)
+    //   .gte("start_date", start)
+    //   .lte("start_date", end)
+    //   .order("start_date")
+    //   .range(offset, offset + ITEMS_PER_MONTH - 1);
+
+    let query = supabase
       .from("events")
       .select("*")
       .not("start_date", "is", null)
       .gte("start_date", start)
-      .lte("start_date", end)
+      .lte("start_date", end);
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      query = query.lte("cost_estimate", priceFilter * 100);
+    }
+
+    query = query
       .order("start_date")
       .range(offset, offset + ITEMS_PER_MONTH - 1);
+
+    const { data: events, error } = await query;
 
     if (error) {
       console.error("Postgres error: ", error.message);
