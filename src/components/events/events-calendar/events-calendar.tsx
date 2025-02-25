@@ -117,7 +117,7 @@ const EventsCalendar = ({
 
   return (
     <>
-      <div className="mb-1 px-4 flex justify-between">
+      <div className="pb-1 pt-4 px-4 flex justify-between">
         <ToolbarFilter maxPrice={1000} batch />
         <EventsBatchSelect totalBatches={totalBatches} />
       </div>
