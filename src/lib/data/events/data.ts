@@ -28,7 +28,7 @@ export const fetchAllEvents = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate", priceFilter * 100);
+      query = query.lte("cost_estimate_eur", priceFilter * 100);
     }
 
     if (searchQuery) {
@@ -130,7 +130,7 @@ export const fetchEventsPages = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate", priceFilter * 100);
+      query = query.lte("cost_estimate_eur", priceFilter * 100);
     }
 
     if (searchQuery) {
@@ -160,8 +160,8 @@ export const fetchMaxCostEstimate = async () => {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("events")
-      .select("cost_estimate")
-      .order("cost_estimate", { ascending: false })
+      .select("cost_estimate_eur")
+      .order("cost_estimate_eur", { ascending: false })
       .limit(1);
 
     if (error) {
@@ -170,8 +170,8 @@ export const fetchMaxCostEstimate = async () => {
     }
 
     // return actual max or fallback
-    return data?.[0]?.cost_estimate
-      ? Math.ceil(data[0].cost_estimate / 100)
+    return data?.[0]?.cost_estimate_eur
+      ? Math.ceil(data[0].cost_estimate_eur / 100)
       : 1000;
   } catch (error) {
     console.error("Unexpected error fetching max cost estimate: ", error);
@@ -197,15 +197,6 @@ export const fetchEventsPerMonth = async (
   try {
     const supabase = await createClient();
 
-    // const { data: events, error } = await supabase
-    //   .from("events")
-    //   .select("*")
-    //   .not("start_date", "is", null)
-    //   .gte("start_date", start)
-    //   .lte("start_date", end)
-    //   .order("start_date")
-    //   .range(offset, offset + ITEMS_PER_MONTH - 1);
-
     let query = supabase
       .from("events")
       .select("*")
@@ -218,7 +209,7 @@ export const fetchEventsPerMonth = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate", priceFilter * 100);
+      query = query.lte("cost_estimate_eur", priceFilter * 100);
     }
 
     query = query
@@ -265,7 +256,7 @@ export const fetchEventsBatches = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate", priceFilter * 100);
+      query = query.lte("cost_estimate_eur", priceFilter * 100);
     }
     const { count, error } = await query;
 

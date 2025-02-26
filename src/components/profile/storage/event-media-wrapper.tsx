@@ -17,7 +17,7 @@ const EventMediaWrapper = async ({ eventId }: { eventId: string }) => {
   }
 
   // convert to get correct type (incl dates)
-  const event: SportsEvent = convertFetchedEvent(fetchedEvent);
+  const event: SportsEvent = await convertFetchedEvent(fetchedEvent);
 
   return (
     <>

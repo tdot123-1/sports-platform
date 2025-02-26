@@ -1,7 +1,4 @@
-import {
-  SportsEvent,
-  SportsEventTypeMap,
-} from "@/lib/types";
+import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -24,15 +21,12 @@ interface EventCardProps {
 }
 
 const EventCard = async ({ event, userId }: EventCardProps) => {
-  const logoPublicUrl = event.event_logo_url
-    ? await fetchEventLogo(event.event_logo_url)
-    : null;
   return (
     <>
       <Card className="relative">
         <CardHeader className="text-center">
           <Avatar className="absolute top-2 right-2">
-            {logoPublicUrl && <AvatarImage src={logoPublicUrl} />}
+            {event.event_logo_url && <AvatarImage src={event.event_logo_url} />}
             <AvatarFallback className="bg-primary opacity-55">
               Sports
             </AvatarFallback>

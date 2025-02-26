@@ -4,6 +4,7 @@ import EventsCalendar from "./events-calendar";
 import {
   fetchEventsBatches,
   fetchEventsPerMonth,
+  fetchMaxCostEstimate,
 } from "@/lib/data/events/data";
 
 interface EventsCalendarWrapperProps {
@@ -54,6 +55,8 @@ const EventsCalendarWrapper = async ({
     priceFilter
   );
 
+  const maxCostEstimate = await fetchMaxCostEstimate();
+
   console.log("Events: ", filteredEvents.length);
   return (
     <>
@@ -61,8 +64,8 @@ const EventsCalendarWrapper = async ({
         month={month}
         year={year}
         eventList={filteredEvents}
-        batch={batch}
         totalBatches={totalBatches}
+        maxPrice={maxCostEstimate}
       />
     </>
   );

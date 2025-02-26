@@ -17,9 +17,9 @@ const AddEventLogo = async ({
   event_logo_url: string | null;
   eventId: string;
 }) => {
-  const logoPublicUrl = event_logo_url
-    ? await fetchEventLogo(event_logo_url)
-    : null;
+  // const logoPublicUrl = event_logo_url
+  //   ? await fetchEventLogo(event_logo_url)
+  //   : null;
 
   return (
     <>
@@ -32,11 +32,11 @@ const AddEventLogo = async ({
           </p>
           <div className="flex flex-col items-center py-3">
             <h4>Current logo:</h4>
-            {logoPublicUrl ? (
+            {event_logo_url ? (
               <>
                 <a
                   className="flex underline underline-offset-2 text-sm text-muted-foreground"
-                  href={logoPublicUrl}
+                  href={event_logo_url}
                   target="_blank"
                 >
                   <span>Click here to view full image</span>
@@ -47,11 +47,9 @@ const AddEventLogo = async ({
                     <AvatarFallback className="bg-primary opacity-55">
                       Sports
                     </AvatarFallback>
-                    <AvatarImage src={logoPublicUrl} />
+                    <AvatarImage src={event_logo_url} />
                   </Avatar>
-                  {/* <Button className="absolute bottom-0 left-10 p-1" variant={`ghost`}>
-                    <Trash2Icon />
-                  </Button> */}
+
                   <div className="absolute bottom-0 left-10">
                     <DeleteMediaButton
                       filePath={event_logo_url!}

@@ -19,6 +19,10 @@ export const fetchEventLogo = async (filePath: string) => {
 };
 
 export const fetchImagePublicUrls = async (filePaths: EventImage[]) => {
+
+  if (!filePaths) {
+    return [];
+  }
   if (filePaths.length === 0) {
     return [];
   }

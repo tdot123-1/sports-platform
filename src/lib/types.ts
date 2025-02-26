@@ -136,7 +136,7 @@ export const SortOptionsMap = {
   event_name: "Event name",
   start_date: "Start date",
   end_date: "End date",
-  cost_estimate: "Price",
+  cost_estimate_eur: "Price (EUR)",
 } as const;
 
 export type SortByKey = keyof typeof SortOptionsMap;
