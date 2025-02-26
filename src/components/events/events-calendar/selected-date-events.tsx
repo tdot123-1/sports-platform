@@ -44,7 +44,7 @@ const SelectedDateEvents = ({
           </DialogHeader>
 
           {eventsForSelectedDate && eventsForSelectedDate.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-hidden overflow-y-auto">
               {eventsForSelectedDate.map((event) => (
                 <Card key={event.id} className="w-full">
                   <CardContent className="flex flex-col gap-2 items-center justify-center">

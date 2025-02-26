@@ -6,3 +6,12 @@ export const ITEMS_PER_PAGE = 10;
 
 // items per batch for calendar view
 export const ITEMS_PER_MONTH = 25;
+
+// allowed social platforms to share
+export const allowedSocialDomains = [
+  "facebook.com",
+  "instagram.com",
+  "linkedin.com",
+  "tiktok.com",
+  "youtube.com",
+];

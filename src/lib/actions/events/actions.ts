@@ -17,6 +17,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { convertCostToEuro } from "../exchange-rate/actions";
+import { isValidSocialLink } from "@/lib/url-validation";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -276,6 +277,10 @@ export async function createEvent(prevState: State, formData: FormData) {
     cost_currency
   );
 
+  const validatedSocialLinks = social_links
+    ? social_links.filter((link) => isValidSocialLink(link))
+    : social_links;
+
   try {
     const supabase = await createClient();
 
@@ -324,7 +329,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         cost_estimate_eur,
 
         event_link,
-        social_links,
+        social_links: validatedSocialLinks,
 
         user_id: user.id,
       })
@@ -400,6 +405,10 @@ export async function updateEvent(
     cost_currency
   );
 
+  const validatedSocialLinks = social_links
+    ? social_links.filter((link) => isValidSocialLink(link))
+    : social_links;
+
   try {
     const supabase = await createClient();
 
@@ -432,7 +441,7 @@ export async function updateEvent(
         cost_estimate_eur,
 
         event_link,
-        social_links,
+        social_links: validatedSocialLinks,
       })
       .eq("id", id);
 
