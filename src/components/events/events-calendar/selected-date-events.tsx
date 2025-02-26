@@ -12,6 +12,7 @@ import { SportsEventTypeMap } from "@/lib/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ViewDetailsButton from "../details-button";
 
 interface SelectedDateEventsProps {
   selectedDate: Date;
@@ -65,9 +66,13 @@ const SelectedDateEvents = ({
                         Sports
                       </AvatarFallback>
                     </Avatar>
-                    <Link href={`/events/${event.id}`}>
+                    {/* <Link href={`/events/${event.id}`}>
                       <Button>Details</Button>
-                    </Link>
+                    </Link> */}
+                    <ViewDetailsButton
+                      nextUrl={`/events/${event.id}`}
+                      innerText="Details"
+                    />
                   </CardContent>
                 </Card>
               ))}

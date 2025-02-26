@@ -158,7 +158,7 @@ export const parseSortOptions = (
   searchParams: Record<string, string | undefined>
 ) => {
   // default sort options
-  const sort: SortOptions = { sort_by: "inserted_at", order: "desc" };
+  const sort: SortOptions = { sort_by: undefined, order: undefined };
 
   // check if sort params provided
   if (searchParams.sort) {

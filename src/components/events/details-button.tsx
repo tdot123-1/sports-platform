@@ -22,7 +22,9 @@ const ViewDetailsButton = ({
   };
   return (
     <>
-      <Button onClick={handleNavigation}>{innerText}</Button>
+      <Button size={`sm`} onClick={handleNavigation}>
+        {innerText}
+      </Button>
     </>
   );
 };

@@ -18,6 +18,7 @@ import { fetchAllEvents } from "@/lib/data/events/data";
 import { convertFetchedEvent, renderArrayField } from "@/lib/utils";
 import Link from "next/link";
 import { format } from "date-fns";
+import ViewDetailsButton from "./details-button";
 
 interface EventsTableProps {
   userId?: string;
@@ -74,9 +75,13 @@ const EventsTable = async ({
             events.map((event) => (
               <TableRow key={event.id}>
                 <TableCell>
-                  <Link href={`/events/${event.id}`}>
+                  {/* <Link href={`/events/${event.id}`}>
                     <Button size={`sm`}>View</Button>
-                  </Link>
+                  </Link> */}
+                  <ViewDetailsButton
+                    nextUrl={`/events/${event.id}`}
+                    innerText="View"
+                  />
                 </TableCell>
                 <TableCell className="max-w-32 overflow-hidden text-ellipsis text-nowrap">
                   {event.event_name}

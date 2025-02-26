@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
 import Link from "next/link";
+import ViewDetailsButton from "../details-button";
 
 const NewEventCard = ({ event }: { event: SportsEvent }) => {
   return (
@@ -25,9 +26,13 @@ const NewEventCard = ({ event }: { event: SportsEvent }) => {
               Sports
             </AvatarFallback>
           </Avatar>
-          <Link href={`/events/${event.id}`}>
+          {/* <Link href={`/events/${event.id}`}>
             <Button>Details</Button>
-          </Link>
+          </Link> */}
+          <ViewDetailsButton
+            nextUrl={`/events/${event.id}`}
+            innerText="Details"
+          />
         </CardContent>
       </Card>
     </>
