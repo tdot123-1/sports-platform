@@ -14,6 +14,7 @@ import { renderArrayField } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchEventLogo } from "@/lib/data/storage/data";
 import { format } from "date-fns";
+import ViewDetailsButton from "../details-button";
 
 interface EventCardProps {
   event: SportsEvent;
@@ -90,13 +91,19 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
           </ul>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Link
+          {/* <Link
             href={
               userId ? `/profile/events/${event.id}` : `/events/${event.id}`
             }
           >
             <Button>View details</Button>
-          </Link>
+          </Link> */}
+          <ViewDetailsButton
+            nextUrl={
+              userId ? `/profile/events/${event.id}` : `/events/${event.id}`
+            }
+            innerText="View details"
+          />
         </CardFooter>
       </Card>
     </>
