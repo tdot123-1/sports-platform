@@ -191,7 +191,7 @@ export const createSearchParams = (
 ) => {
   const params = new URLSearchParams(searchParams);
   // console.log("PARAMS: ", params.toString());
-
+  // console.log("SORT: ", sort)
   if (batch) {
     params.set("batch", "1");
   } else {

@@ -49,11 +49,16 @@ const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
       newSort
     );
 
-    // get current url
+    // get current and new params
     const params = new URLSearchParams(searchParams);
+    const newParams = new URLSearchParams(newUrl.split("?")[1] || "");
+
+    // remove 'page' param to compare changes
+    params.delete("page");
+    newParams.delete("page");
 
     // only redirect if url changed
-    if (newUrl !== `${pathname}?${params.toString()}`) {
+    if (newParams.toString() !== params.toString()) {
       replace(newUrl);
     }
   }, [ascending, sortBy, pathname, replace, searchParams]);

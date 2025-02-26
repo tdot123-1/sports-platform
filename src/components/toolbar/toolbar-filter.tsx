@@ -131,13 +131,19 @@ const ToolbarFilter = ({
       batch
     );
 
-    // get current url
+    // get current and new params
     const params = new URLSearchParams(searchParams);
+    const newParams = new URLSearchParams(newUrl.split("?")[1] || "");
 
-    // only redirect if the url has changed
-    if (newUrl !== `${pathname}?${params.toString()}`) {
+    // remove 'page' param to compare changes
+    params.delete("page");
+    newParams.delete("page");
+
+    // only redirect if url changed
+    if (newParams.toString() !== params.toString()) {
       replace(newUrl);
     }
+    
   }, [typeFilter, genderFilter, ageFilter, levelFilter, deletePriceRange]);
 
   // check if category has any filters applied
