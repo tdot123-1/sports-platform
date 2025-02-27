@@ -2,9 +2,35 @@ const Page = () => {
   return (
     <>
       <section className="px-4">
-        <h1>About</h1>
-        <p>Explain who platform is for</p>
-        <p>Explain how to use platform</p>
+        <article className="my-12">
+          <h2 className="text-2xl font-mono text-primary w-fit mx-auto">
+            About the platform
+          </h2>
+          <p className="text-center md:w-1/2 mx-auto my-6">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
+            voluptatibus tempore voluptates consequuntur aperiam possimus
+            aliquam labore voluptas voluptate, similique neque nihil nam,
+            repellendus fugiat nisi doloremque mollitia quam quisquam.
+          </p>
+        </article>
+        <article className="my-12">
+          <h2 className="text-2xl font-mono text-primary">Who is it for</h2>
+          <p className=" md:w-1/2 lg:w-2/5 py-2">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
+            minus, nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero
+            iusto impedit assumenda. Cupiditate veritatis quo qui nemo quod non
+            voluptas?
+          </p>
+        </article>
+        <article className="my-12 text-right">
+          <h2 className="text-2xl font-mono text-primary">How to use it</h2>
+          <p className="ml-auto md:w-1/2 lg:w-2/5 py-2">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
+            minus, nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero
+            iusto impedit assumenda. Cupiditate veritatis quo qui nemo quod non
+            voluptas?
+          </p>
+        </article>
       </section>
     </>
   );
