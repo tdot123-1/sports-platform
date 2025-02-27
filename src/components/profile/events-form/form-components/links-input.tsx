@@ -36,11 +36,12 @@ const LinksInput = ({
   const handleSubmit = () => {
     // check if link is unique, and list of links is within range
     setInputError("");
-    if (!addedLinks.includes(linkInput) && addedLinks.length < 5) {
-      if (!isValidSocialLink(linkInput)) {
+    const trimmedLink = linkInput.trim();
+    if (!addedLinks.includes(trimmedLink) && addedLinks.length < 5) {
+      if (!isValidSocialLink(trimmedLink)) {
         setInputError("Invalid social media link");
       } else {
-        setAddedLinks((prev) => [...prev, linkInput]);
+        setAddedLinks((prev) => [...prev, trimmedLink]);
       }
     }
     setLinkInput("");
