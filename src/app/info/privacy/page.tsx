@@ -1,6 +1,14 @@
+import {
+  infoCollectionList,
+  infoCookiesList,
+  infoRightsList,
+  infoSharingList,
+} from "@/components/privacy/accordion-items";
+import PrivacyAccordion from "@/components/privacy/privacy-accordion";
+
 const Page = () => {
   return (
-    <section className="px-4">
+    <section className="px-4 mb-12">
       <h1 className="text-2xl font-mono text-primary mt-4">Privacy</h1>
       <p className="text-sm my-6">
         [introduce purpose of page] Lorem ipsum dolor sit amet consectetur
@@ -11,33 +19,27 @@ const Page = () => {
         <h2 className="text-xl font-mono text-primary">
           Information collection
         </h2>
-        <ul>
-          <li>Which data is collected?</li>
-          <li>How is the data collected?</li>
-          <li>What do we do with this data?</li>
-        </ul>
+        <div className="w-full sm:w-3/5 md:w-1/2 lg:w-2/5">
+          <PrivacyAccordion items={infoCollectionList} />
+        </div>
       </article>
       <article className="my-6">
         <h2 className="text-xl font-mono text-primary">Cookies</h2>
-        <ul>
-          <li>What are cookies?</li>
-          <li>How are cookies used?</li>
-          <li>Manage your cookies</li>
-        </ul>
+        <div className="w-full sm:w-3/5 md:w-1/2 lg:w-2/5">
+          <PrivacyAccordion items={infoCookiesList} />
+        </div>
       </article>
       <article className="my-6">
         <h2 className="text-xl font-mono text-primary">Data sharing</h2>
-        <ul>
-          <li>Third party services</li>
-          <li>Legal compliance</li>
-        </ul>
+        <div className="w-full sm:w-3/5 md:w-1/2 lg:w-2/5">
+          <PrivacyAccordion items={infoSharingList} />
+        </div>
       </article>
       <article className="my-6">
         <h2 className="text-xl font-mono text-primary">User rights</h2>
-        <ul>
-          <li>Access and control</li>
-          <li>Opt-Out options</li>
-        </ul>
+        <div className="w-full sm:w-3/5 md:w-1/2 lg:w-2/5">
+          <PrivacyAccordion items={infoRightsList} />
+        </div>
       </article>
     </section>
   );
