@@ -106,7 +106,7 @@ export const signupWithPassword = async (
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Failed to signup. Please try again.",
-      success: false
+      success: false,
     };
   }
 
@@ -114,6 +114,7 @@ export const signupWithPassword = async (
 
   try {
     const supabase = await createClient();
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -121,6 +122,12 @@ export const signupWithPassword = async (
 
     if (error) {
       console.error("Signup error: ", error.message);
+      if (error.code === "user_already_exists") {
+        return {
+          message: "This email is already in use. Please log in instead.",
+          success: false,
+        };
+      }
       return { message: `Signup error: ${error.message}`, success: false };
     }
 
