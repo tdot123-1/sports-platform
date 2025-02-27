@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { fetchEventLogo } from "@/lib/data/storage/data";
 import { ExternalLinkIcon } from "lucide-react";
 import UploadMediaForm from "../upload-media";
 import {
@@ -17,10 +16,6 @@ const AddEventLogo = async ({
   event_logo_url: string | null;
   eventId: string;
 }) => {
-  // const logoPublicUrl = event_logo_url
-  //   ? await fetchEventLogo(event_logo_url)
-  //   : null;
-
   return (
     <>
       <div className="border rounded-md shadow-md p-6 w-full max-w-screen-lg">

@@ -9,8 +9,6 @@ import { format } from "date-fns";
 import { CalendarEvent } from "./events-calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import { SportsEventTypeMap } from "@/lib/types";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ViewDetailsButton from "../details-button";
 

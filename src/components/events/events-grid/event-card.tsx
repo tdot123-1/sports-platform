@@ -6,13 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../../ui/card";
-import Link from "next/link";
-import { Button } from "../../ui/button";
 import { Separator } from "../../ui/separator";
 import { ScrollArea } from "../../ui/scroll-area";
 import { renderArrayField } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { fetchEventLogo } from "@/lib/data/storage/data";
 import { format } from "date-fns";
 import ViewDetailsButton from "../details-button";
 
@@ -91,13 +88,6 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
           </ul>
         </CardContent>
         <CardFooter className="flex justify-center">
-          {/* <Link
-            href={
-              userId ? `/profile/events/${event.id}` : `/events/${event.id}`
-            }
-          >
-            <Button>View details</Button>
-          </Link> */}
           <ViewDetailsButton
             nextUrl={
               userId ? `/profile/events/${event.id}` : `/events/${event.id}`

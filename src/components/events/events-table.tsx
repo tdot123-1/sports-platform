@@ -4,7 +4,6 @@ import {
   SportsEvent,
   SportsEventTypeMap,
 } from "@/lib/types";
-import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -16,7 +15,6 @@ import {
 } from "../ui/table";
 import { fetchAllEvents } from "@/lib/data/events/data";
 import { convertFetchedEvent, renderArrayField } from "@/lib/utils";
-import Link from "next/link";
 import { format } from "date-fns";
 import ViewDetailsButton from "./details-button";
 
@@ -75,9 +73,6 @@ const EventsTable = async ({
             events.map((event) => (
               <TableRow key={event.id}>
                 <TableCell>
-                  {/* <Link href={`/events/${event.id}`}>
-                    <Button size={`sm`}>View</Button>
-                  </Link> */}
                   <ViewDetailsButton
                     nextUrl={`/events/${event.id}`}
                     innerText="View"

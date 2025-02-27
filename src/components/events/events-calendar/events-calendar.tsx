@@ -63,7 +63,7 @@ const EventsCalendar = ({
   month,
   year,
   totalBatches = 1,
-  maxPrice
+  maxPrice,
 }: EventsCalendarProps) => {
   // initialize start month
   const startMonth = month && year ? new Date(year, month - 1, 1) : new Date();
@@ -113,7 +113,7 @@ const EventsCalendar = ({
     params.set("batch", "1");
 
     replace(`${pathname}?${params.toString()}`);
-  }, [currentMonth]);
+  }, [currentMonth, pathname, replace, searchParams]);
 
   return (
     <>

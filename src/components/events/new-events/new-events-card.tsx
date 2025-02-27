@@ -1,8 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
-import Link from "next/link";
 import ViewDetailsButton from "../details-button";
 
 const NewEventCard = ({ event }: { event: SportsEvent }) => {
