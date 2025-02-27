@@ -8,9 +8,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   return (
     <>
       <section className="px-4">
-        <h1>Event Details</h1>
-
-        <div className="mx-auto py-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
+        <div className="mx-auto py-12 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <Suspense fallback={<EventDetailsSkeleton />}>
             <EventDetails eventId={eventId} />
           </Suspense>

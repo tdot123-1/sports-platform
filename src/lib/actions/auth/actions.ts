@@ -96,6 +96,12 @@ export const signupWithPassword = async (
   prevState: State,
   formData: FormData
 ) => {
+  const signupEnabled = process.env.SIGNUP_ENABLED;
+
+  if (signupEnabled !== "true") {
+    return { message: "Signup not yet possible.", success: false };
+  }
+
   const validatedFields = SignupSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
