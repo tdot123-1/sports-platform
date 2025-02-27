@@ -100,8 +100,6 @@ const ToolbarFilter = ({
     // construct filterOptions object
     const newFilter: FilterOptions = {};
 
-    console.log("EFFECT TRIGGERED");
-
     // check which filters should be applied
     newFilter.event_type = constructFilterOptions(typeFilter).map(
       (key) => key as SportsEventType
