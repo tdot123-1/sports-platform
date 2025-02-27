@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 const EventImage = ({ src }: { src: string }) => {
   return (
@@ -15,8 +21,13 @@ const EventImage = ({ src }: { src: string }) => {
           />
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-xl p-4 flex items-center justify-center">
-        <DialogTitle hidden className="hidden">Full size image</DialogTitle>
+      <DialogContent className="max-w-xl max-h-96 p-4 flex items-center justify-center overflow-hidden">
+        <DialogTitle hidden className="hidden">
+          Full size image
+        </DialogTitle>
+        <DialogDescription hidden className="hidden">
+          Full size image
+        </DialogDescription>
         <Image
           src={src}
           alt="Full-size image"

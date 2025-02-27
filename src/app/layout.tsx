@@ -5,6 +5,7 @@ import Header from "@/components/header/header";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/nav/app-sidebar";
+import Footer from "@/components/footer/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,8 @@ export default function RootLayout({
           <AppSideBar />
           <main className="flex-1 min-w-0">
             <Header />
-            <section className="font-sans">{children}</section>
+            <section className="font-sans min-h-[calc(100vh-50px)]">{children}</section>
+            <Footer />
           </main>
           <Toaster />
         </SidebarProvider>

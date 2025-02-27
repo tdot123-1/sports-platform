@@ -9,7 +9,7 @@ export default function Home() {
         <h1 className="text-2xl font-mono text-primary w-fit mx-auto">
           Sports platform
         </h1>
-        <p className="text-center md:w-1/2 mx-auto">
+        <p className="text-center md:w-1/2 mx-auto my-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
           voluptatibus tempore voluptates consequuntur aperiam possimus aliquam
           labore voluptas voluptate, similique neque nihil nam, repellendus
