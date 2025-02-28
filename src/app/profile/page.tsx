@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowRightIcon } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Profile",
+};
 
 const Page = async () => {
   const supabase = await createClient();

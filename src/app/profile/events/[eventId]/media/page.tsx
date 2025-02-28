@@ -1,7 +1,15 @@
 import ReturnButton from "@/components/events/return-button";
 import EventMediaWrapper from "@/components/profile/storage/event-media-wrapper";
 import EventMediaSkeleton from "@/components/skeletons/event-media-skeleton";
+import { Button } from "@/components/ui/button";
+import { Undo2Icon } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Event Media",
+};
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
@@ -17,7 +25,14 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
           </Suspense>
         </div>
         <div className="flex justify-center my-6">
-          <ReturnButton returnUrl={`/profile/events/${eventId}`} />
+          <Link href={`/profile/events/${eventId}`}>
+            <Button variant={`secondary`}>
+              <div className="flex justify-start items-start gap-1">
+                <Undo2Icon />
+                <span className="hidden md:block">Return</span>
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </>

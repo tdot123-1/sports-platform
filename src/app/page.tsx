@@ -1,5 +1,6 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
+
 import { Suspense } from "react";
 
 export default function Home() {
@@ -18,7 +19,9 @@ export default function Home() {
       </section>
 
       <section className="my-12">
-        <h2 className="text-2xl font-mono text-primary px-4">What&apos;s New</h2>
+        <h2 className="text-2xl font-mono text-primary px-4">
+          What&apos;s New
+        </h2>
         <div className="flex-1 min-w-0 flex justify-center">
           <Suspense fallback={<CarouselSkeleton />}>
             <NewEventsCarouselWrapper />

@@ -5,9 +5,14 @@ import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton"
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { EditIcon, ImageUpIcon } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "My Event",
+};
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;

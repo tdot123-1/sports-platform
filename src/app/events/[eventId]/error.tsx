@@ -11,7 +11,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Optionally log the error to an error reporting service
+    // log error
     console.error(error);
   }, [error]);
 
@@ -21,7 +21,7 @@ export default function Error({
       <Button
         className="mt-4"
         onClick={
-          // Attempt to recover by trying to re-render the route
+          // attempt to recover by trying to re-render the route
           () => reset()
         }
       >

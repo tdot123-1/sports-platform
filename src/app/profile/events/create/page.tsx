@@ -1,4 +1,9 @@
 import FormWrapper from "@/components/profile/events-form/form-wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Event",
+};
 
 const Page = () => {
   return (

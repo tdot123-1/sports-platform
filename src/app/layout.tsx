@@ -18,7 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sports Platform",
+  title: {
+    template: "%s | Sports Platform",
+    default: "Sports Platform",
+  },
   description: "Find your sports events",
 };
 

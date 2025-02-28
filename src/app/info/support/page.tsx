@@ -1,4 +1,9 @@
 import { HeartHandshakeIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Support",
+};
 
 const Page = () => {
   return (

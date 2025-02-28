@@ -6,8 +6,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SortOptions } from "@/lib/types";
 import { parseFilters, parseSortOptions } from "@/lib/utils";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "My Events",
+};
 
 const Page = async (props: {
   searchParams?: Promise<{

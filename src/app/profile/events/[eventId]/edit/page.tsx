@@ -1,5 +1,9 @@
 import FormWrapper from "@/components/profile/events-form/form-wrapper";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Edit Event",
+};
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;

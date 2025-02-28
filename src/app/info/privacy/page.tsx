@@ -5,6 +5,11 @@ import {
   infoSharingList,
 } from "@/components/privacy/accordion-items";
 import PrivacyAccordion from "@/components/privacy/privacy-accordion";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy",
+};
 
 const Page = () => {
   return (

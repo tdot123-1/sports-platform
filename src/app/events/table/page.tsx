@@ -5,7 +5,12 @@ import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FilterOptions, SortOptions } from "@/lib/types";
 import { parseFilters, parseSortOptions } from "@/lib/utils";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Table",
+};
 
 const Page = async (props: {
   searchParams?: Promise<{

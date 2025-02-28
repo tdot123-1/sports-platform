@@ -1,6 +1,11 @@
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
 import { FilterOptions } from "@/lib/types";
 import { parseFilters } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Calendar",
+};
 
 const Page = async (props: {
   searchParams?: Promise<{

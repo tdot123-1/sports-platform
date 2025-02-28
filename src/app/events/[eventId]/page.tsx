@@ -1,7 +1,12 @@
 import EventDetails from "@/components/events/event-details";
 import ReturnButton from "@/components/events/return-button";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Event",
+};
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;

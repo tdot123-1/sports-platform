@@ -1,4 +1,9 @@
 import { MailIcon, MessageCircleIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+};
 
 const Page = () => {
   return (

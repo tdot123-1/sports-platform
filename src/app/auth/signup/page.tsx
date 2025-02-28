@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Confirm Email",
+};
+
 const Page = () => {
   return (
     <>
