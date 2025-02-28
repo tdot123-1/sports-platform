@@ -22,6 +22,9 @@ const EventsCalendarWrapper = async ({
   filter,
   priceFilter,
 }: EventsCalendarWrapperProps) => {
+  // test skeleton
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   const fetchedEvents = await fetchEventsPerMonth(
     month,
     year,

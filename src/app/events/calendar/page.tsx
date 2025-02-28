@@ -1,7 +1,9 @@
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
+import CalendarSkeleton from "@/components/skeletons/calendar-skeleton";
 import { FilterOptions } from "@/lib/types";
 import { parseFilters } from "@/lib/utils";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Calendar",
@@ -51,13 +53,15 @@ const Page = async (props: {
   return (
     <>
       <div className="pb-4 h-[80vh] w-full">
-        <EventsCalendarWrapper
-          month={month}
-          year={year}
-          batch={batch}
-          filter={filter}
-          priceFilter={priceFilter}
-        />
+        <Suspense fallback={<CalendarSkeleton />}>
+          <EventsCalendarWrapper
+            month={month}
+            year={year}
+            batch={batch}
+            filter={filter}
+            priceFilter={priceFilter}
+          />
+        </Suspense>
       </div>
     </>
   );
