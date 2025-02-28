@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 
 const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
+
+  // throw new Error("test");
   return (
     <>
       <section className="px-4">

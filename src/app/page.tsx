@@ -4,6 +4,7 @@ import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
 import { Suspense } from "react";
 
 export default function Home() {
+  // throw new Error("test");
   return (
     <>
       <section className="my-12 px-4">

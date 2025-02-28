@@ -97,11 +97,6 @@ const EventsCalendar = ({
   };
 
   const handleNavigate = (newDate: Date) => {
-    // console.log(
-    //   `Current month: ${newDate.getMonth().toString()} / ${newDate
-    //     .getFullYear()
-    //     .toString()}`
-    // );
     setCurrentMonth(newDate);
   };
 

@@ -47,6 +47,8 @@ const Page = async (props: {
   const priceFilter =
     Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
 
+  // throw new Error("test");
+
   return (
     <>
       <Suspense fallback={<Skeleton className="w-full h-12" />}>

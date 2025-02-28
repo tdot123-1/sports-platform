@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { FrownIcon, RotateCcwIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function Error({
@@ -16,16 +17,21 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center">
-      <h2 className="text-center">Something went wrong!</h2>
+    <div className="flex h-full flex-col text-center gap-4 items-center justify-center my-28">
+      <h2 className="text-xl font-mono">Something went wrong!</h2>
+      <FrownIcon size={48} />
+      <p className="text-sm text-muted-foreground italic">
+        Failed to load this page, click to try again
+      </p>
       <Button
-        className="mt-4"
+        className=""
         onClick={
           // attempt to recover by trying to re-render the route
           () => reset()
         }
       >
-        Try again
+        <RotateCcwIcon />
+        <span>Try again</span>
       </Button>
     </div>
   );

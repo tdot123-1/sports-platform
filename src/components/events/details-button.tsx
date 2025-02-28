@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
+import { InfoIcon } from "lucide-react";
 
 const ViewDetailsButton = ({
   nextUrl,
@@ -23,7 +24,10 @@ const ViewDetailsButton = ({
   return (
     <>
       <Button size={`sm`} onClick={handleNavigation}>
-        {innerText}
+        <div className="flex items-center gap-1">
+          <InfoIcon />
+          <span>{innerText}</span>
+        </div>
       </Button>
     </>
   );
