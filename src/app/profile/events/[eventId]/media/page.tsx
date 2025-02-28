@@ -1,4 +1,3 @@
-import ReturnButton from "@/components/events/return-button";
 import EventMediaWrapper from "@/components/profile/storage/event-media-wrapper";
 import EventMediaSkeleton from "@/components/skeletons/event-media-skeleton";
 import { Button } from "@/components/ui/button";
