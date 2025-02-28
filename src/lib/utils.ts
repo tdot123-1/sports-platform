@@ -316,8 +316,9 @@ export const formatRawFormData = (formData: FormData) => {
   };
 };
 
-// const getMOnthRange = (date: Date) => {
-//   const monthStart = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
-//   const monthEnd = new Date(Date.UTC(date.getFullYear(), date.getMonth() + 1, 0));
-
-// };
+export const capitalizeCity = (input: string) => {
+  return input
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

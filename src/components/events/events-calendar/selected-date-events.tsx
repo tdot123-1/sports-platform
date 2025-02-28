@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SportsEventTypeMap } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ViewDetailsButton from "../details-button";
+import { capitalizeCity } from "@/lib/utils";
 
 interface SelectedDateEventsProps {
   selectedDate: Date;
@@ -54,7 +55,7 @@ const SelectedDateEvents = ({
 
                     <p>{SportsEventTypeMap[event.event_type]}</p>
                     <p className="mb-2 text-ellipsis overflow-hidden text-nowrap">
-                      {event.address_city}, {event.address_country}
+                      {capitalizeCity(event.address_city)}, {event.address_country}
                     </p>
                     <Avatar className="">
                       {event.event_logo_url && (

@@ -5,7 +5,11 @@ import {
   TargetAgeGroupMap,
   TargetLevelMap,
 } from "@/lib/types";
-import { convertFetchedEvent, formatCurrencyForDisplay } from "@/lib/utils";
+import {
+  capitalizeCity,
+  convertFetchedEvent,
+  formatCurrencyForDisplay,
+} from "@/lib/utils";
 import {
   BicepsFlexedIcon,
   CalendarCheck2Icon,
@@ -158,7 +162,8 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               </div>
 
               <p className="text-right">
-                {event.address_city}, {countryNameMap[event.address_country]}
+                {capitalizeCity(event.address_city)},{" "}
+                {countryNameMap[event.address_country]}
               </p>
             </div>
           </li>
