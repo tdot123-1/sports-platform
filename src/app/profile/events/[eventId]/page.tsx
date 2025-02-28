@@ -28,7 +28,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
     <>
       <section className="px-4">
         <h1 className="text-center mt-4">
-          My event: <span className="text-muted-foreground">{eventId}</span>
+          My event: <span className="text-muted-foreground text-sm">{eventId}</span>
         </h1>
         {/* <Link
           className="underline underline-offset-2"

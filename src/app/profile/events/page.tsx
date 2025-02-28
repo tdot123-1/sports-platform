@@ -59,6 +59,7 @@ const Page = async (props: {
     <>
       <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
       <section className="px-4">
+        <h1 className="text-2xl font-mono text-primary my-4">My Events</h1>
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
             userId={data.user.id}
