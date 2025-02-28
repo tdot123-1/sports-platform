@@ -28,14 +28,10 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
     <>
       <section className="px-4">
         <h1 className="text-center mt-4">
-          My event: <span className="text-muted-foreground text-sm">{eventId}</span>
+          My event:{" "}
+          <span className="text-muted-foreground text-sm">{eventId}</span>
         </h1>
-        {/* <Link
-          className="underline underline-offset-2"
-          href={`/profile/events/${eventId}/media`}
-        >
-          Upload media
-        </Link> */}
+
         <div className="mx-auto py-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <div className="flex justify-between items-start pb-4">
             <Link href={`/profile/events/${eventId}/edit`}>
