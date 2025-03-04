@@ -238,7 +238,7 @@ const EventForm = ({
         </div>
         <Separator className="my-2" />
         <div className="mb-4">
-          {/* <p className="text-sm font-medium leading-none">
+          <p className="text-sm font-medium leading-none">
             Target Age Group <span className="text-destructive">*</span>
           </p>
           <p className="text-xs italic">
@@ -247,6 +247,7 @@ const EventForm = ({
           <p className="text-sm text-muted-foreground py-1">
             Age group (birthyear)
           </p>
+          {/*
           <MultiSelect
             name="target_age"
             pending={pending}
