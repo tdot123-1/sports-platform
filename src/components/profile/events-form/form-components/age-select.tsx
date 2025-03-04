@@ -1,128 +1,124 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { TargetAgeGroupMap } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import AgeSelectDropdown from "./age-select-dropdown";
+import { Input } from "@/components/ui/input";
 
-const AgeSelect = () => {
-  const [allAges, setAllAges] = useState(false);
-  const [youth, setYouth] = useState(false);
-  const [adults, setAdults] = useState(true);
-  const [veterans, setVeterans] = useState(false);
+interface AgeSelectProps {
+  name: string;
+  initialValues?: string[];
+  pending: boolean;
+  describedBy: string;
+}
 
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+const buttonOrder: (keyof typeof TargetAgeGroupMap | "youth")[] = [
+  "all",
+  "youth",
+  "adu",
+  "vet",
+];
 
-  // all ages -> 'all',
-  // set all other btns to disabled,
-  // set values string to 'all' (remove all others)
+const AgeSelect = ({
+  name,
+  initialValues,
+  pending,
+  describedBy,
+}: AgeSelectProps) => {
+  // initialize selectedAgeGroups based on initialValues
+  const [selectedAgeGroups, setSelectedAgeGroups] = useState(() =>
+    Object.fromEntries(
+      Object.keys(TargetAgeGroupMap).map((k) => [
+        k,
+        initialValues?.includes(k) || false,
+      ])
+    )
+  );
 
-  //   const handleAllAgesClick = () => {
-  //     setAllAges((currentValue) => !currentValue);
-  //   };
+  const handleSelectAll = () => {
+    // set all age groups to false
+    const updatedAgeGroups = Object.keys(TargetAgeGroupMap).reduce(
+      (acc, key) => {
+        // only "all" remains true
+        acc[key] = key === "all";
+        return acc;
+      },
+      {} as Record<string, boolean>
+    );
+    // update state
+    setSelectedAgeGroups(updatedAgeGroups);
+  };
 
-  const handleValuesChange = () => {
-    if (allAges === true) {
-      setSelectedValues(["all ages"]);
-      setAdults(false);
-      setVeterans(false);
-      // set all youth age groups (birthyears) to false
-      return;
-    }
-
-    if (adults) {
-      setSelectedValues((prev) => [...prev, "adults"]);
+  // toggle selection
+  const toggleAgeGroup = (key: string) => {
+    if (key === "all") {
+      handleSelectAll();
     } else {
-      setSelectedValues((prev) => prev.filter((v) => v !== "adults"));
-    }
-
-    if (veterans) {
-      setSelectedValues((prev) => [...prev, "veterans"]);
-    } else {
-      setSelectedValues((prev) => prev.filter((v) => v !== "veterans"));
+      setSelectedAgeGroups((prev) => ({
+        ...prev,
+        [key]: !prev[key],
+      }));
     }
   };
 
-  // set all other values to false if all ages is set to 'true'
-  useEffect(() => {
-    handleValuesChange();
-  }, [allAges, adults, veterans]);
-
-  // adults -> 'adu',
-  // remove 'all' from value string
-
-  // veterans -> 'vet',
-  // remove 'all' from value string
-
-  // youth -> birthyear
-
-  /**
-    {
-        all: "all ages",
-        adu: "adults",
-        vet: "veterans",
-        youth: {
-            "'18": "2018",
-            "'17": "2017",
-            "'16": "2016",
-            "'15": "2015",
-            "'14": "2014",
-            "'13": "2013",
-            "'12": "2012",
-            "'11": "2011",
-            "'10": "2010",
-            "'09": "2009",
-            "'08": "2008",
-            "'07": "2007",
-            "'06": "2006",
-            "'05": "2005",
-            "'04": "2004",
-            "'03": "2003",
-            "'02": "2002",
-            "'01": "2001",
-        }
-    }
-     */
+  // compute ageGroupsStr dynamically, to be submitted along form
+  const ageGroupsStr = useMemo(
+    () =>
+      // construct array from selected values object keys
+      Object.keys(selectedAgeGroups)
+        // filter out false values to remain with array of only 'true' keys
+        .filter((key) => selectedAgeGroups[key])
+        // join together into comma seperated string
+        .join(","),
+    [selectedAgeGroups]
+  );
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Button
-          type="button"
-          className={cn(allAges && "bg-muted")}
-          variant={`outline`}
-          onClick={() => setAllAges((prev) => !prev)}
-        >
-          {allAges && <CheckIcon />}
-          <span>All ages</span>
-        </Button>
-        <Button
-          type="button"
-          className={cn(youth && "bg-muted")}
-          variant={`outline`}
-        >
-          {youth && <CheckIcon />}
-          <span>Youth</span>
-        </Button>
-        <Button
-          type="button"
-          className={cn(adults && "bg-muted")}
-          variant={`outline`}
-          onClick={() => setAdults((prev) => !prev)}
-        >
-          {adults && <CheckIcon />}
-          <span>Adults</span>
-        </Button>
-        <Button
-          type="button"
-          className={cn(veterans && "bg-muted")}
-          variant={`outline`}
-          onClick={() => setVeterans((prev) => !prev)}
-        >
-          {veterans && <CheckIcon />}
-          <span>Veterans</span>
-        </Button>
+      <div
+        aria-describedby={describedBy}
+        className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+      >
+        {buttonOrder.map((k) => {
+          if (k === "youth") {
+            return (
+              <AgeSelectDropdown
+                key={k}
+                selectedAgeGroups={selectedAgeGroups}
+                toggleAgeGroup={toggleAgeGroup}
+                pending={pending}
+              />
+            );
+          }
+
+          const v = TargetAgeGroupMap[k];
+
+          return (
+            <Button
+              key={k}
+              type="button"
+              className={cn(selectedAgeGroups[k] && "bg-muted")}
+              variant={`outline`}
+              onClick={() => toggleAgeGroup(k)}
+            >
+              {selectedAgeGroups[k] && <CheckIcon />}
+              <span>{v}</span>
+            </Button>
+          );
+        })}
       </div>
+      <Input
+        name={name}
+        id={name}
+        type="hidden"
+        value={ageGroupsStr}
+        readOnly
+        hidden
+        className="hidden"
+      />
     </>
   );
 };

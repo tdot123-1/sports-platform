@@ -1,36 +1,71 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { TargetAgeGroupMap } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
+import { useMemo } from "react";
 
-const AgeSelectDropdown = () => {
+interface AgeSelectDropdownProps {
+  selectedAgeGroups: {
+    [k: string]: boolean;
+  };
+  toggleAgeGroup: (key: string) => void;
+  pending: boolean;
+}
+
+const AgeSelectDropdown = ({
+  selectedAgeGroups,
+  toggleAgeGroup,
+  pending,
+}: AgeSelectDropdownProps) => {
+  const hasYouthSelected = useMemo(
+    () =>
+      Object.entries(selectedAgeGroups).some(
+        ([key, value]) => key.startsWith("2") && value
+      ),
+    [selectedAgeGroups]
+  );
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             type="button"
-            className={cn(hasSelectedValue && "bg-muted")}
+            className={cn(hasYouthSelected && "bg-muted")}
             variant={`outline`}
           >
-            {hasSelectedValue && <CheckIcon />}
-            <span>Youth</span>
+            {hasYouthSelected && <CheckIcon />}
+            <span>youth</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Select target birthyear(s)</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {Object.entries(TargetAgeGroupMap).map(([k, v]) => (
-            <DropdownMenuCheckboxItem
-              key={k}
-              id={k}
-              disabled={pending}
-              checked={selectedValues[k]}
-            >
-              {v}
-            </DropdownMenuCheckboxItem>
-          ))}
+          <ScrollArea className="h-48">
+            {Object.entries(TargetAgeGroupMap)
+              .filter(([k]) => k.startsWith("2"))
+              .map(([k, v]) => (
+                <DropdownMenuCheckboxItem
+                  key={k}
+                  id={k}
+                  disabled={pending}
+                  onCheckedChange={() => toggleAgeGroup(k)}
+                  checked={selectedAgeGroups[k]}
+                >
+                  {v}
+                </DropdownMenuCheckboxItem>
+              ))}
+          </ScrollArea>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

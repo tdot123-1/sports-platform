@@ -86,9 +86,9 @@ export const TargetAgeGroupMap: Record<AgeGroupKey, string> = {
 
 export type TargetAgeGroup = keyof typeof TargetAgeGroupMap;
 
-// export const TargetAgeGroupKeys = Object.keys(TargetAgeGroupMap) as Array<
-//   keyof typeof TargetAgeGroupMap
-// >;
+export const TargetAgeGroupKeys = Object.keys(TargetAgeGroupMap) as Array<
+  keyof typeof TargetAgeGroupMap
+>;
 
 export interface EventImage {
   image_url: string;

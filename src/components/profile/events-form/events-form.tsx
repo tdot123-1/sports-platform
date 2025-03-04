@@ -244,9 +244,9 @@ const EventForm = ({
           <p className="text-xs italic">
             Select the age group(s) you are organizing the event for.
           </p>
-          <p className="text-sm text-muted-foreground py-1">
+          {/* <p className="text-sm text-muted-foreground py-1">
             Age group (birthyear)
-          </p>
+          </p> */}
           {/*
           <MultiSelect
             name="target_age"
@@ -255,7 +255,12 @@ const EventForm = ({
             describedBy="target_age-error"
             initial_values={event ? event.target_age : undefined}
           /> */}
-          <AgeSelect />
+          <AgeSelect
+            name="target_age"
+            initialValues={event?.target_age ? event.target_age : undefined}
+            pending={pending}
+            describedBy="target_age-error"
+          />
           <div id="target_age-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_age &&
               state.errors.target_age.map((error) => (
