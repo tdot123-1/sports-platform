@@ -28,6 +28,7 @@ import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
 import CountrySelect from "./form-components/country-select";
 import DateRangePicker from "./form-components/date-range-picker";
+import AgeSelect from "./form-components/age-select";
 
 interface EventFormProps {
   state: State;
@@ -82,7 +83,8 @@ const EventForm = ({
             Event Type <span className="text-destructive">*</span>
           </Label>
           <p className="text-xs italic">
-            Select the type that best describes the event you&apos;re organizing.
+            Select the type that best describes the event you&apos;re
+            organizing.
           </p>
           <Select
             disabled={pending}
@@ -236,7 +238,7 @@ const EventForm = ({
         </div>
         <Separator className="my-2" />
         <div className="mb-4">
-          <p className="text-sm font-medium leading-none">
+          {/* <p className="text-sm font-medium leading-none">
             Target Age Group <span className="text-destructive">*</span>
           </p>
           <p className="text-xs italic">
@@ -251,7 +253,8 @@ const EventForm = ({
             optionsMap={TargetAgeGroupMap}
             describedBy="target_age-error"
             initial_values={event ? event.target_age : undefined}
-          />
+          /> */}
+          <AgeSelect />
           <div id="target_age-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_age &&
               state.errors.target_age.map((error) => (
