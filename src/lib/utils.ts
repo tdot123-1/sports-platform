@@ -72,18 +72,31 @@ export const generatePaginationMobile = (
   return [1, "...", currentPage, "...", totalPages];
 };
 
+// determine if string is birthyear by matching 4 digit numbers
+const isBirthYear = (value: string) => /^\d{4}$/.test(value);
+
+// shorten year to 3 character ('08, '09 etc.)
+const formatYear = (year: string) => `'${year.slice(-2)}`;
+
 // render array values in ui
 export const renderArrayField = (field: string[]) => {
   if (!field.length) return;
 
-  if (field.length === 1) {
-    return `${field[0]}`;
+  // format each item in case it is a birthyear
+  const formattedValues = field.map((item) =>
+    isBirthYear(item) ? formatYear(item) : item
+  );
+
+  if (formattedValues.length === 1) {
+    return `${formattedValues[0]}`;
   }
-  if (field.length === 2) {
-    return `${field[0]}, ${field[1]}`;
+  if (formattedValues.length === 2) {
+    return `${formattedValues[0]}, ${formattedValues[1]}`;
   }
 
-  return `${field[0]}, ${field[1]}, ...+${field.length - 2}`;
+  return `${formattedValues[0]}, ${formattedValues[1]}, ...+${
+    field.length - 2
+  }`;
 };
 
 // dynamically apply filters to query

@@ -19,7 +19,7 @@ interface AgeSelectDropdownProps {
   selectedAgeGroups: {
     [k: string]: boolean;
   };
-  toggleAgeGroup: (key: string) => void;
+  toggleAgeGroup: (key: keyof typeof TargetAgeGroupMap) => void;
   pending: boolean;
 }
 
@@ -59,7 +59,9 @@ const AgeSelectDropdown = ({
                   key={k}
                   id={k}
                   disabled={pending}
-                  onCheckedChange={() => toggleAgeGroup(k)}
+                  onCheckedChange={() =>
+                    toggleAgeGroup(k as keyof typeof TargetAgeGroupMap)
+                  }
                   checked={selectedAgeGroups[k]}
                 >
                   {v}

@@ -1,3 +1,5 @@
+import { AGE_RANGE, CURRENT_YEAR, START_AGE } from "./constants";
+
 // use map to be able to use search filter
 export const SportsEventTypeMap = {
   camp: "camp",
@@ -51,25 +53,7 @@ export const TargetLevelKeys = Object.keys(TargetLevelMap) as Array<
   keyof typeof TargetLevelMap
 >;
 
-// use map to be able to use search filters
-// export const TargetAgeGroupMap = {
-//   u8: "u8 (2017 and after)",
-//   u10: "u10 (2015 + 2016)",
-//   u12: "u12 (2013 + 2014)",
-//   u14: "u14 (2011 + 2012)",
-//   u16: "u16 (2009 + 2010)",
-//   u18: "u18 (2007 + 2008)",
-//   u20: "u20 (2005 + 2006)",
-//   u22: "u22 (2003 + 2004)",
-//   seniors: "seniors (2002 and before)",
-//   all: "all ages",
-// } as const;
-
-// export const TargetAgeGroupArray = Object.values(TargetAgeGroupMap);
-
-// export type TargetAgeGroup = (typeof TargetAgeGroupArray)[number];
-
-export type BirthYearKey = `${number}`; 
+export type BirthYearKey = `${number}`;
 export type AgeGroupKey = "all" | "adu" | "vet" | BirthYearKey;
 
 export const TargetAgeGroupMap: Record<AgeGroupKey, string> = {
@@ -77,9 +61,9 @@ export const TargetAgeGroupMap: Record<AgeGroupKey, string> = {
   adu: "adults",
   vet: "veterans",
   ...Object.fromEntries(
-    Array.from({ length: 18 }, (_, i) => {
-      const year = 2024 - i - 5; // auto-generate birth years from 2024 to 2006
-      return [year.toString(), year.toString()]; 
+    Array.from({ length: AGE_RANGE }, (_, i) => {
+      const year = CURRENT_YEAR - i - START_AGE; // auto-generate birth years
+      return [year.toString(), year.toString()];
     })
   ),
 };

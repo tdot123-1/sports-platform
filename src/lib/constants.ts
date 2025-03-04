@@ -16,6 +16,7 @@ export const allowedSocialDomains = [
   "youtube.com",
 ];
 
+// blocked TLDs for link submission (temporary)
 export const blockedTLDS = [
   "accountant",
   "bid",
@@ -52,6 +53,7 @@ export const blockedTLDS = [
   "exe",
 ];
 
+// blocked extensions for link submission (temporary)
 export const blockedExtensions = [
   ".exe",
   ".bat",
@@ -65,6 +67,7 @@ export const blockedExtensions = [
   ".apk",
 ];
 
+// blocked keywords in searchparams for link submission (temporary)
 export const suspiciousKeywords = [
   "download",
   "dl",
@@ -74,3 +77,8 @@ export const suspiciousKeywords = [
   "setup",
   "install",
 ];
+
+// constants for target age
+export const START_AGE = 5;
+export const AGE_RANGE = 18;
+export const CURRENT_YEAR = new Date().getFullYear();

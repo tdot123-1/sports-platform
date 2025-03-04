@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { TargetAgeGroupMap } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import AgeSelectDropdown from "./age-select-dropdown";
 import { Input } from "@/components/ui/input";
 
@@ -38,30 +38,35 @@ const AgeSelect = ({
     )
   );
 
-  const handleSelectAll = () => {
-    // set all age groups to false
-    const updatedAgeGroups = Object.keys(TargetAgeGroupMap).reduce(
-      (acc, key) => {
-        // only "all" remains true
-        acc[key] = key === "all";
-        return acc;
-      },
-      {} as Record<string, boolean>
-    );
-    // update state
-    setSelectedAgeGroups(updatedAgeGroups);
-  };
-
   // toggle selection
-  const toggleAgeGroup = (key: string) => {
-    if (key === "all") {
-      handleSelectAll();
-    } else {
-      setSelectedAgeGroups((prev) => ({
-        ...prev,
-        [key]: !prev[key],
-      }));
-    }
+  const toggleAgeGroup = (key: keyof typeof TargetAgeGroupMap) => {
+    setSelectedAgeGroups((prev) => {
+      const newState = { ...prev };
+
+      if (key === "all") {
+        // toggle "all"
+        newState.all = !prev.all;
+
+        if (newState.all) {
+          // if "all" selected, deselect all other age groups
+          Object.keys(TargetAgeGroupMap).forEach((k) => {
+            if (k !== "all") {
+              newState[k as keyof typeof TargetAgeGroupMap] = false;
+            }
+          });
+        }
+      } else {
+        // toggle specific age group
+        newState[key] = !prev[key];
+
+        // if any individual group is selected, deselect "all" option
+        if (newState[key]) {
+          newState.all = false;
+        }
+      }
+
+      return newState;
+    });
   };
 
   // compute ageGroupsStr dynamically, to be submitted along form

@@ -5,7 +5,6 @@ import {
   Country,
   SportsEvent,
   SportsEventTypeMap,
-  TargetAgeGroupMap,
   TargetGenderMap,
   TargetLevelMap,
 } from "@/lib/types";
@@ -285,6 +284,7 @@ const EventForm = ({
               event?.target_level ? event.target_level : undefined
             }
           />
+          {/* <LevelSelect /> */}
           <div id="target_level-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_level &&
               state.errors.target_level.map((error) => (
