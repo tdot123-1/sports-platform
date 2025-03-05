@@ -1,7 +1,12 @@
+import FavoritesList from "@/components/favorites/favorites-list";
+import { fetchFavoriteEvents } from "@/lib/data/events/data";
+
 const Page = () => {
   return (
     <>
-      <h1>Favorites</h1>
+      <section className="px-4">
+        <FavoritesList fetchDataFromServer={fetchFavoriteEvents} />
+      </section>
     </>
   );
 };

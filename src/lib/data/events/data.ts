@@ -2,8 +2,8 @@
 
 import { ITEMS_PER_MONTH, ITEMS_PER_PAGE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
-import { FilterOptions, SortOptions } from "@/lib/types";
-import { applyQueryFilters } from "@/lib/utils";
+import { FilterOptions, SortOptions, SportsEvent } from "@/lib/types";
+import { applyQueryFilters, convertFetchedEvent } from "@/lib/utils";
 
 export const fetchAllEvents = async (
   currentPage: number = 1,
@@ -273,5 +273,47 @@ export const fetchEventsBatches = async (
   } catch (error) {
     console.error("Error fetching batches: ", error);
     throw new Error(`Error fetching batches: ${error}`);
+  }
+};
+
+export const fetchFavoriteEvents = async (eventIds: string[]) => {
+  if (!eventIds.length) {
+    console.error("No event ids provided");
+    throw new Error("No event ids provided");
+  }
+
+  if (eventIds.length > 10) {
+    console.error("Favorites can be max 10 events");
+    throw new Error("Favorites can be max 10 events");
+  }
+
+  try {
+    const supabase = await createClient();
+
+    const { data: events, error } = await supabase
+      .from("events")
+      .select("*")
+      .in("id", eventIds);
+
+    if (error) {
+      console.error("Error fetching favorites:", error.message, error.code);
+      throw new Error(`Error fetching favorites: ${error.message}`);
+    }
+
+    // convert fetched data into sportsEvent to keep logic on the server(?)
+    if (events && events.length > 0) {
+      // convert Dates and get public logo url
+      const sportsEvents: SportsEvent[] = await Promise.all(
+        events.map(convertFetchedEvent)
+      );
+
+      return sportsEvents;
+    } else {
+      console.error("Attempted to fetch favorites but none were found");
+      throw new Error("Attempted to fetch favorites but none were found");
+    }
+  } catch (error) {
+    console.error("Error fetching favorites: ", error);
+    throw new Error(`Error fetching favorites: ${error}`);
   }
 };
