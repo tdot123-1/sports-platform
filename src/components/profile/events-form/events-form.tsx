@@ -6,7 +6,6 @@ import {
   SportsEvent,
   SportsEventTypeMap,
   TargetGenderMap,
-  TargetLevelMap,
 } from "@/lib/types";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
@@ -23,7 +22,7 @@ import Link from "next/link";
 import { Separator } from "../../ui/separator";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import LinksInput from "./form-components/links-input";
-import MultiSelect from "./form-components/multiselect";
+// import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
 import CountrySelect from "./form-components/country-select";
 import DateRangePicker from "./form-components/date-range-picker";

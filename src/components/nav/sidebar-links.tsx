@@ -20,6 +20,7 @@ import {
 } from "./nav-links";
 import LogoutMenuItem from "../auth/logout-menu-item";
 import SidebarEventsSub from "./sidebar-events-sub";
+import { HeartIcon } from "lucide-react";
 
 interface SidebarLinksProps {
   authenticated: boolean;
@@ -55,6 +56,20 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
               isMobile={isMobile}
               toggleSidebar={toggleSidebar}
             />
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                className={clsx({
+                  "bg-zinc-100": pathname === "/events/favorites",
+                })}
+                onClick={() => isMobile && toggleSidebar()}
+              >
+                <Link href={`/events/favorites`}>
+                  <HeartIcon />
+                  Favorites
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

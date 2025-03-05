@@ -39,13 +39,13 @@ const SidebarEventsSub = ({
           <CollapsibleTrigger asChild>
             <SidebarMenuButton
               className={clsx({
-                "bg-zinc-100": pathname.startsWith("/events"),
+                "bg-zinc-100":
+                  pathname.startsWith("/events") &&
+                  !pathname.endsWith("/favorites"),
               })}
             >
-              
-                <TrophyIcon />
-                <span>Events</span>
-             
+              <TrophyIcon />
+              <span>Events</span>
 
               {isOpen ? <ChevronDown /> : <ChevronRight />}
             </SidebarMenuButton>

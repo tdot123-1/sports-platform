@@ -2,7 +2,6 @@
 
 import { SportsEvent } from "@/lib/types";
 import { useEffect, useState } from "react";
-import EventCard from "../events/events-grid/event-card";
 import FavoriteCard from "./favorite-card";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -42,7 +41,7 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchDataFromServer]);
 
   if (isLoading) {
     return (
