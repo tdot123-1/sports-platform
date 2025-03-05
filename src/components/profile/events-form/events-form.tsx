@@ -28,6 +28,7 @@ import CostEstimate from "./form-components/cost-estimate";
 import CountrySelect from "./form-components/country-select";
 import DateRangePicker from "./form-components/date-range-picker";
 import AgeSelect from "./form-components/age-select";
+import LevelSelect from "./form-components/level-select";
 
 interface EventFormProps {
   state: State;
@@ -275,7 +276,7 @@ const EventForm = ({
             (Optional) Select the skill level(s) required for your event if
             applicable.
           </p>
-          <MultiSelect
+          {/* <MultiSelect
             name="target_level"
             pending={pending}
             optionsMap={TargetLevelMap}
@@ -283,8 +284,13 @@ const EventForm = ({
             initial_values={
               event?.target_level ? event.target_level : undefined
             }
+          /> */}
+          <LevelSelect
+            name="target_level"
+            pending={pending}
+            describedBy="target_level-error"
+            initialValues={event?.target_level ? event.target_level : undefined}
           />
-          {/* <LevelSelect /> */}
           <div id="target_level-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_level &&
               state.errors.target_level.map((error) => (

@@ -85,7 +85,7 @@ const AgeSelect = ({
     <>
       <div
         aria-describedby={describedBy}
-        className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+        className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1"
       >
         {buttonOrder.map((k) => {
           if (k === "youth") {
