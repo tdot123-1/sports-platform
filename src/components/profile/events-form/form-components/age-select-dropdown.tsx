@@ -59,9 +59,10 @@ const AgeSelectDropdown = ({
                   key={k}
                   id={k}
                   disabled={pending}
-                  onCheckedChange={() =>
-                    toggleAgeGroup(k as keyof typeof TargetAgeGroupMap)
-                  }
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    toggleAgeGroup(k as keyof typeof TargetAgeGroupMap);
+                  }}
                   checked={selectedAgeGroups[k]}
                 >
                   {v}
