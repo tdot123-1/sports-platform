@@ -1,5 +1,6 @@
 import EventDetails from "@/components/events/event-details";
 import ReturnButton from "@/components/events/return-button";
+import FavoriteButton from "@/components/favorites/favorite-button";
 import EventDetailsSkeleton from "@/components/skeletons/event-details-skeleton";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -16,6 +17,10 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
     <>
       <section className="px-4">
         <div className="mx-auto py-12 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
+          <div className="mb-2">
+            <FavoriteButton eventId={eventId} />
+          </div>
+
           <Suspense fallback={<EventDetailsSkeleton />}>
             <EventDetails eventId={eventId} />
           </Suspense>
