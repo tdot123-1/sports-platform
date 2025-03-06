@@ -14,6 +14,7 @@ import { SportsEventType } from "@/lib/types";
 import SelectedDateEvents from "./selected-date-events";
 import EventsBatchSelect from "./events-batch-select";
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
+import CalendarNavigation from "./calendar-nav";
 
 const locales = {
   "en-US": enUS,
@@ -115,7 +116,11 @@ const EventsCalendar = ({
   return (
     <>
       <div className="pb-1 pt-4 px-4 flex justify-between">
-        <ToolbarFilter maxPrice={maxPrice} batch />
+        <div className="flex gap-3">
+          <ToolbarFilter maxPrice={maxPrice} batch />
+          <CalendarNavigation />
+        </div>
+
         <EventsBatchSelect
           totalEvents={totalEvents}
           totalBatches={totalBatches}
