@@ -44,7 +44,7 @@ export default function RootLayout({
             </section>
             <Footer />
           </main>
-          <Toaster />
+          <Toaster richColors />
         </SidebarProvider>
       </body>
     </html>

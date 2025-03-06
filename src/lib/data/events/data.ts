@@ -293,7 +293,8 @@ export const fetchFavoriteEvents = async (eventIds: string[]) => {
     const { data: events, error } = await supabase
       .from("events")
       .select("*")
-      .in("id", eventIds);
+      .in("id", eventIds)
+      .limit(10);
 
     if (error) {
       console.error("Error fetching favorites:", error.message, error.code);

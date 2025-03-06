@@ -141,7 +141,6 @@ const ToolbarFilter = ({
     if (newParams.toString() !== params.toString()) {
       replace(newUrl);
     }
-    
   }, [typeFilter, genderFilter, ageFilter, levelFilter, deletePriceRange]);
 
   // check if category has any filters applied
@@ -232,15 +231,23 @@ const ToolbarFilter = ({
               </div>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  {Object.entries(sub.options).map(([k, v]) => (
-                    <DropdownMenuCheckboxItem
-                      key={k}
-                      checked={sub.state[k as keyof typeof sub.state]}
-                      onCheckedChange={() => handleChangeFilter(k, sub.setter)}
-                    >
-                      {v}
-                    </DropdownMenuCheckboxItem>
-                  ))}
+                  <div className="max-h-48 overflow-y-auto">
+                    {Object.entries(sub.options).map(([k, v]) => (
+                      <DropdownMenuCheckboxItem
+                        key={k}
+                        checked={sub.state[k as keyof typeof sub.state]}
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          handleChangeFilter(k, sub.setter);
+                        }}
+                        // onCheckedChange={() =>
+                        //   handleChangeFilter(k, sub.setter)
+                        // }
+                      >
+                        {v}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </div>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>

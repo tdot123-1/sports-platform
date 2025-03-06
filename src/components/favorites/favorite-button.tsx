@@ -3,6 +3,7 @@
 import { HeartIcon, HeartOffIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const FavoriteButton = ({ eventId }: { eventId: string }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -23,8 +24,18 @@ const FavoriteButton = ({ eventId }: { eventId: string }) => {
       // remove from favs
       newFavorites = newFavorites.filter((id) => id !== eventId);
     } else {
-      // add to favs
-      newFavorites.push(eventId);
+      // check if favorites is less than 10
+      if (newFavorites.length < 10) {
+        // add to favs
+        newFavorites.push(eventId);
+      } else {
+        // show toast if favorites is full
+        toast.warning("Maximum favorites selected", {
+          description: "Tip: un-favorite some events to add new favorites",
+        });
+
+        return;
+      }
     }
 
     // update local storage and state
