@@ -17,13 +17,17 @@ import {
 } from "@/components/ui/select";
 import { MONTHS } from "@/lib/constants";
 import { CalendarSearchIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
+import { Dispatch, SetStateAction } from "react";
 
-const CalendarNavigation = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
+interface CalendarNavigationProps {
+  currentMonth: Date;
+  setCurrentMonth: Dispatch<SetStateAction<Date>>;
+}
+
+const CalendarNavigation = ({
+  currentMonth,
+  setCurrentMonth,
+}: CalendarNavigationProps) => {
 
   // generate years on client to ensure list updates
   const years = Array.from(
@@ -31,16 +35,15 @@ const CalendarNavigation = () => {
     (_, i) => new Date().getFullYear() - 1 + i
   );
 
-    // const handleMonthChange = useDebouncedCallback((month) => {
-    //   const params = new URLSearchParams(searchParams);
-    //   params.set("month", `${month}`);
-    //   replace(`${pathname}?${params.toString()}`);
-    // }, 300);
+  // update state in parent component to change url there
+  const handleMonthChange = (monthString: string) => {
+    const month = Number(monthString);
+    setCurrentMonth(new Date(currentMonth.getFullYear(), month, 1));
+  };
 
-  const handleMonthChange = (month: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("month", `${month}`);
-    replace(`${pathname}?${params.toString()}`);
+  const handleYearChange = (yearString: string) => {
+    const year = Number(yearString);
+    setCurrentMonth(new Date(year, currentMonth.getMonth(), 1));
   };
 
   return (
@@ -71,7 +74,7 @@ const CalendarNavigation = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <Select>
+            <Select onValueChange={handleYearChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
