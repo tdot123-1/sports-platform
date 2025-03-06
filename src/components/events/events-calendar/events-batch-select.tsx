@@ -8,15 +8,22 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 interface EventsBatchSelectProps {
   totalBatches: number;
+  totalEvents: number;
 }
 
-const EventsBatchSelect = ({ totalBatches }: EventsBatchSelectProps) => {
+const EventsBatchSelect = ({
+  totalBatches,
+  totalEvents,
+}: EventsBatchSelectProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentBatch = Number(searchParams.get("batch")) || 1;
 
-  const startIndex = (currentBatch - 1) * ITEMS_PER_MONTH;
-  const eventsShowing = `Events ${startIndex}-${startIndex + ITEMS_PER_MONTH}`;
+  const startIndex = (currentBatch - 1) * ITEMS_PER_MONTH + 1;
+  const endIndex = Math.min(startIndex + ITEMS_PER_MONTH - 1, totalEvents);
+  const eventsShowing = totalEvents
+    ? `Showing events ${startIndex}-${endIndex} of ${totalEvents}`
+    : "No events";
 
   const createBatchURL = (batchNumber: number | string) => {
     const params = new URLSearchParams(searchParams);

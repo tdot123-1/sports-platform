@@ -269,7 +269,7 @@ export const fetchEventsBatches = async (
 
     console.log("BATCHES COUNT: ", totalBatches);
 
-    return totalBatches;
+    return { totalBatches, count };
   } catch (error) {
     console.error("Error fetching batches: ", error);
     throw new Error(`Error fetching batches: ${error}`);

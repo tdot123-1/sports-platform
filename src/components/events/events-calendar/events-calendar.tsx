@@ -55,6 +55,7 @@ interface EventsCalendarProps {
   year?: number;
   eventList: CalendarEvent[];
   totalBatches?: number;
+  totalEvents: number;
   maxPrice: number;
 }
 
@@ -64,6 +65,7 @@ const EventsCalendar = ({
   year,
   totalBatches = 1,
   maxPrice,
+  totalEvents,
 }: EventsCalendarProps) => {
   // initialize start month
   const startMonth = month && year ? new Date(year, month - 1, 1) : new Date();
@@ -114,7 +116,10 @@ const EventsCalendar = ({
     <>
       <div className="pb-1 pt-4 px-4 flex justify-between">
         <ToolbarFilter maxPrice={maxPrice} batch />
-        <EventsBatchSelect totalBatches={totalBatches} />
+        <EventsBatchSelect
+          totalEvents={totalEvents}
+          totalBatches={totalBatches}
+        />
       </div>
 
       <Calendar

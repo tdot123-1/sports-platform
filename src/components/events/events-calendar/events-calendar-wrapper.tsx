@@ -51,7 +51,7 @@ const EventsCalendarWrapper = async ({
       event_logo_url: e.event_logo_url,
     }));
 
-  const totalBatches = await fetchEventsBatches(
+  const { totalBatches, count } = await fetchEventsBatches(
     month,
     year,
     filter,
@@ -68,6 +68,7 @@ const EventsCalendarWrapper = async ({
         year={year}
         eventList={filteredEvents}
         totalBatches={totalBatches}
+        totalEvents={count || 0}
         maxPrice={maxCostEstimate}
       />
     </>
