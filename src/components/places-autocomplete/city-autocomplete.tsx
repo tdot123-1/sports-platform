@@ -1,64 +1,74 @@
 "use client";
 
-import { LoadScript, Autocomplete } from "@react-google-maps/api";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { useEffect, useRef, useState } from "react";
-
-const libraries: "places"[] = ["places"];
+import { useDebouncedCallback } from "use-debounce";
 
 // check for api key
 
 const CityAutocomplete = ({ countryCode }: { countryCode: string }) => {
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-  const [city, setCity] = useState("");
+  // const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState<any[]>([]);
 
-  useEffect(() => {
-    console.log("KEY: ", process.env.NEXT_PUBLIC_MAPS_API_KEY)
-  }, [])
+  const fetchAutocomplete = async (input: string) => {
+    if (!input) return;
 
-  const handlePlaceSelect = () => {
-    console.log("SELECT PLACE");
-    if (autocompleteRef.current) {
-      const place = autocompleteRef.current.getPlace();
+    try {
 
-      if (!place || !place.address_components) return;
+      // include session token
 
-      const cityComponent = place.address_components.find(
-        (c) =>
-          c.types.includes("locality") ||
-          c.types.includes("administrative_area_level_1")
+      const response = await fetch(
+        `https://places.googleapis.com/v1/places:autocomplete?key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            input,
+            includedPrimaryTypes: ["locality"],
+            includedRegionCodes: [countryCode],
+          }),
+        }
       );
 
-      if (cityComponent) {
-        const selectedCity = cityComponent.long_name;
-        setCity(selectedCity);
-
-        // pass city data to parent component
+      if (!response.ok) {
+        console.error("Response not OK: ", response.status);
+        throw new Error("Failed to fetch results");
       }
+
+      const data = await response.json();
+      console.log("Data: ", data);
+      setSuggestions(data.suggestions || []);
+    } catch (error) {
+      console.error("Failed to fetch suggestions");
     }
   };
+
+  const handleInputChange = useDebouncedCallback((input) => {
+    console.log(`Searching... ${input}`);
+
+    if (input) {
+      fetchAutocomplete(input);
+    }
+  }, 300);
+
+  // add handle select city functionallity
+
   return (
     <>
-      <LoadScript
-        googleMapsApiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY!}
-        libraries={libraries}
-      >
-        <Autocomplete
-          onLoad={(ref) => (autocompleteRef.current = ref)}
-          onPlaceChanged={handlePlaceSelect}
-          options={{
-            types: ["(cities)"],
-            componentRestrictions: { country: countryCode },
-          }}
-        >
-          <Input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Enter a city"
-          />
-        </Autocomplete>
-      </LoadScript>
+      <div>
+        <Input onChange={(e) => handleInputChange(e.target.value)} />
+      </div>
+      <div>
+        {suggestions.length && (
+          <ul>
+            {suggestions.map((v, i) => (
+              <li key={i}>{v.placePrediction?.structuredFormat?.mainText?.text}</li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   );
 };
