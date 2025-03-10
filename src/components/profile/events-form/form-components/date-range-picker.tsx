@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
 interface DateRangePickerProps {
@@ -46,10 +46,10 @@ const DateRangePicker = ({
     setChecked((prev) => !prev);
   };
 
-  useEffect(() => {
-    console.log("from: ", date?.from ? format(date.from, "yyyy-MM-dd") : null);
-    console.log("to: ", date?.to ? format(date.to, "yyyy-MM-dd") : null);
-  }, [date]);
+  // useEffect(() => {
+  //   console.log("from: ", date?.from ? format(date.from, "yyyy-MM-dd") : null);
+  //   console.log("to: ", date?.to ? format(date.to, "yyyy-MM-dd") : null);
+  // }, [date]);
 
   return (
     <>

@@ -132,9 +132,9 @@ const CityAutocomplete = ({
   };
 
   useEffect(() => {
-    console.log("LOCATION: ", location);
-    console.log("CITY: ", selectedCity);
-    console.log("COUNTRY: ", countryCode);
+    // console.log("LOCATION: ", location);
+    // console.log("CITY: ", selectedCity);
+    // console.log("COUNTRY: ", countryCode);
 
     // check if it is initial render
     if (firstRender.current) {
