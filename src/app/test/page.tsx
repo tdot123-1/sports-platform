@@ -1,4 +1,3 @@
-import CityAutocomplete from "@/components/places-autocomplete/city-autocomplete";
 import LocationInput from "@/components/places-autocomplete/location-input";
 import { State } from "@/lib/actions/events/actions";
 import { countryList } from "@/lib/countries";

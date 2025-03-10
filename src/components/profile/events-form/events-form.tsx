@@ -22,12 +22,11 @@ import Link from "next/link";
 import { Separator } from "../../ui/separator";
 import { CirclePlusIcon, SaveIcon, Undo2Icon } from "lucide-react";
 import LinksInput from "./form-components/links-input";
-// import MultiSelect from "./form-components/multiselect";
 import CostEstimate from "./form-components/cost-estimate";
-import CountrySelect from "./form-components/country-select";
 import DateRangePicker from "./form-components/date-range-picker";
 import AgeSelect from "./form-components/age-select";
 import LevelSelect from "./form-components/level-select";
+import LocationInput from "@/components/places-autocomplete/location-input";
 
 interface EventFormProps {
   state: State;
@@ -118,7 +117,13 @@ const EventForm = ({
           <p className="text-xs italic">
             Provide the location where your event will be held
           </p>
-          <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
+          <LocationInput
+            countryList={countryList}
+            pending={pending}
+            state={state}
+            event={event}
+          />
+          {/* <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="address_city">
               City<span className="text-destructive">*</span>:
             </Label>
@@ -144,19 +149,19 @@ const EventForm = ({
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
 
-          <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
+          {/* <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
             <Label className="text-muted-foreground" htmlFor="address_country">
               Country<span className="text-destructive">*</span>:
             </Label>
-            {/* <CountrySelect
+            <CountrySelect
               countryList={countryList}
               pending={pending}
               name="address_country"
               describedBy="address_country-error"
               address_country={event?.address_country}
-            /> */}
+            />
           </div>
           <div id="address_country-error" aria-live="polite" aria-atomic="true">
             {state.errors?.address_country &&
@@ -168,7 +173,7 @@ const EventForm = ({
                   {error}
                 </p>
               ))}
-          </div>
+          </div> */}
         </div>
 
         <div className="mb-4">

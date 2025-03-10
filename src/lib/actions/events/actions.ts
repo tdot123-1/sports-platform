@@ -77,6 +77,12 @@ const FormSchema = z.object({
     .refine((code) => validCountryCodes.has(code), {
       message: "Invalid country code",
     }),
+  address_location: z
+    .string({ invalid_type_error: "Please add a location for your event" })
+    .trim()
+    .refine((location) => location.startsWith("POINT"), {
+      message: "Incorrect location format",
+    }),
 
   start_date: z
     .date({
@@ -213,6 +219,7 @@ export type State = {
 
     address_city?: string[];
     address_country?: string[];
+    address_location?: string[];
 
     start_date?: string[];
     end_date?: string[];
@@ -257,6 +264,7 @@ export async function createEvent(prevState: State, formData: FormData) {
 
     address_city,
     address_country,
+    address_location,
 
     start_date,
     end_date,
@@ -324,6 +332,7 @@ export async function createEvent(prevState: State, formData: FormData) {
 
         address_city,
         address_country,
+        address_location,
 
         start_date,
         end_date,
@@ -393,6 +402,7 @@ export async function updateEvent(
 
     address_city,
     address_country,
+    address_location,
 
     start_date,
     end_date,
@@ -444,6 +454,7 @@ export async function updateEvent(
 
         address_city,
         address_country,
+        address_location,
 
         start_date,
         end_date,

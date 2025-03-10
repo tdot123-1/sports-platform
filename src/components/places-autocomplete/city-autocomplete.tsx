@@ -6,7 +6,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { v4 as uuidv4 } from "uuid";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -132,8 +132,11 @@ const CityAutocomplete = ({
   };
 
   useEffect(() => {
+    console.log("LOCATION: ", location);
+    console.log("CITY: ", selectedCity);
+    console.log("COUNTRY: ", countryCode);
 
-    // check if it is initial render 
+    // check if it is initial render
     if (firstRender.current) {
       firstRender.current = false;
       return;

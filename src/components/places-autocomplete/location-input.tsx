@@ -3,7 +3,6 @@
 import { State } from "@/lib/actions/events/actions";
 import { Country, SportsEvent } from "@/lib/types";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import CountrySelect from "../profile/events-form/form-components/country-select";
 import { useState } from "react";
 import CityAutocomplete from "./city-autocomplete";
@@ -68,6 +67,17 @@ const LocationInput = ({
       <div id="address_city-error" aria-live="polite" aria-atomic="true">
         {state.errors?.address_city &&
           state.errors.address_city.map((error) => (
+            <p
+              className="text-sm mt-2 text-right text-destructive italic"
+              key={error}
+            >
+              {error}
+            </p>
+          ))}
+      </div>
+      <div id="address_location-error" aria-live="polite" aria-atomic="true">
+        {state.errors?.address_location &&
+          state.errors.address_location.map((error) => (
             <p
               className="text-sm mt-2 text-right text-destructive italic"
               key={error}
