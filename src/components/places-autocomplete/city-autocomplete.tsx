@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { useDebouncedCallback } from "use-debounce";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +15,6 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import { cn } from "@/lib/utils";
 
 interface CityAutocompleteProps {
   name: string;
@@ -23,6 +22,7 @@ interface CityAutocompleteProps {
   pending: boolean;
   describedBy: string;
   address_city?: string;
+  address_location?: string;
 }
 
 // check for api key
@@ -33,15 +33,53 @@ const CityAutocomplete = ({
   pending,
   describedBy,
   address_city,
+  address_location,
 }: CityAutocompleteProps) => {
   // const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
+
   const [selectedCity, setSelectedCity] = useState(address_city || "");
+  const [location, setLocation] = useState(address_location || "");
+
   const [sessionToken, setSessionToken] = useState(uuidv4());
+
+  const firstRender = useRef(true);
+
+  const fetchPlaceDetails = async (placeId: string) => {
+    if (!placeId) return;
+
+    try {
+      const response = await fetch(
+        `https://places.googleapis.com/v1/places/${placeId}?fields=location&key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}&sessionToken=${sessionToken}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch location data: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.location) {
+        throw new Error("No location data returned");
+      }
+
+      console.log("LOCATION: ", data.location);
+
+      const { latitude, longitude } = data.location;
+
+      setLocation(`POINT(${longitude} ${latitude})`);
+
+      setSessionToken(uuidv4());
+    } catch (error) {
+      console.error("Failed to fetch location: ", error);
+    }
+  };
 
   const fetchAutocomplete = async (input: string) => {
     if (!input) return;
+
+    if (countryCode.length !== 2) return;
 
     try {
       // include session token
@@ -83,14 +121,29 @@ const CityAutocomplete = ({
     }
   }, 300);
 
-  const handleSelectCity = (city: string) => {
+  const handleSelectCity = (city: string, placeId: string) => {
     console.log("Selected city: ", city);
     setSelectedCity(city);
+
+    // fetch location data (place details)
+    fetchPlaceDetails(placeId);
+
     setSuggestions([]);
-    setSessionToken(uuidv4());
   };
 
-  // add handle select city functionallity
+  useEffect(() => {
+
+    // check if it is initial render 
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+
+    // clear selected city/location if country changes
+    setSelectedCity("");
+    setLocation("");
+    setSuggestions([]);
+  }, [countryCode]);
 
   return (
     <>
@@ -101,19 +154,24 @@ const CityAutocomplete = ({
             role="combobox"
             aria-expanded={open}
             className="w-full lg:w-1/2 justify-between"
-            disabled={pending}
+            disabled={pending || !countryCode}
             aria-describedby={describedBy}
             value={selectedCity}
             id={name}
           >
-            {selectedCity ? selectedCity : "Select city..."}
+            {/* {selectedCity ? selectedCity : "Select city..."} */}
+            {countryCode
+              ? selectedCity
+                ? selectedCity
+                : "Select city..."
+              : "Please select a country"}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-10/12  p-0">
           <Command>
             <CommandInput
-              disabled={pending}
+              disabled={pending || !countryCode}
               placeholder="Search city..."
               className="h-9"
               onValueChange={handleInputChange}
@@ -124,11 +182,13 @@ const CityAutocomplete = ({
               <CommandGroup>
                 {suggestions?.map((v) => (
                   <CommandItem
+                    disabled={pending || !countryCode}
                     key={v.placePrediction?.placeId}
                     value={v.placePrediction?.structuredFormat?.mainText?.text}
                     onSelect={() => {
                       handleSelectCity(
-                        v.placePrediction?.structuredFormat?.mainText?.text
+                        v.placePrediction?.structuredFormat?.mainText?.text,
+                        v.placePrediction?.placeId
                       );
                       setOpen(false);
                     }}
@@ -154,6 +214,15 @@ const CityAutocomplete = ({
         name={name}
         type="hidden"
         value={selectedCity}
+        readOnly
+        hidden
+        className="hidden"
+        required
+      />
+      <Input
+        name="address_location"
+        type="hidden"
+        value={location}
         readOnly
         hidden
         className="hidden"

@@ -150,13 +150,13 @@ const EventForm = ({
             <Label className="text-muted-foreground" htmlFor="address_country">
               Country<span className="text-destructive">*</span>:
             </Label>
-            <CountrySelect
+            {/* <CountrySelect
               countryList={countryList}
               pending={pending}
               name="address_country"
               describedBy="address_country-error"
               address_country={event?.address_country}
-            />
+            /> */}
           </div>
           <div id="address_country-error" aria-live="polite" aria-atomic="true">
             {state.errors?.address_country &&

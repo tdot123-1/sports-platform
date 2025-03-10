@@ -19,7 +19,7 @@ import { Country } from "@/lib/types";
 
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface CountrySelectProps {
   countryList: Country[];
@@ -27,19 +27,19 @@ interface CountrySelectProps {
   address_country?: string;
   name: string;
   describedBy: string;
+  selectedCountry: string;
+  setSelectedCountry: Dispatch<SetStateAction<string>>;
 }
 
 const CountrySelect = ({
   countryList,
   pending,
-  address_country,
   name,
   describedBy,
+  selectedCountry,
+  setSelectedCountry,
 }: CountrySelectProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(
-    address_country ? address_country : ""
-  );
 
   return (
     <>
