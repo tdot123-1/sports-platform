@@ -28,15 +28,13 @@ const LocationInput = ({
     address_country ? address_country : ""
   );
 
-  // const [selectedCity, setSelectedCity] = useState(
-  //   address_city ? address_city : ""
-  // );
+  const [cityError, setCityError] = useState("");
 
   return (
     <>
       <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
         <Label className="text-muted-foreground" htmlFor="address_country">
-          Country<span className="text-destructive">*</span>:
+          Country:
         </Label>
         <CountrySelect
           countryList={countryList}
@@ -59,21 +57,29 @@ const LocationInput = ({
             </p>
           ))}
       </div>
-
+      {/* <span className="text-destructive">*</span> */}
       <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
         <Label className="text-muted-foreground" htmlFor="address_city">
-          City<span className="text-destructive">*</span>:
+          City:
         </Label>
         <CityAutocomplete
           countryCode={selectedCountry.toLowerCase()}
           name="address_city"
           pending={pending}
           describedBy="address_city-error"
-         
           address_city={address_city}
           address_location={address_location}
+          setCityError={setCityError}
         />
       </div>
+
+      {/* display any error related to failed api calls */}
+      {cityError && (
+        <p className="text-sm mt-2 text-right text-destructive italic">
+          {cityError}
+        </p>
+      )}
+
       <div id="address_city-error" aria-live="polite" aria-atomic="true">
         {state.errors?.address_city &&
           state.errors.address_city.map((error) => (

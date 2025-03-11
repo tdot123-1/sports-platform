@@ -123,7 +123,7 @@ const EventForm = ({
             state={state}
             address_country={event ? event.address_country : undefined}
             address_city={event ? event.address_city : undefined}
-            address_location={event ? event.address_location : undefined}
+            address_location={event ? event.address_location_read : undefined}
           />
         </div>
 
