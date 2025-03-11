@@ -121,59 +121,9 @@ const EventForm = ({
             countryList={countryList}
             pending={pending}
             state={state}
-            event={event}
+            address_country={event ? event.address_country : undefined}
+            address_city={event ? event.address_city : undefined}
           />
-          {/* <div className="flex flex-col justify-between items-baseline lg:flex-row my-2 gap-1">
-            <Label className="text-muted-foreground" htmlFor="address_city">
-              City<span className="text-destructive">*</span>:
-            </Label>
-            <Input
-              id="address_city"
-              name="address_city"
-              type="text"
-              aria-describedby="address_city-error"
-              disabled={pending}
-              defaultValue={event ? event.address_city : ""}
-              required
-              maxLength={100}
-              className="w-full lg:w-1/2"
-            />
-          </div>
-          <div id="address_city-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.address_city &&
-              state.errors.address_city.map((error) => (
-                <p
-                  className="text-sm mt-2 text-right text-destructive italic"
-                  key={error}
-                >
-                  {error}
-                </p>
-              ))}
-          </div> */}
-
-          {/* <div className="flex flex-col justify-between items-baseline lg:flex-row mb-2 gap-1">
-            <Label className="text-muted-foreground" htmlFor="address_country">
-              Country<span className="text-destructive">*</span>:
-            </Label>
-            <CountrySelect
-              countryList={countryList}
-              pending={pending}
-              name="address_country"
-              describedBy="address_country-error"
-              address_country={event?.address_country}
-            />
-          </div>
-          <div id="address_country-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.address_country &&
-              state.errors.address_country.map((error) => (
-                <p
-                  className="text-sm mt-2 text-right text-destructive italic"
-                  key={error}
-                >
-                  {error}
-                </p>
-              ))}
-          </div> */}
         </div>
 
         <div className="mb-4">

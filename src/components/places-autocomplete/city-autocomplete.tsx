@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { useDebouncedCallback } from "use-debounce";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +15,7 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
+import { capitalizeCity } from "@/lib/utils";
 
 interface CityAutocompleteProps {
   name: string;
@@ -35,16 +36,28 @@ const CityAutocomplete = ({
   address_city,
   address_location,
 }: CityAutocompleteProps) => {
-  // const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
 
-  const [selectedCity, setSelectedCity] = useState(address_city || "");
-  const [location, setLocation] = useState(address_location || "");
+  const [selectedCountry, setSelectedCountry] = useState(countryCode);
+
+  const [selectedCity, setSelectedCity] = useState(
+    address_city ? address_city : ""
+  );
+
+  const [location, setLocation] = useState(
+    address_location ? address_location : ""
+  );
 
   const [sessionToken, setSessionToken] = useState(uuidv4());
 
-  const firstRender = useRef(true);
+  useEffect(() => {
+    if (selectedCountry !== countryCode) {
+      setSelectedCity("");
+      setLocation("");
+      setSuggestions([]);
+    }
+  }, [countryCode]);
 
   const fetchPlaceDetails = async (placeId: string) => {
     if (!placeId) return;
@@ -131,23 +144,6 @@ const CityAutocomplete = ({
     setSuggestions([]);
   };
 
-  useEffect(() => {
-    // console.log("LOCATION: ", location);
-    // console.log("CITY: ", selectedCity);
-    // console.log("COUNTRY: ", countryCode);
-
-    // check if it is initial render
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-
-    // clear selected city/location if country changes
-    setSelectedCity("");
-    setLocation("");
-    setSuggestions([]);
-  }, [countryCode]);
-
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -162,12 +158,12 @@ const CityAutocomplete = ({
             value={selectedCity}
             id={name}
           >
-            {/* {selectedCity ? selectedCity : "Select city..."} */}
             {countryCode
-              ? selectedCity
-                ? selectedCity
+              ? selectedCity && selectedCity !== ""
+                ? capitalizeCity(selectedCity)
                 : "Select city..."
               : "Please select a country"}
+
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -187,25 +183,16 @@ const CityAutocomplete = ({
                   <CommandItem
                     disabled={pending || !countryCode}
                     key={v.placePrediction?.placeId}
-                    value={v.placePrediction?.structuredFormat?.mainText?.text}
+                    value={v.placePrediction?.text?.text}
                     onSelect={() => {
                       handleSelectCity(
-                        v.placePrediction?.structuredFormat?.mainText?.text,
+                        v.placePrediction?.text?.text,
                         v.placePrediction?.placeId
                       );
                       setOpen(false);
                     }}
                   >
-                    {v.placePrediction?.structuredFormat?.mainText?.text}
-                    {/* <Check
-                      className={cn(
-                        "ml-auto",
-                        selectedCity ===
-                          v.placePrediction?.structuredFormat?.mainText?.text
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    /> */}
+                    {v.placePrediction?.text?.text}
                   </CommandItem>
                 ))}
               </CommandGroup>

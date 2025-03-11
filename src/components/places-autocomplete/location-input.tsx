@@ -1,7 +1,7 @@
 "use client";
 
 import { State } from "@/lib/actions/events/actions";
-import { Country, SportsEvent } from "@/lib/types";
+import { Country } from "@/lib/types";
 import { Label } from "../ui/label";
 import CountrySelect from "../profile/events-form/form-components/country-select";
 import { useState } from "react";
@@ -9,20 +9,28 @@ import CityAutocomplete from "./city-autocomplete";
 
 interface LocationInputProps {
   state: State;
-  event?: SportsEvent;
   pending: boolean;
   countryList: Country[];
+  address_country?: string;
+  address_city?: string;
+  address_location?: string;
 }
 
 const LocationInput = ({
   state,
-  event,
   pending,
   countryList,
+  address_country,
+  address_city,
+  address_location,
 }: LocationInputProps) => {
   const [selectedCountry, setSelectedCountry] = useState(
-    event?.address_country ? event.address_country : ""
+    address_country ? address_country : ""
   );
+
+  // const [selectedCity, setSelectedCity] = useState(
+  //   address_city ? address_city : ""
+  // );
 
   return (
     <>
@@ -35,7 +43,7 @@ const LocationInput = ({
           pending={pending}
           name="address_country"
           describedBy="address_country-error"
-          address_country={event?.address_country}
+          address_country={address_country}
           selectedCountry={selectedCountry}
           setSelectedCountry={setSelectedCountry}
         />
@@ -61,7 +69,9 @@ const LocationInput = ({
           name="address_city"
           pending={pending}
           describedBy="address_city-error"
-          address_city={event?.address_city}
+         
+          address_city={address_city}
+          address_location={address_location}
         />
       </div>
       <div id="address_city-error" aria-live="polite" aria-atomic="true">

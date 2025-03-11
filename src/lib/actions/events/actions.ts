@@ -61,10 +61,9 @@ const FormSchema = z.object({
   address_city: z
     .string({ invalid_type_error: "Please add a city" })
     .trim()
-    .toLowerCase()
-    .min(2, { message: "City name is too short" })
-    .max(100, { message: "Maximum characters exceeded" })
-    .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, {
+    .min(5, { message: "City name is too short" })
+    .max(150, { message: "Maximum characters exceeded" })
+    .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s,'-]+$/, {
       message: "City contains invalid characters",
     }),
   address_country: z
