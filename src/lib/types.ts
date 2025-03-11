@@ -99,6 +99,7 @@ export interface SportsEvent {
   address_city: string;
   address_country: string;
   address_location: string;
+  address_location_read: string;
 
   // dates
   start_date: Date | null;

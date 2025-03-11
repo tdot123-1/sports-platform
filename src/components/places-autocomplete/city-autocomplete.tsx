@@ -16,6 +16,10 @@ import {
   CommandList,
 } from "../ui/command";
 import { capitalizeCity } from "@/lib/utils";
+import {
+  fetchPlaceDetailsApi,
+  fetchPlaceSuggestionsApi,
+} from "@/lib/actions/places-api/actions";
 
 interface CityAutocompleteProps {
   name: string;
@@ -25,8 +29,6 @@ interface CityAutocompleteProps {
   address_city?: string;
   address_location?: string;
 }
-
-// check for api key
 
 const CityAutocomplete = ({
   countryCode,
@@ -39,7 +41,7 @@ const CityAutocomplete = ({
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
 
-  const [selectedCountry, setSelectedCountry] = useState(countryCode);
+  const [selectedCountry] = useState(countryCode);
 
   const [selectedCity, setSelectedCity] = useState(
     address_city ? address_city : ""
@@ -52,6 +54,11 @@ const CityAutocomplete = ({
   const [sessionToken, setSessionToken] = useState(uuidv4());
 
   useEffect(() => {
+    // console.log("CITY: ", selectedCity);
+    // console.log("COUNTRY CODE: ", countryCode);
+    // console.log("COUNTRY: ", selectedCountry);
+    // console.log("LOCATION: ", location);
+
     if (selectedCountry !== countryCode) {
       setSelectedCity("");
       setLocation("");
@@ -63,25 +70,11 @@ const CityAutocomplete = ({
     if (!placeId) return;
 
     try {
-      const response = await fetch(
-        `https://places.googleapis.com/v1/places/${placeId}?fields=location&key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}&sessionToken=${sessionToken}`
-      );
+      const data = await fetchPlaceDetailsApi(placeId, sessionToken);
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch location data: ${response.status}`);
+      if (data) {
+        setLocation(data);
       }
-
-      const data = await response.json();
-
-      if (!data.location) {
-        throw new Error("No location data returned");
-      }
-
-      console.log("LOCATION: ", data.location);
-
-      const { latitude, longitude } = data.location;
-
-      setLocation(`POINT(${longitude} ${latitude})`);
 
       setSessionToken(uuidv4());
     } catch (error) {
@@ -95,32 +88,12 @@ const CityAutocomplete = ({
     if (countryCode.length !== 2) return;
 
     try {
-      // include session token
-
-      const response = await fetch(
-        `https://places.googleapis.com/v1/places:autocomplete?key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            input,
-            includedPrimaryTypes: ["locality"],
-            includedRegionCodes: [countryCode],
-            sessionToken,
-          }),
-        }
+      const data = await fetchPlaceSuggestionsApi(
+        input,
+        countryCode,
+        sessionToken
       );
-
-      if (!response.ok) {
-        console.error("Response not OK: ", response.status);
-        throw new Error("Failed to fetch results");
-      }
-
-      const data = await response.json();
-      console.log("Data: ", data);
-      setSuggestions(data.suggestions || []);
+      setSuggestions(data?.suggestions || []);
     } catch (error) {
       console.error("Failed to fetch suggestions ", error);
     }

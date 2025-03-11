@@ -332,6 +332,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         address_city,
         address_country,
         address_location,
+        address_location_read: address_location,
 
         start_date,
         end_date,
@@ -454,6 +455,7 @@ export async function updateEvent(
         address_city,
         address_country,
         address_location,
+        address_location_read: address_location,
 
         start_date,
         end_date,
