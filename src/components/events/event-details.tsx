@@ -5,11 +5,7 @@ import {
   TargetAgeGroupMap,
   TargetLevelMap,
 } from "@/lib/types";
-import {
-  capitalizeCity,
-  convertFetchedEvent,
-  formatCurrencyForDisplay,
-} from "@/lib/utils";
+import { convertFetchedEvent, formatCurrencyForDisplay } from "@/lib/utils";
 import {
   BicepsFlexedIcon,
   CalendarCheck2Icon,
@@ -27,7 +23,6 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
-import { countryNameMap } from "@/lib/countries";
 import { Separator } from "../ui/separator";
 import { format } from "date-fns";
 import { fetchImagePublicUrls } from "@/lib/data/storage/data";

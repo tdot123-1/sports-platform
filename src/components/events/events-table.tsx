@@ -14,7 +14,11 @@ import {
   TableRow,
 } from "../ui/table";
 import { fetchAllEvents } from "@/lib/data/events/data";
-import { capitalizeCity, convertFetchedEvent, formatCityName, renderArrayField } from "@/lib/utils";
+import {
+  convertFetchedEvent,
+  formatCityName,
+  renderArrayField,
+} from "@/lib/utils";
 import { format } from "date-fns";
 import ViewDetailsButton from "./details-button";
 

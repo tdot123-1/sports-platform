@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
 import ViewDetailsButton from "../details-button";
-import { capitalizeCity, formatCityName } from "@/lib/utils";
+import { formatCityName } from "@/lib/utils";
 
 const NewEventCard = ({ event }: { event: SportsEvent }) => {
   return (
