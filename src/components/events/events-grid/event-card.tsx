@@ -8,7 +8,7 @@ import {
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
 import { ScrollArea } from "../../ui/scroll-area";
-import { renderArrayField } from "@/lib/utils";
+import { formatCityName, renderArrayField } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import ViewDetailsButton from "../details-button";
@@ -55,7 +55,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
               <h4 className="text-muted-foreground">Where:</h4>
               <div>
                 <p className="text-right text-sm">
-                  {event.address_city}, {event.address_country}
+                  {formatCityName(event.address_city)}, {event.address_country}
                 </p>
               </div>
             </li>

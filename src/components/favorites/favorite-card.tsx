@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { format } from "date-fns";
-import { renderArrayField } from "@/lib/utils";
+import { formatCityName, renderArrayField } from "@/lib/utils";
 import ViewDetailsButton from "../events/details-button";
 
 const FavoriteCard = ({ event }: { event: SportsEvent }) => {
@@ -52,7 +52,7 @@ const FavoriteCard = ({ event }: { event: SportsEvent }) => {
               <h4 className="text-muted-foreground">Where:</h4>
               <div>
                 <p className="text-right text-sm">
-                  {event.address_city}, {event.address_country}
+                  {formatCityName(event.address_city)}, {event.address_country}
                 </p>
               </div>
             </li>

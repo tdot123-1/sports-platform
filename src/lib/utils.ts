@@ -335,3 +335,7 @@ export const capitalizeCity = (input: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
+
+export const formatCityName = (fullName: string) => {
+  return fullName?.split(",")[0] || "";
+};

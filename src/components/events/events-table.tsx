@@ -14,7 +14,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { fetchAllEvents } from "@/lib/data/events/data";
-import { capitalizeCity, convertFetchedEvent, renderArrayField } from "@/lib/utils";
+import { capitalizeCity, convertFetchedEvent, formatCityName, renderArrayField } from "@/lib/utils";
 import { format } from "date-fns";
 import ViewDetailsButton from "./details-button";
 
@@ -88,7 +88,7 @@ const EventsTable = async ({
                     : "TBD"}
                 </TableCell>
                 <TableCell>
-                  {capitalizeCity(event.address_city)}, {event.address_country}
+                  {formatCityName(event.address_city)}, {event.address_country}
                 </TableCell>
                 <TableCell></TableCell>
                 <TableCell>{renderArrayField(event.target_age)}</TableCell>

@@ -161,10 +161,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 <h5 className="font-semibold">Location:</h5>
               </div>
 
-              <p className="text-right">
-                {capitalizeCity(event.address_city)},{" "}
-                {countryNameMap[event.address_country]}
-              </p>
+              <p className="text-right">{event.address_city}</p>
             </div>
           </li>
 
