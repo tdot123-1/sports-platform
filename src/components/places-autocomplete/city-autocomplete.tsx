@@ -15,7 +15,7 @@ import {
   CommandItem,
   CommandList,
 } from "../ui/command";
-import { capitalizeCity } from "@/lib/utils";
+
 import {
   fetchPlaceDetailsApi,
   fetchPlaceSuggestionsApi,
@@ -173,7 +173,7 @@ const CityAutocomplete = ({
           >
             {countryCode
               ? selectedCity && selectedCity !== ""
-                ? capitalizeCity(selectedCity)
+                ? selectedCity
                 : "Select city..."
               : "Please select a country"}
 
