@@ -3,15 +3,13 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Undo2Icon } from "lucide-react";
-// import { usePathname, useRouter } from "next/navigation";
-// import { useEffect, useState } from "react";
 
 interface ReturnButtonProps {
   returnUrl: string;
 }
 
 const ReturnButton = ({ returnUrl }: ReturnButtonProps) => {
-  const href = sessionStorage.getItem("returnUrl") || returnUrl;
+  const href = sessionStorage?.getItem("returnUrl") || returnUrl;
 
   return (
     <>

@@ -26,7 +26,7 @@ const Page = () => {
   }
   return (
     <div className="px-4">
-      <section className="mx-auto w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 my-8 h-[calc(100vh-150px)]">
+      <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
         <EventsMap mapId={MAP_ID} />
       </section>
     </div>
