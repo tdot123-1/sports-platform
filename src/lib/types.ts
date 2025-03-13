@@ -164,3 +164,26 @@ export interface Currency {
   code: string;
   currency: string;
 }
+
+export interface SportsEventCalendar {
+  start: Date;
+  end: Date | null;
+  title: string;
+  id: string;
+  event_type: SportsEventType;
+  address_city: string;
+  address_country: string;
+  event_logo_url: string | null;
+}
+
+export interface SportsEventMap {
+  id: string;
+  event_name: string;
+  event_type: SportsEventType;
+  address_city: string;
+  address_country: string;
+  event_logo_url: string;
+
+  lat: number;
+  lng: number;
+}

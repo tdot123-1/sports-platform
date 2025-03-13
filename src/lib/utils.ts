@@ -7,6 +7,7 @@ import {
   SortOptions,
   SortOptionsMap,
   SportsEvent,
+  SportsEventMap,
 } from "./types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { fetchEventLogo } from "./data/storage/data";
@@ -25,6 +26,16 @@ export const convertFetchedEvent = async (data: any): Promise<SportsEvent> => {
     updated_at: new Date(data.updated_at),
     start_date: data.start_date ? new Date(data.start_date) : null,
     end_date: data.end_date ? new Date(data.end_date) : null,
+    event_logo_url: logoPublicUrl,
+  };
+};
+
+export const convertToMapEvent = async (data: any): Promise<SportsEventMap> => {
+  const logoPublicUrl = data.event_logo_url
+    ? await fetchEventLogo(data.event_logo_url)
+    : null;
+  return {
+    ...data,
     event_logo_url: logoPublicUrl,
   };
 };

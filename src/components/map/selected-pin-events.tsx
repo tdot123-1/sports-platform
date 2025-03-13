@@ -1,4 +1,4 @@
-import { SportsEvent } from "@/lib/types";
+import { SportsEventMap } from "@/lib/types";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ interface SelectedPinProps {
   selectedPin: string;
   isDialogOpen: boolean;
   handleOpenChange: () => void;
-  events?: SportsEvent[];
+  events?: SportsEventMap[];
 }
 
 const SelectedPinEvents = ({

@@ -1,10 +1,10 @@
-import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
+import { SportsEvent, SportsEventMap, SportsEventTypeMap } from "@/lib/types";
 import { Card, CardContent } from "../ui/card";
 import { formatCityName } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ViewDetailsButton from "./details-button";
 
-const EventsCardSm = ({ event }: { event: SportsEvent }) => {
+const EventsCardSm = ({ event }: { event: SportsEvent | SportsEventMap }) => {
   return (
     <>
       <Card className="w-full">

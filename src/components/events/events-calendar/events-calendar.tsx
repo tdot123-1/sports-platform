@@ -10,7 +10,7 @@ import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SportsEventType } from "@/lib/types";
+import { SportsEventCalendar } from "@/lib/types";
 import SelectedDateEvents from "./selected-date-events";
 import EventsBatchSelect from "./events-batch-select";
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
@@ -40,21 +40,10 @@ const eventStyleGetter = () => {
   };
 };
 
-export interface CalendarEvent {
-  start: Date;
-  end: Date | null;
-  title: string;
-  id: string;
-  event_type: SportsEventType;
-  address_city: string;
-  address_country: string;
-  event_logo_url: string | null;
-}
-
 interface EventsCalendarProps {
   month?: number;
   year?: number;
-  eventList: CalendarEvent[];
+  eventList: SportsEventCalendar[];
   totalBatches?: number;
   totalEvents: number;
   maxPrice: number;
@@ -85,7 +74,7 @@ const EventsCalendar = ({
     setIsDialogOpen(true);
   };
 
-  const handleSelectEvent = (event: CalendarEvent) => {
+  const handleSelectEvent = (event: SportsEventCalendar) => {
     setSelectedDate(event.start);
     setIsDialogOpen(true);
   };

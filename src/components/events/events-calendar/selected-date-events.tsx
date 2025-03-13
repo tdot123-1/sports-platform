@@ -6,9 +6,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
-import { CalendarEvent } from "./events-calendar";
+
 import { Card, CardContent } from "@/components/ui/card";
-import { SportsEventTypeMap } from "@/lib/types";
+import {  SportsEventCalendar, SportsEventTypeMap } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ViewDetailsButton from "../details-button";
 import { formatCityName } from "@/lib/utils";
@@ -17,7 +17,7 @@ interface SelectedDateEventsProps {
   selectedDate: Date;
   isDialogOpen: boolean;
   handleOpenChange: () => void;
-  events?: CalendarEvent[];
+  events?: SportsEventCalendar[];
 }
 
 const SelectedDateEvents = ({

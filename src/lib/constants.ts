@@ -134,3 +134,13 @@ export const MONTHS = [
     number: 11,
   },
 ];
+
+export const mapStartCoords = {
+  center: { lat: 50.76438662690668, lng: 5.302024181510556 },
+  bounds: {
+    east: 12.146506333616388,
+    north: 54.62309477257084,
+    south: 46.55899848476438,
+    west: -1.5424579705952568,
+  },
+};

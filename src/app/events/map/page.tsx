@@ -1,4 +1,3 @@
-import EventsMap from "@/components/map/events-map";
 import EventsMapWrapper from "@/components/map/map-wrapper";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

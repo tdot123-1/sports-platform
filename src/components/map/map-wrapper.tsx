@@ -1,14 +1,16 @@
-import { fetchAllEventsOnMap } from "@/lib/data/map/data";
-import { SportsEvent } from "@/lib/types";
-import { convertFetchedEvent } from "@/lib/utils";
+import { fetchEventsInView } from "@/lib/data/map/data";
+import { SportsEventMap } from "@/lib/types";
+import { convertToMapEvent } from "@/lib/utils";
 import EventsMap from "./events-map";
+import { mapStartCoords } from "@/lib/constants";
 
 const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
-  const fetchedEvents = await fetchAllEventsOnMap();
+  const { east, north, south, west } = mapStartCoords.bounds;
+  const fetchedEvents = await fetchEventsInView(south, west, north, east);
 
-  // convert Dates and get public logo url
-  const events: SportsEvent[] = await Promise.all(
-    fetchedEvents.map(convertFetchedEvent)
+  // convert to get public logo url
+  const events: SportsEventMap[] = await Promise.all(
+    fetchedEvents.map(convertToMapEvent)
   );
   return (
     <>
