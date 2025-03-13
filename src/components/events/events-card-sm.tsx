@@ -1,14 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
-import ViewDetailsButton from "../details-button";
+import { Card, CardContent } from "../ui/card";
 import { formatCityName } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import ViewDetailsButton from "./details-button";
 
-const NewEventCard = ({ event }: { event: SportsEvent }) => {
+const EventsCardSm = ({ event }: { event: SportsEvent }) => {
   return (
     <>
-      <Card className="max-w-md">
-        <CardContent className="flex flex-col gap-2 aspect-square items-center justify-center">
+      <Card className="w-full">
+        <CardContent className="flex flex-col gap-2 items-center justify-center">
           <div className="max-w-full">
             <h3 className="text-lg font-semibold text-ellipsis overflow-hidden text-nowrap">
               {event.event_name}
@@ -35,4 +35,4 @@ const NewEventCard = ({ event }: { event: SportsEvent }) => {
   );
 };
 
-export default NewEventCard;
+export default EventsCardSm;

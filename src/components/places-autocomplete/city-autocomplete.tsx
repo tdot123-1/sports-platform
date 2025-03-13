@@ -19,7 +19,7 @@ import {
 import {
   fetchPlaceDetailsApi,
   fetchPlaceSuggestionsApi,
-} from "@/lib/actions/places-api/actions";
+} from "@/lib/data/places-api/data";
 
 interface CityAutocompleteProps {
   name: string;

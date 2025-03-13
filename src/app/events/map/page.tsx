@@ -1,8 +1,11 @@
 import EventsMap from "@/components/map/events-map";
+import EventsMapWrapper from "@/components/map/map-wrapper";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ConstructionIcon, HomeIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Map",
@@ -27,7 +30,9 @@ const Page = () => {
   return (
     <div className="px-4">
       <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
-        <EventsMap mapId={MAP_ID} />
+        <Suspense fallback={<Skeleton className="w-full h-full" />}>
+          <EventsMapWrapper mapId={MAP_ID} />
+        </Suspense>
       </section>
     </div>
   );

@@ -66,9 +66,6 @@ const SelectedDateEvents = ({
                         Sports
                       </AvatarFallback>
                     </Avatar>
-                    {/* <Link href={`/events/${event.id}`}>
-                      <Button>Details</Button>
-                    </Link> */}
                     <ViewDetailsButton
                       nextUrl={`/events/${event.id}`}
                       innerText="Details"
