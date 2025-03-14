@@ -1,6 +1,6 @@
 "use client";
 
-import { SportsEvent, SportsEventMap } from "@/lib/types";
+import { SportsEvent } from "@/lib/types";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,8 @@ import {
 } from "../ui/dialog";
 import EventsCardSm from "../events/events-card-sm";
 import { useEffect, useState } from "react";
-import { fetchEventsInCity } from "@/lib/data/map/data";
-import { FrownIcon, LoaderIcon, RotateCcwIcon } from "lucide-react";
+import { fetchEventsInCity, fetchTotalPagesInCity } from "@/lib/data/map/data";
+import { FrownIcon, RotateCcwIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import MapDialogPagination from "./map-dialog-pagination";
@@ -36,11 +36,12 @@ const SelectedPinEvents = ({
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalEvents, setTotalEvents] = useState(1);
 
   const handlePageChange = (nextPage: number) => {
-    if (currentPage <= 1) {
+    if (nextPage < 1) {
       return;
-    } else if (currentPage >= totalPages) {
+    } else if (nextPage > totalPages) {
       return;
     }
 
@@ -49,6 +50,19 @@ const SelectedPinEvents = ({
 
   const fetchTotalPagesForPin = async () => {
     // get total pages
+    setFetchError(false);
+    try {
+      // throw new Error("test");
+      const data = await fetchTotalPagesInCity(selectedPin);
+
+      setTotalPages(data.totalPages);
+      setTotalEvents(data.count);
+    } catch (error) {
+      console.error("Error fetching total pages for pin: ", error);
+      setFetchError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchEventsForPin = async () => {
@@ -78,6 +92,7 @@ const SelectedPinEvents = ({
 
   useEffect(() => {
     // fetch events if pin changed or if page changed
+    console.log("CURRENT PAGE: ", currentPage);
     fetchEventsForPin();
   }, [selectedPin, currentPage]);
 
@@ -117,6 +132,7 @@ const SelectedPinEvents = ({
                 currentPage={1}
                 totalPages={1}
                 handlePageChange={handlePageChange}
+                totalEvents={1}
               />
             </>
           ) : fetchError ? (
@@ -148,6 +164,7 @@ const SelectedPinEvents = ({
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePageChange={handlePageChange}
+                totalEvents={totalEvents}
               />
             </>
           )}

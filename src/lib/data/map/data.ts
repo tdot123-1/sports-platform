@@ -91,3 +91,26 @@ export const fetchEventsInCity = async (
     return { success: false, data: null };
   }
 };
+
+export const fetchTotalPagesInCity = async (address_city: string) => {
+  try {
+    const supabase = await createClient();
+
+    const { count, error } = await supabase
+      .from("events")
+      .select("id", { count: "exact", head: true })
+      .eq("address_city", address_city);
+
+    if (error) {
+      console.error("Error fetching event count:", error.message, error.code);
+      throw new Error(`Error fetching event count: ${error.message}`);
+    }
+
+    const totalPages = Math.ceil(Number(count || 1) / ITEMS_PER_PAGE);
+
+    return { totalPages, count: count || 1 };
+  } catch (error) {
+    console.error("Error fetching pages: ", error);
+    return { totalPages: 1, count: 1 };
+  }
+};

@@ -2,10 +2,12 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 
 interface MapDialogPaginationProps {
   currentPage: number;
   totalPages: number;
+  totalEvents: number;
   handlePageChange: (nextPage: number) => void;
   disabled?: boolean;
 }
@@ -13,9 +15,14 @@ interface MapDialogPaginationProps {
 const MapDialogPagination = ({
   currentPage,
   totalPages,
+  totalEvents,
   handlePageChange,
   disabled,
 }: MapDialogPaginationProps) => {
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE - 1, totalEvents);
+  const eventsShowing = `Showing events ${startIndex}-${endIndex} of ${totalEvents}`;
+
   return (
     <>
       <div className="flex justify-center gap-4">
@@ -42,6 +49,7 @@ const MapDialogPagination = ({
           <ChevronRightIcon />
         </Button>
       </div>
+      <p className="text-xs font-semibold text-center mt-1">{eventsShowing}</p>
     </>
   );
 };
