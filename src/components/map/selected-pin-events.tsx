@@ -14,19 +14,18 @@ import { fetchEventsInCity } from "@/lib/data/map/data";
 import { FrownIcon, LoaderIcon, RotateCcwIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
+import MapDialogPagination from "./map-dialog-pagination";
 
 interface SelectedPinProps {
   selectedPin: string;
   isDialogOpen: boolean;
   handleOpenChange: () => void;
-  events?: SportsEventMap[];
 }
 
 const SelectedPinEvents = ({
   selectedPin,
   isDialogOpen,
   handleOpenChange,
-  events,
 }: SelectedPinProps) => {
   // maybe fetch events on client, filter by city (?)
   // const eventsInPin = events?.filter((e) => e.address_city === selectedPin);
@@ -35,11 +34,28 @@ const SelectedPinEvents = ({
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const handlePageChange = (nextPage: number) => {
+    if (currentPage <= 1) {
+      return;
+    } else if (currentPage >= totalPages) {
+      return;
+    }
+
+    setCurrentPage(nextPage);
+  };
+
+  const fetchTotalPagesForPin = async () => {
+    // get total pages
+  };
+
   const fetchEventsForPin = async () => {
     setFetchError(false);
     try {
       // throw new Error("test");
-      const data = await fetchEventsInCity(selectedPin);
+      const data = await fetchEventsInCity(selectedPin, currentPage);
 
       if (!data.success || !data.data) {
         throw new Error("Failed to fetch events");
@@ -54,17 +70,24 @@ const SelectedPinEvents = ({
     }
   };
 
+  // attempt to refetch on error
   const handleRefetch = () => {
     setIsLoading(true);
     fetchEventsForPin();
   };
 
   useEffect(() => {
-    // fetch events if pin changed
+    // fetch events if pin changed or if page changed
     fetchEventsForPin();
+  }, [selectedPin, currentPage]);
+
+  // get total pages for pin when pin changes
+  useEffect(() => {
+    fetchTotalPagesForPin();
   }, [selectedPin]);
 
   useEffect(() => {
+    // reset events and set loading if dialog closes
     if (!isDialogOpen) {
       setEventsInPin([]);
       setIsLoading(true);
@@ -83,11 +106,19 @@ const SelectedPinEvents = ({
           </DialogHeader>
 
           {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-hidden overflow-y-auto">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} className="w-full aspect-square" />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-60 overflow-hidden overflow-y-auto">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="w-full aspect-square" />
+                ))}
+              </div>
+              <MapDialogPagination
+                disabled
+                currentPage={1}
+                totalPages={1}
+                handlePageChange={handlePageChange}
+              />
+            </>
           ) : fetchError ? (
             <div className="flex flex-col gap-4 justify-center items-center">
               <h2 className="text-xl font-mono">Something went wrong!</h2>
@@ -95,10 +126,7 @@ const SelectedPinEvents = ({
               <p className="text-sm text-muted-foreground italic">
                 Failed to fetch events, click to try again
               </p>
-              <Button
-                className=""
-                onClick={handleRefetch}
-              >
+              <Button className="" onClick={handleRefetch}>
                 <RotateCcwIcon />
                 <span>Try again</span>
               </Button>
@@ -110,11 +138,18 @@ const SelectedPinEvents = ({
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-hidden overflow-y-auto">
-              {eventsInPin.map((event) => (
-                <EventsCardSm key={event.id} event={event} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-60 overflow-hidden overflow-y-auto">
+                {eventsInPin.map((event) => (
+                  <EventsCardSm key={event.id} event={event} />
+                ))}
+              </div>
+              <MapDialogPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePageChange={handlePageChange}
+              />
+            </>
           )}
         </DialogContent>
       </Dialog>

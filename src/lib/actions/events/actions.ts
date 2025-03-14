@@ -361,6 +361,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
     revalidatePath("/events/calendar");
+    revalidatePath("/events/map");
     revalidatePath("/profile/events");
 
     return { message: `${data.id}`, success: true };
@@ -481,6 +482,7 @@ export async function updateEvent(
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
     revalidatePath("/events/calendar");
+    revalidatePath("/events/map");
 
     revalidatePath(`/events/${id}`);
     revalidatePath("/profile/events");
@@ -509,6 +511,7 @@ export async function deleteEvent(eventId: string) {
     revalidatePath("/events/grid");
     revalidatePath("/events/table");
     revalidatePath("/events/calendar");
+    revalidatePath("/events/map");
 
     revalidatePath(`/events/${eventId}`);
     revalidatePath(`/profile/events/${eventId}`);
