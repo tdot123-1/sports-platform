@@ -173,7 +173,6 @@ const EventsMap = ({
         selectedPin={selectedPin}
         isDialogOpen={isDialogOpen}
         handleOpenChange={handleOpenChange}
-        events={eventsInRadius}
       />
     </>
   );
