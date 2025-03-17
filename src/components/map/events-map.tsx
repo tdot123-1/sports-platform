@@ -18,6 +18,7 @@ import SelectedPinEvents from "./selected-pin-events";
 import { mapStartCoords } from "@/lib/constants";
 import { fetchEventsInView } from "@/lib/data/map/data";
 import { convertToMapEvent } from "@/lib/utils";
+import MapToolbar from "./map-toolbar";
 
 const mapStyle = {
   width: "100%",
@@ -124,6 +125,7 @@ const EventsMap = ({
 
   return (
     <>
+      <MapToolbar />
       <Suspense fallback={<Skeleton className="w-full h-full" />}>
         <APIProvider apiKey={API_KEY}>
           <Map
