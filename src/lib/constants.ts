@@ -7,6 +7,9 @@ export const ITEMS_PER_PAGE = 10;
 // items per batch for calendar view
 export const ITEMS_PER_MONTH = 25;
 
+// items per batch for map view
+export const ITEMS_ON_MAP = 50;
+
 // allowed social platforms to share
 export const allowedSocialDomains = [
   "facebook.com",

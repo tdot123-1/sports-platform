@@ -107,23 +107,6 @@ const EventsMap = ({
     300
   );
 
-  // TEST extract coords from readable geo point
-  // const extractLatLng = (
-  //   pointString: string
-  // ): { lat: number; lng: number } | null => {
-  //   const match = pointString.match(/POINT\((-?\d+\.\d+) (-?\d+\.\d+)\)/);
-
-  //   if (!match) {
-  //     console.error("Invalid POINT format:", pointString);
-  //     return null;
-  //   }
-
-  //   const lng = parseFloat(match[1]); // First number is longitude
-  //   const lat = parseFloat(match[2]); // Second number is latitude
-
-  //   return { lat, lng };
-  // };
-
   if (!API_KEY) {
     return (
       <div className=" flex flex-col justify-center items-center gap-4 py-24">

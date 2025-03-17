@@ -1,6 +1,6 @@
 "use server";
 
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { ITEMS_ON_MAP, ITEMS_PER_PAGE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
@@ -46,6 +46,47 @@ export const fetchEventsInView = async (
         max_lng,
       })
       .limit(50);
+
+    if (error) {
+      console.error("Postgres error: ", error.message);
+      throw new Error(`Database error: ${error.code} ${error.message}`);
+    }
+
+    return events || [];
+  } catch (error) {
+    console.error("Error fetching events: ", error);
+    throw new Error(`Error fetching events: ${error}`);
+  }
+};
+
+export const fetchUniqueEventsInView = async (
+  min_lat: number,
+  min_lng: number,
+  max_lat: number,
+  max_lng: number,
+  center_lat: number,
+  center_lng: number,
+  currentBatch: number = 1
+) => {
+  const offset_count = (currentBatch - 1) * ITEMS_ON_MAP;
+  const limit_count = ITEMS_ON_MAP;
+
+  try {
+    const supabase = await createClient();
+
+    // call db function
+    // handles order and pagination
+    const { data: events, error } = await supabase
+      .rpc("paginated_event_locations_in_view", {
+        min_lat,
+        min_lng,
+        max_lat,
+        max_lng,
+        center_lat,
+        center_lng,
+        limit_count,
+        offset_count,
+      })
 
     if (error) {
       console.error("Postgres error: ", error.message);

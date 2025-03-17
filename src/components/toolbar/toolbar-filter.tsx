@@ -78,12 +78,15 @@ const ToolbarFilter = ({
   const [typeFilter, setTypeFilter] = useState<{
     [key in SportsEventType]: boolean;
   }>(initializeFilterState(SportsEventTypeKeys, filter?.event_type));
+
   const [genderFilter, setGenderFilter] = useState<{
     [key in TargetGender]: boolean;
   }>(initializeFilterState(TargetGenderKeys, filter?.target_gender));
+
   const [ageFilter, setAgeFilter] = useState<{
     [key in TargetAgeGroup]: boolean;
   }>(initializeFilterState(TargetAgeGroupKeys, filter?.target_age));
+  
   const [levelFilter, setLevelFilter] = useState<{
     [key in TargetLevel]: boolean;
   }>(initializeFilterState(TargetLevelKeys, filter?.target_level));
