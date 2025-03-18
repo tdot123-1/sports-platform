@@ -3,20 +3,31 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { ITEMS_ON_MAP } from "@/lib/constants";
+import { useMemo } from "react";
 
 interface MapBatchSelectProps {
   currentBatch: number;
   totalEvents: number;
   totalBatches: number;
+  handlePagination: (nextBatch: number) => void;
 }
 
 const MapBatchSelect = ({
   currentBatch,
   totalEvents,
   totalBatches,
+  handlePagination,
 }: MapBatchSelectProps) => {
-  const startIndex = (currentBatch - 1) * ITEMS_ON_MAP + 1;
-  const endIndex = Math.min(startIndex + ITEMS_ON_MAP - 1, totalEvents);
+  const startIndex = useMemo(
+    () => (currentBatch - 1) * ITEMS_ON_MAP + 1,
+    [currentBatch]
+  );
+
+  const endIndex = useMemo(
+    () => Math.min(startIndex + ITEMS_ON_MAP - 1, totalEvents),
+    [startIndex, totalEvents]
+  );
+
   const eventsShowing = totalEvents
     ? `Showing events ${startIndex}-${endIndex} of ${totalEvents}`
     : "No events";
@@ -24,13 +35,19 @@ const MapBatchSelect = ({
   return (
     <div>
       <div className="ml-auto flex justify-end w-fit">
-        <Button disabled={currentBatch <= 1} size={`icon`} variant={`outline`}>
+        <Button
+          onClick={() => handlePagination(currentBatch - 1)}
+          disabled={currentBatch <= 1}
+          size={`icon`}
+          variant={`outline`}
+        >
           <p hidden className="hidden">
             Previous batch
           </p>
           <ChevronLeftIcon />
         </Button>
         <Button
+          onClick={() => handlePagination(currentBatch + 1)}
           disabled={currentBatch >= totalBatches}
           size={`icon`}
           variant={`outline`}

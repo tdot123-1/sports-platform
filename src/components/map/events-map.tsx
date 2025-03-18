@@ -17,7 +17,6 @@ import { SportsEventMap } from "@/lib/types";
 import SelectedPinEvents from "./selected-pin-events";
 import { mapStartCoords } from "@/lib/constants";
 import {
-  fetchEventsInView,
   fetchEventsInViewAndCount,
   fetchUniqueEventsInView,
 } from "@/lib/data/map/data";
@@ -56,27 +55,42 @@ const createSvgGlyph = () => {
   return svg;
 };
 
-interface MapCenter {
+export interface MapCenter {
   lat: number;
   lng: number;
 }
+
+export interface MapBounds {
+  south: number;
+  west: number;
+  north: number;
+  east: number;
+}
+
+// total batches + total events
 
 const EventsMap = ({
   mapId,
   eventsInRadius,
   totalEventsInRadius,
   initialMapCenter,
+  initialMapBounds,
 }: {
   mapId: string;
   eventsInRadius?: SportsEventMap[];
   totalEventsInRadius?: number;
   initialMapCenter: MapCenter;
+  initialMapBounds: MapBounds;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState("");
+
   const [visiblePins, setVisiblePins] = useState(eventsInRadius || []);
-  const [totalEvents, setTotalEvents] = useState(totalEventsInRadius || 0);
+
   const [mapCenter, setMapCenter] = useState(initialMapCenter);
+  const [mapBounds, setMapBounds] = useState(initialMapBounds);
+
+  const [totalEvents, setTotalEvents] = useState(totalEventsInRadius || 0);
 
   const handleOpenChange = () => {
     setIsDialogOpen((prev) => !prev);
@@ -111,6 +125,7 @@ const EventsMap = ({
     setVisiblePins(events);
     setTotalEvents(fetchedEvents.totalCount);
     setMapCenter({ lat: center_lat, lng: center_lng });
+    setMapBounds({ south, west, north, east });
   };
 
   const fetchPins = async (
@@ -120,7 +135,7 @@ const EventsMap = ({
     east: number,
     center_lat: number,
     center_lng: number,
-    currentBatch: number
+    batch: number
   ) => {
     const fetchedEvents = await fetchUniqueEventsInView(
       south,
@@ -128,7 +143,8 @@ const EventsMap = ({
       north,
       east,
       center_lat,
-      center_lng
+      center_lng,
+      batch
     );
     // convert to get public logo url
     const events: SportsEventMap[] = await Promise.all(
@@ -153,8 +169,6 @@ const EventsMap = ({
     300
   );
 
-  const handlePagination = () => {};
-
   if (!API_KEY) {
     return (
       <div className=" flex flex-col justify-center items-center gap-4 py-24">
@@ -172,7 +186,12 @@ const EventsMap = ({
 
   return (
     <>
-      <MapToolbar currentBatch={1} totalBatches={1} totalEvents={totalEvents} />
+      <MapToolbar
+        totalEvents={totalEvents}
+        mapCenter={mapCenter}
+        mapBounds={mapBounds}
+        fetchPins={fetchPins}
+      />
       <Suspense fallback={<Skeleton className="w-full h-full" />}>
         <APIProvider apiKey={API_KEY}>
           <Map
