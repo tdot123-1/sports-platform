@@ -23,6 +23,7 @@ import {
 import { convertToMapEvent } from "@/lib/utils";
 import MapToolbar from "./map-toolbar";
 
+// map dimensions set in parent div
 const mapStyle = {
   width: "100%",
   height: "100%",
@@ -30,9 +31,11 @@ const mapStyle = {
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 
+// (temp) create svg element for pins
 const createSvgGlyph = () => {
   if (typeof document === "undefined") return undefined;
 
+  // svg attributes copied from lucide
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   svg.setAttribute("width", "24");
@@ -55,6 +58,7 @@ const createSvgGlyph = () => {
   return svg;
 };
 
+// interfaces to pass map attributes
 export interface MapCenter {
   lat: number;
   lng: number;
@@ -66,8 +70,6 @@ export interface MapBounds {
   north: number;
   east: number;
 }
-
-// total batches + total events
 
 const EventsMap = ({
   mapId,
@@ -82,25 +84,34 @@ const EventsMap = ({
   initialMapCenter: MapCenter;
   initialMapBounds: MapBounds;
 }) => {
+  // states for pin dialog -> open state and selected city
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState("");
 
-  const [visiblePins, setVisiblePins] = useState(eventsInRadius || []);
+  // list of currently visible pins on map
+  const [visiblePins, setVisiblePins] = useState<SportsEventMap[]>(
+    eventsInRadius || []
+  );
 
-  const [mapCenter, setMapCenter] = useState(initialMapCenter);
-  const [mapBounds, setMapBounds] = useState(initialMapBounds);
+  // map dimensions to pass to fetch function in pagination
+  const [mapCenter, setMapCenter] = useState<MapCenter>(initialMapCenter);
+  const [mapBounds, setMapBounds] = useState<MapBounds>(initialMapBounds);
 
+  // total number of events on map to pass down to pagination component
   const [totalEvents, setTotalEvents] = useState(totalEventsInRadius || 0);
 
+  // open/close dialog after clicking pin
   const handleOpenChange = () => {
     setIsDialogOpen((prev) => !prev);
   };
 
+  // handle state when pin is clicked -> set correct city, open dialog
   const handleSelectPin = (address_city: string) => {
     setSelectedPin(address_city);
     setIsDialogOpen(true);
   };
 
+  // get pins and total count, called when map center changes
   const fetchPinsAndCount = async (
     south: number,
     west: number,
@@ -109,6 +120,8 @@ const EventsMap = ({
     center_lat: number,
     center_lng: number
   ) => {
+
+    // call server action to get first batch of events within bounds and total count
     const fetchedEvents = await fetchEventsInViewAndCount(
       south,
       west,
@@ -118,16 +131,19 @@ const EventsMap = ({
       center_lng
     );
 
+    // convert to sports events (necessary(?))
     const events: SportsEventMap[] = await Promise.all(
       fetchedEvents.events.map(convertToMapEvent)
     );
 
+    // update states -> pins + count, map coords
     setVisiblePins(events);
     setTotalEvents(fetchedEvents.totalCount);
     setMapCenter({ lat: center_lat, lng: center_lng });
     setMapBounds({ south, west, north, east });
   };
 
+  // get pins WITHOUT count, called for pagination (when map center has not changed)
   const fetchPins = async (
     south: number,
     west: number,
@@ -137,6 +153,8 @@ const EventsMap = ({
     center_lng: number,
     batch: number
   ) => {
+
+    // call server action to fetch events within bounds
     const fetchedEvents = await fetchUniqueEventsInView(
       south,
       west,
@@ -146,29 +164,35 @@ const EventsMap = ({
       center_lng,
       batch
     );
+
     // convert to get public logo url
     const events: SportsEventMap[] = await Promise.all(
       fetchedEvents.map(convertToMapEvent)
     );
 
+    // update state
     setVisiblePins(events);
   };
 
+  // call after map stopped moving
   const handleCenterChanged = useDebouncedCallback(
     (e: MapCameraChangedEvent) => {
       console.log("EVENT: ", e);
       console.log(`lat: ${e.detail.center.lat} long: ${e.detail.center.lng}`);
       console.log("zoom: ", e.detail.zoom);
 
+      // get new map coords
       const { lat, lng } = e.detail.center;
 
       const { south, west, north, east } = e.detail.bounds;
 
+      // get new events and total count
       fetchPinsAndCount(south, west, north, east, lat, lng);
     },
     300
   );
 
+  // check for api key
   if (!API_KEY) {
     return (
       <div className=" flex flex-col justify-center items-center gap-4 py-24">
@@ -184,6 +208,7 @@ const EventsMap = ({
     );
   }
 
+  // return map + toolbar + selected pin
   return (
     <>
       <MapToolbar

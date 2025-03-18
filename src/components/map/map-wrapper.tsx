@@ -7,6 +7,8 @@ import { mapStartCoords } from "@/lib/constants";
 const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
   const { east, north, south, west } = mapStartCoords.bounds;
   const { lat, lng } = mapStartCoords.center;
+
+  // get initial events (+ total count) within bounds
   const fetchedEvents = await fetchEventsInViewAndCount(
     south,
     west,
@@ -20,6 +22,7 @@ const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
   const events: SportsEventMap[] = await Promise.all(
     fetchedEvents.events.map(convertToMapEvent)
   );
+
   return (
     <>
       <EventsMap

@@ -19,6 +19,7 @@ const MapDialogPagination = ({
   handlePageChange,
   disabled,
 }: MapDialogPaginationProps) => {
+  // show amount of events showing on current page (in stead of page numbers)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE - 1, totalEvents);
   const eventsShowing = `Showing events ${startIndex}-${endIndex} of ${totalEvents}`;

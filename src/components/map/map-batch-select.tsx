@@ -18,6 +18,8 @@ const MapBatchSelect = ({
   totalBatches,
   handlePagination,
 }: MapBatchSelectProps) => {
+  // show amount of pins currently visible on map
+  // (maybe doesn't need to be memo(?))
   const startIndex = useMemo(
     () => (currentBatch - 1) * ITEMS_ON_MAP + 1,
     [currentBatch]

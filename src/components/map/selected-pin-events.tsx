@@ -27,17 +27,19 @@ const SelectedPinEvents = ({
   isDialogOpen,
   handleOpenChange,
 }: SelectedPinProps) => {
-  // maybe fetch events on client, filter by city (?)
-  // const eventsInPin = events?.filter((e) => e.address_city === selectedPin);
-
+  // list of events for selecetd pin (city)
   const [eventsInPin, setEventsInPin] = useState<SportsEvent[]>([]);
+
+  // loading, error state for pin
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 
+  // states for pagination within pin dialog
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalEvents, setTotalEvents] = useState(1);
 
+  // handle pagination in pin dialog
   const handlePageChange = (nextPage: number) => {
     if (nextPage < 1) {
       return;
@@ -48,13 +50,16 @@ const SelectedPinEvents = ({
     setCurrentPage(nextPage);
   };
 
+  // get total pages and total events
   const fetchTotalPagesForPin = async () => {
-    // get total pages
     setFetchError(false);
     try {
       // throw new Error("test");
+
+      // call server action to fetch pages and count
       const data = await fetchTotalPagesInCity(selectedPin);
 
+      // update states
       setTotalPages(data.totalPages);
       setTotalEvents(data.count);
     } catch (error) {
@@ -69,8 +74,11 @@ const SelectedPinEvents = ({
     setFetchError(false);
     try {
       // throw new Error("test");
+
+      // fetch events for selected pin (city)
       const data = await fetchEventsInCity(selectedPin, currentPage);
 
+      // check error
       if (!data.success || !data.data) {
         throw new Error("Failed to fetch events");
       }
@@ -92,7 +100,6 @@ const SelectedPinEvents = ({
 
   useEffect(() => {
     // fetch events if pin changed or if page changed
-    console.log("CURRENT PAGE: ", currentPage);
     fetchEventsForPin();
   }, [selectedPin, currentPage]);
 

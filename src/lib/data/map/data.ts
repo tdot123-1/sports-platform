@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 
-// TEST fetch all events on map (need to update to fetch events within radius)
+// (TEST) fetch all events on map (need to update to fetch events within radius)
 export const fetchAllEventsOnMap = async () => {
   try {
     const supabase = await createClient();
@@ -27,7 +27,7 @@ export const fetchAllEventsOnMap = async () => {
   }
 };
 
-// fetch all events within bounds of visible map
+// (NOT USED) fetch all events within bounds of visible map
 export const fetchEventsInView = async (
   min_lat: number,
   min_lng: number,
@@ -112,6 +112,7 @@ export const fetchEventsInViewAndCount = async (
   center_lat: number,
   center_lng: number
 ) => {
+  // only fetch initial batch 
   const offset_count = 0;
   const limit_count = ITEMS_ON_MAP;
 
@@ -120,6 +121,7 @@ export const fetchEventsInViewAndCount = async (
 
     // call db function
     // handles order and pagination
+    // pass bounds of map, center point to decide order, limit + offset
     const { data, error } = await supabase.rpc(
       "paginated_event_locations_with_count",
       {
@@ -148,7 +150,7 @@ export const fetchEventsInViewAndCount = async (
   }
 };
 
-// fetch all events in a city
+// fetch all events in a city (dialog when pin on map is clicked)
 export const fetchEventsInCity = async (
   address_city: string,
   currentPage: number = 1
@@ -181,6 +183,7 @@ export const fetchEventsInCity = async (
   }
 };
 
+// get number of pages for specific city 
 export const fetchTotalPagesInCity = async (address_city: string) => {
   try {
     const supabase = await createClient();
