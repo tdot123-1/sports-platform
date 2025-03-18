@@ -16,7 +16,11 @@ import { useDebouncedCallback } from "use-debounce";
 import { SportsEventMap } from "@/lib/types";
 import SelectedPinEvents from "./selected-pin-events";
 import { mapStartCoords } from "@/lib/constants";
-import { fetchEventsInView } from "@/lib/data/map/data";
+import {
+  fetchEventsInView,
+  fetchEventsInViewAndCount,
+  fetchUniqueEventsInView,
+} from "@/lib/data/map/data";
 import { convertToMapEvent } from "@/lib/utils";
 import MapToolbar from "./map-toolbar";
 
@@ -52,16 +56,27 @@ const createSvgGlyph = () => {
   return svg;
 };
 
+interface MapCenter {
+  lat: number;
+  lng: number;
+}
+
 const EventsMap = ({
   mapId,
   eventsInRadius,
+  totalEventsInRadius,
+  initialMapCenter,
 }: {
   mapId: string;
   eventsInRadius?: SportsEventMap[];
+  totalEventsInRadius?: number;
+  initialMapCenter: MapCenter;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState("");
   const [visiblePins, setVisiblePins] = useState(eventsInRadius || []);
+  const [totalEvents, setTotalEvents] = useState(totalEventsInRadius || 0);
+  const [mapCenter, setMapCenter] = useState(initialMapCenter);
 
   const handleOpenChange = () => {
     setIsDialogOpen((prev) => !prev);
@@ -72,13 +87,49 @@ const EventsMap = ({
     setIsDialogOpen(true);
   };
 
+  const fetchPinsAndCount = async (
+    south: number,
+    west: number,
+    north: number,
+    east: number,
+    center_lat: number,
+    center_lng: number
+  ) => {
+    const fetchedEvents = await fetchEventsInViewAndCount(
+      south,
+      west,
+      north,
+      east,
+      center_lat,
+      center_lng
+    );
+
+    const events: SportsEventMap[] = await Promise.all(
+      fetchedEvents.events.map(convertToMapEvent)
+    );
+
+    setVisiblePins(events);
+    setTotalEvents(fetchedEvents.totalCount);
+    setMapCenter({ lat: center_lat, lng: center_lng });
+  };
+
   const fetchPins = async (
     south: number,
     west: number,
     north: number,
-    east: number
+    east: number,
+    center_lat: number,
+    center_lng: number,
+    currentBatch: number
   ) => {
-    const fetchedEvents = await fetchEventsInView(south, west, north, east);
+    const fetchedEvents = await fetchUniqueEventsInView(
+      south,
+      west,
+      north,
+      east,
+      center_lat,
+      center_lng
+    );
     // convert to get public logo url
     const events: SportsEventMap[] = await Promise.all(
       fetchedEvents.map(convertToMapEvent)
@@ -93,20 +144,16 @@ const EventsMap = ({
       console.log(`lat: ${e.detail.center.lat} long: ${e.detail.center.lng}`);
       console.log("zoom: ", e.detail.zoom);
 
-      // const params = new URLSearchParams(searchParams);
-
-      // params.set("lat", encodeURIComponent(e.detail.center.lat));
-      // params.set("lng", encodeURIComponent(e.detail.center.lng));
-      // params.set("zoom", encodeURIComponent(e.detail.zoom));
-
-      // replace(`${pathname}?${params.toString()}`);
+      const { lat, lng } = e.detail.center;
 
       const { south, west, north, east } = e.detail.bounds;
 
-      fetchPins(south, west, north, east);
+      fetchPinsAndCount(south, west, north, east, lat, lng);
     },
     300
   );
+
+  const handlePagination = () => {};
 
   if (!API_KEY) {
     return (
@@ -125,7 +172,7 @@ const EventsMap = ({
 
   return (
     <>
-      <MapToolbar />
+      <MapToolbar currentBatch={1} totalBatches={1} totalEvents={totalEvents} />
       <Suspense fallback={<Skeleton className="w-full h-full" />}>
         <APIProvider apiKey={API_KEY}>
           <Map

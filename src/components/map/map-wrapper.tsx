@@ -14,7 +14,11 @@ const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
   );
   return (
     <>
-      <EventsMap mapId={mapId} eventsInRadius={events} />
+      <EventsMap
+        mapId={mapId}
+        eventsInRadius={events}
+        initialMapCenter={mapStartCoords.center}
+      />
     </>
   );
 };
