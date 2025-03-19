@@ -22,6 +22,7 @@ import {
 } from "@/lib/data/map/data";
 import { convertToMapEvent } from "@/lib/utils";
 import MapToolbar from "./map-toolbar";
+import { toast } from "sonner";
 
 // map dimensions set in parent div
 const mapStyle = {
@@ -120,27 +121,33 @@ const EventsMap = ({
     center_lat: number,
     center_lng: number
   ) => {
+    try {
+      // call server action to get first batch of events within bounds and total count
+      const fetchedEvents = await fetchEventsInViewAndCount(
+        south,
+        west,
+        north,
+        east,
+        center_lat,
+        center_lng
+      );
 
-    // call server action to get first batch of events within bounds and total count
-    const fetchedEvents = await fetchEventsInViewAndCount(
-      south,
-      west,
-      north,
-      east,
-      center_lat,
-      center_lng
-    );
+      // convert to sports events (necessary(?))
+      const events: SportsEventMap[] = await Promise.all(
+        fetchedEvents.events.map(convertToMapEvent)
+      );
 
-    // convert to sports events (necessary(?))
-    const events: SportsEventMap[] = await Promise.all(
-      fetchedEvents.events.map(convertToMapEvent)
-    );
+      // throw new Error("TEST")
 
-    // update states -> pins + count, map coords
-    setVisiblePins(events);
-    setTotalEvents(fetchedEvents.totalCount);
-    setMapCenter({ lat: center_lat, lng: center_lng });
-    setMapBounds({ south, west, north, east });
+      // update states -> pins + count, map coords
+      setVisiblePins(events);
+      setTotalEvents(fetchedEvents.totalCount);
+      setMapCenter({ lat: center_lat, lng: center_lng });
+      setMapBounds({ south, west, north, east });
+    } catch (error) {
+      console.error("Error fetching pins: ", error);
+      toast.error("Failed to fetch events");
+    }
   };
 
   // get pins WITHOUT count, called for pagination (when map center has not changed)
@@ -153,25 +160,29 @@ const EventsMap = ({
     center_lng: number,
     batch: number
   ) => {
+    try {
+      // call server action to fetch events within bounds
+      const fetchedEvents = await fetchUniqueEventsInView(
+        south,
+        west,
+        north,
+        east,
+        center_lat,
+        center_lng,
+        batch
+      );
 
-    // call server action to fetch events within bounds
-    const fetchedEvents = await fetchUniqueEventsInView(
-      south,
-      west,
-      north,
-      east,
-      center_lat,
-      center_lng,
-      batch
-    );
+      // convert to get public logo url
+      const events: SportsEventMap[] = await Promise.all(
+        fetchedEvents.map(convertToMapEvent)
+      );
 
-    // convert to get public logo url
-    const events: SportsEventMap[] = await Promise.all(
-      fetchedEvents.map(convertToMapEvent)
-    );
-
-    // update state
-    setVisiblePins(events);
+      // update state
+      setVisiblePins(events);
+    } catch (error) {
+      console.error("Error fetching pins: ", error);
+      toast.error("Failed to fetch events");
+    }
   };
 
   // call after map stopped moving

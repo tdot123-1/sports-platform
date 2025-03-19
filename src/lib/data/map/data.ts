@@ -96,6 +96,8 @@ export const fetchUniqueEventsInView = async (
       throw new Error(`Database error: ${error.code} ${error.message}`);
     }
 
+    // throw new Error("TEST")
+
     return events || [];
   } catch (error) {
     console.error("Error fetching events: ", error);
@@ -142,6 +144,8 @@ export const fetchEventsInViewAndCount = async (
     }
 
     const totalCount = data.length > 0 ? data[0].total_count : 0;
+
+    // throw new Error("TEST")
 
     return { events: data || [], totalCount };
   } catch (error) {
