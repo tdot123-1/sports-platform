@@ -277,6 +277,7 @@ export const fetchEventsBatches = async (
 };
 
 export const fetchFavoriteEvents = async (eventIds: string[]) => {
+
   if (!eventIds.length) {
     console.error("No event ids provided");
     throw new Error("No event ids provided");
@@ -307,6 +308,8 @@ export const fetchFavoriteEvents = async (eventIds: string[]) => {
       const sportsEvents: SportsEvent[] = await Promise.all(
         events.map(convertFetchedEvent)
       );
+
+      // throw new Error("test")
 
       return sportsEvents;
     } else {

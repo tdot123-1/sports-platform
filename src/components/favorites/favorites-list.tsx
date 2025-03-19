@@ -15,29 +15,38 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
   const [favorites, setFavorites] = useState<SportsEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // use state to be able to redirect to error component
+  const [fetchError, setFetchError] = useState(false);
+
+  // if fetch error -> throw error to call global error component 
+  useEffect(() => {
+    if (fetchError) {
+      throw new Error("Error fetching favorites");
+    }
+  }, [fetchError]);
+
+  const fetchEventData = async (localFavorites: string[]) => {
+    // test skeleton
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    try {
+      const fetchedEvents = await fetchDataFromServer(localFavorites);
+      setFavorites(fetchedEvents);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+      setFetchError(true);
+    }
+  };
+
   useEffect(() => {
     // fetch events
     const localFavorites: string[] = JSON.parse(
       localStorage.getItem("fav") || "[]"
     );
 
-    const fetchEventData = async () => {
-      try {
-        // test skeleton
-        // await new Promise((resolve) => setTimeout(resolve, 5000));
-
-        const fetchedEvents = await fetchDataFromServer(localFavorites);
-        setFavorites(fetchedEvents);
-      } catch (error) {
-        console.error("Error fetching favorites: ", error);
-        throw new Error(`Error fetching favorites: ${error}`);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     if (localFavorites.length) {
-      fetchEventData();
+      fetchEventData(localFavorites);
     } else {
       setIsLoading(false);
     }
@@ -45,15 +54,19 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center mt-36 w-full">
-        <LoaderIcon color="hsl(var(--primary))" size={36} className="animate-spin" />
+      <div className="flex justify-center items-center mt-32 w-full">
+        <LoaderIcon
+          color="hsl(var(--primary))"
+          size={36}
+          className="animate-spin"
+        />
       </div>
     );
   }
 
   return (
     <>
-      <div className="py-12">
+      <div className="pb-12 pt-6">
         {favorites.length ? (
           <>
             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -66,7 +79,7 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
           </>
         ) : (
           <>
-            <div className="flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-24 shadow-md">
+            <div className="flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-12 shadow-md">
               <h3 className="text-lg font-mono">No favorites added yet!</h3>
               <p className="text-sm">
                 Click the ❤️ heart button to add an event to your favorites.
