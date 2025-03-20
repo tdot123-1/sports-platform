@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
@@ -16,23 +15,9 @@ declare global {
 const GoogleSignin = () => {
   const router = useRouter();
 
-  //   async function handleSignInWithGoogle(response: any) {
-  //     const supabase = createClient();
-  //     const { data, error } = await supabase.auth.signInWithIdToken({
-  //       provider: "google",
-  //       token: response.credential,
-  //     });
-
-  //     if (error) {
-  //       console.error("Error using google signin: ", error);
-  //       toast.error("Failed to login");
-  //       return;
-  //     }
-
-  //     router.push("/profile");
-  //   }
-
+  // use effect to ensure window is available
   useEffect(() => {
+    // make callback globally available
     window.handleSignInWithGoogle = async (response: any) => {
       const supabase = createClient();
       const { data, error } = await supabase.auth.signInWithIdToken({
@@ -52,7 +37,7 @@ const GoogleSignin = () => {
         description: "Welcome back!",
       });
 
-      router.replace("/profile");
+      router.refresh();
     };
   }, [router]);
 
@@ -71,6 +56,7 @@ const GoogleSignin = () => {
         data-ux_mode="popup"
         data-callback="handleSignInWithGoogle"
         data-auto_prompt="false"
+        data-use_fedcm_for_prompt="true"
       ></div>
 
       <div

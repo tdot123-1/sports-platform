@@ -1,13 +1,22 @@
 import GoogleSignin from "@/components/auth/google-signin";
 import SignupForm from "@/components/auth/signup-form";
 import { Separator } from "@/components/ui/separator";
+import { createClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Signup",
 };
 
-const Page = () => {
+const Page = async () => {
+  const supabase = await createClient();
+
+  const { data } = await supabase.auth.getUser();
+  if (data?.user) {
+    redirect("/profile");
+  }
+  
   return (
     <>
       <section className="px-4">
