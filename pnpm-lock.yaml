@@ -129,6 +129,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3
         version: 3.2.0
+      '@types/google.accounts':
+        specifier: ^0.0.15
+        version: 0.0.15
       '@types/node':
         specifier: ^20
         version: 20.17.16
@@ -1156,6 +1159,9 @@ packages:
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@types/google.accounts@0.0.15':
+    resolution: {integrity: sha512-NiydIuJzwdpnWNqTPOeDzGXhzz46Ll6T4rN3YWSm9Zfx/8ZfbwFbzyPSw1Tkz4uE3gQiU+fRj4KvBVUuHmk+KQ==}
 
   '@types/google.maps@3.58.1':
     resolution: {integrity: sha512-X9QTSvGJ0nCfMzYOnaVs/k6/4L+7F5uCS+4iUmkLEls6J9S/Phv+m/i3mDeyc49ZBgwab3EFO1HEoBY7k98EGQ==}
@@ -3756,6 +3762,8 @@ snapshots:
   '@types/date-arithmetic@4.1.4': {}
 
   '@types/estree@1.0.6': {}
+
+  '@types/google.accounts@0.0.15': {}
 
   '@types/google.maps@3.58.1': {}
 

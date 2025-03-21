@@ -188,9 +188,9 @@ const EventsMap = ({
   // call after map stopped moving
   const handleCenterChanged = useDebouncedCallback(
     (e: MapCameraChangedEvent) => {
-      console.log("EVENT: ", e);
-      console.log(`lat: ${e.detail.center.lat} long: ${e.detail.center.lng}`);
-      console.log("zoom: ", e.detail.zoom);
+      // console.log("EVENT: ", e);
+      // console.log(`lat: ${e.detail.center.lat} long: ${e.detail.center.lng}`);
+      // console.log("zoom: ", e.detail.zoom);
 
       // get new map coords
       const { lat, lng } = e.detail.center;

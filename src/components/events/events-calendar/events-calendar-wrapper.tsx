@@ -60,7 +60,7 @@ const EventsCalendarWrapper = async ({
 
   const maxCostEstimate = await fetchMaxCostEstimate();
 
-  console.log("Events: ", filteredEvents.length);
+  // console.log("Events: ", filteredEvents.length);
   return (
     <>
       <EventsCalendar

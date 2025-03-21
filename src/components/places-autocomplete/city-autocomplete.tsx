@@ -140,7 +140,7 @@ const CityAutocomplete = ({
 
   const handleInputChange = useDebouncedCallback((input) => {
     setCityError("");
-    console.log(`Searching... ${input}`);
+    // console.log(`Searching... ${input}`);
 
     if (input) {
       setIsLoading(true);

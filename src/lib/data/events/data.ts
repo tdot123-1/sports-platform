@@ -267,7 +267,7 @@ export const fetchEventsBatches = async (
 
     const totalBatches = Math.ceil(Number(count || 1) / ITEMS_PER_MONTH);
 
-    console.log("BATCHES COUNT: ", totalBatches);
+    // console.log("BATCHES COUNT: ", totalBatches);
 
     return { totalBatches, count };
   } catch (error) {
