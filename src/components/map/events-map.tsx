@@ -78,12 +78,14 @@ const EventsMap = ({
   totalEventsInRadius,
   initialMapCenter,
   initialMapBounds,
+  mapEnabled,
 }: {
   mapId: string;
   eventsInRadius?: SportsEventMap[];
   totalEventsInRadius?: number;
   initialMapCenter: MapCenter;
   initialMapBounds: MapBounds;
+  mapEnabled?: string;
 }) => {
   // states for pin dialog -> open state and selected city
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -204,11 +206,13 @@ const EventsMap = ({
   );
 
   // check for api key
-  if (!API_KEY) {
+  if (!API_KEY || mapEnabled !== "true") {
     return (
       <div className=" flex flex-col justify-center items-center gap-4 py-24">
         <ConstructionIcon size={40} />
-        <p className="font-mono text-lg mb-8">Map currently unavailable</p>
+        <p className="font-mono text-lg text-center mb-8">
+          Map currently unavailable
+        </p>
         <Link href={"/"}>
           <Button>
             <HomeIcon />

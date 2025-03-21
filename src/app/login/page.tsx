@@ -17,6 +17,8 @@ const Page = async () => {
     redirect("/profile");
   }
 
+  const SIGNUP_ENABLED = process.env.SIGNUP_ENABLED;
+
   return (
     <>
       <section className="px-4">
@@ -27,9 +29,11 @@ const Page = async () => {
           </div>
         </div>
         <Separator className="my-8" />
-        <div className="flex justify-center">
-          <GoogleSignin />
-        </div>
+        {SIGNUP_ENABLED === "true" && (
+          <div className="flex justify-center">
+            <GoogleSignin />
+          </div>
+        )}
       </section>
     </>
   );

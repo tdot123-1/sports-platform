@@ -239,6 +239,16 @@ export type State = {
 
 // CREATE event
 export async function createEvent(prevState: State, formData: FormData) {
+  const EVENT_CREATION_ENABLED = process.env.EVENT_CREATION_ENABLED;
+
+  // easily enable / disable event creation
+  if (EVENT_CREATION_ENABLED !== "true") {
+    return {
+      message: "Event creation currently disabled",
+      success: false,
+    };
+  }
+
   // format raw form data
   const formattedFormData = formatRawFormData(formData);
 
@@ -379,6 +389,15 @@ export async function updateEvent(
   prevState: State,
   formData: FormData
 ) {
+  const EVENT_CREATION_ENABLED = process.env.EVENT_CREATION_ENABLED;
+
+  // easily enable / disable event creation
+  if (EVENT_CREATION_ENABLED !== "true") {
+    return {
+      message: "Event updating currently disabled",
+      success: false,
+    };
+  }
   // format raw form data
   const formattedFormData = formatRawFormData(formData);
 

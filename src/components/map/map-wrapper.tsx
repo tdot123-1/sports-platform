@@ -23,6 +23,8 @@ const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
     fetchedEvents.events.map(convertToMapEvent)
   );
 
+  const MAP_ENABLED = process.env.MAP_ENABLED;
+
   return (
     <>
       <EventsMap
@@ -31,6 +33,7 @@ const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
         totalEventsInRadius={fetchedEvents.totalCount}
         initialMapCenter={mapStartCoords.center}
         initialMapBounds={mapStartCoords.bounds}
+        mapEnabled={MAP_ENABLED}
       />
     </>
   );
