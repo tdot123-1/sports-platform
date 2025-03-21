@@ -66,7 +66,6 @@ const GoogleSignin = () => {
         data-theme="outline"
         data-text="signin_with"
         data-size="large"
-        data-locale="en-US"
         data-logo_alignment="left"
       ></div>
     </>
