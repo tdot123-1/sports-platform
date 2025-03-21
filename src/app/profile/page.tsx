@@ -1,3 +1,4 @@
+import ProfileSettings from "@/components/profile/settings/profile-settings";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowRightIcon } from "lucide-react";
@@ -21,12 +22,16 @@ const Page = async () => {
     <>
       <section className="px-4">
         <h1 className="text-2xl font-mono text-primary mt-4">My Profile</h1>
-        <p className="my-6">
+        <p className="mt-6">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
             {data.user.email || `user`}
           </span>
         </p>
+        <div className="ml-auto w-fit mt-4">
+          <ProfileSettings />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
           <article className="border border-muted shadow-md rounded-md p-4">
             <h2 className="text-xl font-mono text-primary">My Events</h2>
@@ -61,6 +66,16 @@ const Page = async () => {
             </Link>
           </article>
         </div>
+        {/* <div className="my-16 flex flex-col gap-4 w-fit">
+          <Button variant={`secondary`}>
+            <UserCogIcon />
+            Profile settings
+          </Button>
+
+          <Button variant={`destructive`}>
+            <UserXIcon /> Delete profile
+          </Button>
+        </div> */}
       </section>
     </>
   );
