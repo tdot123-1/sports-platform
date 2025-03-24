@@ -18,6 +18,10 @@ const Page = async () => {
     redirect("/login");
   }
 
+  // console.log("USER: ", data.user.user_metadata.email);
+
+  // find out auth providers
+
   return (
     <>
       <section className="px-4">

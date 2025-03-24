@@ -25,7 +25,7 @@ const GoogleSignin = () => {
       return;
     }
 
-    console.log("log in succesful");
+    console.log("login succesful");
 
     toast("Logged in", {
       description: "Welcome back!",
