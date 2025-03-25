@@ -99,18 +99,23 @@ const ChangeEmail = ({
                     max={254}
                     min={3}
                   />
+                  <div
+                    id="newEmail-error"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {state.errors?.newEmail &&
+                      state.errors.newEmail.map((error) => (
+                        <p
+                          className="text-sm mt-2 text-destructive italic"
+                          key={error}
+                        >
+                          {error}
+                        </p>
+                      ))}
+                  </div>
                 </div>
-                <div id="newEmail-error" aria-live="polite" aria-atomic="true">
-                  {state.errors?.newEmail &&
-                    state.errors.newEmail.map((error) => (
-                      <p
-                        className="text-sm mt-2 text-destructive italic"
-                        key={error}
-                      >
-                        {error}
-                      </p>
-                    ))}
-                </div>
+
                 <div className="w-fit mr-auto">
                   <Button disabled={pending} type="submit">
                     Submit

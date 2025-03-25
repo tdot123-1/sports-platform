@@ -109,7 +109,6 @@ export const updateEmail = async (
 
 // change password
 export const updatePassword = async (
-  email: string,
   prevState: UpdatePasswordState,
   formData: FormData
 ) => {
@@ -132,8 +131,18 @@ export const updatePassword = async (
   const { oldPassword, newPassword } = validatedFields.data;
 
   try {
+    const { data, error: userError } = await supabase.auth.getUser();
+
+    if (!data.user?.email || userError) {
+      console.error("Failed to retrieve user: ", userError);
+      return {
+        message:
+          "Failed to update password, please logout and login to try again.",
+        success: false,
+      };
+    }
     const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
+      email: data.user.email,
       password: oldPassword,
     });
 
@@ -142,12 +151,12 @@ export const updatePassword = async (
       return {
         message: "Failed to update password",
         success: false,
-        errors: { oldPassword: "Invalid credentials" },
+        errors: { oldPassword:["Invalid credentials"] },
       };
     }
 
     const { error } = await supabase.auth.updateUser({
-      password: newPassword,
+      password: newPassword, 
     });
 
     if (error) {
@@ -216,9 +225,9 @@ export const refreshEmail = async () => {
 
 // delete profile
 export const deleteUserProfile = async () => {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   // const { error } = await supabase.auth.admin.deleteUser()
 
   // create admin client
-}
+};
