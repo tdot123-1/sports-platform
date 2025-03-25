@@ -4,7 +4,7 @@ import { useState } from "react";
 import ChangePassword from "./change-password";
 import ChangeEmail from "./change-email";
 
-const SettingsWrapper = () => {
+const SettingsWrapper = ({ providers }: { providers: string[] }) => {
   // control states of collapsibles
   const [isOpenEmail, setIsOpenEmail] = useState(false);
   const [isOpenPassword, setIsOpenPassword] = useState(false);
@@ -30,6 +30,7 @@ const SettingsWrapper = () => {
         <ChangeEmail
           isOpenEmail={isOpenEmail}
           toggleCollapsible={toggleCollapsible}
+          providers={providers}
         />
       </li>
     </>

@@ -18,7 +18,11 @@ const Page = async () => {
     redirect("/login");
   }
 
-  // console.log("USER: ", data.user.user_metadata.email);
+  // console.log("USER: ", data.user.app_metadata.providers);
+
+  const providers: string[] = data.user.app_metadata.providers;
+
+  console.log("PROVIDERS: ", providers);
 
   // find out auth providers
 
@@ -33,7 +37,7 @@ const Page = async () => {
           </span>
         </p>
         <div className="ml-auto w-fit mt-4">
-          <ProfileSettings />
+          <ProfileSettings providers={providers} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">

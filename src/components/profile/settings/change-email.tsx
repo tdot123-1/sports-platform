@@ -9,14 +9,47 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { MailIcon } from "lucide-react";
+import { updateEmail, UpdateEmailState } from "@/lib/actions/profile/actions";
+import { MailIcon, RefreshCcwIcon } from "lucide-react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 interface ChangeEmailProps {
   isOpenEmail: boolean;
   toggleCollapsible: (collapsible: string) => void;
+  providers: string[];
 }
 
-const ChangeEmail = ({ isOpenEmail, toggleCollapsible }: ChangeEmailProps) => {
+const ChangeEmail = ({
+  isOpenEmail,
+  toggleCollapsible,
+  providers,
+}: ChangeEmailProps) => {
+  // form action
+  const initialState: UpdateEmailState = {
+    message: "",
+    errors: {},
+    success: false,
+  };
+  const [state, formAction, pending] = useActionState(
+    updateEmail,
+    initialState
+  );
+
+  useEffect(() => {
+    if (!pending) {
+      if (state.success) {
+        toast.success("Email address updated!");
+        toggleCollapsible("email");
+      }
+    }
+  }, [state, pending, toggleCollapsible]);
+
+  // check providers
+  // if only email -> allow
+  // if google -> show button to update app email
+  const googleProvider = providers.includes("google");
+
   return (
     <>
       <Collapsible
@@ -31,18 +64,62 @@ const ChangeEmail = ({ isOpenEmail, toggleCollapsible }: ChangeEmailProps) => {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <Separator className="mt-2" />
-          <form>
-            <div className="text-left mb-4">
-              <Label>New email address</Label>
-              <p className="text-xs italic">
-                An email will be sent to this address to confirm the change
-              </p>
-              <Input type={`email`} max={254} min={3} />
-            </div>
-            <div className="w-fit mr-auto">
-              <Button type="submit">Submit</Button>
-            </div>
-          </form>
+          {googleProvider ? (
+            <>
+              <div className="text-left mt-2">
+                <p className="text-sm">
+                  Your account is linked to your Google account.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  If you've changed the email connected to your Google account,
+                  click the button below to update your email for this app
+                </p>
+                <div className="w-fit mr-auto mt-2">
+                  <Button type="button">
+                    <RefreshCcwIcon /> Update email
+                  </Button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <form action={formAction}>
+                <div className="text-left mb-4">
+                  <Label htmlFor="newEmail">New email address</Label>
+                  <p className="text-xs italic text-muted-foreground">
+                    An email will be sent to this address to confirm the change
+                  </p>
+                  <Input
+                    name="newEmail"
+                    id="newEmail"
+                    disabled={pending}
+                    aria-describedby="newEmail-error"
+                    type={`email`}
+                    required
+                    max={254}
+                    min={3}
+                  />
+                </div>
+                <div id="newEmail-error" aria-live="polite" aria-atomic="true">
+                  {state.errors?.newEmail &&
+                    state.errors.newEmail.map((error) => (
+                      <p
+                        className="text-sm mt-2 text-destructive italic"
+                        key={error}
+                      >
+                        {error}
+                      </p>
+                    ))}
+                </div>
+                <div className="w-fit mr-auto">
+                  <Button disabled={pending} type="submit">
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            </>
+          )}
+
           <Separator className="mt-2" />
         </CollapsibleContent>
       </Collapsible>
