@@ -79,6 +79,8 @@ export const updateEmail = async (
 
   const { newEmail } = validatedFields.data;
 
+  console.log("NEW EMAIL: ", newEmail);
+
   try {
     const { error } = await supabase.auth.updateUser({
       email: newEmail,
@@ -166,6 +168,57 @@ export const updatePassword = async (
   }
 };
 
+// refresh email
+// in case user has changed the email connected to their google account
+// click button to update email in app
+// maybe not necessary (?)
+export const refreshEmail = async () => {
+  const supabase = await createClient();
+
+  try {
+    const { data, error: authError } = await supabase.auth.getUser();
+    if (authError || !data?.user) {
+      return {
+        success: false,
+        message:
+          "Something went wrong, please logout and log back into your account",
+      };
+    }
+
+    // (!!!) TEST if this will send an email to address
+
+    const { error } = await supabase.auth.updateUser({
+      email: data.user.user_metadata.email,
+    });
+
+    if (error) {
+      console.error("Error updating email: ", error.message);
+      return {
+        message: "Failed to update email address, please try again later",
+        success: false,
+      };
+    }
+
+    // revalidate layout
+    revalidatePath("/profile");
+    return {
+      success: true,
+      message:
+        "A verification email has been sent to the submitted address. Please click the link to confirm.",
+    };
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return { message: "An unexpected error occurred", success: false };
+  }
+};
+
 // password recovery
 
 // delete profile
+export const deleteUserProfile = async () => {
+  const supabase = await createClient()
+
+  // const { error } = await supabase.auth.admin.deleteUser()
+
+  // create admin client
+}

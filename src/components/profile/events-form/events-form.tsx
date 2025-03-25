@@ -199,17 +199,6 @@ const EventForm = ({
           <p className="text-xs italic">
             Select the age group(s) you are organizing the event for.
           </p>
-          {/* <p className="text-sm text-muted-foreground py-1">
-            Age group (birthyear)
-          </p> */}
-          {/*
-          <MultiSelect
-            name="target_age"
-            pending={pending}
-            optionsMap={TargetAgeGroupMap}
-            describedBy="target_age-error"
-            initial_values={event ? event.target_age : undefined}
-          /> */}
           <AgeSelect
             name="target_age"
             initialValues={event?.target_age ? event.target_age : undefined}
@@ -231,15 +220,6 @@ const EventForm = ({
             (Optional) Select the skill level(s) required for your event if
             applicable.
           </p>
-          {/* <MultiSelect
-            name="target_level"
-            pending={pending}
-            optionsMap={TargetLevelMap}
-            describedBy="target_level-error"
-            initial_values={
-              event?.target_level ? event.target_level : undefined
-            }
-          /> */}
           <LevelSelect
             name="target_level"
             pending={pending}

@@ -116,6 +116,13 @@ const ChangeEmail = ({
                     Submit
                   </Button>
                 </div>
+                <div>
+                  {state.message && !state.success && (
+                    <p className="text-sm mt-2 text-destructive italic text-center">
+                      {state.message}
+                    </p>
+                  )}
+                </div>
               </form>
             </>
           )}
