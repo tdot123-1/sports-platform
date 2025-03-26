@@ -20,11 +20,13 @@ import { toast } from "sonner";
 interface ChangePasswordProps {
   isOpenPassword: boolean;
   toggleCollapsible: (collapsible: string) => void;
+  providers: string[];
 }
 
 const ChangePassword = ({
   isOpenPassword,
   toggleCollapsible,
+  providers,
 }: ChangePasswordProps) => {
   const initialState: UpdatePasswordState = {
     message: "",
@@ -47,6 +49,9 @@ const ChangePassword = ({
     }
   }, [state, pending, toggleCollapsible]);
 
+  const emailProvider = providers.includes("email");
+  console.log("EMAIL: ", emailProvider);
+
   return (
     <>
       <Collapsible
@@ -61,86 +66,110 @@ const ChangePassword = ({
         </CollapsibleTrigger>
         <CollapsibleContent>
           <Separator className="mt-2" />
-          <form action={formAction} className="text-left">
-            <div className="mb-4">
-              <Label htmlFor="oldPassword">Current password</Label>
-              <Input
-                name="oldPassword"
-                id="oldPassword"
-                disabled={pending}
-                aria-describedby="oldPassword-error"
-                type={`password`}
-                max={254}
-                min={3}
-              />
-              <div id="oldPassword-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.oldPassword &&
-                  state.errors.oldPassword.map((error) => (
-                    <p
-                      className="text-sm mt-2 text-destructive italic"
-                      key={error}
-                    >
-                      {error}
-                    </p>
-                  ))}
+          {emailProvider ? (
+            <>
+              <form action={formAction} className="text-left">
+                <div className="mb-4">
+                  <Label htmlFor="oldPassword">Current password</Label>
+                  <Input
+                    name="oldPassword"
+                    id="oldPassword"
+                    disabled={pending}
+                    aria-describedby="oldPassword-error"
+                    type={`password`}
+                    max={254}
+                    min={3}
+                  />
+                  <div
+                    id="oldPassword-error"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {state.errors?.oldPassword &&
+                      state.errors.oldPassword.map((error) => (
+                        <p
+                          className="text-sm mt-2 text-destructive italic"
+                          key={error}
+                        >
+                          {error}
+                        </p>
+                      ))}
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <Label htmlFor="newPassword">New password</Label>
+                  <Input
+                    name="newPassword"
+                    id="newPassword"
+                    disabled={pending}
+                    aria-describedby="newPassword-error"
+                    type={`password`}
+                    max={254}
+                    min={3}
+                  />
+                  <div
+                    id="newPassword-error"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {state.errors?.newPassword &&
+                      state.errors.newPassword.map((error) => (
+                        <p
+                          className="text-sm mt-2 text-destructive italic"
+                          key={error}
+                        >
+                          {error}
+                        </p>
+                      ))}
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <Label>Confirm new password</Label>
+                  <Input
+                    name="confirmNewPassword"
+                    id="confirmNewPassword"
+                    disabled={pending}
+                    aria-describedby="confirmNewPassword-error"
+                    type={`password`}
+                    max={254}
+                    min={3}
+                  />
+                  <div
+                    id="confirmNewPassword-error"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {state.errors?.confirmNewPassword &&
+                      state.errors.confirmNewPassword.map((error) => (
+                        <p
+                          className="text-sm mt-2 text-destructive italic"
+                          key={error}
+                        >
+                          {error}
+                        </p>
+                      ))}
+                  </div>
+                </div>
+                <div className="w-fit mr-auto">
+                  <Button disabled={pending} type="submit">
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className="text-left mt-2">
+                <p className="text-sm">
+                  Your account is linked to your Google account.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  You currently do not have a password specific to this app.
+                </p>
               </div>
-            </div>
-            <div className="mb-4">
-              <Label htmlFor="newPassword">New password</Label>
-              <Input
-                name="newPassword"
-                id="newPassword"
-                disabled={pending}
-                aria-describedby="newPassword-error"
-                type={`password`}
-                max={254}
-                min={3}
-              />
-              <div id="newPassword-error" aria-live="polite" aria-atomic="true">
-                {state.errors?.newPassword &&
-                  state.errors.newPassword.map((error) => (
-                    <p
-                      className="text-sm mt-2 text-destructive italic"
-                      key={error}
-                    >
-                      {error}
-                    </p>
-                  ))}
-              </div>
-            </div>
-            <div className="mb-4">
-              <Label>Confirm new password</Label>
-              <Input
-                name="confirmNewPassword"
-                id="confirmNewPassword"
-                disabled={pending}
-                aria-describedby="confirmNewPassword-error"
-                type={`password`}
-                max={254}
-                min={3}
-              />
-              <div
-                id="confirmNewPassword-error"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {state.errors?.confirmNewPassword &&
-                  state.errors.confirmNewPassword.map((error) => (
-                    <p
-                      className="text-sm mt-2 text-destructive italic"
-                      key={error}
-                    >
-                      {error}
-                    </p>
-                  ))}
-              </div>
-            </div>
-            <div className="w-fit mr-auto">
-              <Button disabled={pending} type="submit">
-                Submit
-              </Button>
-            </div>
-          </form>
+            </>
+          )}
+
           <Separator className="mt-2" />
         </CollapsibleContent>
       </Collapsible>

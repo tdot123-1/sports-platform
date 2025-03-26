@@ -1,7 +1,9 @@
 "use server";
 
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const UpdateEmailSchema = z.object({
@@ -151,12 +153,12 @@ export const updatePassword = async (
       return {
         message: "Failed to update password",
         success: false,
-        errors: { oldPassword:["Invalid credentials"] },
+        errors: { oldPassword: ["Invalid credentials"] },
       };
     }
 
     const { error } = await supabase.auth.updateUser({
-      password: newPassword, 
+      password: newPassword,
     });
 
     if (error) {
@@ -226,8 +228,32 @@ export const refreshEmail = async () => {
 // delete profile
 export const deleteUserProfile = async () => {
   const supabase = await createClient();
+  const supabaseAdmin = await createAdminClient();
 
-  // const { error } = await supabase.auth.admin.deleteUser()
+  try {
+    const { data, error: userError } = await supabase.auth.getUser();
+    if (userError || !data?.user) {
+      throw new Error("User error: could not return current user");
+    }
 
-  // create admin client
+    const { error: authError } = await supabase.auth.signOut();
+
+    if (authError) {
+      console.error("Error signing out: ", authError.message);
+      throw new Error("Auth error: could not signout user");
+    }
+
+    const { error: adminError } = await supabaseAdmin.auth.admin.deleteUser(
+      data.user.id
+    );
+
+    if (adminError) {
+      throw new Error("Admin error: failed to delete user");
+    }
+
+    redirect("/login");
+  } catch (error) {
+    console.error("Failed to delete user: ", error);
+    return { success: false };
+  }
 };

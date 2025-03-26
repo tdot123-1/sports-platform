@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,12 +12,35 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { deleteUserProfile } from "@/lib/actions/profile/actions";
 import { UserXIcon } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const DeleteProfile = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    try {
+      const deleteSuccess = await deleteUserProfile();
+
+      if (!deleteSuccess) {
+        throw new Error("Server error, failed to delete profile");
+      }
+    } catch (error) {
+      console.error("Unexpected error deleting profile: ", error);
+      toast.error("Error deleting profile, please try again later.");
+    } finally {
+      setIsLoading(false);
+      setIsOpen(false);
+    }
+  };
+
   return (
     <>
-      <AlertDialog>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <Button variant={`destructive`}>
             <UserXIcon /> Delete profile
@@ -31,7 +56,10 @@ const DeleteProfile = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-destructive hover:bg-destructive/90">
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive hover:bg-destructive/90"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

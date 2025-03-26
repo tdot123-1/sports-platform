@@ -24,6 +24,7 @@ const SettingsWrapper = ({ providers }: { providers: string[] }) => {
         <ChangePassword
           isOpenPassword={isOpenPassword}
           toggleCollapsible={toggleCollapsible}
+          providers={providers}
         />
       </li>
       <li>
