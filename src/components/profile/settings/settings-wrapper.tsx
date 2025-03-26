@@ -9,6 +9,7 @@ const SettingsWrapper = ({ providers }: { providers: string[] }) => {
   const [isOpenEmail, setIsOpenEmail] = useState(false);
   const [isOpenPassword, setIsOpenPassword] = useState(false);
 
+  // only keep one collapsible open at a time
   const toggleCollapsible = (collapsible: string) => {
     if (collapsible === "email") {
       setIsOpenEmail((prev) => !prev);

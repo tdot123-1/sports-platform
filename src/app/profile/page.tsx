@@ -30,6 +30,7 @@ const Page = async () => {
         <p className="mt-6">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
+            {/* first check metadata to get correct email, else check user.email */}
             {data.user.user_metadata.email || data.user.email || `user`}
           </span>
         </p>

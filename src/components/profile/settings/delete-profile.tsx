@@ -18,6 +18,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const DeleteProfile = () => {
+  // states for loading and dialog state
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,11 +30,9 @@ const DeleteProfile = () => {
     if (!deleteSuccess) {
       console.error("Unexpected error deleting profile");
       toast.error("Error deleting profile, please try again later.");
-    } else {
-      setIsOpen(false);
-      toast.info("Profile succesfully deleted. Goodbye!");
-    }
-
+    } 
+    // if delete was success -> user will be redirected 
+    
     setIsLoading(false);
   };
 

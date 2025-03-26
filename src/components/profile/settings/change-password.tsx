@@ -39,8 +39,8 @@ const ChangePassword = ({
     initialState
   );
 
-  // (!!!) causing errors
   useEffect(() => {
+    // show toast, close collapsible on success
     if (!pending) {
       if (state.success) {
         toast.success("Password updated!");
@@ -49,6 +49,7 @@ const ChangePassword = ({
     }
   }, [state.success, pending]);
 
+  // password can only be changed if email auth provider was used 
   const emailProvider = providers.includes("email");
 
   return (

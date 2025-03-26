@@ -60,13 +60,16 @@ export interface UpdatePasswordState {
   success: boolean;
 }
 
+// (!) needs testing
 // change email (will send verification to new address)
+// only possible for email auth provider
 export const updateEmail = async (
   prevState: UpdateEmailState,
   formData: FormData
 ) => {
   const supabase = await createClient();
 
+  // get + validate form data
   const validatedFields = UpdateEmailSchema.safeParse({
     newEmail: formData.get("newEmail"),
   });
@@ -84,6 +87,7 @@ export const updateEmail = async (
   console.log("NEW EMAIL: ", newEmail);
 
   try {
+    // update user email
     const { error } = await supabase.auth.updateUser({
       email: newEmail,
     });
@@ -116,6 +120,7 @@ export const updatePassword = async (
 ) => {
   const supabase = await createClient();
 
+  // get + validate form data
   const validatedFields = UpdatePasswordSchema.safeParse({
     oldPassword: formData.get("oldPassword"),
     newPassword: formData.get("newPassword"),
@@ -133,6 +138,7 @@ export const updatePassword = async (
   const { oldPassword, newPassword } = validatedFields.data;
 
   try {
+    // get user to retrieve email
     const { data, error: userError } = await supabase.auth.getUser();
 
     if (!data.user?.email || userError) {
@@ -143,6 +149,8 @@ export const updatePassword = async (
         success: false,
       };
     }
+
+    // check credentials by attempting login
     const { error: authError } = await supabase.auth.signInWithPassword({
       email: data.user.email,
       password: oldPassword,
@@ -157,6 +165,7 @@ export const updatePassword = async (
       };
     }
 
+    // update user with new password
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
@@ -179,6 +188,7 @@ export const updatePassword = async (
   }
 };
 
+// (!!) NOT USED
 // refresh email
 // in case user has changed the email connected to their google account
 // click button to update email in app
@@ -223,19 +233,24 @@ export const refreshEmail = async () => {
   }
 };
 
+// TODO
 // password recovery
 
 // delete profile
 export const deleteUserProfile = async () => {
+  // create server client to get current user
+  // create admin client to delete user
   const supabase = await createClient();
   const supabaseAdmin = await createAdminClient();
 
   try {
+    // get current user
     const { data, error: userError } = await supabase.auth.getUser();
     if (userError || !data?.user) {
       throw new Error("User error: could not return current user");
     }
 
+    // logout current user before deletion
     const { error: authError } = await supabase.auth.signOut();
 
     if (authError) {
@@ -243,6 +258,7 @@ export const deleteUserProfile = async () => {
       throw new Error("Auth error: could not signout user");
     }
 
+    // use admin client to delete user
     const { error: adminError } = await supabaseAdmin.auth.admin.deleteUser(
       data.user.id
     );
@@ -250,8 +266,6 @@ export const deleteUserProfile = async () => {
     if (adminError) {
       throw new Error("Admin error: failed to delete user");
     }
-
-    
   } catch (error) {
     console.error("Failed to delete user: ", error);
     return { success: false };

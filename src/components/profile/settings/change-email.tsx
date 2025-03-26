@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { updateEmail, UpdateEmailState } from "@/lib/actions/profile/actions";
-import { MailIcon, RefreshCcwIcon } from "lucide-react";
+import { MailIcon } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -37,17 +37,16 @@ const ChangeEmail = ({
   );
 
   useEffect(() => {
+    // show toast, close collapsible on success
     if (!pending) {
       if (state.success) {
         toast.success("Email address updated!");
         toggleCollapsible("email");
       }
     }
-  }, [state, pending, toggleCollapsible]);
+  }, [state, pending]);
 
-  // check providers
-  // if only email -> allow
-  // if google -> show button to update app email
+  // email can only be changed if ONLY email auth provider was used
   const googleProvider = providers.includes("google");
 
   return (

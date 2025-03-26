@@ -7,10 +7,10 @@ const EventCardSkeleton = () => {
   // <Skeleton className="h-12 w-12 rounded-full" />
   return (
     <>
-      <Card className="relative">
-        <CardHeader className="text-center">
+      <Card>
+        <CardHeader className="items-center">
+          <Skeleton className="h-12 w-12 rounded-full" />
           <Skeleton className="w-8/12 mx-auto h-5 mt-4" />
-          <Skeleton className="h-12 w-12 rounded-full absolute top-2 right-2" />
         </CardHeader>
         <CardContent>
           <ul>

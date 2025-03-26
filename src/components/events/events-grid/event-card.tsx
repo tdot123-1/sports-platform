@@ -21,15 +21,15 @@ interface EventCardProps {
 const EventCard = async ({ event, userId }: EventCardProps) => {
   return (
     <>
-      <Card className="relative">
-        <CardHeader className="text-center">
-          <Avatar className="absolute top-2 right-2">
+      <Card>
+        <CardHeader className="items-center">
+          <Avatar>
             {event.event_logo_url && <AvatarImage src={event.event_logo_url} />}
             <AvatarFallback className="bg-primary opacity-55">
               Sports
             </AvatarFallback>
           </Avatar>
-          <ScrollArea className="w-full h-8">
+          <ScrollArea className="w-full h-8 text-center">
             <CardTitle>{event.event_name}</CardTitle>
           </ScrollArea>
         </CardHeader>
