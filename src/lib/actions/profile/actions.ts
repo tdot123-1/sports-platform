@@ -90,6 +90,7 @@ export const updateEmail = async (
     // update user email
     const { error } = await supabase.auth.updateUser({
       email: newEmail,
+      data: { email: newEmail },
     });
 
     if (error) {
@@ -271,7 +272,13 @@ export const deleteUserProfile = async () => {
     return { success: false };
   }
 
+  // revalidate paths to reflect deleted events
+  revalidatePath("/events/grid");
+  revalidatePath("/events/table");
+  revalidatePath("/events/calendar");
+  revalidatePath("/events/map");
+
   // redirect outside of try/catch
-  // redirect to dedicated goodbye page (?)
-  redirect("/?delete=true");
+  // use searchparams to show toast on homepage
+  redirect("/?profile_deleted=true");
 };

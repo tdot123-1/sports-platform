@@ -40,7 +40,7 @@ const ChangeEmail = ({
     // show toast, close collapsible on success
     if (!pending) {
       if (state.success) {
-        toast.success("Email address updated!");
+        toast.info("Click the link in your new email to confirm the update.");
         toggleCollapsible("email");
       }
     }
@@ -86,7 +86,8 @@ const ChangeEmail = ({
                 <div className="text-left mb-4">
                   <Label htmlFor="newEmail">New email address</Label>
                   <p className="text-xs italic text-muted-foreground">
-                    An email will be sent to this address to confirm the change
+                    An email will be sent to this address and your current
+                    address to confirm the change
                   </p>
                   <Input
                     name="newEmail"

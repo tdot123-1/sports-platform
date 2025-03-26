@@ -1,12 +1,40 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
+import ConfirmEmailChangeToast from "@/components/profile/settings/confirm-email-change-toast";
+import ProfileDeletedToast from "@/components/profile/settings/profile-deleted-toast";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
 
 import { Suspense } from "react";
 
-export default function Home() {
-  // throw new Error("test");
+export default async function Home(props: {
+  searchParams?: Promise<{
+    profile_deleted?: string;
+    message?: string;
+  }>;
+}) {
+  // use searchparams to find out if there was a redirect after profile delete
+  const searchParams = await props.searchParams;
+  const profile_deleted = searchParams?.profile_deleted;
+  const message = searchParams?.message;
+
   return (
     <>
+      {/** show toast if profile was deleted */}
+      {profile_deleted === "true" && <ProfileDeletedToast />}
+
+      {/** show toast if user was redirected after confirming email change  */}
+      {message?.includes("Confirmation link accepted.") && (
+        <>
+          <ConfirmEmailChangeToast />
+          {/** have div as well in case toast does not trigger */}
+          <div className="w-fit mx-auto m-4 p-4 rounded-md bg-info text-center">
+            <h2 className="font-semibold">New email address confirmed</h2>
+            <p>Click the link in your other email to finish the transfer</p>
+          </div>
+        </>
+      )}
+
+      {/** page */}
+
       <section className="my-12 px-4">
         <h1 className="text-2xl font-mono text-primary w-fit mx-auto">
           Sports platform
