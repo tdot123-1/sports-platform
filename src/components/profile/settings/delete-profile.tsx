@@ -23,19 +23,18 @@ const DeleteProfile = () => {
 
   const handleDelete = async () => {
     setIsLoading(true);
-    try {
-      const deleteSuccess = await deleteUserProfile();
 
-      if (!deleteSuccess) {
-        throw new Error("Server error, failed to delete profile");
-      }
-    } catch (error) {
-      console.error("Unexpected error deleting profile: ", error);
+    const deleteSuccess = await deleteUserProfile();
+
+    if (!deleteSuccess) {
+      console.error("Unexpected error deleting profile");
       toast.error("Error deleting profile, please try again later.");
-    } finally {
-      setIsLoading(false);
+    } else {
       setIsOpen(false);
+      toast.info("Profile succesfully deleted. Goodbye!");
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -50,8 +49,8 @@ const DeleteProfile = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              Deleting your this profile will also delete all events created
-              from this profile. This cannot be undone.
+              Deleting your profile will also permanently delete all events
+              created from this profile. This cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

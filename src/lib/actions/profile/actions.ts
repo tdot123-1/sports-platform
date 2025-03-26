@@ -259,5 +259,5 @@ export const deleteUserProfile = async () => {
 
   // redirect outside of try/catch
   // redirect to dedicated goodbye page (?)
-  redirect("/login");
+  redirect("/?delete=true");
 };

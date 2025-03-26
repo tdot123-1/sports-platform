@@ -18,13 +18,10 @@ const Page = async () => {
     redirect("/login");
   }
 
-  // console.log("USER: ", data.user.app_metadata.providers);
-
+  // find out auth providers to determine profile settings
   const providers: string[] = data.user.app_metadata.providers;
 
-  console.log("PROVIDERS: ", providers);
-
-  // find out auth providers
+  // console.log("PROVIDERS: ", providers);
 
   return (
     <>
@@ -33,7 +30,7 @@ const Page = async () => {
         <p className="mt-6">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
-            {data.user.email || `user`}
+            {data.user.user_metadata.email || data.user.email || `user`}
           </span>
         </p>
         <div className="ml-auto w-fit mt-4">

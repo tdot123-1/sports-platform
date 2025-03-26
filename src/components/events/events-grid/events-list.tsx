@@ -2,6 +2,9 @@ import { fetchAllEvents } from "@/lib/data/events/data";
 import { FilterOptions, SortOptions, SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 import EventCard from "./event-card";
+import { Button } from "@/components/ui/button";
+import { PlusCircleIcon } from "lucide-react";
+import Link from "next/link";
 
 interface EventsListProps {
   userId?: string;
@@ -49,9 +52,27 @@ const EventsList = async ({
             ))}
           </ul>
         ) : (
-          <div className="mt-20">
-            {/** improve ui here */}
-            <h3 className="mx-auto">No events found!</h3>
+          <div className="my-20">
+            {userId ? (
+              <>
+                <h3 className="text-center italic text-muted-foreground">
+                  No events created yet!
+                </h3>
+                <div className="w-fit mx-auto mt-8">
+                  <Link href={`/profile/events/create`}>
+                    <Button>
+                      <PlusCircleIcon /> Create Event
+                    </Button>
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-center italic text-muted-foreground">
+                  No events found!
+                </h3>
+              </>
+            )}
           </div>
         )}
       </div>

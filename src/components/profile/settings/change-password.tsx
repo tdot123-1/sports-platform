@@ -50,7 +50,6 @@ const ChangePassword = ({
   }, [state.success, pending]);
 
   const emailProvider = providers.includes("email");
-  console.log("EMAIL: ", emailProvider);
 
   return (
     <>

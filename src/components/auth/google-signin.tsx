@@ -28,7 +28,7 @@ const GoogleSignin = () => {
     console.log("login succesful");
 
     toast("Logged in", {
-      description: "Welcome back!",
+      description: "Welcome!",
     });
 
     router.refresh();

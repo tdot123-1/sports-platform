@@ -71,14 +71,14 @@ const ChangeEmail = ({
                   Your account is linked to your Google account.
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  If you&apos;ve changed the email connected to your Google account,
-                  click the button below to update your email for this app
+                  If you change the email address connected to your Google
+                  account, it will automatically be updated in this app as well.
                 </p>
-                <div className="w-fit mr-auto mt-2">
+                {/* <div className="w-fit mr-auto mt-2">
                   <Button type="button">
                     <RefreshCcwIcon /> Update email
                   </Button>
-                </div>
+                </div> */}
               </div>
             </>
           ) : (
