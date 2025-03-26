@@ -71,7 +71,7 @@ const ChangeEmail = ({
                   Your account is linked to your Google account.
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  If you've changed the email connected to your Google account,
+                  If you&apos;ve changed the email connected to your Google account,
                   click the button below to update your email for this app
                 </p>
                 <div className="w-fit mr-auto mt-2">

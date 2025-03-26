@@ -50,6 +50,7 @@ const EventsList = async ({
           </ul>
         ) : (
           <div className="mt-20">
+            {/** improve ui here */}
             <h3 className="mx-auto">No events found!</h3>
           </div>
         )}

@@ -42,7 +42,7 @@ const DeleteProfile = () => {
     <>
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
-          <Button variant={`destructive`}>
+          <Button variant={`destructive`} disabled={isLoading}>
             <UserXIcon /> Delete profile
           </Button>
         </AlertDialogTrigger>

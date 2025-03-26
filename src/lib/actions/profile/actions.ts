@@ -251,9 +251,13 @@ export const deleteUserProfile = async () => {
       throw new Error("Admin error: failed to delete user");
     }
 
-    redirect("/login");
+    
   } catch (error) {
     console.error("Failed to delete user: ", error);
     return { success: false };
   }
+
+  // redirect outside of try/catch
+  // redirect to dedicated goodbye page (?)
+  redirect("/login");
 };

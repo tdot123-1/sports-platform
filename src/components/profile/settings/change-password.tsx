@@ -47,7 +47,7 @@ const ChangePassword = ({
         toggleCollapsible("password");
       }
     }
-  }, [state, pending, toggleCollapsible]);
+  }, [state.success, pending]);
 
   const emailProvider = providers.includes("email");
   console.log("EMAIL: ", emailProvider);
@@ -154,6 +154,13 @@ const ChangePassword = ({
                   <Button disabled={pending} type="submit">
                     Submit
                   </Button>
+                </div>
+                <div>
+                  {state.message && !state.success && (
+                    <p className="text-sm mt-2 text-destructive italic text-center">
+                      {state.message}
+                    </p>
+                  )}
                 </div>
               </form>
             </>
