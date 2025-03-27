@@ -16,7 +16,11 @@ export default async function Home(props: {
   // use searchparams to find out if there was a redirect after profile delete
   const searchParams = await props.searchParams;
   const profile_deleted = searchParams?.profile_deleted;
+
+  // if email was changed
   const message = searchParams?.message;
+
+  // if password reset was requested
   const code = searchParams?.code;
 
   if (code) {

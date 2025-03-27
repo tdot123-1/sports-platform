@@ -236,14 +236,13 @@ export const refreshEmail = async () => {
   }
 };
 
-// TODO
-
 const ResetForgottenPasswordSchema = PasswordBaseSchema.omit({
   oldPassword: true,
 });
 
 // password recovery
 export const resetForgottenPassword = async (
+  code: string,
   prevState: UpdatePasswordState,
   formData: FormData
 ) => {
@@ -265,6 +264,20 @@ export const resetForgottenPassword = async (
 
   try {
     const supabase = await createClient();
+
+    // get a session with code from url
+    const { error: sessionError } = await supabase.auth.exchangeCodeForSession(
+      code
+    );
+
+    if (sessionError) {
+      console.error("Error updating password: ", sessionError.message);
+      return {
+        message: "Failed to update password, please try again later",
+        success: false,
+      };
+    }
+
     // update user with new password
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
@@ -290,12 +303,12 @@ export const resetForgottenPassword = async (
 
 // delete profile
 export const deleteUserProfile = async () => {
-  // create server client to get current user
-  // create admin client to delete user
-  const supabase = await createClient();
-  const supabaseAdmin = await createAdminClient();
-
   try {
+    // create server client to get current user
+    // create admin client to delete user
+    const supabase = await createClient();
+    const supabaseAdmin = await createAdminClient();
+
     // get current user
     const { data, error: userError } = await supabase.auth.getUser();
     if (userError || !data?.user) {

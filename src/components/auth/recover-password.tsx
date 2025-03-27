@@ -15,6 +15,7 @@ import { Label } from "../ui/label";
 import { sendResetPasswordEmail, State } from "@/lib/actions/auth/actions";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const RecoverPassword = () => {
   const initialState: State = { message: "", errors: {}, success: false };
@@ -77,7 +78,12 @@ const RecoverPassword = () => {
               </Button>
               <div>
                 {state.message && (
-                  <p className="text-sm mt-2 text-destructive italic text-center">
+                  <p
+                    className={cn(
+                      "text-sm mt-2 italic text-center",
+                      state.success ? "text-info" : "text-destructive"
+                    )}
+                  >
                     {state.message}
                   </p>
                 )}

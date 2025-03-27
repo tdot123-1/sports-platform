@@ -193,9 +193,7 @@ export const sendResetPasswordEmail = async (
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "/profile",
-    });
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
 
     if (error) {
       console.error("Error recovering password: ", error.message);
