@@ -1,12 +1,15 @@
 "use client";
 
 import { signupWithPassword, State } from "@/lib/actions/auth/actions";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import CaptchaComponent from "./captcha-component";
 
 const SignupForm = () => {
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+
   const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     signupWithPassword,
@@ -69,6 +72,18 @@ const SignupForm = () => {
                 </p>
               ))}
           </div>
+        </div>
+        <div className="mb-4 flex justify-center">
+          <CaptchaComponent setCaptchaToken={setCaptchaToken} />
+          <Input
+            className="hidden"
+            type={`hidden`}
+            hidden
+            readOnly
+            name="token"
+            id="token"
+            value={captchaToken}
+          />
         </div>
         <div className="flex justify-center">
           <Button type="submit" disabled={pending}>
