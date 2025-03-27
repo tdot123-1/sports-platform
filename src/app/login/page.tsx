@@ -1,5 +1,6 @@
 import GoogleSignin from "@/components/auth/google-signin";
 import LoginForm from "@/components/auth/login-form";
+import RecoverPassword from "@/components/auth/recover-password";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
@@ -26,9 +27,13 @@ const Page = async () => {
         <div className="flex justify-center mt-14">
           <div className="w-full md:w-1/2 lg:w-1/3">
             <LoginForm />
+            <div className="w-fit ml-auto mt-2">
+              <RecoverPassword />
+            </div>
           </div>
         </div>
-        <Separator className="my-8" />
+
+        <Separator className="mb-8 mt-2" />
         {SIGNUP_ENABLED === "true" && (
           <div className="flex justify-center">
             <GoogleSignin />

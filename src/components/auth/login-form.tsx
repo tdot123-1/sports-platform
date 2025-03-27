@@ -40,6 +40,7 @@ const LoginForm = () => {
             type="email"
             aria-describedby="email-error"
             disabled={pending}
+            required
           />
           <div id="email-error" aria-live="polite" aria-atomic="true">
             {state.errors?.email &&
@@ -58,6 +59,7 @@ const LoginForm = () => {
             type="password"
             aria-describedby="password-error"
             disabled={pending}
+            required
           />
           <div id="password-error" aria-live="polite" aria-atomic="true">
             {state.errors?.password &&

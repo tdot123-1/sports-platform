@@ -38,6 +38,12 @@ const SignupSchema = FormSchema.omit({ id: true }).refine(
 
 const LoginSchema = FormSchema.omit({ id: true, confirmPassword: true });
 
+const RecoverPasswordSchema = FormSchema.omit({
+  id: true,
+  password: true,
+  confirmPassword: true,
+});
+
 export interface State {
   errors?: {
     id?: string[];
@@ -165,4 +171,46 @@ export const logOut = async () => {
   // revalidate layout
   revalidatePath("/", "layout");
   return { success: true };
+};
+
+export const sendResetPasswordEmail = async (
+  prevState: State,
+  formData: FormData
+) => {
+  const validatedFields = RecoverPasswordSchema.safeParse({
+    email: formData.get("email"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Failed send recovery email. Please try again.",
+      success: false,
+    };
+  }
+
+  const { email } = validatedFields.data;
+
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "/profile",
+    });
+
+    if (error) {
+      console.error("Error recovering password: ", error.message);
+      return {
+        message: `Failed to send recovery email, please try again.`,
+        success: false,
+      };
+    }
+
+    return {
+      message: "Please click the link in your email to update your password",
+      success: true,
+    };
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return { message: "An unexpected error occurred.", success: false };
+  }
 };

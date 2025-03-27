@@ -60,7 +60,6 @@ export interface UpdatePasswordState {
   success: boolean;
 }
 
-// (!) needs testing
 // change email (will send verification to new address)
 // only possible for email auth provider
 export const updateEmail = async (
