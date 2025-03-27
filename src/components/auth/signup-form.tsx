@@ -6,6 +6,8 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import CaptchaComponent from "./captcha-component";
+// import { useRouter } from "next/navigation";
+// import { toast } from "sonner";
 
 const SignupForm = () => {
   const [captchaToken, setCaptchaToken] = useState<string>("");
@@ -15,6 +17,22 @@ const SignupForm = () => {
     signupWithPassword,
     initialState
   );
+
+  // const router = useRouter();
+
+  // // show toast after log in
+  // useEffect(() => {
+  //   if (!pending) {
+
+  //     if (state.success) {
+  //       toast("Logged in", {
+  //         description: "Welcome back!",
+  //       });
+
+  //       router.push("/auth/signup");
+  //     }
+  //   }
+  // }, [pending, state, router]);
 
   return (
     <>

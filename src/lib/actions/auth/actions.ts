@@ -155,6 +155,11 @@ export const signupWithPassword = async (
 
     // revalidate layout
     revalidatePath("/", "layout");
+
+    // return {
+    //   success: true,
+    //   message: "Signup complete!",
+    // };
   } catch (error) {
     console.error("Unexpected error: ", error);
     return { message: "An unexpected error occurred", success: false };

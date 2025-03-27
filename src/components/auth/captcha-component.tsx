@@ -10,8 +10,6 @@ const CaptchaComponent = ({
 }) => {
   const captcha = useRef<HCaptcha | null>(null);
 
-  captcha?.current?.resetCaptcha();
-
   const SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY;
 
   if (!SITE_KEY) {
