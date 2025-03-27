@@ -1,16 +1,18 @@
 "use client";
 
 import { signupWithPassword, State } from "@/lib/actions/auth/actions";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import CaptchaComponent from "./captcha-component";
-// import { useRouter } from "next/navigation";
-// import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const SignupForm = () => {
   const [captchaToken, setCaptchaToken] = useState<string>("");
+  const captcha = useRef<HCaptcha | null>(null);
 
   const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
@@ -18,21 +20,19 @@ const SignupForm = () => {
     initialState
   );
 
-  // const router = useRouter();
+  const router = useRouter();
 
-  // // show toast after log in
-  // useEffect(() => {
-  //   if (!pending) {
+  // show toast after log in
+  useEffect(() => {
+    if (!pending) {
+      if (state.success) {
+        toast.info("Account confirmation email sent");
 
-  //     if (state.success) {
-  //       toast("Logged in", {
-  //         description: "Welcome back!",
-  //       });
-
-  //       router.push("/auth/signup");
-  //     }
-  //   }
-  // }, [pending, state, router]);
+        router.push("/auth/signup");
+      }
+      captcha?.current?.resetCaptcha();
+    }
+  }, [pending, state, router]);
 
   return (
     <>
@@ -92,7 +92,10 @@ const SignupForm = () => {
           </div>
         </div>
         <div className="mb-4 flex justify-center">
-          <CaptchaComponent setCaptchaToken={setCaptchaToken} />
+          <CaptchaComponent
+            captcha={captcha}
+            setCaptchaToken={setCaptchaToken}
+          />
           <Input
             className="hidden"
             type={`hidden`}

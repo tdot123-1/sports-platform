@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -156,17 +155,17 @@ export const signupWithPassword = async (
     // revalidate layout
     revalidatePath("/", "layout");
 
-    // return {
-    //   success: true,
-    //   message: "Signup complete!",
-    // };
+    return {
+      success: true,
+      message: "Signup complete!",
+    };
   } catch (error) {
     console.error("Unexpected error: ", error);
     return { message: "An unexpected error occurred", success: false };
   }
 
   // maybe redirect to page with message abt email confirmation (?)
-  redirect("/auth/signup");
+  // redirect("/auth/signup");
 };
 
 export const logOut = async () => {
