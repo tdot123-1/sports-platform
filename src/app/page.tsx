@@ -2,6 +2,7 @@ import NewEventsCarouselWrapper from "@/components/events/new-events/events-caro
 import ConfirmEmailChangeToast from "@/components/profile/settings/confirm-email-change-toast";
 import ProfileDeletedToast from "@/components/profile/settings/profile-deleted-toast";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
+import { redirect } from "next/navigation";
 
 import { Suspense } from "react";
 
@@ -9,12 +10,18 @@ export default async function Home(props: {
   searchParams?: Promise<{
     profile_deleted?: string;
     message?: string;
+    code?: string;
   }>;
 }) {
   // use searchparams to find out if there was a redirect after profile delete
   const searchParams = await props.searchParams;
   const profile_deleted = searchParams?.profile_deleted;
   const message = searchParams?.message;
+  const code = searchParams?.code;
+
+  if (code) {
+    redirect(`/auth/reset-password?code=${code.toString()}`);
+  }
 
   return (
     <>

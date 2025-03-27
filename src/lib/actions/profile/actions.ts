@@ -16,31 +16,34 @@ const UpdateEmailSchema = z.object({
     .email({ message: "Please provide a valid email address" }),
 });
 
-const UpdatePasswordSchema = z
-  .object({
-    oldPassword: z
-      .string({
-        invalid_type_error: "Please provide a password",
-      })
-      .min(6, { message: "Password must be at least 6 characters" })
-      .max(254, { message: "Maximum characters exceeded" }),
-    newPassword: z
-      .string({
-        invalid_type_error: "Please provide a password",
-      })
-      .min(6, { message: "Password must be at least 6 characters" })
-      .max(254, { message: "Maximum characters exceeded" }),
-    confirmNewPassword: z
-      .string({
-        invalid_type_error: "Please confirm your password",
-      })
-      .min(6, { message: "Please confirm your password" })
-      .max(254, { message: "Maximum characters exceeded" }),
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
+const PasswordBaseSchema = z.object({
+  oldPassword: z
+    .string({
+      invalid_type_error: "Please provide a password",
+    })
+    .min(6, { message: "Password must be at least 6 characters" })
+    .max(254, { message: "Maximum characters exceeded" }),
+  newPassword: z
+    .string({
+      invalid_type_error: "Please provide a password",
+    })
+    .min(6, { message: "Password must be at least 6 characters" })
+    .max(254, { message: "Maximum characters exceeded" }),
+  confirmNewPassword: z
+    .string({
+      invalid_type_error: "Please confirm your password",
+    })
+    .min(6, { message: "Please confirm your password" })
+    .max(254, { message: "Maximum characters exceeded" }),
+});
+
+const UpdatePasswordSchema = PasswordBaseSchema.refine(
+  (data) => data.newPassword === data.confirmNewPassword,
+  {
     message: "Passwords do not match",
     path: ["confirmNewPassword"],
-  });
+  }
+);
 
 export interface UpdateEmailState {
   errors?: {
@@ -234,7 +237,56 @@ export const refreshEmail = async () => {
 };
 
 // TODO
+
+const ResetForgottenPasswordSchema = PasswordBaseSchema.omit({
+  oldPassword: true,
+});
+
 // password recovery
+export const resetForgottenPassword = async (
+  prevState: UpdatePasswordState,
+  formData: FormData
+) => {
+  // get + validate form data
+  const validatedFields = ResetForgottenPasswordSchema.safeParse({
+    newPassword: formData.get("newPassword"),
+    confirmNewPassword: formData.get("confirmNewPassword"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Failed change password. Please try again.",
+      success: false,
+    };
+  }
+
+  const { newPassword } = validatedFields.data;
+
+  try {
+    const supabase = await createClient();
+    // update user with new password
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) {
+      console.error("Error updating password: ", error.message);
+      return {
+        message: "Failed to update password, please try again later",
+        success: false,
+      };
+    }
+
+    return {
+      success: true,
+      message: "Password succesfully updated.",
+    };
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return { message: "An unexpected error occurred", success: false };
+  }
+};
 
 // delete profile
 export const deleteUserProfile = async () => {
