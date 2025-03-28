@@ -1,6 +1,7 @@
 "use server";
 
-import { logoMaxSize } from "@/lib/constants";
+
+import { IMG_MAX_SIZE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
@@ -59,7 +60,7 @@ export const uploadLogo = async (
     return { message: "Please select a file to upload", success: false };
   }
 
-  if (file.size > logoMaxSize) {
+  if (file.size > IMG_MAX_SIZE) {
     return {
       message: "File size exceeds 2MB. Please upload a smaller file",
       success: false,
@@ -189,9 +190,9 @@ export const uploadImage = async (
     return { message: "Please select a file to upload", success: false };
   }
 
-  if (file.size > logoMaxSize) {
+  if (file.size > IMG_MAX_SIZE) {
     return {
-      message: "File size exceeds 2MB. Please upload a smaller file",
+      message: "File size exceeds 1MB. Please upload a smaller file",
       success: false,
     };
   }

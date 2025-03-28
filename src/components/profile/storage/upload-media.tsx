@@ -50,8 +50,6 @@ const UploadMediaForm = ({
     }
   }, [pending, state, toastDescription]);
 
-  // add frontend validation for file size (?)
-
   return (
     <>
       <form action={formAction}>

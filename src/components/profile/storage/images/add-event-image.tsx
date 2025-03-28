@@ -9,6 +9,7 @@ import { fetchImagePublicUrls } from "@/lib/data/storage/data";
 import Image from "next/image";
 import { ExternalLinkIcon } from "lucide-react";
 import DeleteMediaButton from "../delete-media";
+import UploadCompressMedia from "../upload-compress-media";
 
 const AddEventImage = async ({
   eventId,
@@ -76,12 +77,19 @@ const AddEventImage = async ({
         </div>
         <div>
           {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 2MB */}
-          <UploadMediaForm
+          {/* <UploadMediaForm
             serverAction={uploadImage}
             eventId={eventId}
             formLabel="Upload image"
             formInstruction="Add an image to your event"
             toastDescription="A new image was added to your event!"
+            name="event_image"
+          /> */}
+          <UploadCompressMedia
+            eventId={eventId}
+            formLabel="Upload image"
+            formInstruction="Add an image to your event"
+            toastSuccess="A new image was added to your event!"
             name="event_image"
           />
         </div>
