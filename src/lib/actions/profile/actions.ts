@@ -140,6 +140,15 @@ export const updatePassword = async (
 
   const { oldPassword, newPassword } = validatedFields.data;
 
+  const token = formData.get("token");
+
+  if (!token || token.toString().length < 20) {
+    return {
+      message: "Please complete the Captcha challenge.",
+      success: false,
+    };
+  }
+
   try {
     // get user to retrieve email
     const { data, error: userError } = await supabase.auth.getUser();
@@ -157,6 +166,7 @@ export const updatePassword = async (
     const { error: authError } = await supabase.auth.signInWithPassword({
       email: data.user.email,
       password: oldPassword,
+      options: { captchaToken: token.toString() },
     });
 
     if (authError) {

@@ -14,8 +14,10 @@ import {
   UpdatePasswordState,
 } from "@/lib/actions/profile/actions";
 import { KeyRoundIcon } from "lucide-react";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import CaptchaComponent from "@/components/auth/captcha-component";
 
 interface ChangePasswordProps {
   isOpenPassword: boolean;
@@ -28,6 +30,9 @@ const ChangePassword = ({
   toggleCollapsible,
   providers,
 }: ChangePasswordProps) => {
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+  const captcha = useRef<HCaptcha | null>(null);
+
   const initialState: UpdatePasswordState = {
     message: "",
     errors: {},
@@ -46,10 +51,11 @@ const ChangePassword = ({
         toast.success("Password updated!");
         toggleCollapsible("password");
       }
+      captcha?.current?.resetCaptcha();
     }
   }, [state.success, pending]);
 
-  // password can only be changed if email auth provider was used 
+  // password can only be changed if email auth provider was used
   const emailProvider = providers.includes("email");
 
   return (
@@ -149,6 +155,21 @@ const ChangePassword = ({
                         </p>
                       ))}
                   </div>
+                </div>
+                <div className="mb-4 flex justify-center">
+                  <CaptchaComponent
+                    captcha={captcha}
+                    setCaptchaToken={setCaptchaToken}
+                  />
+                  <Input
+                    className="hidden"
+                    type={`hidden`}
+                    hidden
+                    readOnly
+                    name="token"
+                    id="token"
+                    value={captchaToken}
+                  />
                 </div>
                 <div className="w-fit mr-auto">
                   <Button disabled={pending} type="submit">

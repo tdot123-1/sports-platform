@@ -74,11 +74,21 @@ export const loginWithPassword = async (
 
   const { email, password } = validatedFields.data;
 
+  const token = formData.get("token");
+
+  if (!token || token.toString().length < 20) {
+    return {
+      message: "Please complete the Captcha challenge.",
+      success: false,
+    };
+  }
+
   try {
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
+      options: { captchaToken: token.toString() },
     });
 
     if (error) {
