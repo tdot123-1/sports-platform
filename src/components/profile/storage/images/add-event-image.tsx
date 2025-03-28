@@ -1,8 +1,5 @@
-import {
-  deleteImageFromStorage,
-  uploadImage,
-} from "@/lib/actions/storage/actions";
-import UploadMediaForm from "../upload-media";
+import { deleteImageFromStorage } from "@/lib/actions/storage/actions";
+
 import { Separator } from "@/components/ui/separator";
 import { EventImage } from "@/lib/types";
 import { fetchImagePublicUrls } from "@/lib/data/storage/data";
