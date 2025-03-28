@@ -8,10 +8,10 @@ import {
   MapCameraChangedEvent,
 } from "@vis.gl/react-google-maps";
 import { Suspense, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import { ConstructionIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useDebouncedCallback } from "use-debounce";
 import { SportsEventMap } from "@/lib/types";
 import SelectedPinEvents from "./selected-pin-events";

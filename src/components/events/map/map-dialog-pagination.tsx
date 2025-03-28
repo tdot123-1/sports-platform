@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 
 interface MapDialogPaginationProps {

@@ -1,4 +1,4 @@
-import EventsMapWrapper from "@/components/map/map-wrapper";
+import EventsMapWrapper from "@/components/events/map/map-wrapper";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ConstructionIcon, HomeIcon } from "lucide-react";

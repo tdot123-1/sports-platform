@@ -7,13 +7,13 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
-import EventsCardSm from "../events/events-card-sm";
+} from "../../ui/dialog";
+import EventsCardSm from "../events-card-sm";
 import { useEffect, useState } from "react";
 import { fetchEventsInCity, fetchTotalPagesInCity } from "@/lib/data/map/data";
 import { FrownIcon, RotateCcwIcon } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
-import { Button } from "../ui/button";
+import { Skeleton } from "../../ui/skeleton";
+import { Button } from "../../ui/button";
 import MapDialogPagination from "./map-dialog-pagination";
 
 interface SelectedPinProps {

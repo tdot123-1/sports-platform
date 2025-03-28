@@ -1,7 +1,7 @@
 "use client";
 
 import { FilterIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import MapBatchSelect from "./map-batch-select";
 import { useEffect, useMemo, useState } from "react";
 import { ITEMS_ON_MAP } from "@/lib/constants";
