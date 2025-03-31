@@ -22,16 +22,20 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
   return (
     <>
       <Card>
-        <CardHeader className="items-center">
-          <Avatar>
-            {event.event_logo_url && <AvatarImage src={event.event_logo_url} />}
-            <AvatarFallback className="bg-primary opacity-55">
-              Sports
-            </AvatarFallback>
-          </Avatar>
-          <ScrollArea className="w-full h-8 text-center">
-            <CardTitle>{event.event_name}</CardTitle>
-          </ScrollArea>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <ScrollArea className="w-full h-8 text-left">
+              <CardTitle>{event.event_name}</CardTitle>
+            </ScrollArea>
+            <Avatar>
+              {event.event_logo_url && (
+                <AvatarImage src={event.event_logo_url} />
+              )}
+              <AvatarFallback className="bg-primary opacity-55">
+                Sports
+              </AvatarFallback>
+            </Avatar>
+          </div>
         </CardHeader>
         <CardContent>
           <ul>
