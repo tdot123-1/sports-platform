@@ -11,7 +11,7 @@ export default async function Home(props: {
     profile_deleted?: string;
     message?: string;
     code?: string;
-    type?: string;
+    source?: string;
   }>;
 }) {
   // use searchparams to find out if there was a redirect after profile delete
@@ -23,9 +23,9 @@ export default async function Home(props: {
 
   // if password reset was requested
   const code = searchParams?.code;
-  const type = searchParams?.type;
+  const source = searchParams?.source;
 
-  if (code && type === "recovery") {
+  if (code && source === "recovery") {
     redirect(`/auth/reset-password?code=${code.toString()}`);
   }
 

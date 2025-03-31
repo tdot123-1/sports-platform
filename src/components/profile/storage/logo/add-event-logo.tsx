@@ -1,12 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { ExternalLinkIcon } from "lucide-react";
-import UploadMediaForm from "../upload-media";
-import {
-  deleteLogoFromStorage,
-  uploadLogo,
-} from "@/lib/actions/storage/actions";
-
+import { deleteLogoFromStorage } from "@/lib/actions/storage/actions";
 import DeleteMediaButton from "../delete-media";
 import UploadCompressMedia from "../upload-compress-media";
 

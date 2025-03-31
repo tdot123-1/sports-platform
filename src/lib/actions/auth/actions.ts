@@ -228,6 +228,7 @@ export const sendResetPasswordEmail = async (
     const supabase = await createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       captchaToken: token.toString(),
+      redirectTo: `${process.env.APP_URL}/?source=recovery`,
     });
 
     if (error) {
