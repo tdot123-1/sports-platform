@@ -65,6 +65,7 @@ const AddEventLogo = async ({
             toastSuccess="A new logo was added to your event!"
             name="event_logo"
             previousImgUrl={event_logo_url}
+            logoUpload
           />
           {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 1MB */}
           {/* <UploadMediaForm
