@@ -8,6 +8,7 @@ import {
 } from "@/lib/actions/storage/actions";
 
 import DeleteMediaButton from "../delete-media";
+import UploadCompressMedia from "../upload-compress-media";
 
 const AddEventLogo = async ({
   event_logo_url,
@@ -62,8 +63,16 @@ const AddEventLogo = async ({
           </div>
         </div>
         <div>
-          {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 2MB */}
-          <UploadMediaForm
+          <UploadCompressMedia
+            eventId={eventId}
+            formLabel="Upload logo"
+            formInstruction="Uploading a new file will delete any existing logo for this event"
+            toastSuccess="A new logo was added to your event!"
+            name="event_logo"
+            previousImgUrl={event_logo_url}
+          />
+          {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 1MB */}
+          {/* <UploadMediaForm
             serverAction={uploadLogo}
             eventId={eventId}
             formLabel="Upload logo"
@@ -71,7 +80,7 @@ const AddEventLogo = async ({
             toastDescription="A new logo was added to your event!"
             name="event_logo"
             previousImgUrl={event_logo_url}
-          />
+          /> */}
         </div>
       </div>
     </>

@@ -215,9 +215,20 @@ export const sendResetPasswordEmail = async (
 
   const { email } = validatedFields.data;
 
+  const token = formData.get("token");
+
+  if (!token || token.toString().length < 20) {
+    return {
+      message: "Please complete the Captcha challenge.",
+      success: false,
+    };
+  }
+
   try {
     const supabase = await createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      captchaToken: token.toString(),
+    });
 
     if (error) {
       console.error("Error recovering password: ", error.message);

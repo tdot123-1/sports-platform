@@ -13,11 +13,16 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { sendResetPasswordEmail, State } from "@/lib/actions/auth/actions";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import CaptchaComponent from "./captcha-component";
 
 const RecoverPassword = () => {
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+  const captcha = useRef<HCaptcha | null>(null);
+
   const initialState: State = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     sendResetPasswordEmail,
@@ -30,6 +35,7 @@ const RecoverPassword = () => {
       if (state.success) {
         toast.info("Email sent! Click the link to continue");
       }
+      captcha?.current?.resetCaptcha();
     }
   }, [pending, state]);
 
@@ -72,6 +78,21 @@ const RecoverPassword = () => {
                       </p>
                     ))}
                 </div>
+              </div>
+              <div className="mb-4 flex justify-center">
+                <CaptchaComponent
+                  captcha={captcha}
+                  setCaptchaToken={setCaptchaToken}
+                />
+                <Input
+                  className="hidden"
+                  type={`hidden`}
+                  hidden
+                  readOnly
+                  name="token"
+                  id="token"
+                  value={captchaToken}
+                />
               </div>
               <Button disabled={pending} type="submit">
                 <SendIcon /> Send
