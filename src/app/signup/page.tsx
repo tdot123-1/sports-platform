@@ -23,17 +23,19 @@ const Page = async () => {
     <>
       <section className="px-4">
         <h1 className="text-2xl font-mono text-primary mt-4">Signup</h1>
-        <div className="flex justify-center mt-14">
-          <div className="w-full md:w-1/2 lg:w-1/3">
-            <SignupForm />
-          </div>
-        </div>
-        <Separator className="my-8" />
-        {SIGNUP_ENABLED === "true" && (
+        <div className="bg-white mt-14 rounded-md p-4">
           <div className="flex justify-center">
-            <GoogleSignin />
+            <div className="w-full md:w-1/2 lg:w-1/3">
+              <SignupForm />
+            </div>
           </div>
-        )}
+          <Separator className="my-8" />
+          {SIGNUP_ENABLED === "true" && (
+            <div className="flex justify-center">
+              <GoogleSignin />
+            </div>
+          )}
+        </div>
       </section>
     </>
   );

@@ -1,6 +1,5 @@
 "use server";
 
-
 import { IMG_MAX_SIZE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -37,11 +36,13 @@ export const updateLogoUrl = async (
   }
 };
 
+// (!) NOT USED
 export type UploadFormState = {
   message: string;
   success: boolean;
 };
 
+// (!) NOT USED
 export const uploadLogo = async (
   eventId: string,
   prevState: UploadFormState,
@@ -173,6 +174,7 @@ export const insertImageUrl = async (filePath: string, eventId: string) => {
   }
 };
 
+//(!) NOT USED
 export const uploadImage = async (
   eventId: string,
   prevState: UploadFormState,
@@ -290,5 +292,62 @@ export const deleteImageFromStorage = async (
       message: "Failed to delete image, please try again",
       success: false,
     };
+  }
+};
+
+export const deleteAllImages = async (
+  eventId: string,
+  logo_filepath?: string | null
+) => {
+  try {
+    const supabase = await createClient();
+
+    const folderPath = `events/${eventId}/`;
+    const bucket = "event_images";
+
+    // delete event images
+    const { data: eventImages, error: eventImagesError } =
+      await supabase.storage.from(bucket).list(folderPath);
+
+    if (eventImagesError) {
+      console.error("Error listing event images folder: ", eventImagesError);
+      return false;
+    }
+
+    if (!eventImages || eventImages.length === 0) {
+      console.log("No images found for event.");
+      return true;
+    }
+
+    const filePaths = eventImages.map((file) => `${folderPath}${file.name}`);
+
+    const { error: deleteError } = await supabase.storage
+      .from(bucket)
+      .remove(filePaths);
+
+    if (deleteError) {
+      console.error("error deleting files: ", deleteError);
+      return false;
+    }
+
+    // delete existing logo
+    if (logo_filepath) {
+      const { error: logoDeleteError } = await supabase.storage
+        .from("event_logos")
+        .remove([logo_filepath]);
+
+      if (logoDeleteError) {
+        console.error("Error deleting logo from storage: ", logoDeleteError);
+      } else {
+        console.log("Event logo deleted");
+      }
+    }
+
+    console.log("All images deleted");
+
+    return true;
+  } catch (error) {
+    console.error("Unexpected storage error: ", error);
+    return false;
   }
 };

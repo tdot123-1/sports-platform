@@ -341,6 +341,10 @@ export const deleteUserProfile = async () => {
     if (adminError) {
       throw new Error("Admin error: failed to delete user");
     }
+
+    // get all event id's created by user
+    // delete logos 
+    // delete images
   } catch (error) {
     console.error("Failed to delete user: ", error);
     return { success: false };

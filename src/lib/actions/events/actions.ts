@@ -18,6 +18,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { convertCostToEuro } from "../exchange-rate/actions";
 import { isValidEventLink, isValidSocialLink } from "@/lib/url-validation";
+import { deleteAllImages } from "../storage/actions";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -520,11 +521,27 @@ export async function deleteEvent(eventId: string) {
   try {
     const supabase = await createClient();
 
-    const { error } = await supabase.from("events").delete().eq("id", eventId);
+    // return logo url for easy deletion
+    const { error, data } = await supabase
+      .from("events")
+      .delete()
+      .eq("id", eventId)
+      .select("event_logo_url")
+      .single();
 
     if (error) {
       console.error("Error deleting event: ", error.message);
       return { success: false, message: `Database error: ${error.message}` };
+    }
+
+    // delete images from storage
+
+    const deleteResult = await deleteAllImages(eventId, data.event_logo_url);
+
+    if (deleteResult) {
+      console.log("Deleted all images succesfully");
+    } else {
+      console.error("Error deleting images or logo");
     }
 
     revalidatePath("/events/grid");
