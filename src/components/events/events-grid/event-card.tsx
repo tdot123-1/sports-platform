@@ -23,7 +23,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-1">
             <ScrollArea className="w-full h-8 text-left">
               <CardTitle>{event.event_name}</CardTitle>
             </ScrollArea>
@@ -40,14 +40,14 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
         <CardContent>
           <ul>
             <li>
-              <h4 className="text-muted-foreground">What:</h4>
+              {/* <h4 className="text-muted-foreground">What:</h4> */}
               <p className="text-right text-sm">
                 {SportsEventTypeMap[event.event_type]}
               </p>
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">When:</h4>
+              {/* <h4 className="text-muted-foreground">When:</h4> */}
               <p className="text-right text-sm">
                 {event.start_date
                   ? format(event.start_date, "LLL dd, y")
@@ -56,7 +56,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">Where:</h4>
+              {/* <h4 className="text-muted-foreground">Where:</h4> */}
               <div>
                 <p className="text-right text-sm">
                   {formatCityName(event.address_city)}, {event.address_country}
@@ -65,7 +65,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">For:</h4>
+              {/* <h4 className="text-muted-foreground">For:</h4> */}
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>

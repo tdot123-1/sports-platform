@@ -23,7 +23,7 @@ const ViewDetailsButton = ({
   };
   return (
     <>
-      <Button size={`sm`} onClick={handleNavigation}>
+      <Button size={`sm`} className="bg-basket hover:bg-basket/60" onClick={handleNavigation}>
         <div className="flex items-center gap-1">
           <InfoIcon />
           <span>{innerText}</span>

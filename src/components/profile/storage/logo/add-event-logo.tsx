@@ -68,15 +68,6 @@ const AddEventLogo = async ({
             logoUpload
           />
           {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 1MB */}
-          {/* <UploadMediaForm
-            serverAction={uploadLogo}
-            eventId={eventId}
-            formLabel="Upload logo"
-            formInstruction="Uploading a new file will delete any existing logo for this event"
-            toastDescription="A new logo was added to your event!"
-            name="event_logo"
-            previousImgUrl={event_logo_url}
-          /> */}
         </div>
       </div>
     </>

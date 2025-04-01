@@ -37,7 +37,7 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSideBar />
-          <main className="flex-1 min-w-0">
+          <main className="flex-1 min-w-0 bg-basket bg-basket-img bg-repeat bg-opacity-45">
             <Header />
             <section className="font-sans min-h-[calc(100vh-50px)]">
               {children}

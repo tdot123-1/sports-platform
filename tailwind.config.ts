@@ -9,7 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: { "basket-img": "url('/pattern_basketball.svg')" },
       colors: {
+        basket: "hsl(var(--basket))",
         info: "hsl(var(--info))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
