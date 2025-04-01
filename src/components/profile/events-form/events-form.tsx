@@ -45,7 +45,7 @@ const EventForm = ({
 }: EventFormProps) => {
   return (
     <>
-      <form action={formAction}>
+      <form className="bg-white p-2 rounded-md" action={formAction}>
         <div>
           <h3 className="text-lg font-semibold font-mono">Event info</h3>
           <p className="text-muted-foreground text-sm">
@@ -447,7 +447,11 @@ const EventForm = ({
               </div>
             </Link>
           </Button>
-          <Button type="submit" disabled={pending}>
+          <Button
+            className="bg-basket hover:bg-basket/60"
+            type="submit"
+            disabled={pending}
+          >
             {event ? (
               <div className="flex justify-start items-center gap-1">
                 <SaveIcon />

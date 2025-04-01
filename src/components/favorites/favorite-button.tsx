@@ -45,7 +45,11 @@ const FavoriteButton = ({ eventId }: { eventId: string }) => {
 
   return (
     <>
-      <Button onClick={toggleFavorite}>
+      <Button
+        className="bg-basket hover:bg-basket/60"
+        type={`button`}
+        onClick={toggleFavorite}
+      >
         {isFavorite ? (
           <>
             <HeartOffIcon />

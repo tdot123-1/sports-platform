@@ -112,7 +112,12 @@ const LinksInput = ({
           type={`url`}
           maxLength={2048}
         />
-        <Button disabled={pending} onClick={handleSubmit} type="button">
+        <Button
+          className="bg-basket hover:bg-basket/60"
+          disabled={pending}
+          onClick={handleSubmit}
+          type="button"
+        >
           Add link
         </Button>
       </div>

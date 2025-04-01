@@ -27,7 +27,7 @@ const Page = async () => {
     <>
       <section className="px-4">
         <h1 className="text-2xl font-mono text-primary mt-4">My Profile</h1>
-        <p className="mt-6">
+        <p className="mt-6 bg-white/70 p-1 rounded-md w-fit">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
             {/* first check metadata to get correct email, else check user.email */}
@@ -39,8 +39,8 @@ const Page = async () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-          <article className="border border-muted shadow-md rounded-md p-4">
-            <h2 className="text-xl font-mono text-primary">My Events</h2>
+          <article className="bg-primary border border-muted shadow-md rounded-md p-4">
+            <h2 className="text-xl font-mono text-basket">My Events</h2>
             <p className="text-sm text-muted-foreground my-4">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
               rem porro assumenda ad adipisci ullam iusto vitae, dolor ipsa
@@ -55,8 +55,8 @@ const Page = async () => {
               </Button>
             </Link>
           </article>
-          <article className="border border-muted shadow-md rounded-md p-4">
-            <h2 className="text-xl font-mono text-primary">Create Event</h2>
+          <article className="bg-primary border border-muted shadow-md rounded-md p-4">
+            <h2 className="text-xl font-mono text-basket">Create Event</h2>
             <p className="text-sm text-muted-foreground my-4">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
               rem porro assumenda ad adipisci ullam iusto vitae, dolor ipsa

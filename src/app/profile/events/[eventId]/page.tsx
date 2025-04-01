@@ -35,7 +35,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
         <div className="mx-auto py-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <div className="flex justify-between items-start pb-4">
             <Link href={`/profile/events/${eventId}/edit`}>
-              <Button>
+              <Button className="bg-basket hover:bg-basket/60">
                 <div className="flex justify-start items-start gap-1">
                   <EditIcon />
                   <span className="hidden md:block">Edit</span>

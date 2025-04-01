@@ -15,27 +15,22 @@ const EventCardSkeleton = () => {
         <CardContent>
           <ul>
             <li>
-              <h4 className="text-muted-foreground">What:</h4>
               <div className="flex justify-end">
                 <Skeleton className="w-20 h-5" />
               </div>
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">When:</h4>
               <div className="flex justify-end">
                 <Skeleton className="w-20 h-5" />
               </div>
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">Where:</h4>
-
               <Skeleton className="ml-auto w-9/12 h-5" />
             </li>
             <Separator className="my-1" />
             <li>
-              <h4 className="text-muted-foreground">For:</h4>
               <div>
                 <div className="flex justify-between">
                   <p className="text-sm">Age(s)</p>

@@ -252,7 +252,7 @@ const EventsMap = ({
                   onClick={() => handleSelectPin(e.address_city)}
                 >
                   <Pin
-                    background={"hsl(var(--primary))"}
+                    background={"hsl(var(--basket))"}
                     glyph={createSvgGlyph()}
                   />
                 </AdvancedMarker>

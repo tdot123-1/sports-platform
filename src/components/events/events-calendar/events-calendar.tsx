@@ -31,7 +31,7 @@ const localizer = dateFnsLocalizer({
 const eventStyleGetter = () => {
   return {
     style: {
-      backgroundColor: `hsl(var(--primary))`,
+      backgroundColor: `hsl(var(--basket))`,
       fontSize: "0.9rem",
       // color: "white",
       // borderRadius: "6px",
@@ -127,7 +127,12 @@ const EventsCalendar = ({
         endAccessor="end"
         defaultView="month"
         views={["month"]}
-        style={{ height: "100%", width: "100%" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          backgroundColor: "ghostwhite",
+          padding: "10px",
+        }}
         onNavigate={handleNavigate}
         eventPropGetter={eventStyleGetter}
         selectable

@@ -14,9 +14,9 @@ const AddEventLogo = async ({
 }) => {
   return (
     <>
-      <div className="border rounded-md shadow-md p-6 w-full max-w-screen-lg">
+      <div className="bg-primary border rounded-md shadow-md p-6 w-full max-w-screen-lg">
         <div>
-          <h3 className="font-mono text-primary text-lg">Event logo</h3>
+          <h3 className="font-mono text-basket text-lg">Event logo</h3>
           <Separator />
           <p className="text-sm text-muted-foreground italic">
             Add a logo to your event.

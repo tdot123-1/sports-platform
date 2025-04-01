@@ -79,13 +79,13 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
           </>
         ) : (
           <>
-            <div className="flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-12 shadow-md">
+            <div className="bg-primary flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-12 shadow-md">
               <h3 className="text-lg font-mono">No favorites added yet!</h3>
               <p className="text-sm">
                 Click the ❤️ heart button to add an event to your favorites.
               </p>
               <Link href={`/events/grid`}>
-                <Button variant={`default`}>
+                <Button className="bg-basket hover:bg-basket/60" variant={`default`}>
                   <span>To events</span>
                   <ArrowRightIcon />
                 </Button>

@@ -57,7 +57,7 @@ const EventsTable = async ({
 
   return (
     <>
-      <Table className="my-6">
+      <Table className="my-6 bg-primary rounded-md">
         <TableCaption>All events.</TableCaption>
         <TableHeader>
           <TableRow>

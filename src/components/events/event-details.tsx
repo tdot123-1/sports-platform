@@ -53,13 +53,13 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   return (
     <>
-      <div className="p-6 border rounded-md shadow-md">
+      <div className="bg-primary p-6 border rounded-md shadow-md">
         <h3 className="text-center text-lg font-semibold font-mono">
           {event.event_name}
         </h3>
         <ul>
           <li className="py-2">
-            <h4 className="text-primary italic font-medium ">
+            <h4 className="text-basket italic font-medium ">
               About the event
             </h4>
             <div className="text-sm my-1">
@@ -85,7 +85,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li className="py-2">
-            <h4 className="text-primary italic font-medium">Who is it for</h4>
+            <h4 className="text-basket italic font-medium">Who is it for</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
@@ -129,7 +129,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li className="py-2">
-            <h4 className="text-primary italic font-medium">When and where</h4>
+            <h4 className="text-basket italic font-medium">When and where</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">
@@ -161,7 +161,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li className="py-2">
-            <h4 className="text-primary italic font-medium">Pricing info</h4>
+            <h4 className="text-basket italic font-medium">Pricing info</h4>
             <div className="text-sm my-1">
               <div className="flex justify-between">
                 <div className="flex justify-start items-center gap-1">

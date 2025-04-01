@@ -159,7 +159,7 @@ const UploadCompressMedia = ({
           {error && <p className="text-sm text-destructive mt-1">{error}</p>}
         </div>
 
-        <Button disabled={isLoading} type={`submit`}>
+        <Button className="bg-basket hover:bg-basket/60" disabled={isLoading} type={`submit`}>
           <div className="flex justify-start items-start gap-1">
             <UploadIcon />
             <span className="hidden md:block">Upload</span>
