@@ -18,7 +18,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { convertCostToEuro } from "../exchange-rate/actions";
 import { isValidEventLink, isValidSocialLink } from "@/lib/url-validation";
-import { deleteAllImages } from "../storage/actions";
+import { deleteAllImagesForEvent } from "../storage/actions";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -535,8 +535,10 @@ export async function deleteEvent(eventId: string) {
     }
 
     // delete images from storage
-
-    const deleteResult = await deleteAllImages(eventId, data.event_logo_url);
+    const deleteResult = await deleteAllImagesForEvent(
+      eventId,
+      data.event_logo_url
+    );
 
     if (deleteResult) {
       console.log("Deleted all images succesfully");

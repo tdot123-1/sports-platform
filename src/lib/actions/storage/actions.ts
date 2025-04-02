@@ -295,6 +295,7 @@ export const deleteImageFromStorage = async (
   }
 };
 
+// (!) NOT USED
 export const deleteAllImages = async (
   eventId: string,
   logo_filepath?: string | null
@@ -350,4 +351,78 @@ export const deleteAllImages = async (
     console.error("Unexpected storage error: ", error);
     return false;
   }
+};
+
+// delete all storage files when an event is deleted
+export const deleteAllImagesForEvent = async (
+  eventId: string,
+  logo_filepath?: string | null
+) => {
+  // set bucket names in var (in case the name changes at some point)
+  const imagesBucket = "event_images";
+  const logosBucket = "event_logos";
+
+  try {
+    const supabase = await createClient();
+
+    // query db images table to get all file paths related to event
+    const { data: images, error: imagesError } = await supabase
+      .from("event_images")
+      .select("image_url")
+      .eq("event_id", eventId);
+
+    // check for db error
+    if (imagesError) {
+      console.error("Error getting images from db: ", imagesError);
+      return false;
+    }
+
+    // check if any images were found
+    if (!images || images.length === 0) {
+      console.log("No images found for this event");
+      return true;
+    }
+
+    // get array of filepaths
+    const filePaths = images.map((img) => img.image_url);
+
+    // delete files from storage
+    const { error: deleteImgError } = await supabase.storage
+      .from(imagesBucket)
+      .remove(filePaths);
+
+    // check for storage error
+    if (deleteImgError) {
+      console.error("Error deleting images from storage: ", deleteImgError);
+      return false;
+    } else {
+      console.log("Event images deleted");
+    }
+
+    // delete existing logo
+    if (logo_filepath) {
+      const { error: logoDeleteError } = await supabase.storage
+        .from(logosBucket)
+        .remove([logo_filepath]);
+
+      if (logoDeleteError) {
+        console.error("Error deleting logo from storage: ", logoDeleteError);
+        return false;
+      } else {
+        console.log("Event logo deleted");
+      }
+    }
+
+    console.log("All storage files for event deleted");
+
+    return true;
+  } catch (error) {
+    console.error("Unexpected storage error: ", error);
+    return false;
+  }
+};
+
+// delete all storage files uploaded by user when profile is deleted
+export const deleteAllImagesForUser = async () => {
+
 };

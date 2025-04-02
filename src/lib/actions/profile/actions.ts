@@ -325,6 +325,9 @@ export const deleteUserProfile = async () => {
       throw new Error("User error: could not return current user");
     }
 
+    // get id's of all events created by user
+    // delete all files from storage with event id's
+
     // logout current user before deletion
     const { error: authError } = await supabase.auth.signOut();
 
