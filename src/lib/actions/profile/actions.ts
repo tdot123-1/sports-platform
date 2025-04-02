@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { deleteAllImagesForUser } from "../storage/actions";
 
 const UpdateEmailSchema = z.object({
   newEmail: z
@@ -325,8 +326,12 @@ export const deleteUserProfile = async () => {
       throw new Error("User error: could not return current user");
     }
 
-    // get id's of all events created by user
-    // delete all files from storage with event id's
+    // delete storage files before deleting rows in db
+    const storageDeleteResult = await deleteAllImagesForUser(data.user.id);
+
+    if (!storageDeleteResult) {
+      throw new Error("Storage error: failed to delete images");
+    }
 
     // logout current user before deletion
     const { error: authError } = await supabase.auth.signOut();
@@ -341,13 +346,11 @@ export const deleteUserProfile = async () => {
       data.user.id
     );
 
+    // deleting user will automatically delete created events from db
+
     if (adminError) {
       throw new Error("Admin error: failed to delete user");
     }
-
-    // get all event id's created by user
-    // delete logos 
-    // delete images
   } catch (error) {
     console.error("Failed to delete user: ", error);
     return { success: false };

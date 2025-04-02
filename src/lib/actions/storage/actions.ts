@@ -4,6 +4,10 @@ import { IMG_MAX_SIZE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
+// set bucket names in vars (in case the name changes at some point)
+const imagesBucket = "event_images";
+const logosBucket = "event_logos";
+
 export const updateLogoUrl = async (
   eventId: string,
   filePath: string | null
@@ -115,7 +119,7 @@ export const deleteLogoFromStorage = async (
     const supabase = await createClient();
 
     // delete existing logo
-    await supabase.storage.from("event_logos").remove([filePath]);
+    await supabase.storage.from(logosBucket).remove([filePath]);
 
     const result = await updateLogoUrl(eventId, null);
 
@@ -275,8 +279,8 @@ export const deleteImageFromStorage = async (
   try {
     const supabase = await createClient();
 
-    // delete existing logo
-    await supabase.storage.from("event_images").remove([filePath]);
+    // delete image from storage
+    await supabase.storage.from(imagesBucket).remove([filePath]);
 
     const result = await deleteImageUrl(filePath, eventId);
 
@@ -358,10 +362,6 @@ export const deleteAllImagesForEvent = async (
   eventId: string,
   logo_filepath?: string | null
 ) => {
-  // set bucket names in var (in case the name changes at some point)
-  const imagesBucket = "event_images";
-  const logosBucket = "event_logos";
-
   try {
     const supabase = await createClient();
 
@@ -423,6 +423,80 @@ export const deleteAllImagesForEvent = async (
 };
 
 // delete all storage files uploaded by user when profile is deleted
-export const deleteAllImagesForUser = async () => {
+export const deleteAllImagesForUser = async (userId: string) => {
+  try {
+    const supabase = await createClient();
 
+    // query db images table to get all file paths uploaded by user
+    const { data: images, error: imagesError } = await supabase
+      .from("event_images")
+      .select("image_url")
+      .eq("user_id", userId);
+
+    // check for db error
+    if (imagesError) {
+      console.error("Error getting images from db: ", imagesError);
+      return false;
+    }
+
+    // check if any images were found
+    if (!images || images.length === 0) {
+      console.log("No images found for this user");
+    } else {
+      // get array of filepaths
+      const filePaths = images.map((img) => img.image_url);
+
+      // delete files from storage
+      const { error: deleteImgError } = await supabase.storage
+        .from(imagesBucket)
+        .remove(filePaths);
+
+      // check for storage error
+      if (deleteImgError) {
+        console.error("Error deleting images from storage: ", deleteImgError);
+        return false;
+      } else {
+        console.log("Event images deleted");
+      }
+    }
+
+    // query db events table to get all file paths of logos uploaded by user
+    const { data: logos, error: logosError } = await supabase
+      .from("events")
+      .select("event_logo_url")
+      .eq("user_id", userId);
+
+    // check for db error
+    if (logosError) {
+      console.error("Error getting logos from db: ", logosError);
+      return false;
+    }
+
+    // check if any logos were found
+    if (!logos || logos.length === 0) {
+      console.log("No logos found for this event");
+    } else {
+      // get array of filepaths
+      const logoFilePaths = logos.map((img) => img.event_logo_url);
+
+      // delete files from storage
+      const { error: deleteLogoError } = await supabase.storage
+        .from(logosBucket)
+        .remove(logoFilePaths);
+
+      // check for storage error
+      if (deleteLogoError) {
+        console.error("Error deleting logos from storage: ", deleteLogoError);
+        return false;
+      } else {
+        console.log("Event logos deleted");
+      }
+    }
+
+    console.log("All user uploaded files deleted");
+    return true;
+  } catch (error) {
+    console.error("Unexpected storage error: ", error);
+    return false;
+  }
 };
