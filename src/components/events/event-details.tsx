@@ -1,5 +1,6 @@
 import { fetchOneEvent } from "@/lib/data/events/data";
 import {
+  EventStatusMap,
   SportsEvent,
   SportsEventTypeMap,
   TargetAgeGroupMap,
@@ -59,12 +60,10 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
         </h3>
         <ul>
           <li className="py-2">
-            <h4 className="text-basket italic font-medium ">
-              About the event
-            </h4>
-            <div className="text-sm my-1">
+            <h4 className="text-basket italic font-medium ">About the event</h4>
+            <div className="text-sm my-2">
               <p>{SportsEventTypeMap[event.event_type]}</p>
-              <ScrollArea className="h-28">
+              <ScrollArea className="h-28 mt-2">
                 {event.event_description ? (
                   <p className="mt-1">{event.event_description}</p>
                 ) : (
@@ -73,6 +72,10 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   </p>
                 )}
               </ScrollArea>
+            </div>
+            <div className="flex gap-2 text-sm">
+              <p className="font-semibold">Status:</p>
+              <p>{EventStatusMap[event.event_status]}</p>
             </div>
           </li>
           <li className="py-2">
