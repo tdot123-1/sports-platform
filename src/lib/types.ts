@@ -74,6 +74,21 @@ export const TargetAgeGroupKeys = Object.keys(TargetAgeGroupMap) as Array<
   keyof typeof TargetAgeGroupMap
 >;
 
+export const EventStatusMap = {
+  open: "signup open",
+  closed: "signup closed",
+  wait: "waitlist",
+  tba: "TBA",
+} as const;
+
+export const EventStatusArray = Object.values(EventStatusMap);
+
+export type EventStatus = keyof typeof EventStatusMap;
+
+export const EventStatusKeys = Object.keys(EventStatusMap) as Array<
+  keyof typeof EventStatusMap
+>;
+
 export interface EventImage {
   image_url: string;
 }
@@ -89,6 +104,7 @@ export interface SportsEvent {
   event_name: string;
   event_type: SportsEventType;
   event_description: string | null;
+  event_status: EventStatus;
 
   // target
   target_age: TargetAgeGroup[];

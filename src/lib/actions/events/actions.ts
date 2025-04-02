@@ -3,6 +3,9 @@
 import { validCountryCodes, validCurrencyCodes } from "@/lib/countries";
 import { createClient } from "@/lib/supabase/server";
 import {
+  EventStatusArray,
+  EventStatusKeys,
+  EventStatusMap,
   SportsEventTypeKeys,
   SportsEventTypeMap,
   TargetAgeGroupKeys,
@@ -32,7 +35,7 @@ const FormSchema = z.object({
     .max(254, { message: "Maximum characters exceeded" }),
   event_type: z.enum(SportsEventTypeKeys as [keyof typeof SportsEventTypeMap], {
     invalid_type_error: "Please select an event type",
-    message: "Please select from the available events",
+    message: "Please select from the available event types",
   }),
   event_description: z
     .string({
@@ -41,6 +44,10 @@ const FormSchema = z.object({
     .trim()
     .max(2000, { message: "Maximum characters exceeded" })
     .nullable(),
+  event_status: z.enum(EventStatusKeys as [keyof typeof EventStatusMap], {
+    invalid_type_error: "Please select an event status",
+    message: "Please select from the available status options",
+  }),
 
   target_age: z
     .array(z.enum(TargetAgeGroupKeys as [keyof typeof TargetAgeGroupMap]), {
@@ -212,6 +219,7 @@ export type State = {
     event_name?: string[];
     event_type?: string[];
     event_description?: string[];
+    event_status?: string[];
 
     target_age?: string[];
     target_level?: string[];
@@ -267,6 +275,7 @@ export async function createEvent(prevState: State, formData: FormData) {
     event_name,
     event_type,
     event_description,
+    event_status,
 
     target_age,
     target_level,
@@ -335,6 +344,7 @@ export async function createEvent(prevState: State, formData: FormData) {
         event_name,
         event_type,
         event_description,
+        event_status,
 
         target_age,
         target_level,
@@ -416,6 +426,7 @@ export async function updateEvent(
     event_name,
     event_type,
     event_description,
+    event_status,
 
     target_age,
     target_level,
@@ -468,6 +479,7 @@ export async function updateEvent(
         event_name,
         event_type,
         event_description,
+        event_status,
 
         target_age,
         target_level,

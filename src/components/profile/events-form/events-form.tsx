@@ -3,6 +3,7 @@
 import { State } from "@/lib/actions/events/actions";
 import {
   Country,
+  EventStatusMap,
   SportsEvent,
   SportsEventTypeMap,
   TargetGenderMap,
@@ -150,6 +151,40 @@ const EventForm = ({
               ))}
             {state.errors?.end_date &&
               state.errors.end_date.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <Label htmlFor="event_status">
+            Event Status <span className="text-destructive">*</span>
+          </Label>
+          <p className="text-xs italic">
+            Select the current status of your event.
+          </p>
+          <Select
+            disabled={pending}
+            name="event_status"
+            defaultValue={event ? event.event_status : undefined}
+            required
+          >
+            <SelectTrigger id="event_status">
+              <SelectValue aria-describedby="event_status-error" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(EventStatusMap).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div id="event_status-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.event_status &&
+              state.errors.event_status.map((error) => (
                 <p className="text-sm mt-2 text-destructive italic" key={error}>
                   {error}
                 </p>
