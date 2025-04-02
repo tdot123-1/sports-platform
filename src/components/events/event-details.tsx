@@ -13,6 +13,7 @@ import {
   CalendarX2Icon,
   ExternalLinkIcon,
   HandCoinsIcon,
+  InfoIcon,
   LinkIcon,
   MailIcon,
   MapPinIcon,
@@ -74,7 +75,11 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               </ScrollArea>
             </div>
             <div className="flex gap-2 text-sm">
-              <p className="font-semibold">Status:</p>
+              <div className="flex justify-start items-center gap-1">
+                <InfoIcon size={18} />
+                <h5 className="font-semibold">Status:</h5>
+              </div>
+
               <p>{EventStatusMap[event.event_status]}</p>
             </div>
           </li>
