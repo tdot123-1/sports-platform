@@ -12,9 +12,13 @@ export const fetchAllEvents = async (
   searchQuery?: string,
   filter?: FilterOptions,
   sort?: SortOptions,
-  priceFilter?: number
+  priceFilter?: number,
+  passedEventsFilter?: boolean
 ) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const today = new Date().toISOString().split("T")[0];
+
   try {
     const supabase = await createClient();
 
@@ -22,6 +26,10 @@ export const fetchAllEvents = async (
 
     if (userId) {
       query = query.eq("user_id", userId);
+    }
+
+    if (!passedEventsFilter) {
+      query = query.or("start_date.is.null,start_date.gte." + today);
     }
 
     if (filter) {

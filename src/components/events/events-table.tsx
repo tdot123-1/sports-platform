@@ -29,6 +29,7 @@ interface EventsTableProps {
   filter?: FilterOptions;
   sort?: SortOptions;
   priceFilter?: number;
+  passedEventsFilter?: boolean;
 }
 
 const EventsTable = async ({
@@ -38,6 +39,7 @@ const EventsTable = async ({
   filter,
   sort,
   priceFilter,
+  passedEventsFilter
 }: EventsTableProps) => {
   // test skeleton
   //   await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -48,7 +50,8 @@ const EventsTable = async ({
     searchQuery,
     filter,
     sort,
-    priceFilter
+    priceFilter,
+    passedEventsFilter
   );
 
   const events: SportsEvent[] = await Promise.all(
@@ -57,7 +60,7 @@ const EventsTable = async ({
 
   return (
     <>
-      <Table className="my-6 bg-primary rounded-md">
+      <Table className="my-6 bg-white rounded-md">
         <TableCaption>All events.</TableCaption>
         <TableHeader>
           <TableRow>

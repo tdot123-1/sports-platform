@@ -69,6 +69,7 @@ const Page = async (props: {
             sort={sort}
             searchQuery={query}
             priceFilter={priceFilter}
+            passedEventsFilter={passedEventsFilter}
           />
         </Suspense>
         <div className="w-fit mx-auto py-6">

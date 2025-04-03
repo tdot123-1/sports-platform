@@ -13,6 +13,7 @@ interface EventsListProps {
   filter?: FilterOptions;
   sort?: SortOptions;
   priceFilter?: number;
+  passedEventsFilter?: boolean;
 }
 
 const EventsList = async ({
@@ -22,6 +23,7 @@ const EventsList = async ({
   filter,
   sort,
   priceFilter,
+  passedEventsFilter,
 }: EventsListProps) => {
   // test skeleton
   // await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -32,7 +34,8 @@ const EventsList = async ({
     searchQuery,
     filter,
     sort,
-    priceFilter
+    priceFilter,
+    passedEventsFilter
   );
 
   // convert Dates and get public logo url
