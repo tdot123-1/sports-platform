@@ -55,7 +55,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   return (
     <>
-      <div className="bg-primary p-6 border rounded-md shadow-md">
+      <div className="bg-white p-6 border rounded-md shadow-md">
         <h3 className="text-center text-lg font-semibold font-mono">
           {event.event_name}
         </h3>
@@ -201,7 +201,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
           </li>
 
           <li className="py-2">
-            <h4 className="text-primary italic font-medium">
+            <h4 className="text-basket italic font-medium">
               How to get in touch
             </h4>
             <div className="text-sm my-1">
