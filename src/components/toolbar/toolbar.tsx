@@ -15,9 +15,15 @@ interface ToolbarProps {
   filter?: FilterOptions;
   sort?: SortOptions;
   priceFilter?: number;
+  passedEventsFilter?: boolean;
 }
 
-const Toolbar = async ({ filter, sort, priceFilter }: ToolbarProps) => {
+const Toolbar = async ({
+  filter,
+  sort,
+  priceFilter,
+  passedEventsFilter,
+}: ToolbarProps) => {
   const maxCostEstimate = await fetchMaxCostEstimate();
 
   return (
@@ -39,7 +45,9 @@ const Toolbar = async ({ filter, sort, priceFilter }: ToolbarProps) => {
               filter={filter}
               priceFilter={priceFilter}
               maxPrice={maxCostEstimate}
+              passedEventsFilter={passedEventsFilter}
             />
+
             <ToolbarSearch />
             <ToolbarSort sort={sort} />
           </div>

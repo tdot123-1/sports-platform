@@ -37,6 +37,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import FilterPrice from "./filter-price";
 import { constructFilterOptions, createSearchParams } from "@/lib/filters";
+import FilterPassedEvents from "./filter-passed-events";
 
 // const MAX_PRICE = 1000;
 
@@ -45,11 +46,13 @@ const ToolbarFilter = ({
   priceFilter,
   maxPrice,
   batch,
+  passedEventsFilter,
 }: {
   filter?: FilterOptions;
   priceFilter?: number;
   maxPrice: number;
   batch?: boolean;
+  passedEventsFilter?: boolean;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -238,6 +241,13 @@ const ToolbarFilter = ({
         <DropdownMenuContent className="max-w-36">
           <DropdownMenuLabel>Apply Filters</DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <FilterPassedEvents
+            passedEventsFilter={passedEventsFilter}
+            pathname={pathname}
+            replace={replace}
+            searchParams={searchParams}
+            batch={batch}
+          />
           {AllFilters.map((sub) => (
             <DropdownMenuSub key={`${sub.trigger}`}>
               <div className="inline-flex w-full">
@@ -288,6 +298,7 @@ const ToolbarFilter = ({
             maxPrice={maxPrice}
             batch={batch}
           />
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={
               !hasFilters(levelFilter) &&

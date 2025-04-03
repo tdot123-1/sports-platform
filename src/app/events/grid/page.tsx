@@ -23,6 +23,7 @@ const Page = async (props: {
     ta?: string;
     tl?: string;
     es?: string;
+    pe?: string;
     sort?: string;
     order?: string;
     price?: string;
@@ -49,12 +50,18 @@ const Page = async (props: {
   const priceFilter =
     Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
 
+  const passedEventsFilter = searchParams?.pe === "true" ? true : false;
   // throw new Error("test");
 
   return (
     <>
       <Suspense fallback={<Skeleton className="w-full h-12" />}>
-        <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
+        <Toolbar
+          filter={filter}
+          sort={sort}
+          priceFilter={priceFilter}
+          passedEventsFilter={passedEventsFilter}
+        />
       </Suspense>
 
       <section className="px-4">

@@ -21,7 +21,10 @@ body {
     /* --primary: 22 91% 54%; */
 
     /* test -> white */
-    --primary: 55 35% 91%;
+    /* --primary: 55 35% 91%; */
+
+    /* test -> dark blue*/
+    --primary: 242 82% 22%;
     
     --info: 237 78% 66%;
     --basket: 33 100% 50%;
