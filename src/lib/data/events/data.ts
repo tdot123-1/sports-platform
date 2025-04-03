@@ -122,8 +122,10 @@ export const fetchEventsPages = async (
   userId?: string,
   searchQuery?: string,
   filter?: FilterOptions,
-  priceFilter?: number
+  priceFilter?: number,
+  passedEventsFilter?: boolean
 ) => {
+  const today = new Date().toISOString().split("T")[0];
   try {
     const supabase = await createClient();
     let query = supabase
@@ -132,6 +134,10 @@ export const fetchEventsPages = async (
 
     if (userId) {
       query = query.eq("user_id", userId);
+    }
+
+    if (!passedEventsFilter) {
+      query = query.or("start_date.is.null,start_date.gte." + today);
     }
 
     if (filter) {

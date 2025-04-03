@@ -81,6 +81,7 @@ const Page = async (props: {
               query={query}
               filter={filter}
               priceFilter={priceFilter}
+              passedEventsFilter={passedEventsFilter}
             />
           </Suspense>
         </div>

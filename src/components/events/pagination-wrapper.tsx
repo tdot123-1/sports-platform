@@ -7,14 +7,22 @@ const PaginationWrapper = async ({
   userId,
   filter,
   priceFilter,
+  passedEventsFilter,
 }: {
   query: string;
   userId?: string;
   filter?: FilterOptions;
   priceFilter?: number;
+  passedEventsFilter?: boolean;
 }) => {
   // fetch total pages
-  const totalPages = await fetchEventsPages(userId, query, filter, priceFilter);
+  const totalPages = await fetchEventsPages(
+    userId,
+    query,
+    filter,
+    priceFilter,
+    passedEventsFilter
+  );
 
   return (
     <>
