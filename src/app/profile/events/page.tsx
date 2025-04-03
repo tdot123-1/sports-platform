@@ -3,9 +3,10 @@ import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { parseFilters, parseSortOptions } from "@/lib/filters";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SortOptions } from "@/lib/types";
-import { parseFilters, parseSortOptions } from "@/lib/utils";
+
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -22,6 +23,8 @@ const Page = async (props: {
     tg?: string;
     ta?: string;
     tl?: string;
+    es?: string;
+    pe?: string;
     sort?: string;
     order?: string;
     price?: string;
@@ -55,9 +58,16 @@ const Page = async (props: {
   const priceFilter =
     Number(searchParams?.price) > 0 ? Number(searchParams?.price) : undefined;
 
+  const passedEventsFilter = searchParams?.pe === "true" ? true : false;
+
   return (
     <>
-      <Toolbar filter={filter} sort={sort} priceFilter={priceFilter} />
+      <Toolbar
+        filter={filter}
+        sort={sort}
+        priceFilter={priceFilter}
+        passedEventsFilter={passedEventsFilter}
+      />
       <section className="px-4">
         <h1 className="text-2xl font-mono text-primary my-4">My Events</h1>
         <Suspense fallback={<EventsListSkeleton />}>
@@ -77,6 +87,7 @@ const Page = async (props: {
               userId={data.user.id}
               filter={filter}
               priceFilter={priceFilter}
+              passedEventsFilter={passedEventsFilter}
             />
           </Suspense>
         </div>
