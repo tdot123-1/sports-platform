@@ -1,7 +1,8 @@
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
 import CalendarSkeleton from "@/components/skeletons/calendar-skeleton";
+import { parseFilters } from "@/lib/filters";
 import { FilterOptions } from "@/lib/types";
-import { parseFilters } from "@/lib/utils";
+
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -19,6 +20,7 @@ const Page = async (props: {
     tg?: string;
     ta?: string;
     tl?: string;
+    es?: string;
   }>;
 }) => {
   const searchParams = await props.searchParams;

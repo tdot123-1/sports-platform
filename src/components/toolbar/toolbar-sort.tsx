@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { SortByKey, SortOptions, SortOptionsMap } from "@/lib/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { createSearchParams } from "@/lib/utils";
+import { createSearchParams } from "@/lib/filters";
 
 const ToolbarSort = ({ sort }: { sort?: SortOptions }) => {
   const searchParams = useSearchParams();

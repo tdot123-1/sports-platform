@@ -3,8 +3,9 @@ import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsTableSkeleton from "@/components/skeletons/events-table-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { parseFilters, parseSortOptions } from "@/lib/filters";
 import { FilterOptions, SortOptions } from "@/lib/types";
-import { parseFilters, parseSortOptions } from "@/lib/utils";
+
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -20,6 +21,7 @@ const Page = async (props: {
     tg?: string;
     ta?: string;
     tl?: string;
+    es?: string;
     sort?: string;
     order?: string;
     price?: string;

@@ -1,9 +1,10 @@
 "use server";
 
 import { ITEMS_PER_MONTH, ITEMS_PER_PAGE } from "@/lib/constants";
+import { applyQueryFilters } from "@/lib/filters";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SortOptions, SportsEvent } from "@/lib/types";
-import { applyQueryFilters, convertFetchedEvent } from "@/lib/utils";
+import { convertFetchedEvent } from "@/lib/utils";
 
 export const fetchAllEvents = async (
   currentPage: number = 1,
@@ -277,7 +278,6 @@ export const fetchEventsBatches = async (
 };
 
 export const fetchFavoriteEvents = async (eventIds: string[]) => {
-
   if (!eventIds.length) {
     console.error("No event ids provided");
     throw new Error("No event ids provided");

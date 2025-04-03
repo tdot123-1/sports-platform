@@ -145,6 +145,7 @@ export interface FilterOptions {
   target_gender?: TargetGender[];
   target_age?: TargetAgeGroup[];
   target_level?: TargetLevel[];
+  event_status?: EventStatus[];
 }
 
 export const SortOptionsMap = {
@@ -169,6 +170,7 @@ export const FilterKeyMap = {
   target_gender: "tg",
   target_age: "ta",
   target_level: "tl",
+  event_status: "es",
 } as const;
 
 export interface Country {

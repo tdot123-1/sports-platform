@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  EventStatus,
+  EventStatusKeys,
+  EventStatusMap,
   FilterOptions,
   SportsEventType,
   SportsEventTypeKeys,
@@ -32,8 +35,8 @@ import { Button } from "../ui/button";
 import { CircleXIcon, FilterIcon, FilterXIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { constructFilterOptions, createSearchParams } from "@/lib/utils";
 import FilterPrice from "./filter-price";
+import { constructFilterOptions, createSearchParams } from "@/lib/filters";
 
 // const MAX_PRICE = 1000;
 
@@ -86,10 +89,15 @@ const ToolbarFilter = ({
   const [ageFilter, setAgeFilter] = useState<{
     [key in TargetAgeGroup]: boolean;
   }>(initializeFilterState(TargetAgeGroupKeys, filter?.target_age));
-  
+
   const [levelFilter, setLevelFilter] = useState<{
     [key in TargetLevel]: boolean;
   }>(initializeFilterState(TargetLevelKeys, filter?.target_level));
+
+  // new status filter
+  const [statusFilter, setStatusFilter] = useState<{
+    [key in EventStatus]: boolean;
+  }>(initializeFilterState(EventStatusKeys, filter?.event_status));
 
   const handleChangeFilter = (
     value: string,
@@ -120,6 +128,10 @@ const ToolbarFilter = ({
       (key) => key as TargetLevel
     );
 
+    newFilter.event_status = constructFilterOptions(statusFilter).map(
+      (key) => key as EventStatus
+    );
+
     const priceFilter = { filter: priceRange[0], max: maxPrice };
 
     // construct new url with filters
@@ -144,7 +156,14 @@ const ToolbarFilter = ({
     if (newParams.toString() !== params.toString()) {
       replace(newUrl);
     }
-  }, [typeFilter, genderFilter, ageFilter, levelFilter, deletePriceRange]);
+  }, [
+    typeFilter,
+    genderFilter,
+    ageFilter,
+    levelFilter,
+    statusFilter,
+    deletePriceRange,
+  ]);
 
   // check if category has any filters applied
   const hasFilters = (filter: any) => {
@@ -168,6 +187,7 @@ const ToolbarFilter = ({
     removeFilters(setAgeFilter);
     removeFilters(setGenderFilter);
     removeFilters(setTypeFilter);
+    removeFilters(setStatusFilter);
     removePriceFilter();
   };
 
@@ -195,6 +215,12 @@ const ToolbarFilter = ({
       options: TargetLevelMap,
       state: levelFilter,
       setter: setLevelFilter,
+    },
+    {
+      trigger: "Status",
+      options: EventStatusMap,
+      state: statusFilter,
+      setter: setStatusFilter,
     },
   ];
 
@@ -243,9 +269,6 @@ const ToolbarFilter = ({
                           e.preventDefault();
                           handleChangeFilter(k, sub.setter);
                         }}
-                        // onCheckedChange={() =>
-                        //   handleChangeFilter(k, sub.setter)
-                        // }
                       >
                         {v}
                       </DropdownMenuCheckboxItem>
@@ -271,6 +294,7 @@ const ToolbarFilter = ({
               !hasFilters(genderFilter) &&
               !hasFilters(ageFilter) &&
               !hasFilters(typeFilter) &&
+              !hasFilters(statusFilter) &&
               priceRange[0] === maxPrice
             }
             className="cursor-pointer"
