@@ -19,7 +19,7 @@ const AddEventImage = async ({
 
   return (
     <>
-      <div className="bg-primary border rounded-md shadow-md p-6 w-full max-w-screen-lg">
+      <div className="bg-white border rounded-md shadow-md p-6 w-full max-w-screen-lg">
         <div>
           <h3 className="font-mono text-basket text-lg">Event images</h3>
           <Separator />

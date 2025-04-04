@@ -159,6 +159,9 @@ export const formatRawFormData = (formData: FormData) => {
     contact_phone: getOptional("contact_phone"),
     event_link: getOptional("event_link"),
 
+    contact_email: getOptional("contact_email"),
+    contact_url: getOptional("contact_url"),
+
     // transform dates to Date objects
     start_date: parseDate("start_date"),
     end_date: parseDate("end_date"),

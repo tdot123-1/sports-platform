@@ -129,7 +129,15 @@ const FormSchema = z.object({
     .trim()
     .min(3, { message: "Email must be at least 3 characters" })
     .max(254, { message: "Maximum characters exceeded" })
-    .email({ message: "Please provide a valid email address" }),
+    .email({ message: "Please provide a valid email address" })
+    .nullable(),
+  contact_url: z
+    .string({
+      invalid_type_error: "Invalid input type",
+    })
+    .trim()
+    .url({ message: "Please provide a valid URL" })
+    .nullable(),
   contact_phone: z
     .string({
       invalid_type_error: "Please provide a phone number",
@@ -174,7 +182,7 @@ const FormSchema = z.object({
           invalid_type_error: "Please provide a link",
         })
         .trim()
-        .url({ message: "Please only valid URLs" })
+        .url({ message: "Please only add valid URLs" })
     )
     .max(4, { message: "Max number of links exceeded" })
     .nullable(),
@@ -209,6 +217,18 @@ const CreateEventSchema = FormSchema.omit({ id: true })
       message: "Please provide a start date, or check the TBD option",
       path: ["start_date"],
     }
+  )
+  .refine(
+    (data) => {
+      if (data.contact_email === null && data.contact_url === null)
+        return false;
+
+      return true;
+    },
+    {
+      message: "Please provide either an email address or a URL",
+      path: ["contact_email", "contact_url"],
+    }
   );
 
 const UpdateEventSchema = CreateEventSchema;
@@ -232,6 +252,7 @@ export type State = {
     end_date?: string[];
 
     contact_email?: string[];
+    contact_url?: string[];
     contact_phone?: string[];
 
     cost_estimate?: string[];
@@ -289,6 +310,7 @@ export async function createEvent(prevState: State, formData: FormData) {
 
     contact_email,
     contact_phone,
+    contact_url,
 
     cost_estimate,
     cost_description,
@@ -308,12 +330,21 @@ export async function createEvent(prevState: State, formData: FormData) {
     ? social_links.filter((link) => isValidSocialLink(link))
     : social_links;
 
+  // (!) TEMP: custom url validation -> use google api in future
+
   // check if event link is valid
   const validatedEventLink = event_link
     ? isValidEventLink(event_link)
       ? event_link
       : null
     : event_link;
+
+  // check if contact link is valid
+  const validatedContactUrl = contact_url
+    ? isValidEventLink(contact_url)
+      ? contact_url
+      : null
+    : contact_url;
 
   try {
     const supabase = await createClient();
@@ -359,6 +390,7 @@ export async function createEvent(prevState: State, formData: FormData) {
 
         contact_email,
         contact_phone,
+        contact_url: validatedContactUrl,
 
         cost_estimate,
         cost_description,
@@ -440,6 +472,7 @@ export async function updateEvent(
 
     contact_email,
     contact_phone,
+    contact_url,
 
     cost_estimate,
     cost_description,
@@ -465,6 +498,13 @@ export async function updateEvent(
       ? event_link
       : null
     : event_link;
+
+  // check if contact link is valid
+  const validatedContactUrl = contact_url
+    ? isValidEventLink(contact_url)
+      ? contact_url
+      : null
+    : contact_url;
 
   try {
     const supabase = await createClient();
@@ -494,6 +534,7 @@ export async function updateEvent(
 
         contact_email,
         contact_phone,
+        contact_url: validatedContactUrl,
 
         cost_estimate,
         cost_description,

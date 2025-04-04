@@ -205,11 +205,35 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
               How to get in touch
             </h4>
             <div className="text-sm my-1">
-              <div className="flex justify-start items-center gap-1">
-                <MailIcon size={18} />
-                <h5 className="font-semibold">Email:</h5>
-              </div>
-              <p className="text-right">{event.contact_email}</p>
+              {event.contact_email && (
+                <>
+                  <div className="flex justify-start items-center gap-1">
+                    <MailIcon size={18} />
+                    <h5 className="font-semibold">Email:</h5>
+                  </div>
+                  <p className="text-right">{event.contact_email}</p>
+                </>
+              )}
+
+              {event.contact_url && (
+                <>
+                  <div className="flex justify-start items-center gap-1">
+                    <LinkIcon size={18} />
+                    <h5 className="font-semibold">Contact link:</h5>
+                  </div>
+                  <div className="text-right flex justify-end flex-nowrap overflow-hidden">
+                    <ExternalLinkIcon size={14} />
+                    <a
+                      target="_blank"
+                      className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
+                      href={event.contact_url}
+                    >
+                      {event.contact_url}
+                    </a>
+                  </div>
+                </>
+              )}
+
               {event.contact_phone && (
                 <>
                   <div className="flex justify-start items-center gap-1">

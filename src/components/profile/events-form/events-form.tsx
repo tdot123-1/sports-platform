@@ -375,7 +375,56 @@ const EventForm = ({
           </p>
         </div>
         <Separator className="my-2" />
+
         <div className="mb-4">
+          <p className="text-sm font-medium leading-none">
+            Primary point of contact <span className="text-destructive">*</span>
+          </p>
+          <p className="text-xs italic mb-2">
+            Provide either an email address or a URL where you can be contacted
+            about your event.
+          </p>
+
+          <Label htmlFor="contact_email">Email address</Label>
+          <Input
+            id="contact_email"
+            name="contact_email"
+            type={`email`}
+            aria-describedby="contact_email-error"
+            disabled={pending}
+            defaultValue={event?.contact_email ? event.contact_email : ""}
+            maxLength={320}
+          />
+          <div id="contact_email-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.contact_email &&
+              state.errors.contact_email.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+
+          <Label htmlFor="contact_url">Contact URL</Label>
+          <Input
+            id="contact_url"
+            name="contact_url"
+            type={`text`}
+            aria-describedby="contact_url-error"
+            disabled={pending}
+            defaultValue={event?.contact_url ? event.contact_url : ""}
+            maxLength={2000}
+          />
+          <div id="contact_url-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.contact_url &&
+              state.errors.contact_url.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div>
+
+        {/* <div className="mb-4">
           <Label htmlFor="contact_email">
             Email address <span className="text-destructive">*</span>
           </Label>
@@ -401,6 +450,33 @@ const EventForm = ({
               ))}
           </div>
         </div>
+
+        <div className="mb-4">
+          <Label htmlFor="contact_email">
+            Contact URL <span className="text-destructive">*</span>
+          </Label>
+          <p className="text-xs italic">
+            Provide a URL where you can be contacted about your event.
+          </p>
+          <Input
+            id="contact_email"
+            name="contact_email"
+            type={`email`}
+            aria-describedby="contact_email-error"
+            disabled={pending}
+            defaultValue={event ? event.contact_email : ""}
+            required
+          />
+          <div id="contact_email-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.contact_email &&
+              state.errors.contact_email.map((error) => (
+                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
+        </div> */}
+
         <div className="mb-4">
           <Label htmlFor="contact_phone">Phone number</Label>
           <p className="text-xs italic">
@@ -440,7 +516,7 @@ const EventForm = ({
             aria-describedby="event_link-error"
             disabled={pending}
             defaultValue={event?.event_link ? event.event_link : ""}
-            maxLength={2048}
+            maxLength={2000}
           />
           <div id="event_link-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_link &&

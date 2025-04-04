@@ -122,7 +122,8 @@ export interface SportsEvent {
   end_date: Date | null;
 
   // contact
-  contact_email: string;
+  contact_email: string | null;
+  contact_url: string | null;
   contact_phone: string;
 
   // cost
