@@ -4,7 +4,6 @@ import { FlagIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -13,8 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Textarea } from "../ui/textarea";
-import { Label } from "../ui/label";
+import ReportEventForm from "./report-event-form";
 
 const FlagEventButton = ({ eventId }: { eventId: string }) => {
   console.log(eventId);
@@ -38,16 +36,10 @@ const FlagEventButton = ({ eventId }: { eventId: string }) => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div>
-            <Label htmlFor="report_details">Details</Label>
-            <Textarea
-              id="report_details"
-              name="report_details"
-              placeholder="Describe why you reported this event..."
-            />
+            <ReportEventForm eventId={eventId} />
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
