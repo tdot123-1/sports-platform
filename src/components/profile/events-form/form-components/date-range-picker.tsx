@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CheckCircle2Icon } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -39,6 +39,8 @@ const DateRangePicker = ({
 
   const [checked, setChecked] = useState(false);
 
+  const [open, setIsOpen] = useState(false);
+
   const handleCheckedChange = (e: CheckedState) => {
     if (e === true) {
       setDate(undefined);
@@ -46,15 +48,10 @@ const DateRangePicker = ({
     setChecked((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   console.log("from: ", date?.from ? format(date.from, "yyyy-MM-dd") : null);
-  //   console.log("to: ", date?.to ? format(date.to, "yyyy-MM-dd") : null);
-  // }, [date]);
-
   return (
     <>
       <div className="grid gap-2">
-        <Popover>
+        <Popover open={open} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
             <Button
               id={name}
@@ -92,6 +89,18 @@ const DateRangePicker = ({
               numberOfMonths={1}
               disabled={pending || checked}
             />
+            <div className="w-fit mx-auto pb-2">
+              <Button
+                onClick={() => setIsOpen(false)}
+                size={`sm`}
+                type="button"
+              >
+                <div className="flex items-center gap-1">
+                  <CheckCircle2Icon size={32} />
+                  <span>OK</span>
+                </div>
+              </Button>
+            </div>
           </PopoverContent>
         </Popover>
       </div>

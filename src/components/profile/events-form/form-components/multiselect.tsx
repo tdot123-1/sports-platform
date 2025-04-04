@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useMemo, useState } from "react";
 
+// (!) NOT USED
 //define props with generic T
 interface MultiSelectProps<T extends Record<string, string>> {
   name: string;

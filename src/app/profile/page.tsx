@@ -39,7 +39,7 @@ const Page = async () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-          <article className="bg-primary border border-muted shadow-md rounded-md p-4">
+          <article className="bg-white border border-muted shadow-md rounded-md p-4">
             <h2 className="text-xl font-mono text-basket">My Events</h2>
             <p className="text-sm text-muted-foreground my-4">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
@@ -55,7 +55,7 @@ const Page = async () => {
               </Button>
             </Link>
           </article>
-          <article className="bg-primary border border-muted shadow-md rounded-md p-4">
+          <article className="bg-white border border-muted shadow-md rounded-md p-4">
             <h2 className="text-xl font-mono text-basket">Create Event</h2>
             <p className="text-sm text-muted-foreground my-4">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
