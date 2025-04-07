@@ -21,6 +21,8 @@ import { z } from "zod";
 import { convertCostToEuro } from "../exchange-rate/actions";
 import { isValidEventLink, isValidSocialLink } from "@/lib/url-validation";
 import { deleteAllImagesForEvent } from "../storage/actions";
+import { validateURLs } from "@/lib/data/safe-browsing/data";
+import { error } from "console";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -330,21 +332,19 @@ export async function createEvent(prevState: State, formData: FormData) {
     ? social_links.filter((link) => isValidSocialLink(link))
     : social_links;
 
-  // (!) TEMP: custom url validation -> use google api in future
+  // use Safe Browsing api to validate URLs
+  const validatedUrls = await validateURLs({ contact_url, event_link });
 
-  // check if event link is valid
-  const validatedEventLink = event_link
-    ? isValidEventLink(event_link)
-      ? event_link
-      : null
-    : event_link;
-
-  // check if contact link is valid
-  const validatedContactUrl = contact_url
-    ? isValidEventLink(contact_url)
-      ? contact_url
-      : null
-    : contact_url;
+  if (!validatedUrls) {
+    return {
+      errors: {
+        contact_url: ["A submitted URL was rejected."],
+        event_link: ["A submitted URL was rejected."],
+      },
+      message: "A submitted URL was rejected.",
+      success: false,
+    };
+  }
 
   try {
     const supabase = await createClient();
@@ -390,14 +390,14 @@ export async function createEvent(prevState: State, formData: FormData) {
 
         contact_email,
         contact_phone,
-        contact_url: validatedContactUrl,
+        contact_url: validatedUrls.contact_url,
 
         cost_estimate,
         cost_description,
         cost_currency,
         cost_estimate_eur,
 
-        event_link: validatedEventLink,
+        event_link: validatedUrls.event_link,
         social_links: validatedSocialLinks,
 
         user_id: user.id,

@@ -1,54 +1,43 @@
 "use server";
 
 interface URLsToCheck {
-  contact_url?: string;
-  event_link?: string;
+  contact_url?: string | null;
+  event_link?: string | null;
 }
 
 export const validateURLs = async (urlsToCheck: URLsToCheck) => {
-  // start with empty object
-  const validUrls: URLsToCheck = {};
+    
+  // check if any links were submitted
+  if (!urlsToCheck.contact_url && !urlsToCheck.event_link) {
+    return urlsToCheck;
+  }
+
+  const threatEntries: string[] = [];
 
   // check if URLs were formatted correctly
   try {
     if (urlsToCheck.contact_url) {
       new URL(urlsToCheck.contact_url);
-      validUrls.contact_url = urlsToCheck.contact_url;
+      threatEntries.push(urlsToCheck.contact_url);
     }
     if (urlsToCheck.event_link) {
       new URL(urlsToCheck.event_link);
-      validUrls.event_link = urlsToCheck.event_link;
+      threatEntries.push(urlsToCheck.event_link);
     }
   } catch (error) {
     console.error("Incorrectly formatted URL: ", error);
     return null;
   }
 
-  if (!validUrls.contact_url && !validUrls.event_link) {
-    console.error("Both URLs were not properly formatted or missing");
-    return null;
+  if (threatEntries.length === 0) {
+    console.error("No threat entries added");
+    return urlsToCheck;
   }
 
   const API_KEY = process.env.SAFE_BROWSING_KEY;
 
   if (!API_KEY) {
     console.error("API KEY MISSING!");
-    return null;
-  }
-
-  // construct array of submitted URLs
-  const threatEntries: string[] = [];
-
-  if (validUrls.contact_url) {
-    threatEntries.push(validUrls.contact_url);
-  }
-
-  if (validUrls.event_link) {
-    threatEntries.push(validUrls.event_link);
-  }
-
-  if (threatEntries.length === 0) {
-    console.error("No threat entries added");
     return null;
   }
 
@@ -89,7 +78,7 @@ export const validateURLs = async (urlsToCheck: URLsToCheck) => {
 
     const data = await response.json();
 
-    // find threats (?)
+    // find threats
     if (data.matches) {
       const blockedURLs: string[] = [];
 
@@ -102,22 +91,27 @@ export const validateURLs = async (urlsToCheck: URLsToCheck) => {
         blockedURLs.push(match.threat.url);
       });
 
-      // check which URL was blocked
+      // check which URL was blocked (?)
       if (
-        validUrls.contact_url &&
-        blockedURLs.includes(validUrls.contact_url)
+        urlsToCheck.contact_url &&
+        blockedURLs.includes(urlsToCheck.contact_url)
       ) {
-        delete validUrls.contact_url;
+        urlsToCheck.contact_url = null;
       }
 
-      if (validUrls.event_link && blockedURLs.includes(validUrls.event_link)) {
-        delete validUrls.event_link;
+      if (
+        urlsToCheck.event_link &&
+        blockedURLs.includes(urlsToCheck.event_link)
+      ) {
+        urlsToCheck.event_link = null;
       }
+
+      return null;
     } else {
       console.log("All URLs safe.");
     }
     // return URLs that were not a threat
-    return validUrls;
+    return urlsToCheck;
   } catch (error) {
     console.error("Unexpected error checking URLs: ", error);
     return null;
