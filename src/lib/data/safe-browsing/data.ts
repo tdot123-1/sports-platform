@@ -6,10 +6,9 @@ interface URLsToCheck {
 }
 
 export const validateURLs = async (urlsToCheck: URLsToCheck) => {
-    
   // check if any links were submitted
   if (!urlsToCheck.contact_url && !urlsToCheck.event_link) {
-    return urlsToCheck;
+    return { success: true, checkedUrls: urlsToCheck };
   }
 
   const threatEntries: string[] = [];
@@ -31,7 +30,7 @@ export const validateURLs = async (urlsToCheck: URLsToCheck) => {
 
   if (threatEntries.length === 0) {
     console.error("No threat entries added");
-    return urlsToCheck;
+    return { success: true, checkedUrls: urlsToCheck };
   }
 
   const API_KEY = process.env.SAFE_BROWSING_KEY;
@@ -96,22 +95,22 @@ export const validateURLs = async (urlsToCheck: URLsToCheck) => {
         urlsToCheck.contact_url &&
         blockedURLs.includes(urlsToCheck.contact_url)
       ) {
-        urlsToCheck.contact_url = null;
+        urlsToCheck.contact_url = "blocked";
       }
 
       if (
         urlsToCheck.event_link &&
         blockedURLs.includes(urlsToCheck.event_link)
       ) {
-        urlsToCheck.event_link = null;
+        urlsToCheck.event_link = "blocked";
       }
 
-      return null;
+      return { success: false, checkedUrls: urlsToCheck };
     } else {
       console.log("All URLs safe.");
     }
     // return URLs that were not a threat
-    return urlsToCheck;
+    return { success: true, checkedUrls: urlsToCheck };
   } catch (error) {
     console.error("Unexpected error checking URLs: ", error);
     return null;

@@ -19,10 +19,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { convertCostToEuro } from "../exchange-rate/actions";
-import { isValidEventLink, isValidSocialLink } from "@/lib/url-validation";
+import { isValidSocialLink } from "@/lib/url-validation";
 import { deleteAllImagesForEvent } from "../storage/actions";
 import { validateURLs } from "@/lib/data/safe-browsing/data";
-import { error } from "console";
 
 // (!) Add phone number validation
 const FormSchema = z.object({
@@ -341,7 +340,28 @@ export async function createEvent(prevState: State, formData: FormData) {
         contact_url: ["A submitted URL was rejected."],
         event_link: ["A submitted URL was rejected."],
       },
-      message: "A submitted URL was rejected.",
+      message: "A submitted URL was rejected. Please try again",
+      success: false,
+    };
+  }
+
+  if (!validatedUrls.success) {
+    const contact_url_errors = [];
+    const event_link_errors = [];
+
+    if (validatedUrls.checkedUrls.contact_url === "blocked") {
+      contact_url_errors.push("The submitted URL was deemed harmful.");
+    }
+    if (validatedUrls.checkedUrls.event_link === "blocked") {
+      event_link_errors.push("The submitted URL was deemed harmful.");
+    }
+
+    return {
+      errors: {
+        contact_url: contact_url_errors,
+        event_link: event_link_errors,
+      },
+      message: "A submitted URL was rejected. Please try again",
       success: false,
     };
   }
@@ -390,14 +410,14 @@ export async function createEvent(prevState: State, formData: FormData) {
 
         contact_email,
         contact_phone,
-        contact_url: validatedUrls.contact_url,
+        contact_url: validatedUrls.checkedUrls.contact_url,
 
         cost_estimate,
         cost_description,
         cost_currency,
         cost_estimate_eur,
 
-        event_link: validatedUrls.event_link,
+        event_link: validatedUrls.checkedUrls.event_link,
         social_links: validatedSocialLinks,
 
         user_id: user.id,
@@ -492,19 +512,40 @@ export async function updateEvent(
     ? social_links.filter((link) => isValidSocialLink(link))
     : social_links;
 
-  // check if event link is valid
-  const validatedEventLink = event_link
-    ? isValidEventLink(event_link)
-      ? event_link
-      : null
-    : event_link;
+  // use Safe Browsing api to validate URLs
+  const validatedUrls = await validateURLs({ contact_url, event_link });
 
-  // check if contact link is valid
-  const validatedContactUrl = contact_url
-    ? isValidEventLink(contact_url)
-      ? contact_url
-      : null
-    : contact_url;
+  if (!validatedUrls) {
+    return {
+      errors: {
+        contact_url: ["A submitted URL was rejected."],
+        event_link: ["A submitted URL was rejected."],
+      },
+      message: "A submitted URL was rejected. Please try again",
+      success: false,
+    };
+  }
+
+  if (!validatedUrls.success) {
+    const contact_url_errors = [];
+    const event_link_errors = [];
+
+    if (validatedUrls.checkedUrls.contact_url === "blocked") {
+      contact_url_errors.push("The submitted URL was deemed harmful.");
+    }
+    if (validatedUrls.checkedUrls.event_link === "blocked") {
+      event_link_errors.push("The submitted URL was deemed harmful.");
+    }
+
+    return {
+      errors: {
+        contact_url: contact_url_errors,
+        event_link: event_link_errors,
+      },
+      message: "A submitted URL was rejected. Please try again",
+      success: false,
+    };
+  }
 
   try {
     const supabase = await createClient();
@@ -534,14 +575,14 @@ export async function updateEvent(
 
         contact_email,
         contact_phone,
-        contact_url: validatedContactUrl,
+        contact_url: validatedUrls.checkedUrls.contact_url,
 
         cost_estimate,
         cost_description,
         cost_currency,
         cost_estimate_eur,
 
-        event_link: validatedEventLink,
+        event_link: validatedUrls.checkedUrls.event_link,
         social_links: validatedSocialLinks,
       })
       .eq("id", id);
