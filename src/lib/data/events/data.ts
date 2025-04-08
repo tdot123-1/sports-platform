@@ -37,7 +37,10 @@ export const fetchAllEvents = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate_eur", priceFilter * 100);
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
     }
 
     if (searchQuery) {
@@ -145,7 +148,10 @@ export const fetchEventsPages = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate_eur", priceFilter * 100);
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
     }
 
     if (searchQuery) {
@@ -224,7 +230,10 @@ export const fetchEventsPerMonth = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate_eur", priceFilter * 100);
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
     }
 
     query = query
@@ -271,8 +280,12 @@ export const fetchEventsBatches = async (
     }
 
     if (priceFilter !== undefined) {
-      query = query.lte("cost_estimate_eur", priceFilter * 100);
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
     }
+
     const { count, error } = await query;
 
     if (error) {
