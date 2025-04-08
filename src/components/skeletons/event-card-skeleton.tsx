@@ -1,3 +1,4 @@
+import { InfoIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
@@ -8,9 +9,11 @@ const EventCardSkeleton = () => {
   return (
     <>
       <Card>
-        <CardHeader className="items-center">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <Skeleton className="w-8/12 mx-auto h-5 mt-4" />
+        <CardHeader>
+          <div className="flex items-center justify-center gap-1">
+            <Skeleton className="w-full h-5" />
+            <Skeleton className="h-10 w-10 rounded-full" />
+          </div>
         </CardHeader>
         <CardContent>
           <ul>
@@ -50,7 +53,12 @@ const EventCardSkeleton = () => {
           </ul>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button disabled>View details</Button>
+          <Button size={`sm`} className="bg-basket" disabled>
+            <div className="flex items-center gap-1">
+              <InfoIcon />
+              <span>View details</span>
+            </div>
+          </Button>
         </CardFooter>
       </Card>
     </>

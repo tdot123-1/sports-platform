@@ -5,7 +5,7 @@ import NewEventsCarousel from "./new-events-carousel";
 
 const NewEventsCarouselWrapper = async () => {
   // test skeleton
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
   const fetchedEvents = await fetchNewEvents();
 

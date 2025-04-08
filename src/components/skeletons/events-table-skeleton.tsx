@@ -1,3 +1,4 @@
+import { InfoIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import {
@@ -13,7 +14,7 @@ import {
 const EventsTableSkeleton = () => {
   return (
     <>
-      <Table className="my-6">
+      <Table className="bg-white my-6 rounded-md">
         <TableCaption>All events.</TableCaption>
         <TableHeader>
           <TableRow>
@@ -32,8 +33,11 @@ const EventsTableSkeleton = () => {
           {Array.from({ length: 10 }).map((_, i) => (
             <TableRow key={i}>
               <TableCell>
-                <Button disabled size={`sm`}>
-                  View
+                <Button size={`sm`} className="bg-basket" disabled>
+                  <div className="flex items-center gap-1">
+                    <InfoIcon />
+                    <span>View</span>
+                  </div>
                 </Button>
               </TableCell>
               <TableCell>

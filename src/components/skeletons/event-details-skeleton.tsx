@@ -3,6 +3,7 @@ import {
   CalendarCheck2Icon,
   CalendarX2Icon,
   HandCoinsIcon,
+  InfoIcon,
   LinkIcon,
   MailIcon,
   MapPinIcon,
@@ -17,14 +18,22 @@ import { Separator } from "../ui/separator";
 
 const EventDetailsSkeleton = () => {
   return (
-    <div className="p-6 border rounded-md shadow-md">
+    <div className="bg-white p-6 border rounded-md shadow-md">
       <Skeleton className="w-1/3 h-10 mx-auto" />
       <ul>
         <li className="py-2">
-          <h4 className="text-primary italic font-medium ">About the event</h4>
+          <h4 className="text-basket italic font-medium ">About the event</h4>
           <div className="my-1">
             <Skeleton className="w-28 h-5" />
             <Skeleton className="w-full h-28 mt-1" />
+          </div>
+          <div className="flex gap-2 text-sm">
+            <div className="flex justify-start items-center gap-1">
+              <InfoIcon size={18} />
+              <h5 className="font-semibold">Status:</h5>
+            </div>
+
+            <Skeleton className="w-1/3 h-5" />
           </div>
         </li>
         <li className="py-2">
@@ -36,7 +45,7 @@ const EventDetailsSkeleton = () => {
         </li>
 
         <li className="py-2">
-          <h4 className="text-primary italic font-medium">Who is it for</h4>
+          <h4 className="text-basket italic font-medium">Who is it for</h4>
           <div className="text-sm my-1">
             <div className="flex justify-between">
               <div className="flex justify-start items-center gap-1">
@@ -68,7 +77,7 @@ const EventDetailsSkeleton = () => {
         </li>
 
         <li className="py-2">
-          <h4 className="text-primary italic font-medium">When and where</h4>
+          <h4 className="text-basket italic font-medium">When and where</h4>
           <div className="text-sm my-1">
             <div className="flex justify-between">
               <div className="flex justify-start items-center gap-1">
@@ -93,7 +102,7 @@ const EventDetailsSkeleton = () => {
         </li>
 
         <li className="py-2">
-          <h4 className="text-primary italic font-medium">Pricing info</h4>
+          <h4 className="text-basket italic font-medium">Pricing info</h4>
           <div className="text-sm my-1">
             <div className="flex justify-between">
               <div className="flex justify-start items-center gap-1">
@@ -114,13 +123,18 @@ const EventDetailsSkeleton = () => {
         </li>
 
         <li className="py-2">
-          <h4 className="text-primary italic font-medium">
+          <h4 className="text-basket italic font-medium">
             How to get in touch
           </h4>
           <div className="text-sm my-1">
             <div className="flex justify-start items-center gap-1">
               <MailIcon size={18} />
               <h5 className="font-semibold">Email:</h5>
+            </div>
+            <Skeleton className="ml-auto w-28 h-5" />
+            <div className="flex justify-start items-center gap-1">
+              <LinkIcon size={18} />
+              <h5 className="font-semibold">Contact link:</h5>
             </div>
             <Skeleton className="ml-auto w-28 h-5" />
             <div className="flex justify-start items-center gap-1">

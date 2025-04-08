@@ -1,3 +1,4 @@
+import { InfoIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import {
@@ -30,15 +31,26 @@ const CarouselSkeleton = () => {
                     <div className="w-full mb-3 mt-2">
                       <Skeleton className="w-full h-4" />
                     </div>
-                    <div className="w-full mb-3">
+                    <div className="w-full mb-1">
+                      <Skeleton className="w-full h-4" />
+                    </div>
+                    <div className="w-full mb-1">
                       <Skeleton className="w-full h-4" />
                     </div>
 
-                    <div className="w-full mb-8">
+                    <div className="w-full mb-1">
                       <Skeleton className="w-full h-4" />
                     </div>
+                    <div>
+                      <Skeleton className="rounded-full h-10 w-10" />
+                    </div>
 
-                    <Button disabled>Details</Button>
+                    <Button size={`sm`} className="bg-basket" disabled>
+                      <div className="flex items-center gap-1">
+                        <InfoIcon />
+                        <span>Details</span>
+                      </div>
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
