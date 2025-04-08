@@ -49,7 +49,7 @@ const CostEstimate = ({
       let formatted = costInput.trim();
 
       // if input is empty or ".", return "0.00"
-      if (formatted === "" || formatted === ".") {
+      if (formatted === ".") {
         setCostInput("0.00");
         return;
       }
@@ -89,7 +89,7 @@ const CostEstimate = ({
         <Label hidden className="hidden" htmlFor="cost_currency">
           Select currency
         </Label>
-        
+
         <CurrencySelect
           currencyList={currencyList}
           cost_currency={cost_currency}
@@ -106,7 +106,6 @@ const CostEstimate = ({
           onBlur={handleFormatInput}
           disabled={pending}
           aria-describedby={describedBy}
-          required
         />
       </div>
     </>

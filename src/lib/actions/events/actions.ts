@@ -157,7 +157,8 @@ const FormSchema = z.object({
       invalid_type_error: "Cost estimate must be a number",
     })
     .int({ message: "Cost estimate must be whole number" })
-    .min(0, { message: "Cost estimate must be a positive amount" }),
+    .min(0, { message: "Cost estimate must be a positive amount" })
+    .nullable(),
   cost_currency: z
     .enum(validCurrencyCodes, { message: "Please select a valid currency" })
     .default("EUR"),
@@ -321,10 +322,9 @@ export async function createEvent(prevState: State, formData: FormData) {
     social_links,
   } = validatedFields.data;
 
-  const cost_estimate_eur = await convertCostToEuro(
-    cost_estimate,
-    cost_currency
-  );
+  const cost_estimate_eur = cost_estimate
+    ? await convertCostToEuro(cost_estimate, cost_currency)
+    : null;
 
   // filter out non valid social links
   const validatedSocialLinks = social_links
@@ -502,10 +502,9 @@ export async function updateEvent(
     social_links,
   } = validatedFields.data;
 
-  const cost_estimate_eur = await convertCostToEuro(
-    cost_estimate,
-    cost_currency
-  );
+  const cost_estimate_eur = cost_estimate
+    ? await convertCostToEuro(cost_estimate, cost_currency)
+    : null;
 
   // filter out valid social links
   const validatedSocialLinks = social_links

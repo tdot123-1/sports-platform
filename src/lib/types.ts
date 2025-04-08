@@ -78,7 +78,7 @@ export const EventStatusMap = {
   open: "signup open",
   closed: "signup closed",
   wait: "waitlist",
-  tba: "TBA",
+  tba: "to be announced",
 } as const;
 
 export const EventStatusArray = Object.values(EventStatusMap);
@@ -127,7 +127,7 @@ export interface SportsEvent {
   contact_phone: string;
 
   // cost
-  cost_estimate: number;
+  cost_estimate: number | null;
   cost_currency: string;
   cost_description: string | null;
   cost_estimate_eur: number;

@@ -3,12 +3,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SportsEvent, SportsEventTypeMap } from "@/lib/types";
 import ViewDetailsButton from "../details-button";
 import { formatCityName } from "@/lib/utils";
+import { format } from "date-fns";
 
 const NewEventCard = ({ event }: { event: SportsEvent }) => {
   return (
     <>
       <Card className="max-w-md">
-        <CardContent className="flex flex-col gap-2 aspect-square items-center justify-center">
+        <CardContent className="text-sm flex flex-col gap-2 aspect-square items-center justify-center">
           <div className="max-w-full">
             <h3 className="text-lg font-semibold text-ellipsis overflow-hidden text-nowrap">
               {event.event_name}
@@ -16,8 +17,13 @@ const NewEventCard = ({ event }: { event: SportsEvent }) => {
           </div>
 
           <p>{SportsEventTypeMap[event.event_type]}</p>
-          <p className="mb-2 text-ellipsis overflow-hidden text-nowrap">
+          <p className="text-ellipsis overflow-hidden text-nowrap">
             {formatCityName(event.address_city)}, {event.address_country}
+          </p>
+          <p>
+            {event.start_date
+              ? format(event.start_date, "LLL dd, y")
+              : "Date: TBD"}
           </p>
           <Avatar className="">
             {event.event_logo_url && <AvatarImage src={event.event_logo_url} />}

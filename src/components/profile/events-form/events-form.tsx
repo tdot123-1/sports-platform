@@ -308,17 +308,16 @@ const EventForm = ({
           </p>
         </div>
         <Separator className="my-2" />
-        <Label htmlFor="cost_estimate">
-          Cost estimate <span className="text-destructive">*</span>
-        </Label>
+        <Label htmlFor="cost_estimate">Cost estimate</Label>
         <p className="text-xs italic">
-          Provide an estimation of the total price for attending your event.
+          (Optional) Provide an estimation of the total price for attending your
+          event.
         </p>
         <div className="mb-4">
           <CostEstimate
             name="cost_estimate"
             pending={pending}
-            cost_estimate={event?.cost_estimate}
+            cost_estimate={event?.cost_estimate || undefined}
             cost_currency={event?.cost_currency}
             describedBy="cost_estimate-error"
           />

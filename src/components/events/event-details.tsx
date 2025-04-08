@@ -178,10 +178,12 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 </div>
 
                 <p>
-                  {formatCurrencyForDisplay(
-                    event.cost_estimate,
-                    event.cost_currency
-                  )}
+                  {event.cost_estimate
+                    ? formatCurrencyForDisplay(
+                        event.cost_estimate,
+                        event.cost_currency
+                      )
+                    : "N/A"}
                 </p>
               </div>
 
