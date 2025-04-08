@@ -42,7 +42,7 @@ const EventsTable = async ({
   passedEventsFilter,
 }: EventsTableProps) => {
   // test skeleton
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
 
   const fetchedEvents = await fetchAllEvents(
     currentPage,

@@ -36,7 +36,7 @@ interface EventDetailsProps {
 
 const EventDetails = async ({ eventId }: EventDetailsProps) => {
   // test skeleton
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
 
   // fetch event
   const fetchedEvent = await fetchOneEvent(eventId);
