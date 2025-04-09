@@ -2,6 +2,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
+import jwt from "jsonwebtoken";
+import { sendEmailToVerifyReport } from "../sendgrid/actions";
 
 const reportReasons = ["off_lang", "off_img", "fake", "sus"] as const;
 
@@ -69,13 +71,35 @@ export const insertReportedEvent = async (
 
     if (error) {
       console.error("Database error on report event: ", error.message);
-      return { message: `Database error`, success: true };
+      return {
+        message: `Database error. Please try again later`,
+        success: false,
+      };
     }
 
     console.log("New report: ", data.id);
 
     // generate JWT
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret) {
+      console.error("Missing JWT secret");
+      throw new Error("Missing JWT secret");
+    }
+
+    const token = jwt.sign({ report_id: data.id }, secret, {
+      expiresIn: 60 * 5,
+    });
+
     // send email
+    const emailSent = await sendEmailToVerifyReport(user_email, token);
+
+    if (!emailSent) {
+      return {
+        message: "Failed to send verification email. Please try again.",
+        success: false,
+      };
+    }
 
     // send an email with event id in link to user
     // after link is clicked, set verified to true
@@ -84,5 +108,25 @@ export const insertReportedEvent = async (
   } catch (error) {
     console.error("Unexpected error: ", error);
     return { message: "An unexpected error occurred.", success: false };
+  }
+};
+
+export const verifyEventReport = async (reportId: string) => {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("event_reports")
+      .update({ report_verified: true })
+      .eq("id", reportId);
+
+    if (error) {
+      console.error("Database error on verify report: ", error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Unexpected error: ", error);
+    return false;
   }
 };

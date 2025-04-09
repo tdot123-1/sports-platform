@@ -58,7 +58,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
           <form action={formAction}>
             <div className="mb-4">
               <Label htmlFor="report_reason">Reason</Label>
-              <Select name="report_reason">
+              <Select name="report_reason" disabled={pending}>
                 <SelectTrigger>
                   <SelectValue
                     placeholder="Select the reason for this report"
@@ -102,6 +102,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
                 name="report_details"
                 aria-describedby="report_details-error"
                 placeholder="Describe why you reported this event..."
+                disabled={pending}
               />
               <div
                 id="report_details-error"
@@ -129,6 +130,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
                 id="user_email"
                 type="email"
                 aria-describedby="user_email-error"
+                disabled={pending}
               />
               <div id="user_email-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.user_email &&
@@ -151,7 +153,9 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
               hidden
               value={eventId}
             />
-            <Button type="submit">Submit</Button>
+            <Button disabled={pending} type="submit">
+              Submit
+            </Button>
             <div>
               {state.message && !state.success && (
                 <p className="text-sm mt-2 text-destructive italic text-center">
