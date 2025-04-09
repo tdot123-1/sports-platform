@@ -74,6 +74,9 @@ export const insertReportedEvent = async (
 
     console.log("New report: ", data.id);
 
+    // generate JWT
+    // send email
+
     // send an email with event id in link to user
     // after link is clicked, set verified to true
 

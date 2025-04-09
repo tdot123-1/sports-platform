@@ -15,8 +15,6 @@ import {
 import ReportEventForm from "./report-event-form";
 
 const FlagEventButton = ({ eventId }: { eventId: string }) => {
-  console.log(eventId);
-
   // send reasons for report in form, along with event id (?)
   return (
     <>
