@@ -58,20 +58,22 @@ const EventsList = async ({
           <div className="my-20">
             {userId ? (
               <>
-                <h3 className="text-center italic text-muted-foreground">
-                  No events created yet!
-                </h3>
-                <div className="w-fit mx-auto mt-8">
-                  <Link href={`/profile/events/create`}>
-                    <Button>
-                      <PlusCircleIcon /> Create Event
-                    </Button>
-                  </Link>
+                <div className="bg-textbox/75 w-fit mx-auto p-8 rounded-md">
+                  <h3 className="text-center italic text-muted-foreground">
+                    No events created yet!
+                  </h3>
+                  <div className="w-fit mx-auto mt-8">
+                    <Link href={`/profile/events/create`}>
+                      <Button>
+                        <PlusCircleIcon /> Create Event
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </>
             ) : (
               <>
-                <h3 className="text-center italic text-muted-foreground">
+                <h3 className="text-center italic text-muted-foreground bg-textbox/75 w-fit mx-auto p-2 rounded-md">
                   No events found!
                 </h3>
               </>

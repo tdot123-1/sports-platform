@@ -49,10 +49,10 @@ export default async function Home(props: {
       {/** page */}
 
       <section className="my-12 px-4">
-        <h1 className="text-2xl font-mono font-semibold w-fit mx-auto">
+        <h1 className="text-2xl font-mono text-primary font-semibold w-fit mx-auto">
           Hi-Fives
         </h1>
-        <p className="bg-white/60 p-1 rounded-md text-center md:w-1/2 mx-auto my-6">
+        <p className="bg-textbox/75 p-1 rounded-md text-center md:w-1/2 mx-auto my-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
           voluptatibus tempore voluptates consequuntur aperiam possimus aliquam
           labore voluptas voluptate, similique neque nihil nam, repellendus
@@ -61,7 +61,7 @@ export default async function Home(props: {
       </section>
 
       <section className="my-12">
-        <h2 className="text-2xl font-mono text-primary px-4">
+        <h2 className="text-2xl font-mono font-semibold text-primary px-4">
           What&apos;s New
         </h2>
         <div className="flex-1 min-w-0 flex justify-center">
@@ -71,8 +71,8 @@ export default async function Home(props: {
         </div>
       </section>
       <section className="my-12 px-4">
-        <h2 className="text-2xl font-mono text-primary">Some other info</h2>
-        <p className="bg-white/60 p-1 rounded-md md:w-1/2 lg:w-1/3 py-2">
+        <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
+        <p className="bg-textbox/75 p-1 rounded-md md:w-1/2 lg:w-1/3 py-2">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
           nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero iusto
           impedit assumenda. Cupiditate veritatis quo qui nemo quod non
@@ -80,8 +80,8 @@ export default async function Home(props: {
         </p>
       </section>
       <section className="my-12 px-4 text-right">
-        <h2 className="text-2xl font-mono text-primary">Some other info</h2>
-        <p className="bg-white/60 p-1 rounded-md ml-auto md:w-1/2 lg:w-1/3 py-2">
+        <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
+        <p className="bg-textbox/75 p-1 rounded-md ml-auto md:w-1/2 lg:w-1/3 py-2">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
           nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero iusto
           impedit assumenda. Cupiditate veritatis quo qui nemo quod non

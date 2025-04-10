@@ -9,7 +9,7 @@ const Header = () => {
   // } = await supabase.auth.getUser();
 
   return (
-    <header className="sticky top-0 p-4 bg-primary z-10 flex justify-center">
+    <header className="sticky top-0 p-4 bg-basketheader z-10 flex justify-center">
       <AppSideBarTrigger />
       <div className="flex items-end gap-1">
         <div className="w-10 h-10">

@@ -46,7 +46,7 @@ const EventForm = ({
 }: EventFormProps) => {
   return (
     <>
-      <form className="bg-white p-2 rounded-md" action={formAction}>
+      <form className="bg-white p-2 md:p-4 rounded-md" action={formAction}>
         <div>
           <h3 className="text-lg font-semibold font-mono">Event info</h3>
           <p className="text-muted-foreground text-sm">

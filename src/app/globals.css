@@ -27,7 +27,17 @@ body {
     --primary: 242 82% 22%;
     
     --info: 237 78% 66%;
-    --basket: 33 100% 50%;
+
+    /* --basket: 33 100% 50%; */
+
+    /* test -> lighter orange */
+    --basket: 26 80% 50%;
+
+    /* test -> header for basketball */
+    --basket-header: 25 80% 41%;
+
+    /* test -> textbox bg */
+    --textbox: 0 0% 94%;
 
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;

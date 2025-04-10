@@ -27,7 +27,7 @@ const Page = async () => {
     <>
       <section className="px-4">
         <h1 className="text-2xl font-mono text-primary mt-4">My Profile</h1>
-        <p className="mt-6 bg-white/70 p-1 rounded-md w-fit">
+        <p className="mt-6 bg-textbox/75 p-2 rounded-md w-fit">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
             {/* first check metadata to get correct email, else check user.email */}
