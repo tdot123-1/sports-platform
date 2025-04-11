@@ -106,11 +106,12 @@ export const insertReportedEvent = async (
       throw new Error("Missing JWT secret");
     }
 
+    // sign token with report id
     const token = jwt.sign({ report_id: data.id }, secret, {
       expiresIn: 60 * 5,
     });
 
-    // send email
+    // send email with token in link
     const emailSent = await sendEmailToVerifyReport(user_email, token);
 
     if (!emailSent) {
@@ -119,9 +120,6 @@ export const insertReportedEvent = async (
         success: false,
       };
     }
-
-    // send an email with event id in link to user
-    // after link is clicked, set verified to true
 
     return { message: "", success: true };
   } catch (error) {

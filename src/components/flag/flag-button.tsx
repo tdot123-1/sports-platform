@@ -13,18 +13,34 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import ReportEventForm from "./report-event-form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 const FlagEventButton = ({ eventId }: { eventId: string }) => {
   // send reasons for report in form, along with event id (?)
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button>
-            <FlagIcon />
-            <span className="hidden md:block">Report</span>
-          </Button>
-        </AlertDialogTrigger>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <AlertDialogTrigger asChild>
+                <Button>
+                  <FlagIcon />
+                  <span className="hidden md:block">Report</span>
+                </Button>
+              </AlertDialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Report this event for inappropriate or harmful content</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Report this event</AlertDialogTitle>
