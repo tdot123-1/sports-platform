@@ -1,11 +1,10 @@
 "use client";
 
-import { FilterIcon } from "lucide-react";
-import { Button } from "../../ui/button";
 import MapBatchSelect from "./map-batch-select";
 import { useEffect, useMemo, useState } from "react";
 import { ITEMS_ON_MAP } from "@/lib/constants";
 import { MapBounds, MapCenter } from "./events-map";
+import MapFilter from "./map-filter";
 
 interface MapToolbarProps {
   totalEvents: number;
@@ -62,12 +61,7 @@ const MapToolbar = ({
 
   return (
     <div className="flex justify-between mb-1">
-      <Button variant={`outline`}>
-        <div className="flex justify-start items-center gap-1">
-          <FilterIcon />
-          <span className="hidden md:block">Filter</span>
-        </div>
-      </Button>
+      <MapFilter />
       <MapBatchSelect
         currentBatch={currentBatch}
         totalBatches={totalBatches}
