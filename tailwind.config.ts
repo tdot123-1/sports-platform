@@ -11,8 +11,10 @@ export default {
     extend: {
       backgroundImage: { "basket-img": "url('/pattern_basketball-1.svg')" },
       colors: {
-        basket: "hsl(var(--basket))",
-        basketheader: "hsl(var(--basket-header))",
+        basket: {
+          DEFAULT: "hsl(var(--basket))",
+          header: "hsl(var(--basket-header))",
+        },
         textbox: "hsl(var(--textbox))",
         info: "hsl(var(--info))",
         background: "hsl(var(--background))",

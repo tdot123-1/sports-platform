@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import {
@@ -16,8 +16,12 @@ import { insertReportedEvent, ReportState } from "@/lib/actions/flag/actions";
 import { toast } from "sonner";
 import { CircleCheckIcon } from "lucide-react";
 import { AlertDialogAction } from "../ui/alert-dialog";
+import CaptchaComponent from "../auth/captcha-component";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const ReportEventForm = ({ eventId }: { eventId: string }) => {
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+  const captcha = useRef<HCaptcha | null>(null);
   const initialState: ReportState = { message: "", errors: {}, success: false };
   const [state, formAction, pending] = useActionState(
     insertReportedEvent,
@@ -32,6 +36,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
         toast.info("Report submitted, please check your email.");
         setIsSubmitted(true);
       }
+      captcha?.current?.resetCaptcha();
     }
   }, [pending, state]);
 
@@ -143,6 +148,21 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
                     </p>
                   ))}
               </div>
+            </div>
+            <div className="mb-4 flex justify-center">
+              <CaptchaComponent
+                captcha={captcha}
+                setCaptchaToken={setCaptchaToken}
+              />
+              <Input
+                className="hidden"
+                type={`hidden`}
+                hidden
+                readOnly
+                name="token"
+                id="token"
+                value={captchaToken}
+              />
             </div>
             <Input
               name="event_id"

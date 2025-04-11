@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 import jwt from "jsonwebtoken";
 import { sendEmailToVerifyReport } from "../sendgrid/actions";
+import { verifyCaptcha } from "@/lib/captcha";
 
 const reportReasons = ["off_lang", "off_img", "fake", "sus"] as const;
 
@@ -58,7 +59,25 @@ export const insertReportedEvent = async (
   const { event_id, report_details, report_reason, user_email } =
     validatedFields.data;
 
-  // return { success: true };
+  // get captcha token from form
+  const token = formData.get("token");
+
+  if (!token) {
+    return {
+      message: "Missing CAPTCHA token. Please try again.",
+      success: false,
+    };
+  }
+
+  // verify captcha token
+  const verifiedCaptcha = verifyCaptcha(token.toString());
+
+  if (!verifiedCaptcha) {
+    return {
+      message: "Failed CAPTCHA challenge. Please try again.",
+      success: false,
+    };
+  }
 
   try {
     const supabase = await createClient();
