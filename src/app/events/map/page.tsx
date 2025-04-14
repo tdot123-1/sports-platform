@@ -51,7 +51,7 @@ const Page = async (props: {
   }
 
   const searchParams = await props.searchParams;
-  const { filter, priceFilter, passedEventsFilter, currentBatch } =
+  const { filter, priceFilter, passedEventsFilter, currentBatch, mapCoords } =
     parseSearchParams(searchParams);
 
   return (
@@ -64,7 +64,15 @@ const Page = async (props: {
           <Button>Batch</Button>
         </div>
         <Suspense fallback={<Skeleton className="w-full h-full" />}>
-          <EventsMapWrapperTest mapId={MAP_ID} apiKey={MAPS_API_KEY} />
+          <EventsMapWrapperTest
+            mapId={MAP_ID}
+            apiKey={MAPS_API_KEY}
+            mapCoords={mapCoords}
+            filter={filter}
+            priceFilter={priceFilter}
+            passedEventsFilter={passedEventsFilter}
+            currentBatch={currentBatch}
+          />
         </Suspense>
       </section>
     </div>
