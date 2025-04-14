@@ -1,7 +1,14 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { SportsEvent, SportsEventMap } from "./types";
+import {
+  FilterOptions,
+  SortOptions,
+  SportsEvent,
+  SportsEventMap,
+} from "./types";
 import { fetchEventLogo } from "./data/storage/data";
+import { parseFilters, parseSortOptions } from "./filters";
+import { mapStartCoords } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -178,6 +185,7 @@ export const formatRawFormData = (formData: FormData) => {
   };
 };
 
+// (!) NOT USED
 export const capitalizeCity = (input: string) => {
   return input
     .split(" ")
@@ -185,6 +193,97 @@ export const capitalizeCity = (input: string) => {
     .join(" ");
 };
 
+// (!) NOT USED
 export const formatCityName = (fullName: string) => {
   return fullName?.split(",")[0] || "";
+};
+
+// helper to extract
+const parseCoord = (value: string | undefined, fallback: number) => {
+  const parsed = parseFloat(value ?? "");
+  return isNaN(parsed) ? fallback : parsed;
+};
+
+// general reusable function to get params from URL, process, and pass to components
+export const parseSearchParams = (
+  searchParams?: Record<string, string | undefined>
+) => {
+  const query = searchParams?.query
+    ? decodeURIComponent(searchParams.query)
+    : "";
+
+  const currentPage = Number(searchParams?.page) || 1;
+
+  // parse filters
+  let filter: FilterOptions | undefined;
+  if (searchParams) {
+    filter = parseFilters(searchParams);
+  }
+
+  // parse sort options
+  let sort: SortOptions | undefined;
+  if (searchParams) {
+    sort = parseSortOptions(searchParams);
+  }
+
+  const priceFilter =
+    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
+
+  const passedEventsFilter = searchParams?.pe === "true" ? true : false;
+
+  // get selected month or current month
+  const month =
+    // ensure param can be converted to number
+    searchParams?.month && !isNaN(Number(searchParams.month))
+      ? // ensure number is between 1 and 12
+        Math.min(Math.max(1, Number(searchParams.month)), 12)
+      : new Date().getMonth() + 1;
+
+  // get selected year or current year
+  const year =
+    // ensure param can be converted to number
+    searchParams?.year && !isNaN(Number(searchParams.year))
+      ? // ensure year is later than 2000
+        Math.max(2000, Number(searchParams.year))
+      : new Date().getFullYear();
+
+  const currentBatch = Number(searchParams?.batch) || 1;
+
+  // extract map coords
+  // center
+  const lat = parseCoord(searchParams?.lat, mapStartCoords.center.lat);
+  const lng = parseCoord(searchParams?.lng, mapStartCoords.center.lng);
+
+  // bounds
+  const south = parseCoord(searchParams?.sth, mapStartCoords.bounds.south);
+  const west = parseCoord(searchParams?.wst, mapStartCoords.bounds.west);
+  const north = parseCoord(searchParams?.nth, mapStartCoords.bounds.north);
+  const east = parseCoord(searchParams?.est, mapStartCoords.bounds.east);
+
+  // get one coords object with all map info
+  const mapCoords = {
+    center: {
+      lat,
+      lng,
+    },
+    bounds: {
+      south,
+      west,
+      north,
+      east,
+    },
+  };
+
+  return {
+    query,
+    currentPage,
+    filter,
+    sort,
+    priceFilter,
+    passedEventsFilter,
+    month,
+    year,
+    currentBatch,
+    mapCoords,
+  };
 };

@@ -2,6 +2,7 @@ import EventsCalendarWrapper from "@/components/events/events-calendar/events-ca
 import CalendarSkeleton from "@/components/skeletons/calendar-skeleton";
 import { parseFilters } from "@/lib/filters";
 import { FilterOptions } from "@/lib/types";
+import { parseSearchParams } from "@/lib/utils";
 
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -25,32 +26,35 @@ const Page = async (props: {
 }) => {
   const searchParams = await props.searchParams;
 
-  // get selected month or current month
-  const month =
-    // ensure param can be converted to number
-    searchParams?.month && !isNaN(Number(searchParams.month))
-      ? // ensure number is between 1 and 12
-        Math.min(Math.max(1, Number(searchParams.month)), 12)
-      : new Date().getMonth() + 1;
+  // // get selected month or current month
+  // const month =
+  //   // ensure param can be converted to number
+  //   searchParams?.month && !isNaN(Number(searchParams.month))
+  //     ? // ensure number is between 1 and 12
+  //       Math.min(Math.max(1, Number(searchParams.month)), 12)
+  //     : new Date().getMonth() + 1;
 
-  // get selected year or current year
-  const year =
-    // ensure param can be converted to number
-    searchParams?.year && !isNaN(Number(searchParams.year))
-      ? // ensure year is later than 2000
-        Math.max(2000, Number(searchParams.year))
-      : new Date().getFullYear();
+  // // get selected year or current year
+  // const year =
+  //   // ensure param can be converted to number
+  //   searchParams?.year && !isNaN(Number(searchParams.year))
+  //     ? // ensure year is later than 2000
+  //       Math.max(2000, Number(searchParams.year))
+  //     : new Date().getFullYear();
 
-  const batch = Number(searchParams?.batch) || 1;
+  // const batch = Number(searchParams?.batch) || 1;
 
-  const priceFilter =
-    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
+  // const priceFilter =
+  //   Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
 
-  // parse filters
-  let filter: FilterOptions | undefined;
-  if (searchParams) {
-    filter = parseFilters(searchParams);
-  }
+  // // parse filters
+  // let filter: FilterOptions | undefined;
+  // if (searchParams) {
+  //   filter = parseFilters(searchParams);
+  // }
+
+  const { month, year, currentBatch, filter, priceFilter } =
+    parseSearchParams(searchParams);
 
   return (
     <>
@@ -59,7 +63,7 @@ const Page = async (props: {
           <EventsCalendarWrapper
             month={month}
             year={year}
-            batch={batch}
+            batch={currentBatch}
             filter={filter}
             priceFilter={priceFilter}
           />

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ITEMS_ON_MAP } from "@/lib/constants";
 import { MapBounds, MapCenter } from "./events-map";
 import MapFilter from "./map-filter";
+import ToolbarFilter from "@/components/toolbar/toolbar-filter";
 
 interface MapToolbarProps {
   totalEvents: number;
@@ -61,7 +62,7 @@ const MapToolbar = ({
 
   return (
     <div className="flex justify-between mb-1">
-      <MapFilter />
+      <ToolbarFilter batch maxPrice={1000} />
       <MapBatchSelect
         currentBatch={currentBatch}
         totalBatches={totalBatches}
