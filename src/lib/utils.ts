@@ -251,14 +251,14 @@ export const parseSearchParams = (
 
   // extract map coords
   // center
-  const lat = parseCoord(searchParams?.lat, mapStartCoords.center.lat);
-  const lng = parseCoord(searchParams?.lng, mapStartCoords.center.lng);
+  const lat = parseCoord(searchParams?.lt, mapStartCoords.center.lat);
+  const lng = parseCoord(searchParams?.lg, mapStartCoords.center.lng);
 
   // bounds
-  const south = parseCoord(searchParams?.sth, mapStartCoords.bounds.south);
-  const west = parseCoord(searchParams?.wst, mapStartCoords.bounds.west);
-  const north = parseCoord(searchParams?.nth, mapStartCoords.bounds.north);
-  const east = parseCoord(searchParams?.est, mapStartCoords.bounds.east);
+  const south = parseCoord(searchParams?.s, mapStartCoords.bounds.south);
+  const west = parseCoord(searchParams?.w, mapStartCoords.bounds.west);
+  const north = parseCoord(searchParams?.n, mapStartCoords.bounds.north);
+  const east = parseCoord(searchParams?.e, mapStartCoords.bounds.east);
 
   // get one coords object with all map info
   const mapCoords = {

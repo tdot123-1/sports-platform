@@ -14,7 +14,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { Label } from "../ui/label";
 
-const ToolbarSearch = () => {
+const ToolbarSearch = ({ batch }: { batch?: boolean }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -23,7 +23,13 @@ const ToolbarSearch = () => {
     // console.log(`Searching... ${term}`);
 
     const params = new URLSearchParams(searchParams);
-    params.set("page", "1");
+
+    if (batch) {
+      params.set("batch", "1");
+    } else {
+      params.set("page", "1");
+    }
+
     if (term) {
       params.set("query", encodeURIComponent(term));
     } else {

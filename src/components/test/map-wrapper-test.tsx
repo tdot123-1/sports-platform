@@ -40,6 +40,8 @@ const EventsMapWrapperTest = async ({
 
   // fetch events
   // toolbar should also be within this component (?)
+  // pass list of events down to EventsMap
+  
 
   return (
     <>

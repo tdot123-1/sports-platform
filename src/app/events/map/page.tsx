@@ -1,6 +1,8 @@
 import EventsMapWrapper from "@/components/events/map/map-wrapper";
 import EventsMap from "@/components/test/map-test";
 import EventsMapWrapperTest from "@/components/test/map-wrapper-test";
+import ToolbarFilter from "@/components/toolbar/toolbar-filter";
+import ToolbarSearch from "@/components/toolbar/toolbar-search";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { parseSearchParams } from "@/lib/utils";
@@ -24,12 +26,12 @@ const Page = async (props: {
     es?: string;
     pe?: string;
     price?: string;
-    lat?: string;
-    lng?: string;
-    sth?: string;
-    wst?: string;
-    nth?: string;
-    est?: string;
+    lt?: string;
+    lg?: string;
+    s?: string;
+    w?: string;
+    n?: string;
+    e?: string;
   }>;
 }) => {
   const MAP_ID = process.env.MAP_ID;
@@ -59,9 +61,9 @@ const Page = async (props: {
       <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
         {/** toolbar (filter, search, batch select) */}
         <div className="flex justify-between mb-1">
-          <Button>Filter</Button>
-          <Button>Search</Button>
-          <Button>Batch</Button>
+          <ToolbarFilter maxPrice={1000} />
+          <ToolbarSearch batch />
+          
         </div>
         <Suspense fallback={<Skeleton className="w-full h-full" />}>
           <EventsMapWrapperTest
