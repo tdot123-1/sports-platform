@@ -68,7 +68,7 @@ const Page = async (props: {
         {/** toolbar (filter, search, batch select) */}
         <div className="flex justify-between mb-1">
           <div className="flex gap-8">
-            <ToolbarFilter batch maxPrice={1000} />
+            <ToolbarFilter batch maxPrice={1000} passedEventsFilter={passedEventsFilter} />
             <ToolbarSearch batch />
           </div>
 
