@@ -1,4 +1,5 @@
 import EventsMapWrapper from "@/components/events/map/map-wrapper";
+import MapPaginationWrapper from "@/components/test/map-pagination-wrapper";
 import EventsMap from "@/components/test/map-test";
 import EventsMapWrapperTest from "@/components/test/map-wrapper-test";
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
@@ -53,17 +54,34 @@ const Page = async (props: {
   }
 
   const searchParams = await props.searchParams;
-  const { filter, priceFilter, passedEventsFilter, currentBatch, mapCoords } =
-    parseSearchParams(searchParams);
+  const {
+    filter,
+    priceFilter,
+    passedEventsFilter,
+    currentBatch,
+    mapCoords,
+    query,
+  } = parseSearchParams(searchParams);
 
   return (
     <div className="px-4">
       <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
         {/** toolbar (filter, search, batch select) */}
         <div className="flex justify-between mb-1">
-          <ToolbarFilter maxPrice={1000} />
-          <ToolbarSearch batch />
-          
+          <div className="flex gap-8">
+            <ToolbarFilter batch maxPrice={1000} />
+            <ToolbarSearch batch />
+          </div>
+
+          <Suspense fallback={<Skeleton className="h-16 w-24" />}>
+            <MapPaginationWrapper
+              mapCoords={mapCoords}
+              filter={filter}
+              priceFilter={priceFilter}
+              passedEventsFilter={passedEventsFilter}
+              searchQuery={query}
+            />
+          </Suspense>
         </div>
         <Suspense fallback={<Skeleton className="w-full h-full" />}>
           <EventsMapWrapperTest
@@ -73,6 +91,7 @@ const Page = async (props: {
             filter={filter}
             priceFilter={priceFilter}
             passedEventsFilter={passedEventsFilter}
+            searchQuery={query}
             currentBatch={currentBatch}
           />
         </Suspense>

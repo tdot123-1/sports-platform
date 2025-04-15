@@ -206,3 +206,12 @@ export interface SportsEventMap {
   lat: number;
   lng: number;
 }
+
+export interface MapEvent {
+  id: string;
+  event_name: string;
+  address_city: string;
+
+  lat: number;
+  lng: number;
+}

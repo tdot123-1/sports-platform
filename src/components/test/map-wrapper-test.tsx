@@ -1,5 +1,6 @@
-import { FilterOptions } from "@/lib/types";
+import { FilterOptions, MapEvent } from "@/lib/types";
 import EventsMap from "./map-test";
+import { fetchEventsInView } from "@/lib/data/map/data";
 
 export interface MapCoords {
   center: {
@@ -41,11 +42,20 @@ const EventsMapWrapperTest = async ({
   // fetch events
   // toolbar should also be within this component (?)
   // pass list of events down to EventsMap
-  
+  const fetchedEvents: MapEvent[] = await fetchEventsInView(
+    mapCoords,
+    currentBatch,
+    searchQuery,
+    filter,
+    priceFilter,
+    passedEventsFilter
+  );
+
+  console.log("FETCHED EVENTS: ", fetchedEvents)
 
   return (
     <>
-      <EventsMap mapId={mapId} apiKey={apiKey} />
+      <EventsMap mapId={mapId} apiKey={apiKey} events={fetchedEvents} />
     </>
   );
 };

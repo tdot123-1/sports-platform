@@ -1,56 +1,87 @@
 "use server";
 
+import { MapCoords } from "@/components/test/map-wrapper-test";
 import { ITEMS_ON_MAP, ITEMS_PER_PAGE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
-import { SportsEvent } from "@/lib/types";
+import { FilterOptions, SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
 
-// (TEST) fetch all events on map (need to update to fetch events within radius)
-export const fetchAllEventsOnMap = async () => {
-  try {
-    const supabase = await createClient();
-
-    const { data: events, error } = await supabase
-      .from("events")
-      .select("*")
-      .limit(50);
-
-    if (error) {
-      console.error("Postgres error: ", error.message);
-      throw new Error(`Database error: ${error.code} ${error.message}`);
-    }
-
-    return events;
-  } catch (error) {
-    console.error("Error fetching events: ", error);
-    throw new Error(`Error fetching events: ${error}`);
-  }
-};
-
-// (NOT USED) fetch all events within bounds of visible map
+// fetch unique events within bounds (+ filters, query, pagination)
 export const fetchEventsInView = async (
-  min_lat: number,
-  min_lng: number,
-  max_lat: number,
-  max_lng: number
+  mapCoords: MapCoords,
+  currentBatch: number = 1,
+  searchQuery?: string,
+  filter?: FilterOptions,
+  priceFilter?: number,
+  passedEventsFilter: boolean = false
 ) => {
+  // pagination
+  const offset_count = (currentBatch - 1) * ITEMS_ON_MAP;
+  const limit_count = ITEMS_ON_MAP;
+
+  // extract map coords
+  // center
+  const { lat: center_lat, lng: center_lng } = mapCoords.center;
+  // bounds
+  const {
+    south: min_lat,
+    west: min_lng,
+    north: max_lat,
+    east: max_lng,
+  } = mapCoords.bounds;
+
+  // extract filter values, set value or null, name vars according to sql function
+  const event_types = filter?.event_type?.length ? filter.event_type : null;
+  const target_genders = filter?.target_gender?.length
+    ? filter.target_gender
+    : null;
+  const target_ages = filter?.target_age?.length ? filter.target_age : null;
+  const target_levels = filter?.target_level?.length
+    ? filter.target_level
+    : null;
+
+  const event_statuses = filter?.event_status?.length
+    ? filter.event_status
+    : null;
+
+  // special filters (price, passed events)
+  const price_filter = priceFilter ?? null;
+  const passed_events = passedEventsFilter;
+
+  // search query
+  const search_query = searchQuery || null;
+
   try {
     const supabase = await createClient();
 
-    // call db function
-    const { data: events, error } = await supabase
-      .rpc("events_in_view", {
+    const { data: events, error } = await supabase.rpc(
+      "fetch_event_locations_in_view",
+      {
         min_lat,
         min_lng,
         max_lat,
         max_lng,
-      })
-      .limit(50);
+        center_lat,
+        center_lng,
+        limit_count,
+        offset_count,
+        event_types,
+        target_genders,
+        target_ages,
+        target_levels,
+        event_statuses,
+        price_filter,
+        passed_events,
+        search_query,
+      }
+    );
 
     if (error) {
       console.error("Postgres error: ", error.message);
       throw new Error(`Database error: ${error.code} ${error.message}`);
     }
+
+    // throw new Error("TEST")
 
     return events || [];
   } catch (error) {
@@ -114,7 +145,7 @@ export const fetchEventsInViewAndCount = async (
   center_lat: number,
   center_lng: number
 ) => {
-  // only fetch initial batch 
+  // only fetch initial batch
   const offset_count = 0;
   const limit_count = ITEMS_ON_MAP;
 
@@ -187,7 +218,7 @@ export const fetchEventsInCity = async (
   }
 };
 
-// get number of pages for specific city 
+// get number of pages for specific city
 export const fetchTotalPagesInCity = async (address_city: string) => {
   try {
     const supabase = await createClient();

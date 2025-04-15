@@ -4,7 +4,7 @@ import MapBatchSelect from "./map-batch-select";
 import { useEffect, useMemo, useState } from "react";
 import { ITEMS_ON_MAP } from "@/lib/constants";
 import { MapBounds, MapCenter } from "./events-map";
-import MapFilter from "./map-filter";
+
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
 
 interface MapToolbarProps {
