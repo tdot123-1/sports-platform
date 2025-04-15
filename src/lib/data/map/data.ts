@@ -1,6 +1,6 @@
 "use server";
 
-import { MapCoords } from "@/components/test/map-wrapper-test";
+import { MapCoords } from "@/components/map/map-wrapper";
 import { ITEMS_ON_MAP, ITEMS_PER_PAGE } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SportsEvent } from "@/lib/types";

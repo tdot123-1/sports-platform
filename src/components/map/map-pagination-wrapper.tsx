@@ -1,5 +1,5 @@
 import { FilterOptions } from "@/lib/types";
-import { MapCoords } from "./map-wrapper-test";
+import { MapCoords } from "./map-wrapper";
 import MapPagination from "./map-pagination";
 
 interface MapPaginationWrapperProps {

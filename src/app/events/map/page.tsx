@@ -1,7 +1,6 @@
-import EventsMapWrapper from "@/components/events/map/map-wrapper";
-import MapPaginationWrapper from "@/components/test/map-pagination-wrapper";
-import EventsMap from "@/components/test/map-test";
-import EventsMapWrapperTest from "@/components/test/map-wrapper-test";
+import MapPaginationWrapper from "@/components/map/map-pagination-wrapper";
+
+import EventsMapWrapper from "@/components/map/map-wrapper";
 import ToolbarFilter from "@/components/toolbar/toolbar-filter";
 import ToolbarSearch from "@/components/toolbar/toolbar-search";
 import { Button } from "@/components/ui/button";
@@ -84,7 +83,7 @@ const Page = async (props: {
           </Suspense>
         </div>
         <Suspense fallback={<Skeleton className="w-full h-full" />}>
-          <EventsMapWrapperTest
+          <EventsMapWrapper
             mapId={MAP_ID}
             apiKey={MAPS_API_KEY}
             mapCoords={mapCoords}

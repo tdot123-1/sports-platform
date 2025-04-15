@@ -1,5 +1,5 @@
 import { FilterOptions, MapEvent } from "@/lib/types";
-import EventsMap from "./map-test";
+import EventsMap from "./events-map";
 import { fetchEventsInView } from "@/lib/data/map/data";
 
 export interface MapCoords {
@@ -26,7 +26,7 @@ interface EventsMapWrapperProps {
   mapCoords: MapCoords;
 }
 
-const EventsMapWrapperTest = async ({
+const EventsMapWrapper = async ({
   mapId,
   apiKey,
   currentBatch = 1,
@@ -60,4 +60,4 @@ const EventsMapWrapperTest = async ({
   );
 };
 
-export default EventsMapWrapperTest;
+export default EventsMapWrapper;

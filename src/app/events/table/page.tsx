@@ -3,8 +3,8 @@ import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsTableSkeleton from "@/components/skeletons/events-table-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { parseFilters, parseSortOptions } from "@/lib/filters";
-import { FilterOptions, SortOptions } from "@/lib/types";
+
+import { parseSearchParams } from "@/lib/utils";
 
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -29,27 +29,9 @@ const Page = async (props: {
   }>;
 }) => {
   const searchParams = await props.searchParams;
-  const query = searchParams?.query
-    ? decodeURIComponent(searchParams.query)
-    : "";
-  const currentPage = Number(searchParams?.page) || 1;
 
-  // parse filters
-  let filter: FilterOptions | undefined;
-  if (searchParams) {
-    filter = parseFilters(searchParams);
-  }
-
-  // parse sort options
-  let sort: SortOptions | undefined;
-  if (searchParams) {
-    sort = parseSortOptions(searchParams);
-  }
-
-  const priceFilter =
-    Number(searchParams?.price) >= 0 ? Number(searchParams?.price) : undefined;
-
-  const passedEventsFilter = searchParams?.pe === "true" ? true : false;
+  const { filter, sort, priceFilter, passedEventsFilter, query, currentPage } =
+    parseSearchParams(searchParams);
 
   return (
     <>
