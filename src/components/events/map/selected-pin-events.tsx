@@ -15,6 +15,8 @@ import { FrownIcon, RotateCcwIcon } from "lucide-react";
 import { Skeleton } from "../../ui/skeleton";
 import { Button } from "../../ui/button";
 import MapDialogPagination from "./map-dialog-pagination";
+import { useSearchParams } from "next/navigation";
+import { parseSearchParams } from "@/lib/utils";
 
 interface SelectedPinProps {
   selectedPin: string;
@@ -27,6 +29,8 @@ const SelectedPinEvents = ({
   isDialogOpen,
   handleOpenChange,
 }: SelectedPinProps) => {
+  const searchParams = useSearchParams();
+
   // list of events for selecetd pin (city)
   const [eventsInPin, setEventsInPin] = useState<SportsEvent[]>([]);
 
@@ -38,6 +42,28 @@ const SelectedPinEvents = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalEvents, setTotalEvents] = useState(1);
+
+  const getSearchParams = () => {
+    const extractedParams = {
+      query: searchParams.get("query") ?? undefined,
+      et: searchParams.get("et") ?? undefined,
+      tg: searchParams.get("tg") ?? undefined,
+      ta: searchParams.get("ta") ?? undefined,
+      tl: searchParams.get("tl") ?? undefined,
+      es: searchParams.get("es") ?? undefined,
+      pe: searchParams.get("pe") ?? undefined,
+      price: searchParams.get("price") ?? undefined,
+    };
+
+    const {
+      filter,
+      priceFilter,
+      passedEventsFilter,
+      query: searchQuery,
+    } = parseSearchParams(extractedParams);
+
+    return { filter, priceFilter, passedEventsFilter, searchQuery };
+  };
 
   // handle pagination in pin dialog
   const handlePageChange = (nextPage: number) => {
@@ -53,11 +79,21 @@ const SelectedPinEvents = ({
   // get total pages and total events
   const fetchTotalPagesForPin = async () => {
     setFetchError(false);
+
+    const { searchQuery, filter, priceFilter, passedEventsFilter } =
+      getSearchParams();
+
     try {
       // throw new Error("test");
 
       // call server action to fetch pages and count
-      const data = await fetchTotalPagesInCity(selectedPin);
+      const data = await fetchTotalPagesInCity(
+        selectedPin,
+        searchQuery,
+        filter,
+        priceFilter,
+        passedEventsFilter
+      );
 
       // update states
       setTotalPages(data.totalPages);
@@ -72,11 +108,21 @@ const SelectedPinEvents = ({
 
   const fetchEventsForPin = async () => {
     setFetchError(false);
+    const { searchQuery, filter, priceFilter, passedEventsFilter } =
+      getSearchParams();
+
     try {
       // throw new Error("test");
 
       // fetch events for selected pin (city)
-      const data = await fetchEventsInCity(selectedPin, currentPage);
+      const data = await fetchEventsInCity(
+        selectedPin,
+        currentPage,
+        searchQuery,
+        filter,
+        priceFilter,
+        passedEventsFilter
+      );
 
       // check error
       if (!data.success || !data.data) {

@@ -2,6 +2,7 @@
 
 import { MapCoords } from "@/components/map/map-wrapper";
 import { ITEMS_ON_MAP, ITEMS_PER_PAGE } from "@/lib/constants";
+import { applyQueryFilters } from "@/lib/filters";
 import { createClient } from "@/lib/supabase/server";
 import { FilterOptions, SportsEvent } from "@/lib/types";
 import { convertFetchedEvent } from "@/lib/utils";
@@ -155,12 +156,6 @@ export const fetchEventsInViewCount = async (
 
     const totalEvents = data ?? 0;
 
-    // console.log("Data: ", data);
-
-    // console.log("Data count: ", data?.[0]);
-
-    // console.log("EVENTS COUNT: ", totalEvents);
-
     const totalBatches = Math.ceil(Number(totalEvents) / ITEMS_ON_MAP);
 
     return { totalEvents, totalBatches };
@@ -270,18 +265,54 @@ export const fetchEventsInViewAndCount = async (
 // fetch all events in a city (dialog when pin on map is clicked)
 export const fetchEventsInCity = async (
   address_city: string,
-  currentPage: number = 1
+  currentPage: number = 1,
+  searchQuery?: string,
+  filter?: FilterOptions,
+  priceFilter?: number,
+  passedEventsFilter?: boolean
 ) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const today = new Date().toISOString().split("T")[0];
 
   try {
     const supabase = await createClient();
 
-    const { data: events, error } = await supabase
-      .from("events")
-      .select("*")
-      .eq("address_city", address_city)
-      .range(offset, offset + ITEMS_PER_PAGE - 1);
+    let query = supabase.from("events").select("*");
+
+    query.eq("address_city", address_city);
+
+    if (!passedEventsFilter) {
+      query = query.or("start_date.is.null,start_date.gte." + today);
+    }
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
+    }
+
+    if (searchQuery) {
+      query = query.or(
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,event_description.ilike.%${searchQuery}%,cost_description.ilike.%${searchQuery}%,address_city.ilike.%${searchQuery}%`
+      );
+    }
+
+    const { data: events, error } = await query.range(
+      offset,
+      offset + ITEMS_PER_PAGE - 1
+    );
+
+    // const { data: events, error } = await supabase
+    //   .from("events")
+    //   .select("*")
+    //   .eq("address_city", address_city)
+    //   .range(offset, offset + ITEMS_PER_PAGE - 1);
 
     if (error) {
       console.error("Postgres error: ", error.message);
@@ -301,14 +332,51 @@ export const fetchEventsInCity = async (
 };
 
 // get number of pages for specific city
-export const fetchTotalPagesInCity = async (address_city: string) => {
+export const fetchTotalPagesInCity = async (
+  address_city: string,
+  searchQuery?: string,
+  filter?: FilterOptions,
+  priceFilter?: number,
+  passedEventsFilter?: boolean
+) => {
+  const today = new Date().toISOString().split("T")[0];
+
   try {
     const supabase = await createClient();
 
-    const { count, error } = await supabase
+    // const { count, error } = await supabase
+    //   .from("events")
+    //   .select("id", { count: "exact", head: true })
+    //   .eq("address_city", address_city);
+
+    let query = supabase
       .from("events")
-      .select("id", { count: "exact", head: true })
-      .eq("address_city", address_city);
+      .select("id", { count: "exact", head: true });
+
+    query.eq("address_city", address_city);
+
+    if (!passedEventsFilter) {
+      query = query.or("start_date.is.null,start_date.gte." + today);
+    }
+
+    if (filter) {
+      query = applyQueryFilters(query, filter);
+    }
+
+    if (priceFilter !== undefined) {
+      const maxPrice = priceFilter * 100;
+      query = query.or(
+        `cost_estimate_eur.lte.${maxPrice},cost_estimate_eur.is.null`
+      );
+    }
+
+    if (searchQuery) {
+      query = query.or(
+        `event_name.ilike.%${searchQuery}%,event_type.ilike.%${searchQuery}%,event_description.ilike.%${searchQuery}%,cost_description.ilike.%${searchQuery}%,address_city.ilike.%${searchQuery}%`
+      );
+    }
+
+    const { count, error } = await query;
 
     if (error) {
       console.error("Error fetching event count:", error.message, error.code);

@@ -40,7 +40,6 @@ const EventsMapWrapper = async ({
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
   // fetch events
-  // toolbar should also be within this component (?)
   // pass list of events down to EventsMap
   const fetchedEvents: MapEvent[] = await fetchEventsInView(
     mapCoords,

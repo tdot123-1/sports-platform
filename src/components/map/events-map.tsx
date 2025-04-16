@@ -10,23 +10,38 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import SelectedPinEvents from "../events/map/selected-pin-events";
 
-const EventsMap = ({
-  mapId,
-  apiKey,
-  events,
-}: {
+interface EventsMapProps {
   mapId: string;
   apiKey: string;
   events: MapEvent[];
-}) => {
-  // on center changed -> set new coords in params -> trigger new fetch
+}
+
+const EventsMap = ({ mapId, apiKey, events }: EventsMapProps) => {
+  // states for pin dialog -> open state and selected city
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedPin, setSelectedPin] = useState("");
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  // open/close dialog after clicking pin
+  const handleOpenChange = () => {
+    setIsDialogOpen((prev) => !prev);
+  };
+
+  // handle state when pin is clicked -> set correct city, open dialog
+  const handleSelectPin = (address_city: string) => {
+    setSelectedPin(address_city);
+
+    setIsDialogOpen(true);
+  };
+
+  // on center changed -> set new coords in params -> trigger new fetch
   const handleCenterChanged = useDebouncedCallback(
     (e: MapCameraChangedEvent) => {
       // create new search params
@@ -72,7 +87,7 @@ const EventsMap = ({
                 key={e.id}
                 title={e.event_name}
                 position={{ lat: e.lat, lng: e.lng }}
-                // onClick={() => handleSelectPin(e.address_city)}
+                onClick={() => handleSelectPin(e.address_city)}
               >
                 <Pin
                   background={"hsl(var(--basket))"}
@@ -82,6 +97,11 @@ const EventsMap = ({
             ))}
         </Map>
       </APIProvider>
+      <SelectedPinEvents
+        selectedPin={selectedPin}
+        isDialogOpen={isDialogOpen}
+        handleOpenChange={handleOpenChange}
+      />
     </>
   );
 };
