@@ -90,6 +90,87 @@ export const fetchEventsInView = async (
   }
 };
 
+export const fetchEventsInViewCount = async (
+  mapCoords: MapCoords,
+  searchQuery?: string,
+  filter?: FilterOptions,
+  priceFilter?: number,
+  passedEventsFilter: boolean = false
+) => {
+  // extract map coords
+  // bounds
+  const {
+    south: min_lat,
+    west: min_lng,
+    north: max_lat,
+    east: max_lng,
+  } = mapCoords.bounds;
+
+  // extract filter values, set value or null, name vars according to sql function
+  const event_types = filter?.event_type?.length ? filter.event_type : null;
+  const target_genders = filter?.target_gender?.length
+    ? filter.target_gender
+    : null;
+  const target_ages = filter?.target_age?.length ? filter.target_age : null;
+  const target_levels = filter?.target_level?.length
+    ? filter.target_level
+    : null;
+
+  const event_statuses = filter?.event_status?.length
+    ? filter.event_status
+    : null;
+
+  // special filters (price, passed events)
+  const price_filter = priceFilter ?? null;
+  const passed_events = passedEventsFilter;
+
+  // search query
+  const search_query = searchQuery || null;
+
+  try {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.rpc(
+      "count_event_locations_in_view",
+      {
+        min_lat,
+        min_lng,
+        max_lat,
+        max_lng,
+        event_types,
+        target_genders,
+        target_ages,
+        target_levels,
+        event_statuses,
+        price_filter,
+        passed_events,
+        search_query,
+      }
+    );
+
+    if (error) {
+      console.error("Postgres error: ", error.message);
+      throw new Error(`Database error: ${error.code} ${error.message}`);
+    }
+
+    const totalEvents = data ?? 0;
+
+    // console.log("Data: ", data);
+
+    // console.log("Data count: ", data?.[0]);
+
+    // console.log("EVENTS COUNT: ", totalEvents);
+
+    const totalBatches = Math.ceil(Number(totalEvents) / ITEMS_ON_MAP);
+
+    return { totalEvents, totalBatches };
+  } catch (error) {
+    console.error("Error fetching events: ", error);
+    throw new Error(`Error fetching events: ${error}`);
+  }
+};
+
+// (!) NOT USED
 // fetch events on unique locations with pagination
 export const fetchUniqueEventsInView = async (
   min_lat: number,
@@ -136,6 +217,7 @@ export const fetchUniqueEventsInView = async (
   }
 };
 
+// (!) NOT USED
 // fetch events within view + total count
 export const fetchEventsInViewAndCount = async (
   min_lat: number,

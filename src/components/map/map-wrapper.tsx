@@ -51,7 +51,7 @@ const EventsMapWrapper = async ({
     passedEventsFilter
   );
 
-  console.log("FETCHED EVENTS: ", fetchedEvents)
+  // console.log("FETCHED EVENTS: ", fetchedEvents)
 
   return (
     <>

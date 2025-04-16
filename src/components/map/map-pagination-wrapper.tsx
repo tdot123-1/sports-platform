@@ -1,6 +1,7 @@
 import { FilterOptions } from "@/lib/types";
 import { MapCoords } from "./map-wrapper";
 import MapPagination from "./map-pagination";
+import { fetchEventsInViewCount } from "@/lib/data/map/data";
 
 interface MapPaginationWrapperProps {
   searchQuery?: string;
@@ -21,12 +22,20 @@ const MapPaginationWrapper = async ({
   // await new Promise((resolve) => setTimeout(resolve, 5000));
 
   // fetch total events count
-  // use count to calc total batches
-  console.log(searchQuery, filter, priceFilter, passedEventsFilter, mapCoords);
+  const data = await fetchEventsInViewCount(
+    mapCoords,
+    searchQuery,
+    filter,
+    priceFilter,
+    passedEventsFilter
+  );
 
   return (
     <>
-      <MapPagination totalBatches={3} totalEvents={120} />
+      <MapPagination
+        totalBatches={data.totalBatches}
+        totalEvents={data.totalEvents}
+      />
     </>
   );
 };
