@@ -48,8 +48,6 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
   // convert to get correct type (incl dates)
   const event: SportsEvent = await convertFetchedEvent(fetchedEvent);
 
-  console.log("cost: ", event.cost_estimate);
-
   const imagePublicUrls =
     event.event_images.length > 0
       ? await fetchImagePublicUrls(event.event_images)

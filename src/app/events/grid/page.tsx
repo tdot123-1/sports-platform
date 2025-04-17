@@ -1,9 +1,9 @@
 import EventsList from "@/components/events/events-grid/events-list";
 import PaginationWrapper from "@/components/events/pagination-wrapper";
 import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
+import ToolbarSkeleton from "@/components/skeletons/toolbar-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import { parseSearchParams } from "@/lib/utils";
 
 import { Metadata } from "next";
@@ -36,7 +36,7 @@ const Page = async (props: {
 
   return (
     <>
-      <Suspense fallback={<Skeleton className="w-full h-12" />}>
+      <Suspense fallback={<ToolbarSkeleton />}>
         <Toolbar
           filter={filter}
           sort={sort}

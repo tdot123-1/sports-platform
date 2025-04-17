@@ -47,12 +47,14 @@ const ToolbarFilter = ({
   maxPrice,
   batch,
   passedEventsFilter,
+  isCalendar,
 }: {
   filter?: FilterOptions;
   priceFilter?: number;
   maxPrice: number;
   batch?: boolean;
   passedEventsFilter?: boolean;
+  isCalendar?: boolean;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -241,13 +243,16 @@ const ToolbarFilter = ({
         <DropdownMenuContent className="max-w-36">
           <DropdownMenuLabel>Apply Filters</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <FilterPassedEvents
-            passedEventsFilter={passedEventsFilter}
-            pathname={pathname}
-            replace={replace}
-            searchParams={searchParams}
-            batch={batch}
-          />
+          {!isCalendar && (
+            <FilterPassedEvents
+              passedEventsFilter={passedEventsFilter}
+              pathname={pathname}
+              replace={replace}
+              searchParams={searchParams}
+              batch={batch}
+            />
+          )}
+
           {AllFilters.map((sub) => (
             <DropdownMenuSub key={`${sub.trigger}`}>
               <div className="inline-flex w-full">

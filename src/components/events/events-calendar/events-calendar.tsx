@@ -106,7 +106,7 @@ const EventsCalendar = ({
     <>
       <div className="pb-1 pt-4 px-4 flex justify-between">
         <div className="flex gap-3">
-          <ToolbarFilter maxPrice={maxPrice} batch passedEventsFilter />
+          <ToolbarFilter maxPrice={maxPrice} batch isCalendar />
           <CalendarNavigation
             currentMonth={currentMonth}
             setCurrentMonth={setCurrentMonth}
