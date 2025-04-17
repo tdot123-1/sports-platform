@@ -1,10 +1,6 @@
-import MapPaginationWrapper from "@/components/events/map/map-pagination-wrapper";
 import MapToolbar from "@/components/events/map/map-toolbar";
-
 import EventsMapWrapper from "@/components/events/map/map-wrapper";
 import MapToolbarSkeleton from "@/components/skeletons/map-toolbar-skeleton";
-import ToolbarFilter from "@/components/toolbar/toolbar-filter";
-import ToolbarSearch from "@/components/toolbar/toolbar-search";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { parseSearchParams } from "@/lib/utils";
@@ -78,22 +74,6 @@ const Page = async (props: {
           />
         </Suspense>
 
-        {/* <div className="flex justify-between mb-1">
-          <div className="flex gap-8">
-            <ToolbarFilter batch maxPrice={1000} passedEventsFilter={passedEventsFilter} />
-            <ToolbarSearch batch />
-          </div>
-
-          <Suspense fallback={<Skeleton className="h-16 w-24" />}>
-            <MapPaginationWrapper
-              mapCoords={mapCoords}
-              filter={filter}
-              priceFilter={priceFilter}
-              passedEventsFilter={passedEventsFilter}
-              searchQuery={query}
-            />
-          </Suspense>
-        </div> */}
         <Suspense fallback={<Skeleton className="w-full h-full" />}>
           <EventsMapWrapper
             mapId={MAP_ID}
