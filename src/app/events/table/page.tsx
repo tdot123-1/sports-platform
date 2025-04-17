@@ -5,6 +5,7 @@ import ToolbarSkeleton from "@/components/skeletons/toolbar-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import ViewsToggle from "@/components/views/views-toggle";
 
 import { parseSearchParams } from "@/lib/utils";
 
@@ -37,6 +38,9 @@ const Page = async (props: {
 
   return (
     <>
+      <div className="px-4">
+        <ViewsToggle currentView="table" />
+      </div>
       <Suspense fallback={<ToolbarSkeleton />}>
         <Toolbar
           filter={filter}

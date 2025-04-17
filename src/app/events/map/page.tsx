@@ -3,6 +3,7 @@ import EventsMapWrapper from "@/components/events/map/map-wrapper";
 import MapToolbarSkeleton from "@/components/skeletons/map-toolbar-skeleton";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import ViewsToggle from "@/components/views/views-toggle";
 import { parseSearchParams } from "@/lib/utils";
 import { ConstructionIcon, HomeIcon } from "lucide-react";
 import { Metadata } from "next";
@@ -62,7 +63,8 @@ const Page = async (props: {
 
   return (
     <div className="px-4">
-      <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
+      <ViewsToggle currentView="map" />
+      <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl mt-4 mb-8 h-[calc(100vh-200px)]">
         {/** toolbar (filter, search, batch select) */}
         <Suspense fallback={<MapToolbarSkeleton />}>
           <MapToolbar

@@ -1,10 +1,10 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 import jwt from "jsonwebtoken";
 import { sendEmailToVerifyReport } from "../sendgrid/actions";
 import { verifyCaptcha } from "@/lib/captcha";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const reportReasons = ["off_lang", "off_img", "fake", "sus"] as const;
 
@@ -80,7 +80,7 @@ export const insertReportedEvent = async (
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = await createAdminClient();
 
     const { data, error } = await supabase
       .from("event_reports")
@@ -96,7 +96,7 @@ export const insertReportedEvent = async (
       };
     }
 
-    console.log("New report: ", data.id);
+    // console.log("New report: ", data.id);
 
     // generate JWT
     const secret = process.env.JWT_SECRET;
@@ -130,7 +130,7 @@ export const insertReportedEvent = async (
 
 export const verifyEventReport = async (reportId: string) => {
   try {
-    const supabase = await createClient();
+    const supabase = await createAdminClient();
     const { error } = await supabase
       .from("event_reports")
       .update({ report_verified: true })

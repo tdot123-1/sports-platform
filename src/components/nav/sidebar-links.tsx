@@ -19,8 +19,6 @@ import {
   profileNavLinks,
 } from "./nav-links";
 import LogoutMenuItem from "../auth/logout-menu-item";
-import SidebarEventsSub from "./sidebar-events-sub";
-import { HeartIcon } from "lucide-react";
 
 interface SidebarLinksProps {
   authenticated: boolean;
@@ -40,7 +38,10 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 <SidebarMenuButton
                   asChild
                   className={clsx({
-                    "bg-zinc-100": pathname === link.href,
+                    "bg-zinc-100":
+                      pathname === link.href ||
+                      (link.href === "/events/grid" &&
+                        pathname.startsWith("/events")),
                   })}
                   onClick={() => isMobile && toggleSidebar()}
                 >
@@ -51,12 +52,12 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
-            <SidebarEventsSub
+            {/* <SidebarEventsSub
               pathname={pathname}
               isMobile={isMobile}
               toggleSidebar={toggleSidebar}
-            />
-            <SidebarMenuItem>
+            /> */}
+            {/* <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
                 className={clsx({
@@ -69,7 +70,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                   Favorites
                 </Link>
               </SidebarMenuButton>
-            </SidebarMenuItem>
+            </SidebarMenuItem> */}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

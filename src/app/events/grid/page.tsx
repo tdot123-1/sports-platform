@@ -4,6 +4,7 @@ import EventsListSkeleton from "@/components/skeletons/events-list-skeleton";
 import ToolbarSkeleton from "@/components/skeletons/toolbar-skeleton";
 import Toolbar from "@/components/toolbar/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
+import ViewsToggle from "@/components/views/views-toggle";
 import { parseSearchParams } from "@/lib/utils";
 
 import { Metadata } from "next";
@@ -36,6 +37,10 @@ const Page = async (props: {
 
   return (
     <>
+      <div className="px-4">
+        <ViewsToggle currentView="grid" />
+      </div>
+
       <Suspense fallback={<ToolbarSkeleton />}>
         <Toolbar
           filter={filter}

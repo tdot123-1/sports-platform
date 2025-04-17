@@ -1,5 +1,6 @@
 import EventsCalendarWrapper from "@/components/events/events-calendar/events-calendar-wrapper";
 import CalendarSkeleton from "@/components/skeletons/calendar-skeleton";
+import ViewsToggle from "@/components/views/views-toggle";
 
 import { parseSearchParams } from "@/lib/utils";
 
@@ -30,7 +31,11 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="pb-4 h-[80vh] w-full">
+      <div className="px-4">
+        <ViewsToggle currentView="calendar" />
+      </div>
+
+      <div className="pb-4 h-[75vh] w-full">
         <Suspense fallback={<CalendarSkeleton />}>
           <EventsCalendarWrapper
             month={month}
