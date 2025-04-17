@@ -14,10 +14,19 @@ const ResendVerifyEmail = ({
 }) => {
   const [resendError, setResendError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resendCount, setResendCount] = useState(0);
 
   const handleResend = async () => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 300));
+
+    if (resendCount >= 5) {
+      toast.error(
+        "Maximum re-sends exceeded, please retry filing your report later."
+      );
+      return;
+    }
+
     try {
       const emailSent = await resendVerificationEmail(reportId, userEmail);
       if (!emailSent) {
@@ -25,7 +34,7 @@ const ResendVerifyEmail = ({
       }
 
       toast.info("Verification email sent. Please click the link.");
-
+      setResendCount((prev) => prev + 1);
     } catch (error) {
       console.error("Error re-sending email: ", error);
       toast.error("Failed to re-send email");
@@ -37,7 +46,12 @@ const ResendVerifyEmail = ({
 
   return (
     <>
-      <Button onClick={handleResend} disabled={isLoading} type="button" variant={`link`}>
+      <Button
+        onClick={handleResend}
+        disabled={isLoading}
+        type="button"
+        variant={`link`}
+      >
         I didn&apos;t receive an email
       </Button>
       {resendError && (
