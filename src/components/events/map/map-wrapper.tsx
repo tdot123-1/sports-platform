@@ -1,40 +1,60 @@
-import { fetchEventsInViewAndCount } from "@/lib/data/map/data";
-import { SportsEventMap } from "@/lib/types";
-import { convertToMapEvent } from "@/lib/utils";
+import { FilterOptions, MapEvent } from "@/lib/types";
 import EventsMap from "./events-map";
-import { mapStartCoords } from "@/lib/constants";
+import { fetchEventsInView } from "@/lib/data/map/data";
 
-const EventsMapWrapper = async ({ mapId }: { mapId: string }) => {
-  const { east, north, south, west } = mapStartCoords.bounds;
-  const { lat, lng } = mapStartCoords.center;
+export interface MapCoords {
+  center: {
+    lat: number;
+    lng: number;
+  };
+  bounds: {
+    south: number;
+    west: number;
+    north: number;
+    east: number;
+  };
+}
 
-  // get initial events (+ total count) within bounds
-  const fetchedEvents = await fetchEventsInViewAndCount(
-    south,
-    west,
-    north,
-    east,
-    lat,
-    lng
+interface EventsMapWrapperProps {
+  mapId: string;
+  apiKey: string;
+  currentBatch?: number;
+  searchQuery?: string;
+  filter?: FilterOptions;
+  priceFilter?: number;
+  passedEventsFilter?: boolean;
+  mapCoords: MapCoords;
+}
+
+const EventsMapWrapper = async ({
+  mapId,
+  apiKey,
+  currentBatch = 1,
+  searchQuery,
+  filter,
+  priceFilter,
+  passedEventsFilter,
+  mapCoords,
+}: EventsMapWrapperProps) => {
+  // test skeleton
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+  // fetch events
+  // pass list of events down to EventsMap
+  const fetchedEvents: MapEvent[] = await fetchEventsInView(
+    mapCoords,
+    currentBatch,
+    searchQuery,
+    filter,
+    priceFilter,
+    passedEventsFilter
   );
 
-  // convert to get public logo url
-  const events: SportsEventMap[] = await Promise.all(
-    fetchedEvents.events.map(convertToMapEvent)
-  );
-
-  const MAP_ENABLED = process.env.MAP_ENABLED;
+  // console.log("FETCHED EVENTS: ", fetchedEvents)
 
   return (
     <>
-      <EventsMap
-        mapId={mapId}
-        eventsInRadius={events}
-        totalEventsInRadius={fetchedEvents.totalCount}
-        initialMapCenter={mapStartCoords.center}
-        initialMapBounds={mapStartCoords.bounds}
-        mapEnabled={MAP_ENABLED}
-      />
+      <EventsMap mapId={mapId} apiKey={apiKey} events={fetchedEvents} />
     </>
   );
 };

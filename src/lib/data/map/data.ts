@@ -1,6 +1,6 @@
 "use server";
 
-import { MapCoords } from "@/components/map/map-wrapper";
+import { MapCoords } from "@/components/events/map/map-wrapper";
 import { ITEMS_ON_MAP, ITEMS_PER_PAGE } from "@/lib/constants";
 import { applyQueryFilters } from "@/lib/filters";
 import { createClient } from "@/lib/supabase/server";

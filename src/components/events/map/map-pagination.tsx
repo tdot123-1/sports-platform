@@ -2,7 +2,7 @@
 
 import { ITEMS_ON_MAP } from "@/lib/constants";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 

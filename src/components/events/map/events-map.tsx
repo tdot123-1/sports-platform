@@ -1,36 +1,24 @@
 "use client";
 
+import { mapStartCoords } from "@/lib/constants";
+import { MapEvent } from "@/lib/types";
 import {
+  AdvancedMarker,
   APIProvider,
   Map,
-  AdvancedMarker,
-  Pin,
   MapCameraChangedEvent,
+  Pin,
 } from "@vis.gl/react-google-maps";
-import { Suspense, useState } from "react";
-import { Skeleton } from "../../ui/skeleton";
-import { ConstructionIcon, HomeIcon } from "lucide-react";
-import Link from "next/link";
-import { Button } from "../../ui/button";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { SportsEventMap } from "@/lib/types";
 import SelectedPinEvents from "./selected-pin-events";
-import { mapStartCoords } from "@/lib/constants";
-import {
-  fetchEventsInViewAndCount,
-  fetchUniqueEventsInView,
-} from "@/lib/data/map/data";
-import { convertToMapEvent } from "@/lib/utils";
-import MapToolbar from "./map-toolbar";
-import { toast } from "sonner";
 
-// map dimensions set in parent div
-const mapStyle = {
-  width: "100%",
-  height: "100%",
-};
-
-const API_KEY = process.env.NEXT_PUBLIC_MAPS_API_KEY;
+interface EventsMapProps {
+  mapId: string;
+  apiKey: string;
+  events: MapEvent[];
+}
 
 // (temp) create svg element for pins
 const createSvgGlyph = () => {
@@ -59,49 +47,14 @@ const createSvgGlyph = () => {
   return svg;
 };
 
-// interfaces to pass map attributes
-export interface MapCenter {
-  lat: number;
-  lng: number;
-}
-
-export interface MapBounds {
-  south: number;
-  west: number;
-  north: number;
-  east: number;
-}
-
-const EventsMap = ({
-  mapId,
-  eventsInRadius,
-  totalEventsInRadius,
-  initialMapCenter,
-  initialMapBounds,
-  mapEnabled,
-}: {
-  mapId: string;
-  eventsInRadius?: SportsEventMap[];
-  totalEventsInRadius?: number;
-  initialMapCenter: MapCenter;
-  initialMapBounds: MapBounds;
-  mapEnabled?: string;
-}) => {
+const EventsMap = ({ mapId, apiKey, events }: EventsMapProps) => {
   // states for pin dialog -> open state and selected city
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState("");
 
-  // list of currently visible pins on map
-  const [visiblePins, setVisiblePins] = useState<SportsEventMap[]>(
-    eventsInRadius || []
-  );
-
-  // map dimensions to pass to fetch function in pagination
-  const [mapCenter, setMapCenter] = useState<MapCenter>(initialMapCenter);
-  const [mapBounds, setMapBounds] = useState<MapBounds>(initialMapBounds);
-
-  // total number of events on map to pass down to pagination component
-  const [totalEvents, setTotalEvents] = useState(totalEventsInRadius || 0);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   // open/close dialog after clicking pin
   const handleOpenChange = () => {
@@ -111,155 +64,66 @@ const EventsMap = ({
   // handle state when pin is clicked -> set correct city, open dialog
   const handleSelectPin = (address_city: string) => {
     setSelectedPin(address_city);
+
     setIsDialogOpen(true);
   };
 
-  // get pins and total count, called when map center changes
-  const fetchPinsAndCount = async (
-    south: number,
-    west: number,
-    north: number,
-    east: number,
-    center_lat: number,
-    center_lng: number
-  ) => {
-    try {
-      // call server action to get first batch of events within bounds and total count
-      const fetchedEvents = await fetchEventsInViewAndCount(
-        south,
-        west,
-        north,
-        east,
-        center_lat,
-        center_lng
-      );
-
-      // convert to sports events (necessary(?))
-      const events: SportsEventMap[] = await Promise.all(
-        fetchedEvents.events.map(convertToMapEvent)
-      );
-
-      // throw new Error("TEST")
-
-      // update states -> pins + count, map coords
-      setVisiblePins(events);
-      setTotalEvents(fetchedEvents.totalCount);
-      setMapCenter({ lat: center_lat, lng: center_lng });
-      setMapBounds({ south, west, north, east });
-    } catch (error) {
-      console.error("Error fetching pins: ", error);
-      toast.error("Failed to fetch events");
-    }
-  };
-
-  // get pins WITHOUT count, called for pagination (when map center has not changed)
-  const fetchPins = async (
-    south: number,
-    west: number,
-    north: number,
-    east: number,
-    center_lat: number,
-    center_lng: number,
-    batch: number
-  ) => {
-    try {
-      // call server action to fetch events within bounds
-      const fetchedEvents = await fetchUniqueEventsInView(
-        south,
-        west,
-        north,
-        east,
-        center_lat,
-        center_lng,
-        batch
-      );
-
-      // convert to get public logo url
-      const events: SportsEventMap[] = await Promise.all(
-        fetchedEvents.map(convertToMapEvent)
-      );
-
-      // update state
-      setVisiblePins(events);
-    } catch (error) {
-      console.error("Error fetching pins: ", error);
-      toast.error("Failed to fetch events");
-    }
-  };
-
-  // call after map stopped moving
+  // on center changed -> set new coords in params -> trigger new fetch
   const handleCenterChanged = useDebouncedCallback(
     (e: MapCameraChangedEvent) => {
-      // console.log("EVENT: ", e);
-      // console.log(`lat: ${e.detail.center.lat} long: ${e.detail.center.lng}`);
-      // console.log("zoom: ", e.detail.zoom);
+      // create new search params
+      const params = new URLSearchParams(searchParams);
 
       // get new map coords
       const { lat, lng } = e.detail.center;
-
       const { south, west, north, east } = e.detail.bounds;
 
-      // get new events and total count
-      fetchPinsAndCount(south, west, north, east, lat, lng);
+      // set new coords in params
+      // center
+      params.set("lt", lat.toFixed(5));
+      params.set("lg", lng.toFixed(5));
+
+      // map bounds
+      params.set("s", south.toFixed(5));
+      params.set("w", west.toFixed(5));
+      params.set("n", north.toFixed(5));
+      params.set("e", east.toFixed(5));
+
+      // set batch to 1
+      params.set("batch", "1");
+
+      // update url
+      replace(`${pathname}?${params.toString()}`);
     },
     300
   );
 
-  // check for api key
-  if (!API_KEY || mapEnabled !== "true") {
-    return (
-      <div className=" flex flex-col justify-center items-center gap-4 py-24">
-        <ConstructionIcon size={40} />
-        <p className="font-mono text-lg text-center mb-8">
-          Map currently unavailable
-        </p>
-        <Link href={"/"}>
-          <Button>
-            <HomeIcon />
-            Return
-          </Button>
-        </Link>
-      </div>
-    );
-  }
-
-  // return map + toolbar + selected pin
   return (
     <>
-      <MapToolbar
-        totalEvents={totalEvents}
-        mapCenter={mapCenter}
-        mapBounds={mapBounds}
-        fetchPins={fetchPins}
-      />
-      <Suspense fallback={<Skeleton className="w-full h-full" />}>
-        <APIProvider apiKey={API_KEY}>
-          <Map
-            mapId={mapId}
-            defaultCenter={mapStartCoords.center}
-            defaultZoom={6}
-            style={mapStyle}
-            onCenterChanged={handleCenterChanged}
-            disableDefaultUI
-          >
-            {visiblePins &&
-              visiblePins.length &&
-              visiblePins.map((e) => (
-                <AdvancedMarker
-                  key={e.id}
-                  title={e.event_name}
-                  position={{ lat: e.lat, lng: e.lng }}
-                  onClick={() => handleSelectPin(e.address_city)}
-                >
-                  <Pin
-                    background={"hsl(var(--basket))"}
-                    glyph={createSvgGlyph()}
-                  />
-                </AdvancedMarker>
-              ))}
-          </Map>
-        </APIProvider>
-      </Suspense>
+      <APIProvider apiKey={apiKey}>
+        <Map
+          mapId={mapId}
+          defaultCenter={mapStartCoords.center}
+          defaultZoom={6}
+          disableDefaultUI
+          onCenterChanged={handleCenterChanged}
+        >
+          {events.length &&
+            events.map((e) => (
+              <AdvancedMarker
+                key={e.id}
+                title={e.event_name}
+                position={{ lat: e.lat, lng: e.lng }}
+                onClick={() => handleSelectPin(e.address_city)}
+              >
+                <Pin
+                  background={"hsl(var(--basket))"}
+                  glyph={createSvgGlyph()}
+                />
+              </AdvancedMarker>
+            ))}
+        </Map>
+      </APIProvider>
       <SelectedPinEvents
         selectedPin={selectedPin}
         isDialogOpen={isDialogOpen}

@@ -49,7 +49,11 @@ export const fetchAllEvents = async (
       );
     }
 
-    if (sort?.sort_by) {
+    if (sort?.sort_by === "cost_estimate_eur") {
+      query = query.order("cost_estimate_eur_sortable", {
+        ascending: sort.order === "asc",
+      });
+    } else if (sort?.sort_by) {
       query = query.order(sort.sort_by, { ascending: sort.order === "asc" });
     } else {
       query = query.order("start_date", { ascending: true });
@@ -182,6 +186,7 @@ export const fetchMaxCostEstimate = async () => {
     const { data, error } = await supabase
       .from("events")
       .select("cost_estimate_eur")
+      .not("cost_estimate_eur", "is", null) // exclude nulls
       .order("cost_estimate_eur", { ascending: false })
       .limit(1);
 
