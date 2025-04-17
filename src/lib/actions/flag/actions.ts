@@ -2,7 +2,10 @@
 
 import { z } from "zod";
 import jwt from "jsonwebtoken";
-import { sendEmailToVerifyReport } from "../sendgrid/actions";
+import {
+  sendEmailAfterVerifiedReport,
+  sendEmailToVerifyReport,
+} from "../sendgrid/actions";
 import { verifyCaptcha } from "@/lib/captcha";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -19,7 +22,7 @@ const FormSchema = z.object({
       invalid_type_error: "Please provide some details",
     })
     .trim()
-    .min(5, { message: "Please provide some details" })
+    .min(3, { message: "Please provide some details" })
     .max(3000, { message: "Max characters exceeded" }),
   user_email: z
     .string({ invalid_type_error: "Please add an email address" })
@@ -121,24 +124,81 @@ export const insertReportedEvent = async (
       };
     }
 
-    return { message: "", success: true };
+    return { message: `${user_email},${data.id}`, success: true };
   } catch (error) {
     console.error("Unexpected error: ", error);
     return { message: "An unexpected error occurred.", success: false };
   }
 };
 
+export const resendVerificationEmail = async (
+  reportId: string,
+  userEmail: string
+) => {
+  if (!reportId || !userEmail) {
+    console.error(
+      `Missing report id or email; id: ${reportId}; email: ${userEmail};`
+    );
+    return {
+      message: "Missing report ID or user email",
+      success: false,
+    };
+  }
+  try {
+    // generate JWT
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret) {
+      console.error("Missing JWT secret");
+      throw new Error("Missing JWT secret");
+    }
+
+    // sign token with report id
+    const token = jwt.sign({ report_id: reportId }, secret, {
+      expiresIn: 60 * 5,
+    });
+
+    // send email with token in link
+    const emailSent = await sendEmailToVerifyReport(userEmail, token);
+
+    if (!emailSent) {
+      return {
+        message: "Failed to send verification email. Please try again.",
+        success: false,
+      };
+    }
+
+    return { success: true, message: "" };
+  } catch (error) {
+    console.error("Failed to resend verification email: ", error);
+    return {
+      message: "Failed to send verification email. Please try again.",
+      success: false,
+    };
+  }
+};
+
 export const verifyEventReport = async (reportId: string) => {
   try {
     const supabase = await createAdminClient();
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("event_reports")
       .update({ report_verified: true })
-      .eq("id", reportId);
+      .eq("id", reportId)
+      .select()
+      .single();
 
     if (error) {
       console.error("Database error on verify report: ", error);
       return false;
+    }
+
+    const reason = data.report_reason || "";
+
+    const emailSent = await sendEmailAfterVerifiedReport(reason, reportId);
+
+    if (!emailSent) {
+      console.error("Failed to send email notification");
     }
 
     return true;

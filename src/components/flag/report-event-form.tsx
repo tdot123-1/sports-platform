@@ -18,6 +18,7 @@ import { CircleCheckIcon } from "lucide-react";
 import { AlertDialogAction } from "../ui/alert-dialog";
 import CaptchaComponent from "../auth/captcha-component";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import ResendVerifyEmail from "./resend-verify-email";
 
 const ReportEventForm = ({ eventId }: { eventId: string }) => {
   const [captchaToken, setCaptchaToken] = useState<string>("");
@@ -29,12 +30,18 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
   );
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [reportId, setReportId] = useState("");
 
   useEffect(() => {
     if (!pending) {
       if (state.success) {
         toast.info("Report submitted, please check your email.");
         setIsSubmitted(true);
+        const email = state.message?.split(",")[0];
+        const id = state.message?.split(",")[1];
+        setUserEmail(email || "");
+        setReportId(id || "");
       }
       captcha?.current?.resetCaptcha();
     }
@@ -55,6 +62,9 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
               </p>
             </div>
             <p className="italic">Thank you for your help!</p>
+            <div className="my-4 px-2">
+              <ResendVerifyEmail reportId={reportId} userEmail={userEmail} />
+            </div>
             <AlertDialogAction>Continue</AlertDialogAction>
           </div>
         </>
@@ -63,7 +73,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
           <form action={formAction}>
             <div className="mb-4">
               <Label htmlFor="report_reason">Reason</Label>
-              <Select name="report_reason" disabled={pending}>
+              <Select name="report_reason" disabled={pending} required>
                 <SelectTrigger>
                   <SelectValue
                     placeholder="Select the reason for this report"
@@ -108,6 +118,8 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
                 aria-describedby="report_details-error"
                 placeholder="Describe why you reported this event..."
                 disabled={pending}
+                minLength={3}
+                required
               />
               <div
                 id="report_details-error"
