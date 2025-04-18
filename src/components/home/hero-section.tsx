@@ -6,14 +6,14 @@ import Link from "next/link";
 const HeroSection = () => {
   return (
     <section className="h-screen px-4">
-      <div className="flex justify-evenly items-center  py-4">
-        <div className="flex flex-col gap-4 text-lg">
-          <h1 className="font-mono text-2xl">Where Basketball Happens</h1>
+      <div className="flex justify-evenly items-center py-4">
+        <div className="flex flex-col gap-4 text-lg w-5/12">
+          <h1 className="font-mono text-2xl mb-2">Where Basketball Happens</h1>
           <h2>Connect with athletes, coaches, trainers, and organizers.</h2>
           <h3>
             Find or create tournaments, matchups, training sessions, and more.
           </h3>
-          <div className="flex justify-center gap-4 mt-4">
+          <div className="flex flex-col lg:flex-row justify-start gap-4 mt-4">
             <Link href={"/about"}>
               <Button variant={`outline`}>
                 <HelpCircleIcon />
@@ -28,7 +28,7 @@ const HeroSection = () => {
             </Link>
           </div>
         </div>
-        <div className="w-1/3 max-h-full">
+        <div className="w-5/12 lg:w-4/12 max-h-full">
           <Image
             className="rounded-md"
             src={"/hero-basket.jpg"}

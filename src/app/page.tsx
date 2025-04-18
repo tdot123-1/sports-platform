@@ -1,5 +1,6 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
 import HeroSection from "@/components/home/hero-section";
+import HeroSectionMobile from "@/components/home/hero-section-mobile";
 import ConfirmEmailChangeToast from "@/components/profile/settings/confirm-email-change-toast";
 import ProfileDeletedToast from "@/components/profile/settings/profile-deleted-toast";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
@@ -62,8 +63,12 @@ export default async function Home(props: {
           fugiat nisi doloremque mollitia quam quisquam.
         </p>
       </section> */}
-
-      <HeroSection />
+      <div className="hidden md:block">
+        <HeroSection />
+      </div>
+      <div className="block md:hidden">
+        <HeroSectionMobile />
+      </div>
 
       <section className="my-12">
         <h2 className="text-2xl font-mono font-semibold text-primary px-4 text-center my-8">

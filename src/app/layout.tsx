@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header/header";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/nav/app-sidebar";
@@ -39,10 +38,10 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSideBar />
           <main className="flex-1 min-w-0">
-            <div className="sticky top-0 p-4 z-10 w-full flex justify-end bg-muted shadow-muted shadow-md">
+            <header className="sticky top-0 p-4 z-10 w-full flex justify-end bg-muted shadow-muted shadow-md">
               <AppSideBarTrigger />
               <p>Hi-Fives</p>
-            </div>
+            </header>
 
             <section className="font-sans min-h-[calc(100vh-50px)]">
               {children}

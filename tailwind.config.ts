@@ -9,7 +9,7 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage: { "basket-img": "url('/pattern_basketball-1.svg')" },
+      backgroundImage: { "basket-img": "url('/hero-basket.jpg')" },
       colors: {
         basket: {
           DEFAULT: "hsl(var(--basket))",
