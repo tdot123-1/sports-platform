@@ -9,7 +9,7 @@ const HeroSectionMobile = () => {
 
       <div className="absolute inset-0 bg-black/50"></div>
 
-      <div className="flex flex-col gap-8 text-lg relative py-16 text-center">
+      <div className="flex flex-col gap-12 text-lg relative py-24 text-center">
         <h1 className="font-mono text-2xl text-muted">Where Basketball Happens</h1>
         <h2 className="text-muted">Connect with athletes, coaches, trainers, and organizers.</h2>
         <h3 className="text-muted">

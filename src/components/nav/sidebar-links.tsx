@@ -41,7 +41,8 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                     "bg-zinc-100":
                       pathname === link.href ||
                       (link.href === "/events/grid" &&
-                        pathname.startsWith("/events")),
+                        pathname.startsWith("/events") &&
+                        !pathname.endsWith("/favorites")),
                   })}
                   onClick={() => isMobile && toggleSidebar()}
                 >
