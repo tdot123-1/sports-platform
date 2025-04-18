@@ -17,7 +17,9 @@ const Page = async (props: {
 
   return (
     <section className="px-4">
-      <h1>Verify your report</h1>
+      <h1 className="text-2xl font-mono text-primary mt-4">
+        Verify your report
+      </h1>
       <div className="w-fit mx-auto my-32 bg-white rounded-md p-8">
         <Suspense fallback={<LoaderIcon className="animate-spin" />}>
           <VerifyReport token={token} />

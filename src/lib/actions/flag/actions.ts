@@ -111,7 +111,7 @@ export const insertReportedEvent = async (
 
     // sign token with report id
     const token = jwt.sign({ report_id: data.id }, secret, {
-      expiresIn: 60 * 5,
+      expiresIn: 60 * 15,
     });
 
     // send email with token in link
@@ -155,7 +155,7 @@ export const resendVerificationEmail = async (
 
     // sign token with report id
     const token = jwt.sign({ report_id: reportId }, secret, {
-      expiresIn: 60 * 5,
+      expiresIn: 60 * 15,
     });
 
     // send email with token in link

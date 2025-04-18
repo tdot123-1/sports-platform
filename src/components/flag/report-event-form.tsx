@@ -53,16 +53,18 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
         <>
           <div className="flex flex-col items-center justify-center text-center gap-4 py-4">
             <CircleCheckIcon size={40} />
-            <h3 className="font-semibold">Thank you for reporting.</h3>
-            <div className="text-sm">
+            <h3 className="font-semibold text-lg">
+              Thank you for helping us moderate.
+            </h3>
+            <div>
               <p>Please click the link in your email to confirm your report.</p>
-              <p>
-                After you have confirmed, we will review your report and this
-                event.
+
+              <p className="text-muted-foreground text-sm mt-2">
+                It could take a few minutes before you receive the email
               </p>
             </div>
-            <p className="italic">Thank you for your help!</p>
-            <div className="my-4 px-2">
+
+            <div className="px-2">
               <ResendVerifyEmail reportId={reportId} userEmail={userEmail} />
             </div>
             <AlertDialogAction>Continue</AlertDialogAction>
@@ -139,7 +141,7 @@ const ReportEventForm = ({ eventId }: { eventId: string }) => {
             </div>
             <div className="mb-4">
               <Label htmlFor="user_email">Email</Label>
-              <p className="text-xs italic text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Please submit your email address to verify you are a real person
               </p>
               <Input
