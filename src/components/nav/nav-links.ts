@@ -36,7 +36,7 @@ export const baseNavLinks = [
   },
   {
     name: "Favorites",
-    href: "//events/favorites",
+    href: "/events/favorites",
     icon: HeartIcon,
   },
 ];

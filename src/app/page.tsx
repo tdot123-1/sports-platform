@@ -1,4 +1,5 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
+import HeroSection from "@/components/home/hero-section";
 import ConfirmEmailChangeToast from "@/components/profile/settings/confirm-email-change-toast";
 import ProfileDeletedToast from "@/components/profile/settings/profile-deleted-toast";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
@@ -39,8 +40,10 @@ export default async function Home(props: {
         <>
           <ConfirmEmailChangeToast />
           {/** have div as well in case toast does not trigger */}
-          <div className="w-fit mx-auto m-4 p-4 rounded-md bg-info text-center">
-            <h2 className="font-semibold">New email address confirmed</h2>
+          <div className="w-fit mx-4 my-4 p-4 rounded-md bg-info text-center fixed top-10 right-2 z-50">
+            <h2 className="font-semibold text-lg">
+              New email address confirmed
+            </h2>
             <p>Click the link in your other email to finish the transfer</p>
           </div>
         </>
@@ -48,7 +51,7 @@ export default async function Home(props: {
 
       {/** page */}
 
-      <section className="my-12 px-4">
+      {/* <section className="my-12 px-4">
         <h1 className="text-2xl font-mono text-primary font-semibold w-fit mx-auto">
           Hi-Fives
         </h1>
@@ -58,10 +61,12 @@ export default async function Home(props: {
           labore voluptas voluptate, similique neque nihil nam, repellendus
           fugiat nisi doloremque mollitia quam quisquam.
         </p>
-      </section>
+      </section> */}
+
+      <HeroSection />
 
       <section className="my-12">
-        <h2 className="text-2xl font-mono font-semibold text-primary px-4">
+        <h2 className="text-2xl font-mono font-semibold text-primary px-4 text-center my-8">
           What&apos;s New
         </h2>
         <div className="flex-1 min-w-0 flex justify-center">

@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/nav/app-sidebar";
 import Footer from "@/components/footer/footer";
+import AppSideBarTrigger from "@/components/nav/app-sidebar-trigger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,8 +38,12 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSideBar />
-          <main className="flex-1 min-w-0 bg-basket bg-basket-img bg-repeat bg-opacity-45">
-            <Header />
+          <main className="flex-1 min-w-0">
+            <div className="sticky top-0 p-4 z-10 w-full flex justify-end bg-muted shadow-muted shadow-md">
+              <AppSideBarTrigger />
+              <p>Hi-Fives</p>
+            </div>
+
             <section className="font-sans min-h-[calc(100vh-50px)]">
               {children}
             </section>
