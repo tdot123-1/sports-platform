@@ -14,6 +14,7 @@ export default {
         basket: {
           DEFAULT: "hsl(var(--basket))",
           header: "hsl(var(--basket-header))",
+          background: "hsl(var(--basket-background))",
         },
         textbox: "hsl(var(--textbox))",
         info: "hsl(var(--info))",

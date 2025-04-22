@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { SportsEvent } from "@/lib/types";
-import NewEventCard from "./new-events-card";
+import EventCard from "./event-card";
 
 const NewEventsCarousel = ({ events }: { events: SportsEvent[] }) => {
   return (
@@ -21,22 +21,20 @@ const NewEventsCarousel = ({ events }: { events: SportsEvent[] }) => {
             delay: 2500,
           }),
         ]}
-        className="w-full min-w-0 max-w-48 sm:max-w-sm md:max-w-lg lg:max-w-2xl xl:max-w-3xl cursor-grab"
+        className="w-full min-w-0 cursor-grab"
       >
         <CarouselContent>
           {events.map((event) => (
-            <CarouselItem
-              className="sm:basis-1/2 md:basis-1/3 xl:basis-1/4 flex-shrink"
-              key={event.id}
-            >
-              <div className="p-1">
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3" key={event.id}>
+              {/* <div className="p-1">
                 <NewEventCard event={event} />
-              </div>
+              </div> */}
+              <EventCard event={event} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </>
   );

@@ -33,6 +33,9 @@ body {
     /* test -> lighter orange */
     --basket: 26 80% 50%;
 
+    /* test -> light orange bg */
+    --basket-background: 22 96% 65%;
+
     /* test -> header for basketball */
     --basket-header: 25 80% 41%;
 

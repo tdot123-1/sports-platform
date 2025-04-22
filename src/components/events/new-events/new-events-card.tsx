@@ -11,7 +11,7 @@ const NewEventCard = ({ event }: { event: SportsEvent }) => {
       <Card className="max-w-md">
         <CardContent className="text-sm flex flex-col gap-2 aspect-square items-center justify-center">
           <div className="max-w-full">
-            <h3 className="text-lg font-semibold text-ellipsis overflow-hidden text-nowrap">
+            <h3 className="text-xl font-semibold text-ellipsis overflow-hidden text-nowrap mt-4">
               {event.event_name}
             </h3>
           </div>
