@@ -10,7 +10,7 @@ const EventCard = ({ event }: { event: SportsEvent }) => {
   return (
     <>
       <article className="p-6 border border-muted rounded-md shadow-md m-3">
-        <h3 className="text-2xl font-semibold text-center">
+        <h3 className="text-xl font-semibold text-center">
           {event.event_name}
         </h3>
 
@@ -27,7 +27,7 @@ const EventCard = ({ event }: { event: SportsEvent }) => {
             <TrophyIcon />
             <p> {capitalizeString(SportsEventTypeMap[event.event_type])}</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-base">
             <CalendarIcon />
             <p>
               {event.start_date

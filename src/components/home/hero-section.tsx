@@ -7,10 +7,10 @@ const HeroSection = () => {
   return (
     <section className="h-screen px-4">
       <div className="flex justify-evenly items-center py-4">
-        <div className="flex flex-col gap-4 text-lg w-5/12">
-          <h1 className="font-mono text-2xl mb-2">Where Basketball Happens</h1>
-          <h2>Connect with athletes, coaches, trainers, and organizers.</h2>
-          <h3>
+        <div className="flex flex-col gap-8 text-lg w-5/12">
+          <h1 className="font-mono text-xl lg:text-3xl mb-2">Where Basketball Happens</h1>
+          <h2 className="text-base lg:text-xl">Connect with athletes, coaches, trainers, and organizers.</h2>
+          <h3 className="text-base lg:text-xl">
             Find or create tournaments, matchups, training sessions, and more.
           </h3>
           <div className="flex flex-col lg:flex-row justify-start gap-4 mt-4">

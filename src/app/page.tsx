@@ -1,6 +1,7 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
 import HeroSection from "@/components/home/hero-section";
 import HeroSectionMobile from "@/components/home/hero-section-mobile";
+import ProfileSection from "@/components/home/profile-section";
 import ConfirmEmailChangeToast from "@/components/profile/settings/confirm-email-change-toast";
 import ProfileDeletedToast from "@/components/profile/settings/profile-deleted-toast";
 import CarouselSkeleton from "@/components/skeletons/carousel-skeleton";
@@ -52,17 +53,6 @@ export default async function Home(props: {
 
       {/** page */}
 
-      {/* <section className="my-12 px-4">
-        <h1 className="text-2xl font-mono text-primary font-semibold w-fit mx-auto">
-          Hi-Fives
-        </h1>
-        <p className="bg-textbox/75 p-1 rounded-md text-center md:w-1/2 mx-auto my-6">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
-          voluptatibus tempore voluptates consequuntur aperiam possimus aliquam
-          labore voluptas voluptate, similique neque nihil nam, repellendus
-          fugiat nisi doloremque mollitia quam quisquam.
-        </p>
-      </section> */}
       <div className="hidden md:block">
         <HeroSection />
       </div>
@@ -80,7 +70,10 @@ export default async function Home(props: {
           </Suspense>
         </div>
       </section>
-      <section className="my-12 px-4">
+
+      <ProfileSection />
+
+      {/* <section className="my-12 px-4">
         <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
         <p className="bg-textbox/75 p-1 rounded-md md:w-1/2 lg:w-1/3 py-2">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
@@ -88,7 +81,7 @@ export default async function Home(props: {
           impedit assumenda. Cupiditate veritatis quo qui nemo quod non
           voluptas?
         </p>
-      </section>
+      </section> */}
       <section className="my-12 px-4 text-right">
         <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
         <p className="bg-textbox/75 p-1 rounded-md ml-auto md:w-1/2 lg:w-1/3 py-2">
