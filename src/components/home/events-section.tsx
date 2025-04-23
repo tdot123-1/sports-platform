@@ -19,9 +19,9 @@ const EventsSection = () => {
       <div className="my-8 text-center">
         <p className="mx-auto w-full lg:w-2/3 mb-4">
           Looking for something specific? Easily find exactly what you need with
-          filters, sorting, and search options. Whether you're interested in
-          tournaments, training sessions, camps, or matchups — it's just a few
-          clicks away.
+          filters, sorting, and search options. Whether you&apos;re interested
+          in tournaments, training sessions, camps, or matchups — it&apos;s just
+          a few clicks away.
         </p>
         <div className="flex justify-evenly flex-wrap gap-2 lg:gap-8 px-4 py-8">
           <Link href={"/events/grid?page=1&et=tournament"}>
@@ -60,9 +60,9 @@ const EventsSection = () => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center gap-8 my-12">
-        <p className="w-full md:w-2/3">
-          Want to see what's happening near you — or plan ahead? Use the
+      <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 my-12 md:my-24">
+        <p className="w-full md:w-3/5">
+          Want to see what&apos;s happening near you — or plan ahead? Use the
           calendar to browse events by date, or jump into the map to find events
           in your area at a glance.
         </p>
