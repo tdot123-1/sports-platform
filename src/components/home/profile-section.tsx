@@ -4,11 +4,11 @@ import Link from "next/link";
 
 const ProfileSection = () => {
   return (
-    <section className="px-4 py-8 my-12 bg-muted">
+    <section className="px-4 py-24 my-12 bg-muted">
       <h2 className="text-2xl md:text-3xl font-mono font-semibold text-primary">
         Create your events
       </h2>
-      <div className="w-full md:w-2/3  lg:w-1/2 my-8 text-sm md:text-base">
+      <div className="w-full md:w-2/3 lg:w-1/2 my-8 text-base md:text-lg">
         <p className="mb-4">
           Whether you&apos;re a coach, trainer, or event organizer, you can
           share your events with just a few clicks. Add key details, upload

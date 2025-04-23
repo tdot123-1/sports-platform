@@ -1,4 +1,5 @@
 import NewEventsCarouselWrapper from "@/components/events/new-events/events-carousel-wrapper";
+import EventsSection from "@/components/home/events-section";
 import HeroSection from "@/components/home/hero-section";
 import HeroSectionMobile from "@/components/home/hero-section-mobile";
 import ProfileSection from "@/components/home/profile-section";
@@ -73,6 +74,8 @@ export default async function Home(props: {
 
       <ProfileSection />
 
+      <EventsSection />
+
       {/* <section className="my-12 px-4">
         <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
         <p className="bg-textbox/75 p-1 rounded-md md:w-1/2 lg:w-1/3 py-2">
@@ -82,7 +85,7 @@ export default async function Home(props: {
           voluptas?
         </p>
       </section> */}
-      <section className="my-12 px-4 text-right">
+      {/* <section className="my-12 px-4 text-right">
         <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
         <p className="bg-textbox/75 p-1 rounded-md ml-auto md:w-1/2 lg:w-1/3 py-2">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
@@ -90,7 +93,7 @@ export default async function Home(props: {
           impedit assumenda. Cupiditate veritatis quo qui nemo quod non
           voluptas?
         </p>
-      </section>
+      </section> */}
     </>
   );
 }

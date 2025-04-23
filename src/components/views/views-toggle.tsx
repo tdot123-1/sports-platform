@@ -1,4 +1,4 @@
-import { CalendarIcon, GridIcon, MapIcon, Table2Icon } from "lucide-react";
+import { CalendarIcon, GridIcon, MapPinIcon, Table2Icon } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import Link from "next/link";
 import {
@@ -68,7 +68,7 @@ const ViewsToggle = ({
                     aria-label="Map view"
                     data-state={currentView === "map" ? "on" : "off"}
                   >
-                    <MapIcon />
+                    <MapPinIcon />
                   </ToggleGroupItem>
                 </Link>
               </TooltipTrigger>
