@@ -15,7 +15,7 @@ const ViewsToggle = ({
 }) => {
   return (
     <>
-      <div className="bg-sidebar w-fit p-2 rounded-md">
+      <div className="p-2 w-fit">
         <ToggleGroup type="single" variant={`outline`}>
           <TooltipProvider>
             <Tooltip>

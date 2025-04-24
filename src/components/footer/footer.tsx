@@ -19,7 +19,7 @@ const Footer = () => {
           </div>
           <p className="text-sm">
             Where Basketball Happens. <br />
-            The number one hub for basketball events.
+            The number one hub for tournaments, training, and more.
           </p>
         </div>
 

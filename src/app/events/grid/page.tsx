@@ -37,7 +37,7 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="px-4">
+      <div className="bg-sidebar">
         <ViewsToggle currentView="grid" />
       </div>
 
@@ -50,7 +50,7 @@ const Page = async (props: {
         />
       </Suspense>
 
-      <section className="px-4">
+      <section className="px-4 bg-basket-background">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
             currentPage={currentPage}

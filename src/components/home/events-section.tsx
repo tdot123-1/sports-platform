@@ -12,7 +12,7 @@ import Link from "next/link";
 
 const EventsSection = () => {
   return (
-    <section className="px-4 py-8 mb-12 text-base md:text-lg">
+    <section className="px-4 py-24 text-base md:text-lg bg-basket-background">
       <h2 className="text-2xl md:text-3xl font-mono font-semibold text-primary text-center">
         Find the right events for you
       </h2>
