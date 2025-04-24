@@ -23,41 +23,88 @@ const EventsSection = () => {
           in tournaments, training sessions, camps, or matchups — it&apos;s just
           a few clicks away.
         </p>
-        <div className="flex justify-evenly flex-wrap gap-2 lg:gap-8 px-4 py-8">
-          <Link href={"/events/grid?page=1&et=tournament"}>
-            <Button>
-              <MedalIcon />
-              Tournaments
-            </Button>
-          </Link>
+        
+        {/* use different button layout for sm to md screens */}
+        <div className="py-8">
+          <div className="block md:hidden">
+            <div className="grid grid-cols-2 gap-2">
+              <Link href={"/events/grid?page=1&et=tournament"}>
+                <Button>
+                  <MedalIcon />
+                  Tournaments
+                </Button>
+              </Link>
 
-          <Link href={"/events/grid?page=1&et=camp"}>
-            <Button variant={`secondary`}>
-              <TentIcon />
-              Camps
-            </Button>
-          </Link>
+              <Link href={"/events/grid?page=1&et=camp"}>
+                <Button className="w-full">
+                  <TentIcon />
+                  Camps
+                </Button>
+              </Link>
 
-          <Link href={"/events/grid?page=1&et=training"}>
-            <Button>
-              <DumbbellIcon />
-              Trainings
-            </Button>
-          </Link>
+              <Link href={"/events/grid?page=1&et=training"}>
+                <Button className="w-full">
+                  <DumbbellIcon />
+                  Trainings
+                </Button>
+              </Link>
 
-          <Link href={"/events/grid?page=1&et=clinic"}>
-            <Button variant={`secondary`}>
-              <AwardIcon />
-              Clinics
-            </Button>
-          </Link>
+              <Link href={"/events/grid?page=1&et=clinic"}>
+                <Button className="w-full">
+                  <AwardIcon />
+                  Clinics
+                </Button>
+              </Link>
+            </div>
 
-          <Link href={"/events/grid?page=1&et=friendly_game"}>
-            <Button>
-              <HandshakeIcon />
-              Friendly games
-            </Button>
-          </Link>
+            <div className="flex justify-center mt-2">
+              <Link href={"/events/grid?page=1&et=friendly_game"}>
+                <Button>
+                  <HandshakeIcon />
+                  Friendly games
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="hidden md:block">
+            <div className="flex justify-evenly flex-wrap gap-2 lg:gap-8">
+              <Link href={"/events/grid?page=1&et=tournament"}>
+                <Button>
+                  <MedalIcon />
+                  Tournaments
+                </Button>
+              </Link>
+
+              <Link href={"/events/grid?page=1&et=camp"}>
+                <Button>
+                  <TentIcon />
+                  Camps
+                </Button>
+              </Link>
+
+              <Link href={"/events/grid?page=1&et=training"}>
+                <Button>
+                  <DumbbellIcon />
+                  Trainings
+                </Button>
+              </Link>
+
+              <Link href={"/events/grid?page=1&et=clinic"}>
+                <Button>
+                  <AwardIcon />
+                  Clinics
+                </Button>
+              </Link>
+
+              <Link href={"/events/grid?page=1&et=friendly_game"}>
+                <Button>
+                  <HandshakeIcon />
+                  Friendly games
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 my-12 md:my-24">

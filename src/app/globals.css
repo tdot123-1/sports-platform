@@ -17,6 +17,7 @@ body {
 
     /* original -> black */
     /* --primary: 240 5.9% 10%; */
+
     /* orange */
     /* --primary: 22 91% 54%; */
 
@@ -24,7 +25,10 @@ body {
     /* --primary: 55 35% 91%; */
 
     /* test -> dark blue*/
-    --primary: 242 82% 22%;
+    /* --primary: 242 82% 22%; */
+
+    /* brand color -> light blue */
+    --primary: 211 54.1% 56.5% ;
     
     --info: 237 78% 66%;
 
