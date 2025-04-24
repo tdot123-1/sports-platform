@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/nav/app-sidebar";
 import Footer from "@/components/footer/footer";
 import AppSideBarTrigger from "@/components/nav/app-sidebar-trigger";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,9 +39,16 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSideBar />
           <main className="flex-1 min-w-0">
-            <header className="sticky top-0 p-4 z-10 w-full flex justify-end bg-muted shadow-muted shadow-md">
+            <header className="sticky top-0 z-10 w-full flex justify-end bg-black/90 shadow-black/90 shadow-md">
               <AppSideBarTrigger />
-              <p>Hi-Fives</p>
+              <div className="w-40 p-2">
+                <Image
+                  src={"/logo-compressed.png"}
+                  alt="Hi-Fives logo"
+                  width={13024}
+                  height={5171}
+                />
+              </div>
             </header>
 
             <section className="font-sans min-h-[calc(100vh-50px)]">

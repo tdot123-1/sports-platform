@@ -23,13 +23,13 @@ const EventsSection = () => {
           in tournaments, training sessions, camps, or matchups — it&apos;s just
           a few clicks away.
         </p>
-        
+
         {/* use different button layout for sm to md screens */}
         <div className="py-8">
           <div className="block md:hidden">
             <div className="grid grid-cols-2 gap-2">
               <Link href={"/events/grid?page=1&et=tournament"}>
-                <Button>
+                <Button className="w-full">
                   <MedalIcon />
                   Tournaments
                 </Button>
