@@ -94,7 +94,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
                 </div>
               </div> */}
 
-              <div className="grid grid-cols-2 gap-y-1 gap-x-2 py-1 bg-muted px-2 rounded-md">
+              <div className="grid grid-cols-2 gap-y-1 gap-x-2 p-2.5 bg-muted rounded-md">
                 <p>Age(s)</p>
                 <p>{renderArrayField(event.target_age)}</p>
                 <p>Level(s)</p>
