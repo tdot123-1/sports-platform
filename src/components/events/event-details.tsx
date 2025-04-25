@@ -6,10 +6,15 @@ import {
   TargetAgeGroupMap,
   TargetLevelMap,
 } from "@/lib/types";
-import { convertFetchedEvent, formatCurrencyForDisplay } from "@/lib/utils";
+import {
+  capitalizeString,
+  convertFetchedEvent,
+  formatCurrencyForDisplay,
+} from "@/lib/utils";
 import {
   BicepsFlexedIcon,
   CalendarCheck2Icon,
+  CalendarIcon,
   CalendarX2Icon,
   ExternalLinkIcon,
   HandCoinsIcon,
@@ -21,6 +26,7 @@ import {
   PhoneIcon,
   ReceiptTextIcon,
   ThumbsUpIcon,
+  TrophyIcon,
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -55,35 +61,41 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   return (
     <>
-      <div className="bg-white p-6 border rounded-md shadow-md">
-        <h3 className="text-center text-lg font-semibold font-mono">
+      <div className="p-6 border rounded-md shadow-md bg-white text-sm">
+        <h3 className="text-center text-3xl font-semibold font-mono">
           {event.event_name}
         </h3>
         <ul>
-          <li className="py-2">
-            <h4 className="text-basket italic font-medium ">About the event</h4>
-            <div className="text-sm my-2">
-              <p>{SportsEventTypeMap[event.event_type]}</p>
-              <ScrollArea className="h-28 mt-2">
-                {event.event_description ? (
-                  <p className="mt-1">{event.event_description}</p>
-                ) : (
-                  <p className="text-xs text-muted-foreground italic mt-4">
-                    No description provided
-                  </p>
-                )}
-              </ScrollArea>
+          <li className="py-8">
+            <h4 className="text-basket font-medium text-xl font-mono mb-4">
+              About the event
+            </h4>
+            <p className="text-lg flex justify-start items-center gap-1 mb-4">
+              <TrophyIcon size={18} />
+              {capitalizeString(SportsEventTypeMap[event.event_type])}
+            </p>
+
+            <div className="bg-muted max-h-32 overflow-y-auto p-3 rounded-md mb-4">
+              {event.event_description ? (
+                <p>{event.event_description}</p>
+              ) : (
+                <p className="text-muted-foreground italic text-center py-4">
+                  No description provided
+                </p>
+              )}
             </div>
-            <div className="flex gap-2 text-sm">
+
+            <div className="flex gap-2 items-center">
               <div className="flex justify-start items-center gap-1">
                 <InfoIcon size={18} />
-                <h5 className="font-semibold">Status:</h5>
+                <h5 className="font-semibold text-base">Status:</h5>
               </div>
 
               <p>{EventStatusMap[event.event_status]}</p>
             </div>
           </li>
-          <li className="py-2">
+
+          <li className="py-4">
             <div className="flex justify-evenly gap-1">
               {imagePublicUrls.length > 0 &&
                 imagePublicUrls.map((img, i) => (
@@ -91,31 +103,35 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                 ))}
             </div>
           </li>
+          <Separator />
+          <li className="py-8">
+            <h4 className="text-basket font-medium text-xl font-mono mb-4">
+              Who is it for
+            </h4>
 
-          <li className="py-2">
-            <h4 className="text-basket italic font-medium">Who is it for</h4>
-            <div className="text-sm my-1">
-              <div className="flex justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
+              <div>
                 <div className="flex justify-start items-center gap-1">
                   <PersonStandingIcon size={18} />
-                  <h5 className="font-semibold">Age(s):</h5>
+                  <h5 className="font-semibold text-base">Age(s):</h5>
                 </div>
-                <h6 className="text-muted-foreground">Age group (birthyear)</h6>
+                <h6 className="text-muted-foreground text-xs text-left ml-1">
+                  Age group (birthyear)
+                </h6>
+                <div className="max-h-24 overflow-y-auto my-1 py-1">
+                  {event.target_age.map((age) => (
+                    <p key={age}>{TargetAgeGroupMap[age]}</p>
+                  ))}
+                </div>
               </div>
 
-              <div className="text-right">
-                {event.target_age.map((age) => (
-                  <p key={age}>{TargetAgeGroupMap[age]}</p>
-                ))}
-              </div>
-
-              <Separator className="my-2" />
-              <div className="flex justify-between items-start">
+              <div>
                 <div className="flex justify-start items-center gap-1">
                   <BicepsFlexedIcon size={18} />
-                  <h5 className="font-semibold">Skill level(s):</h5>
+                  <h5 className="font-semibold text-base">Skill level(s):</h5>
                 </div>
-                <div className="text-right">
+                <h6 className="opacity-0 text-xs hidden md:block">xxxx</h6>
+                <div className="my-1 py-1">
                   {event.target_level ? (
                     event.target_level.map((level) => (
                       <p key={level}>{TargetLevelMap[level]}</p>
@@ -125,88 +141,79 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   )}
                 </div>
               </div>
-              <Separator className="my-2" />
-              <div className="flex justify-between">
+
+              <div>
                 <div className="flex justify-start items-center gap-1">
                   <UsersIcon size={18} />
-                  <h5 className="font-semibold">Gender:</h5>
+                  <h5 className="font-semibold text-base">Gender:</h5>
                 </div>
-                <p>{event.target_gender}</p>
+                <h6 className="opacity-0 text-xs hidden md:block">xxxx</h6>
+                <p className="my-1 py-1">{event.target_gender}</p>
               </div>
             </div>
           </li>
+          <Separator />
+          <li className="py-8">
+            <h4 className="text-basket font-medium text-xl font-mono mb-4">
+              When and where
+            </h4>
 
-          <li className="py-2">
-            <h4 className="text-basket italic font-medium">When and where</h4>
-            <div className="text-sm my-1">
-              <div className="flex justify-between">
-                <div className="flex justify-start items-center gap-1">
-                  <CalendarCheck2Icon size={18} />
-                  <h5 className="font-semibold">Starts on:</h5>
-                </div>
-                <p>
-                  {event.start_date
-                    ? format(event.start_date, "LLL dd, y")
-                    : "TBD"}
-                </p>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex justify-start items-center gap-1">
-                  <CalendarX2Icon size={18} />
-                  <h5 className="font-semibold">Ends on:</h5>
-                </div>
-                <p>
-                  {event.end_date ? format(event.end_date, "LLL dd, y") : "N/A"}
-                </p>
-              </div>
-              <div className="flex justify-start items-center gap-1">
-                <MapPinIcon size={18} />
-                <h5 className="font-semibold">Location:</h5>
-              </div>
+            <div className="flex justify-start items-center gap-1 mb-4">
+              <CalendarIcon size={18} />
+              <p>
+                {event.start_date
+                  ? format(event.start_date, "LLL dd, y")
+                  : "TBD"}
+                {event.end_date
+                  ? ` - ${format(event.end_date, "LLL dd, y")}`
+                  : ""}
+              </p>
+            </div>
 
-              <p className="text-right">{event.address_city}</p>
+            <div className="flex justify-start items-center gap-1">
+              <MapPinIcon size={18} />
+              <p>{event.address_city}</p>
             </div>
           </li>
+          <Separator />
+          <li className="py-8">
+            <h4 className="text-basket font-medium text-xl font-mono mb-4">
+              Pricing info
+            </h4>
+            <p className="text-xs text-muted-foreground">
+              The provided price is an estimate, and could be subject to change.
+            </p>
 
-          <li className="py-2">
-            <h4 className="text-basket italic font-medium">Pricing info</h4>
-            <div className="text-sm my-1">
-              <div className="flex justify-between">
-                <div className="flex justify-start items-center gap-1">
-                  <HandCoinsIcon size={18} />
-                  <h5 className="font-semibold">Price estimate:</h5>
+            <div className="flex justify-start items-center gap-1 my-4">
+              <HandCoinsIcon size={18} />
+              <p>
+                {event.cost_estimate !== null
+                  ? formatCurrencyForDisplay(
+                      event.cost_estimate,
+                      event.cost_currency
+                    )
+                  : "N/A"}
+              </p>
+            </div>
+
+            {event.cost_description && (
+              <div>
+                <div className="flex justify-start items-center gap-1 mb-1">
+                  <ReceiptTextIcon size={18} />
+                  <h5 className="font-semibold text-base">Price info:</h5>
                 </div>
-
-                <p>
-                  {event.cost_estimate !== null
-                    ? formatCurrencyForDisplay(
-                        event.cost_estimate,
-                        event.cost_currency
-                      )
-                    : "N/A"}
+                <p className="bg-muted max-h-32 overflow-y-auto p-3 rounded-md">
+                  {event.cost_description}
                 </p>
               </div>
-
-              {event.cost_description && (
-                <div>
-                  <Separator className="my-2" />
-                  <div className="flex justify-start items-center gap-1">
-                    <ReceiptTextIcon size={18} />
-                    <h5 className="font-semibold">Additional pricing info:</h5>
-                  </div>
-                  <ScrollArea className="h-28">
-                    <p className="text-right">{event.cost_description}</p>
-                  </ScrollArea>
-                </div>
-              )}
-            </div>
+            )}
           </li>
-
-          <li className="py-2">
-            <h4 className="text-basket italic font-medium">
+          <Separator />
+          <li className="py-8">
+            <h4 className="text-basket font-medium text-xl font-mono mb-4">
               How to get in touch
             </h4>
-            <div className="text-sm my-1">
+            {/* <div className="text-sm my-1">
               {event.contact_email && (
                 <>
                   <div className="flex justify-start items-center gap-1">
@@ -286,7 +293,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
                   ))}
                 </>
               )}
-            </div>
+            </div> */}
           </li>
         </ul>
       </div>

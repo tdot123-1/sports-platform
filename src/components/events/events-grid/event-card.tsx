@@ -26,14 +26,13 @@ interface EventCardProps {
 const EventCard = async ({ event, userId }: EventCardProps) => {
   return (
     <>
-      <Card className="py-4">
+      <Card className="py-4 h-full">
         <CardHeader>
           <div className="flex items-start justify-between gap-1">
-            <ScrollArea className="w-full h-14 text-left">
-              <CardTitle className="text-xl font-semibold leading-tight line-clamp-2">
-                {event.event_name}
-              </CardTitle>
-            </ScrollArea>
+            <CardTitle className="text-xl font-semibold leading-tight line-clamp-2">
+              {event.event_name}
+            </CardTitle>
+
             <Avatar>
               {event.event_logo_url && (
                 <AvatarImage src={event.event_logo_url} />
