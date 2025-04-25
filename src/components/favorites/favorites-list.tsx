@@ -2,7 +2,6 @@
 
 import { SportsEvent } from "@/lib/types";
 import { useEffect, useState } from "react";
-import FavoriteCard from "./favorite-card";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRightIcon, LoaderIcon } from "lucide-react";
@@ -19,7 +18,7 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
   // use state to be able to redirect to error component
   const [fetchError, setFetchError] = useState(false);
 
-  // if fetch error -> throw error to call global error component 
+  // if fetch error -> throw error to call global error component
   useEffect(() => {
     if (fetchError) {
       throw new Error("Error fetching favorites");
@@ -86,7 +85,10 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
                 Click the ❤️ heart button to add an event to your favorites.
               </p>
               <Link href={`/events/grid`}>
-                <Button className="bg-basket hover:bg-basket/60" variant={`default`}>
+                <Button
+                  className="bg-basket hover:bg-basket/60"
+                  variant={`default`}
+                >
                   <span>To events</span>
                   <ArrowRightIcon />
                 </Button>

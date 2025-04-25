@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
-import { ScrollArea } from "../../ui/scroll-area";
+
 import {
   capitalizeString,
   formatCityName,
@@ -54,15 +54,6 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
                   : "Date: TBD"}
               </p>
             </li>
-            {/* <Separator className="my-1" />
-            <li>
-              <p className="text-base">
-                {event.start_date
-                  ? format(event.start_date, "LLL dd, y")
-                  : "Date: TBD"}
-              </p>
-            </li> */}
-            {/* <Separator className="my-1" /> */}
             <li>
               <div className="flex items-center gap-1.5">
                 <MapPinIcon />
@@ -73,26 +64,6 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
             </li>
             <Separator className="my-3" />
             <li>
-              {/* <div>
-                <div className="flex justify-between">
-                  <p className="text-muted-foreground">Age(s)</p>
-
-                  <p className="">{renderArrayField(event.target_age)}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="text-muted-foreground">Level(s)</p>
-                  <p className="">
-                    {event.target_level
-                      ? renderArrayField(event.target_level)
-                      : "N/A"}
-                  </p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="text-muted-foreground">Gender</p>
-                  <p className="">{event.target_gender}</p>
-                </div>
-              </div> */}
-
               <div className="grid grid-cols-2 gap-y-1 gap-x-2 p-2.5 bg-muted rounded-md">
                 <p>Age(s)</p>
                 <p>{renderArrayField(event.target_age)}</p>

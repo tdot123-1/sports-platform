@@ -13,10 +13,9 @@ import {
 } from "@/lib/utils";
 import {
   BicepsFlexedIcon,
-  CalendarCheck2Icon,
   CalendarIcon,
-  CalendarX2Icon,
   ExternalLinkIcon,
+  GlobeIcon,
   HandCoinsIcon,
   InfoIcon,
   LinkIcon,
@@ -30,7 +29,6 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { format } from "date-fns";
 import { fetchImagePublicUrls } from "@/lib/data/storage/data";
@@ -213,87 +211,76 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
             <h4 className="text-basket font-medium text-xl font-mono mb-4">
               How to get in touch
             </h4>
-            {/* <div className="text-sm my-1">
-              {event.contact_email && (
-                <>
-                  <div className="flex justify-start items-center gap-1">
-                    <MailIcon size={18} />
-                    <h5 className="font-semibold">Email:</h5>
-                  </div>
-                  <p className="text-right">{event.contact_email}</p>
-                </>
-              )}
 
+            <div className="flex flex-col gap-4 mb-6">
+              <h5 className="text-muted-foreground">Point(s) of contact</h5>
+              {event.contact_email && (
+                <div className="flex justify-start items-center gap-1">
+                  <MailIcon size={18} />
+                  <p>{event.contact_email}</p>
+                </div>
+              )}
               {event.contact_url && (
-                <>
-                  <div className="flex justify-start items-center gap-1">
-                    <LinkIcon size={18} />
-                    <h5 className="font-semibold">Contact link:</h5>
-                  </div>
-                  <div className="text-right flex justify-end flex-nowrap overflow-hidden">
-                    <ExternalLinkIcon size={14} />
+                <div className="flex justify-start items-center gap-1">
+                  <LinkIcon size={18} />
+                  <div className="flex">
                     <a
                       target="_blank"
-                      className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
+                      className="underline line-clamp-1 max-w-52 md:max-w-full"
                       href={event.contact_url}
                     >
                       {event.contact_url}
                     </a>
+                    <ExternalLinkIcon size={12} />
                   </div>
-                </>
+                </div>
               )}
-
               {event.contact_phone && (
-                <>
-                  <div className="flex justify-start items-center gap-1">
-                    <PhoneIcon size={18} />
-                    <h5 className="font-semibold">Phone:</h5>
-                  </div>
-                  <p className="text-right">{event.contact_phone}</p>
-                </>
+                <div className="flex justify-start items-center gap-1">
+                  <PhoneIcon size={18} />
+                  <p>{event.contact_phone}</p>
+                </div>
               )}
-              {event.event_link && (
-                <>
+            </div>
+            {(event.event_link || event.social_links) && (
+              <div className="flex flex-col gap-4">
+                <h5 className="text-muted-foreground">Event link(s)</h5>
+                {event.event_link && (
                   <div className="flex justify-start items-center gap-1">
-                    <LinkIcon size={18} />
-                    <h5 className="font-semibold">Event link:</h5>
-                  </div>
-                  <div className="text-right flex justify-end flex-nowrap overflow-hidden">
-                    <ExternalLinkIcon size={14} />
-                    <a
-                      target="_blank"
-                      className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
-                      href={event.event_link}
-                    >
-                      {event.event_link}
-                    </a>
-                  </div>
-                </>
-              )}
-              {event.social_links && (
-                <>
-                  <div className="flex justify-start items-center gap-1">
-                    <ThumbsUpIcon size={18} />
-                    <h5 className="font-semibold">Socials:</h5>
-                  </div>
-                  {event.social_links.map((link, i) => (
-                    <div
-                      key={`social-${i}`}
-                      className="text-right flex justify-end flex-nowrap overflow-hidden"
-                    >
-                      <ExternalLinkIcon size={14} />
+                    <GlobeIcon size={18} />
+                    <div className="flex">
                       <a
                         target="_blank"
-                        className="underline text-xs whitespace-nowrap overflow-hidden text-ellipsis text-nowrap"
-                        href={link}
+                        className="underline line-clamp-1 max-w-52 md:max-w-full"
+                        href={event.event_link}
                       >
-                        {link}
+                        {event.event_link}
                       </a>
+                      <ExternalLinkIcon size={12} />
                     </div>
-                  ))}
-                </>
-              )}
-            </div> */}
+                  </div>
+                )}
+                {event.social_links && (
+                  <div className="flex justify-start items-start gap-1">
+                    <ThumbsUpIcon size={18} />
+                    <div className="flex flex-col gap-1">
+                      {event.social_links.map((link, i) => (
+                        <div key={`social-${i}`} className="flex">
+                          <a
+                            target="_blank"
+                            className="underline line-clamp-1 max-w-52 md:max-w-full"
+                            href={link}
+                          >
+                            {link}
+                          </a>
+                          <ExternalLinkIcon size={12} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </li>
         </ul>
       </div>
