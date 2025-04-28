@@ -35,7 +35,7 @@ const AppPagination = ({
 
   return (
     <>
-      <Pagination>
+      <Pagination className="pb-12">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious

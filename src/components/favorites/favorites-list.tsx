@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRightIcon, LoaderIcon } from "lucide-react";
-import EventCard from "../events/events-grid/event-card";
+import EventCard from "./event-card";
 
 interface FavoritesListProps {
   fetchDataFromServer: (eventIds: string[]) => Promise<SportsEvent[]>;
@@ -66,10 +66,10 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
 
   return (
     <>
-      <div className="pb-12 pt-6">
+      <div className="py-6 min-h-dvh">
         {favorites.length ? (
           <>
-            <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <ul className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {favorites.map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} />
