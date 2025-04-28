@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import ViewDetailsButton from "../details-button";
 import { MapPinIcon } from "lucide-react";
+import { getFallbackLogo } from "../fallback-logo";
 
 interface EventCardProps {
   event: SportsEvent;
@@ -38,7 +39,7 @@ const EventCard = async ({ event, userId }: EventCardProps) => {
                 <AvatarImage src={event.event_logo_url} />
               )}
               <AvatarFallback className="bg-primary opacity-55 text-sm">
-                HiFives
+                {getFallbackLogo(event.event_type)}
               </AvatarFallback>
             </Avatar>
           </div>

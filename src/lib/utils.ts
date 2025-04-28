@@ -185,14 +185,13 @@ export const formatRawFormData = (formData: FormData) => {
   };
 };
 
-// used to capitalize event type 
+// used to capitalize event type
 export const capitalizeString = (input: string) => {
   return input
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
-
 
 export const formatCityName = (fullName: string) => {
   return fullName?.split(",")[0] || "";

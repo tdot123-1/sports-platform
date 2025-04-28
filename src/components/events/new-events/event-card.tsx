@@ -5,6 +5,7 @@ import { CalendarIcon, MapPinIcon, TrophyIcon } from "lucide-react";
 import { format } from "date-fns";
 import { capitalizeString, formatCityName } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getFallbackLogo } from "../fallback-logo";
 
 const EventCard = ({ event }: { event: SportsEvent }) => {
   return (
@@ -17,7 +18,7 @@ const EventCard = ({ event }: { event: SportsEvent }) => {
         <Avatar className="mx-auto my-2">
           {event.event_logo_url && <AvatarImage src={event.event_logo_url} />}
           <AvatarFallback className="bg-primary opacity-55">
-            HiFives
+            {getFallbackLogo(event.event_type)}
           </AvatarFallback>
         </Avatar>
         <Separator />
