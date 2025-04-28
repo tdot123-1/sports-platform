@@ -37,7 +37,7 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="bg-sidebar">
+      <div className="bg-sidebar mt-1.5">
         <ViewsToggle currentView="grid" />
       </div>
 

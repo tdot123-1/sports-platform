@@ -27,7 +27,7 @@ const EventsSection = () => {
         {/* use different button layout for sm to md screens */}
         <div className="py-8">
           <div className="block md:hidden">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-4">
               <Link href={"/events/grid?page=1&et=tournament"}>
                 <Button className="w-full">
                   <MedalIcon />
@@ -57,7 +57,7 @@ const EventsSection = () => {
               </Link>
             </div>
 
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-4">
               <Link href={"/events/grid?page=1&et=friendly_game"}>
                 <Button>
                   <HandshakeIcon />

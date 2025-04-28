@@ -31,20 +31,21 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="px-4">
+      <div className="bg-sidebar mt-1.5">
         <ViewsToggle currentView="calendar" />
       </div>
-
-      <div className="pb-4 h-[75vh] w-full">
-        <Suspense fallback={<CalendarSkeleton />}>
-          <EventsCalendarWrapper
-            month={month}
-            year={year}
-            batch={currentBatch}
-            filter={filter}
-            priceFilter={priceFilter}
-          />
-        </Suspense>
+      <div className="min-h-dvh bg-basket-background">
+        <div className="pb-4 h-[75dvh] w-full">
+          <Suspense fallback={<CalendarSkeleton />}>
+            <EventsCalendarWrapper
+              month={month}
+              year={year}
+              batch={currentBatch}
+              filter={filter}
+              priceFilter={priceFilter}
+            />
+          </Suspense>
+        </div>
       </div>
     </>
   );

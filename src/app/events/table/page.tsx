@@ -38,7 +38,7 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="px-4">
+      <div className="bg-sidebar mt-1.5">
         <ViewsToggle currentView="table" />
       </div>
       <Suspense fallback={<ToolbarSkeleton />}>
@@ -49,7 +49,7 @@ const Page = async (props: {
           passedEventsFilter={passedEventsFilter}
         />
       </Suspense>
-      <section className="px-0 md:px-4">
+      <section className="px-0 md:px-4 bg-basket-background min-h-dvh pt-10">
         <Suspense fallback={<EventsTableSkeleton />}>
           <EventsTable
             currentPage={currentPage}

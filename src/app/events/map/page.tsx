@@ -62,45 +62,39 @@ const Page = async (props: {
   } = parseSearchParams(searchParams);
 
   return (
-    <div className="px-4">
-      <ViewsToggle currentView="map" />
-      <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl mt-4 mb-8 h-[calc(100vh-200px)]">
-        {/** toolbar (filter, search, batch select) */}
-        <Suspense fallback={<MapToolbarSkeleton />}>
-          <MapToolbar
-            searchQuery={query}
-            filter={filter}
-            priceFilter={priceFilter}
-            passedEventsFilter={passedEventsFilter}
-            mapCoords={mapCoords}
-          />
-        </Suspense>
+    <>
+      <div className="bg-sidebar mt-1.5">
+        <ViewsToggle currentView="map" />
+      </div>
+      <div className="bg-basket-background min-h-dvh py-8 px-4">
+        <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl h-[calc(100vh-200px)]">
+          {/** toolbar (filter, search, batch select) */}
+          <Suspense fallback={<MapToolbarSkeleton />}>
+            <MapToolbar
+              searchQuery={query}
+              filter={filter}
+              priceFilter={priceFilter}
+              passedEventsFilter={passedEventsFilter}
+              mapCoords={mapCoords}
+            />
+          </Suspense>
 
-        <Suspense fallback={<Skeleton className="w-full h-full" />}>
-          <EventsMapWrapper
-            mapId={MAP_ID}
-            apiKey={MAPS_API_KEY}
-            mapCoords={mapCoords}
-            filter={filter}
-            priceFilter={priceFilter}
-            passedEventsFilter={passedEventsFilter}
-            searchQuery={query}
-            currentBatch={currentBatch}
-          />
-        </Suspense>
-      </section>
-    </div>
+          <Suspense fallback={<Skeleton className="w-full h-full" />}>
+            <EventsMapWrapper
+              mapId={MAP_ID}
+              apiKey={MAPS_API_KEY}
+              mapCoords={mapCoords}
+              filter={filter}
+              priceFilter={priceFilter}
+              passedEventsFilter={passedEventsFilter}
+              searchQuery={query}
+              currentBatch={currentBatch}
+            />
+          </Suspense>
+        </section>
+      </div>
+    </>
   );
-
-  // return (
-  //   <div className="px-4">
-  //     <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl my-8 h-[calc(100vh-150px)]">
-  //       <Suspense fallback={<Skeleton className="w-full h-full" />}>
-  //         <EventsMapWrapper mapId={MAP_ID} />
-  //       </Suspense>
-  //     </section>
-  //   </div>
-  // );
 };
 
 export default Page;
