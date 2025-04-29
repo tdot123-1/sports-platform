@@ -66,7 +66,7 @@ const Page = async (props: {
       <div className="bg-sidebar mt-1.5">
         <ViewsToggle currentView="map" />
       </div>
-      <div className="bg-basket-background min-h-dvh py-8 px-4">
+      <div className="min-h-dvh py-8 px-4">
         <section className="mx-auto w-full md:w-9/12 lg:w-7/12 max-w-screen-xl h-[calc(100vh-200px)]">
           {/** toolbar (filter, search, batch select) */}
           <Suspense fallback={<MapToolbarSkeleton />}>

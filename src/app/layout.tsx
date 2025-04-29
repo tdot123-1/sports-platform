@@ -39,7 +39,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSideBar />
           <main className="flex-1 min-w-0">
-            <header className="sticky top-0 z-10 w-full flex justify-end bg-black/90 shadow-black/90 shadow-md">
+            <header className="sticky top-0 z-10 w-full flex justify-end bg-basket-header/95 shadow-basket-header/90 shadow-md">
               <AppSideBarTrigger />
               <div className="w-40 p-2">
                 <Image
@@ -51,7 +51,7 @@ export default function RootLayout({
               </div>
             </header>
 
-            <section className="font-sans min-h-[calc(100vh-50px)]">
+            <section className="font-sans min-h-[calc(100vh-50px)] bg-basket-background">
               {children}
             </section>
             <Footer />

@@ -34,7 +34,7 @@ const Page = async (props: {
       <div className="bg-sidebar mt-1.5">
         <ViewsToggle currentView="calendar" />
       </div>
-      <div className="min-h-dvh bg-basket-background">
+      <div className="min-h-dvh">
         <div className="pb-4 h-[75dvh] w-full">
           <Suspense fallback={<CalendarSkeleton />}>
             <EventsCalendarWrapper

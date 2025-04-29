@@ -16,7 +16,7 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   // throw new Error("test");
   return (
     <>
-      <section className="px-4 bg-basket-background">
+      <section className="px-4">
         <div className="mx-auto py-12 w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <div className="mb-2 flex justify-between">
             <FavoriteButton eventId={eventId} />

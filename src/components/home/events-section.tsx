@@ -68,37 +68,37 @@ const EventsSection = () => {
           </div>
 
           <div className="hidden md:block">
-            <div className="flex justify-evenly flex-wrap gap-2 lg:gap-8">
+            <div className="grid grid-cols-5 gap-4 lg:gap-8 lg:px-16 xl:gap-16 xl:px-24">
               <Link href={"/events/grid?page=1&et=tournament"}>
-                <Button>
+                <Button className="w-full">
                   <MedalIcon />
                   Tournaments
                 </Button>
               </Link>
 
               <Link href={"/events/grid?page=1&et=camp"}>
-                <Button>
+                <Button className="w-full">
                   <TentIcon />
                   Camps
                 </Button>
               </Link>
 
               <Link href={"/events/grid?page=1&et=training"}>
-                <Button>
+                <Button className="w-full">
                   <DumbbellIcon />
                   Trainings
                 </Button>
               </Link>
 
               <Link href={"/events/grid?page=1&et=clinic"}>
-                <Button>
+                <Button className="w-full">
                   <AwardIcon />
                   Clinics
                 </Button>
               </Link>
 
               <Link href={"/events/grid?page=1&et=friendly_game"}>
-                <Button>
+                <Button className="w-full">
                   <HandshakeIcon />
                   Friendly games
                 </Button>

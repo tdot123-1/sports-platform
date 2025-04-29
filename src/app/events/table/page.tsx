@@ -49,7 +49,7 @@ const Page = async (props: {
           passedEventsFilter={passedEventsFilter}
         />
       </Suspense>
-      <section className="px-0 md:px-4 bg-basket-background min-h-dvh pt-10">
+      <section className="px-0 md:px-4 min-h-dvh pt-10">
         <Suspense fallback={<EventsTableSkeleton />}>
           <EventsTable
             currentPage={currentPage}

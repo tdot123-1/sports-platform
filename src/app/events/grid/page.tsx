@@ -50,7 +50,7 @@ const Page = async (props: {
         />
       </Suspense>
 
-      <section className="px-4 bg-basket-background">
+      <section className="px-4">
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList
             currentPage={currentPage}

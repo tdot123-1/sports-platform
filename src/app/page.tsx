@@ -61,7 +61,7 @@ export default async function Home(props: {
         <HeroSectionMobile />
       </div>
 
-      <section className="my-12">
+      <section className="py-24 bg-muted">
         <h2 className="text-3xl font-mono font-semibold text-primary px-4 text-center my-8">
           What&apos;s New
         </h2>
@@ -72,28 +72,9 @@ export default async function Home(props: {
         </div>
       </section>
 
-      <ProfileSection />
-
       <EventsSection />
 
-      {/* <section className="my-12 px-4">
-        <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
-        <p className="bg-textbox/75 p-1 rounded-md md:w-1/2 lg:w-1/3 py-2">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
-          nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero iusto
-          impedit assumenda. Cupiditate veritatis quo qui nemo quod non
-          voluptas?
-        </p>
-      </section> */}
-      {/* <section className="my-12 px-4 text-right">
-        <h2 className="text-2xl font-mono text-primary ">Some other info</h2>
-        <p className="bg-textbox/75 p-1 rounded-md ml-auto md:w-1/2 lg:w-1/3 py-2">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam minus,
-          nihil fuga, praesentium sunt eveniet magni ipsum dolorum vero iusto
-          impedit assumenda. Cupiditate veritatis quo qui nemo quod non
-          voluptas?
-        </p>
-      </section> */}
+      <ProfileSection />
     </>
   );
 }
