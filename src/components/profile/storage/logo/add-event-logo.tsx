@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, TrophyIcon } from "lucide-react";
 import { deleteLogoFromStorage } from "@/lib/actions/storage/actions";
 import DeleteMediaButton from "../delete-media";
 import UploadCompressMedia from "../upload-compress-media";
@@ -14,14 +14,14 @@ const AddEventLogo = async ({
 }) => {
   return (
     <>
-      <div className="bg-white border rounded-md shadow-md p-6 w-full max-w-screen-lg">
+      <div className="bg-white border rounded-md shadow-md p-6 w-full h-full max-w-screen-lg">
         <div>
-          <h3 className="font-mono text-basket text-lg">Event logo</h3>
+          <h3 className="font-mono text-basket text-2xl">Event logo</h3>
           <Separator />
-          <p className="text-sm text-muted-foreground italic">
+          <p className="text-sm text-muted-foreground">
             Add a logo to your event.
           </p>
-          <div className="flex flex-col items-center py-3">
+          <div className="flex flex-col items-center py-8">
             <h4>Current logo:</h4>
             {event_logo_url ? (
               <>
@@ -36,7 +36,7 @@ const AddEventLogo = async ({
                 <div className="relative py-3">
                   <Avatar>
                     <AvatarFallback className="bg-primary opacity-55">
-                      Sports
+                      <TrophyIcon />
                     </AvatarFallback>
                     <AvatarImage src={event_logo_url} />
                   </Avatar>
@@ -51,13 +51,13 @@ const AddEventLogo = async ({
                 </div>
               </>
             ) : (
-              <p className="text-xs italic text-muted-foreground mt-3">
+              <p className="text-xs text-muted-foreground mt-3">
                 No logo uploaded yet.
               </p>
             )}
           </div>
         </div>
-        <div>
+        <div className="pt-1">
           <UploadCompressMedia
             eventId={eventId}
             formLabel="Upload logo"

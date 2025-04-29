@@ -21,13 +21,13 @@ const EventMediaWrapper = async ({ eventId }: { eventId: string }) => {
 
   return (
     <>
-      <section>
+      <section className="h-full">
         <AddEventLogo
           eventId={event.id}
           event_logo_url={event.event_logo_url}
         />
       </section>
-      <section>
+      <section className="h-full">
         <AddEventImage eventId={event.id} event_images={event.event_images} />
       </section>
     </>

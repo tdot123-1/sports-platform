@@ -14,17 +14,18 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
   return (
     <>
-      <div className="px-4">
-        <h1 className="text-2xl font-mono text-primary my-4">Event Media</h1>
-        {/* <h1 className="text-center mt-4">
-          My event: <span className="text-muted-foreground">{eventId}</span>
-        </h1> */}
-        <div className="my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_2fr] gap-4 lg:gap-8">
+      <div className="px-4 py-8 bg-basket-background min-h-dvh">
+        <h1 className="text-3xl font-mono text-primary">Event Media</h1>
+        <h2 className="text-center my-3">
+          My event:{" "}
+          <span className="text-muted-foreground text-sm">{eventId}</span>
+        </h2>
+        <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           <Suspense fallback={<EventMediaSkeleton />}>
             <EventMediaWrapper eventId={eventId} />
           </Suspense>
         </div>
-        <div className="flex justify-center my-6">
+        <div className="flex justify-center mt-12">
           <Link href={`/profile/events/${eventId}`}>
             <Button variant={`secondary`}>
               <div className="flex justify-start items-start gap-1">

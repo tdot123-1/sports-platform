@@ -19,14 +19,14 @@ const AddEventImage = async ({
 
   return (
     <>
-      <div className="bg-white border rounded-md shadow-md p-6 w-full max-w-screen-lg">
+      <div className="bg-white border rounded-md shadow-md p-6 w-full h-full max-w-screen-lg">
         <div>
-          <h3 className="font-mono text-basket text-lg">Event images</h3>
+          <h3 className="font-mono text-basket text-2xl">Event images</h3>
           <Separator />
-          <p className="text-sm text-muted-foreground italic">
+          <p className="text-sm text-muted-foreground">
             Add up to 3 images to your event.
           </p>
-          <div className="py-4">
+          <div className="py-8">
             {imagePublicUrls.length > 0 ? (
               <>
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
@@ -66,13 +66,13 @@ const AddEventImage = async ({
                 </div>
               </>
             ) : (
-              <p className="text-center text-xs italic text-muted-foreground mt-3">
+              <p className="text-center text-xs text-muted-foreground mt-3">
                 No images uploaded yet.
               </p>
             )}
           </div>
         </div>
-        <div>
+        <div className="pt-6">
           {/** Allowed files: *.jpg, *.jpeg, *.svg, no larger than 2MB */}
           
           <UploadCompressMedia

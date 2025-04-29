@@ -26,8 +26,8 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
 
   return (
     <>
-      <section className="px-4">
-        <h1 className="text-center mt-4">
+      <section className="px-4 py-8 bg-basket-background min-h-dvh">
+        <h1 className="text-center">
           My event:{" "}
           <span className="text-muted-foreground text-sm">{eventId}</span>
         </h1>

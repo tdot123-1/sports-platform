@@ -25,9 +25,11 @@ const Page = async () => {
 
   return (
     <>
-      <section className="px-4">
-        <h1 className="text-2xl font-mono text-primary mt-4">My Profile</h1>
-        <p className="mt-6 bg-textbox/75 p-2 rounded-md w-fit">
+      <section className="px-4 bg-basket-background min-h-dvh py-8">
+        <h1 className="text-3xl font-mono text-primary">
+          My Profile
+        </h1>
+        <p className="mt-6">
           <span className="font-semibold">Logged in as:</span>{" "}
           <span className="text-muted-foreground text-sm">
             {/* first check metadata to get correct email, else check user.email */}
@@ -38,14 +40,14 @@ const Page = async () => {
           <ProfileSettings providers={providers} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
           <article className="bg-white border border-muted shadow-md rounded-md p-4">
-            <h2 className="text-xl font-mono text-basket">My Events</h2>
+            <h2 className="text-xl font-mono text-basket font-medium">
+              My Events
+            </h2>
             <p className="text-sm text-muted-foreground my-4">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
-              rem porro assumenda ad adipisci ullam iusto vitae, dolor ipsa
-              deleniti repudiandae eveniet necessitatibus. Excepturi quos fugit
-              quo temporibus neque animi!
+              Review and manage all the events you&apos;ve created in one place.
+              Update details, add and remove images, or delete events as needed
             </p>
 
             <Link href={`/profile/events`}>
@@ -56,12 +58,12 @@ const Page = async () => {
             </Link>
           </article>
           <article className="bg-white border border-muted shadow-md rounded-md p-4">
-            <h2 className="text-xl font-mono text-basket">Create Event</h2>
+            <h2 className="text-xl font-mono text-basket font-medium">
+              Create Event
+            </h2>
             <p className="text-sm text-muted-foreground my-4">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
-              rem porro assumenda ad adipisci ullam iusto vitae, dolor ipsa
-              deleniti repudiandae eveniet necessitatibus. Excepturi quos fugit
-              quo temporibus neque animi!
+              Ready to post something new? Use the form to create a new event
+              within minutes!
             </p>
 
             <Link href={`/profile/events/create`}>
