@@ -18,6 +18,7 @@ import {
 import { format } from "date-fns";
 import { MapPinIcon } from "lucide-react";
 import ViewDetailsButton from "../events/details-button";
+import { getFallbackLogo } from "../events/fallback-logo";
 
 const EventCard = ({ event }: { event: SportsEvent }) => {
   return (
@@ -34,7 +35,7 @@ const EventCard = ({ event }: { event: SportsEvent }) => {
                 <AvatarImage src={event.event_logo_url} />
               )}
               <AvatarFallback className="bg-primary opacity-55 text-sm">
-                HiFives
+                {getFallbackLogo(event.event_type)}
               </AvatarFallback>
             </Avatar>
           </div>

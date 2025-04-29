@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
-import EventsCardSm from "../events-card-sm";
+import EventsCardSm from "./events-card-sm";
 import { useEffect, useState } from "react";
 import { fetchEventsInCity, fetchTotalPagesInCity } from "@/lib/data/map/data";
 import { FrownIcon, RotateCcwIcon } from "lucide-react";
@@ -210,7 +210,7 @@ const SelectedPinEvents = ({
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-60 overflow-hidden overflow-y-auto">
                 {eventsInPin.map((event) => (
-                  <EventsCardSm key={event.id} event={event} />
+                  <EventsCardSm event={event} key={event.id} />
                 ))}
               </div>
               <MapDialogPagination
