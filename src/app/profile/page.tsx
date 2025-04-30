@@ -41,7 +41,7 @@ const Page = async () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
-          <article className="bg-white border border-muted shadow-md rounded-md p-4">
+          <article className="bg-textbox border border-muted shadow-md rounded-md p-4">
             <h2 className="text-xl font-mono text-basket font-medium">
               My Events
             </h2>
@@ -57,7 +57,7 @@ const Page = async () => {
               </Button>
             </Link>
           </article>
-          <article className="bg-white border border-muted shadow-md rounded-md p-4">
+          <article className="bg-textbox border border-muted shadow-md rounded-md p-4">
             <h2 className="text-xl font-mono text-basket font-medium">
               Create Event
             </h2>

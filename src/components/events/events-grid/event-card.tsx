@@ -27,7 +27,7 @@ interface EventCardProps {
 const EventCard = async ({ event, userId }: EventCardProps) => {
   return (
     <>
-      <Card className="py-4 h-full">
+      <Card className="py-4 h-full bg-textbox shadow-md">
         <CardHeader>
           <div className="flex items-start justify-between gap-1">
             <CardTitle className="text-xl font-semibold leading-tight line-clamp-2">

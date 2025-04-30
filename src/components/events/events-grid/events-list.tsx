@@ -47,7 +47,7 @@ const EventsList = async ({
     <>
       <div className="py-6 min-h-screen">
         {events.length ? (
-          <ul className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {events.map((event) => (
               <li key={event.id}>
                 <EventCard event={event} userId={userId ? userId : undefined} />
@@ -59,7 +59,7 @@ const EventsList = async ({
             {userId ? (
               <>
                 <div className="w-fit mx-auto">
-                  <h3 className="text-center italic text-muted-foreground">
+                  <h3 className="text-center text-muted-foreground">
                     No events created yet!
                   </h3>
                   <div className="w-fit mx-auto mt-8">
@@ -73,7 +73,7 @@ const EventsList = async ({
               </>
             ) : (
               <>
-                <h3 className="text-center italic text-muted-foreground">
+                <h3 className="text-center text-muted-foreground">
                   No events found!
                 </h3>
               </>

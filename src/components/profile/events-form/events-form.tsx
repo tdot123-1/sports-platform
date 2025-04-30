@@ -46,14 +46,14 @@ const EventForm = ({
 }: EventFormProps) => {
   return (
     <>
-      <form className="bg-white p-2 md:p-4 rounded-md" action={formAction}>
+      <form action={formAction}>
         <div>
-          <h3 className="text-lg font-semibold font-mono">Event info</h3>
+          <h3 className="text-xl font-semibold font-mono">Event info</h3>
           <p className="text-muted-foreground text-sm">
             Provide some information about the event itself.
           </p>
         </div>
-        <Separator className="my-2" />
+        <Separator className="mb-6 mt-2" />
         <div className="mb-4">
           <Label htmlFor="event_name">
             Event Name <span className="text-destructive">*</span>
@@ -71,7 +71,7 @@ const EventForm = ({
           <div id="event_name-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_name &&
               state.errors.event_name.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -81,7 +81,7 @@ const EventForm = ({
           <Label htmlFor="event_type">
             Event Type <span className="text-destructive">*</span>
           </Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             Select the type that best describes the event you&apos;re
             organizing.
           </p>
@@ -105,7 +105,7 @@ const EventForm = ({
           <div id="event_type-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_type &&
               state.errors.event_type.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -115,7 +115,7 @@ const EventForm = ({
           <p className="text-sm font-medium leading-none">
             Event Location <span className="text-destructive">*</span>
           </p>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground mb-2">
             Provide the location where your event will be held
           </p>
           <LocationInput
@@ -132,7 +132,7 @@ const EventForm = ({
           <Label htmlFor="start_date">
             Dates <span className="text-destructive">*</span>
           </Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             Provide the start and end dates of your event.
           </p>
           <DateRangePicker
@@ -145,13 +145,13 @@ const EventForm = ({
           <div id="start_date-error" aria-live="polite" aria-atomic="true">
             {state.errors?.start_date &&
               state.errors.start_date.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
             {state.errors?.end_date &&
               state.errors.end_date.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -162,7 +162,7 @@ const EventForm = ({
           <Label htmlFor="event_status">
             Event Status <span className="text-destructive">*</span>
           </Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             Select the current status of your event.
           </p>
           <Select
@@ -185,7 +185,7 @@ const EventForm = ({
           <div id="event_status-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_status &&
               state.errors.event_status.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -194,7 +194,7 @@ const EventForm = ({
 
         <div className="mb-4">
           <Label htmlFor="event_description">Event Description</Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Provide some extra info about your event.
           </p>
           <Textarea
@@ -214,24 +214,24 @@ const EventForm = ({
           >
             {state.errors?.event_description &&
               state.errors.event_description.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold font-mono">Target audience</h3>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold font-mono">Target audience</h3>
           <p className="text-muted-foreground text-sm">
             Provide some information about who your event is meant for.
           </p>
         </div>
-        <Separator className="my-2" />
+        <Separator className="mb-6 mt-2" />
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">
             Target Age Group <span className="text-destructive">*</span>
           </p>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             Select the age group(s) you are organizing the event for.
           </p>
           <AgeSelect
@@ -243,7 +243,7 @@ const EventForm = ({
           <div id="target_age-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_age &&
               state.errors.target_age.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -251,7 +251,7 @@ const EventForm = ({
         </div>
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">Target Skill Level</p>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Select the skill level(s) required for your event if
             applicable.
           </p>
@@ -264,7 +264,7 @@ const EventForm = ({
           <div id="target_level-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_level &&
               state.errors.target_level.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -274,7 +274,9 @@ const EventForm = ({
           <Label htmlFor="target_gender">
             Target Gender <span className="text-destructive">*</span>
           </Label>
-          <p className="text-xs italic">Select who your event is meant for.</p>
+          <p className="text-xs text-muted-foreground">
+            Select who your event is meant for.
+          </p>
           <Select
             disabled={pending}
             name="target_gender"
@@ -295,21 +297,21 @@ const EventForm = ({
           <div id="target_gender-error" aria-live="polite" aria-atomic="true">
             {state.errors?.target_gender &&
               state.errors.target_gender.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold font-mono">Event cost</h3>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold font-mono">Event cost</h3>
           <p className="text-muted-foreground text-sm">
             Provide information about what your event will cost for attendees.
           </p>
         </div>
-        <Separator className="my-2" />
+        <Separator className="mb-6 mt-2" />
         <Label htmlFor="cost_estimate">Cost estimate</Label>
-        <p className="text-xs italic">
+        <p className="text-xs text-muted-foreground">
           (Optional) Provide an estimation of the total price for attending your
           event.
         </p>
@@ -325,7 +327,7 @@ const EventForm = ({
           <div id="cost_estimate-error" aria-live="polite" aria-atomic="true">
             {state.errors?.cost_estimate &&
               state.errors.cost_estimate.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -333,7 +335,7 @@ const EventForm = ({
           <div id="cost_currency-error" aria-live="polite" aria-atomic="true">
             {state.errors?.cost_currency &&
               state.errors.cost_currency.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -342,7 +344,7 @@ const EventForm = ({
         <div className="mb-4">
           {/** cost description */}
           <Label htmlFor="cost_description">Cost description</Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Describe what attendees receive for the price of your
             event (access, catering, lodging etc.).
           </p>
@@ -352,6 +354,7 @@ const EventForm = ({
             aria-describedby="cost_description-error"
             disabled={pending}
             defaultValue={event?.cost_description ? event.cost_description : ""}
+            maxLength={2000}
           />
           <div
             id="cost_description-error"
@@ -360,26 +363,25 @@ const EventForm = ({
           >
             {state.errors?.cost_description &&
               state.errors.cost_description.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold font-mono">Contact info</h3>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold font-mono">Contact info</h3>
           <p className="text-muted-foreground text-sm">
             Provide information about how to get in contact with event
             organizers.
           </p>
         </div>
-        <Separator className="my-2" />
-
+        <Separator className="mb-6 mt-2" />
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">
             Primary point of contact <span className="text-destructive">*</span>
           </p>
-          <p className="text-xs italic mb-2">
+          <p className="text-xs text-muted-foreground mb-2">
             Provide either an email address or a URL where you can be contacted
             about your event.
           </p>
@@ -397,7 +399,7 @@ const EventForm = ({
           <div id="contact_email-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_email &&
               state.errors.contact_email.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -416,69 +418,16 @@ const EventForm = ({
           <div id="contact_url-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_url &&
               state.errors.contact_url.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-
-        {/* <div className="mb-4">
-          <Label htmlFor="contact_email">
-            Email address <span className="text-destructive">*</span>
-          </Label>
-          <p className="text-xs italic">
-            Provide an email address via which you can be contacted about your
-            event.
-          </p>
-          <Input
-            id="contact_email"
-            name="contact_email"
-            type={`email`}
-            aria-describedby="contact_email-error"
-            disabled={pending}
-            defaultValue={event ? event.contact_email : ""}
-            required
-          />
-          <div id="contact_email-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.contact_email &&
-              state.errors.contact_email.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <Label htmlFor="contact_email">
-            Contact URL <span className="text-destructive">*</span>
-          </Label>
-          <p className="text-xs italic">
-            Provide a URL where you can be contacted about your event.
-          </p>
-          <Input
-            id="contact_email"
-            name="contact_email"
-            type={`email`}
-            aria-describedby="contact_email-error"
-            disabled={pending}
-            defaultValue={event ? event.contact_email : ""}
-            required
-          />
-          <div id="contact_email-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.contact_email &&
-              state.errors.contact_email.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div> */}
 
         <div className="mb-4">
           <Label htmlFor="contact_phone">Phone number</Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Provide a phone number via which you can be contacted
             about your event.
           </p>
@@ -497,7 +446,7 @@ const EventForm = ({
           <div id="contact_phone-error" aria-live="polite" aria-atomic="true">
             {state.errors?.contact_phone &&
               state.errors.contact_phone.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -505,7 +454,7 @@ const EventForm = ({
         </div>
         <div className="mb-4">
           <Label htmlFor="event_link">Event Link</Label>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Provide a link to your event website.
           </p>
           <Input
@@ -520,7 +469,7 @@ const EventForm = ({
           <div id="event_link-error" aria-live="polite" aria-atomic="true">
             {state.errors?.event_link &&
               state.errors.event_link.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -528,7 +477,7 @@ const EventForm = ({
         </div>
         <div className="mb-4">
           <p className="text-sm font-medium leading-none">Social media</p>
-          <p className="text-xs italic">
+          <p className="text-xs text-muted-foreground">
             (Optional) Link any social media where attendees can find more
             details.
           </p>
@@ -542,18 +491,18 @@ const EventForm = ({
           <div id="social_links-error" aria-live="polite" aria-atomic="true">
             {state.errors?.social_links &&
               state.errors.social_links.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col-reverse md:flex-row justify-center gap-4 mt-10">
           <Button variant={`secondary`} type="button" disabled={pending}>
             <Link href={event ? `/profile/events/${event.id}` : "/profile"}>
               <div className="flex justify-start items-center gap-1">
                 <Undo2Icon />
-                <span className="hidden md:block">Cancel</span>
+                <span>Cancel</span>
               </div>
             </Link>
           </Button>
@@ -565,19 +514,19 @@ const EventForm = ({
             {event ? (
               <div className="flex justify-start items-center gap-1">
                 <SaveIcon />
-                <span className="hidden md:block">Update</span>
+                <span>Update</span>
               </div>
             ) : (
               <div className="flex justify-start items-center gap-1">
                 <CirclePlusIcon />
-                <span className="hidden md:block">Create</span>
+                <span>Create</span>
               </div>
             )}
           </Button>
         </div>
         <div>
           {state.message && !state.success && (
-            <p className="text-sm mt-2 text-destructive italic text-center">
+            <p className="text-sm mt-2 text-destructive text-center">
               {state.message}
             </p>
           )}

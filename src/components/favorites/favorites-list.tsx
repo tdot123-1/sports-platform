@@ -79,7 +79,7 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
           </>
         ) : (
           <>
-            <div className="bg-white flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-12 shadow-md">
+            <div className="bg-textbox flex flex-col justify-center items-center gap-4 text-center border border-muted p-8 w-fit rounded-md mx-auto mt-12 shadow-md">
               <h3 className="text-lg font-mono">No favorites added yet!</h3>
               <p className="text-sm">
                 Click the ❤️ heart button to add an event to your favorites.
@@ -93,7 +93,7 @@ const FavoritesList = ({ fetchDataFromServer }: FavoritesListProps) => {
                   <ArrowRightIcon />
                 </Button>
               </Link>
-              <p className="text-xs italic text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Favorites are stored locally on your device
               </p>
             </div>

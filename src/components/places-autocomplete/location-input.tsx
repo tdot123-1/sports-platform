@@ -50,7 +50,7 @@ const LocationInput = ({
         {state.errors?.address_country &&
           state.errors.address_country.map((error) => (
             <p
-              className="text-sm mt-2 text-right text-destructive italic"
+              className="text-sm mt-2 text-right text-destructive"
               key={error}
             >
               {error}
@@ -75,7 +75,7 @@ const LocationInput = ({
 
       {/* display any error related to failed api calls */}
       {cityError && (
-        <p className="text-sm mt-2 text-right text-destructive italic">
+        <p className="text-sm mt-2 text-right text-destructive">
           {cityError}
         </p>
       )}
@@ -84,7 +84,7 @@ const LocationInput = ({
         {state.errors?.address_city &&
           state.errors.address_city.map((error) => (
             <p
-              className="text-sm mt-2 text-right text-destructive italic"
+              className="text-sm mt-2 text-right text-destructive"
               key={error}
             >
               {error}
@@ -95,7 +95,7 @@ const LocationInput = ({
         {state.errors?.address_location &&
           state.errors.address_location.map((error) => (
             <p
-              className="text-sm mt-2 text-right text-destructive italic"
+              className="text-sm mt-2 text-right text-destructive"
               key={error}
             >
               {error}

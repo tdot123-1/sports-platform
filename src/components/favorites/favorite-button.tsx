@@ -46,7 +46,7 @@ const FavoriteButton = ({ eventId }: { eventId: string }) => {
   return (
     <>
       <Button
-        className="bg-basket hover:bg-basket/60 border-2 shadow-md"
+        className="bg-basket hover:bg-basket/60 shadow-md"
         type={`button`}
         onClick={toggleFavorite}
       >

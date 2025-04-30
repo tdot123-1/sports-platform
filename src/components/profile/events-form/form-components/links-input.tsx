@@ -93,7 +93,7 @@ const LinksInput = ({
               </li>
             ))
           ) : (
-            <li className=" text-muted-foreground italic">None added</li>
+            <li className="text-muted-foreground">None added</li>
           )}
         </ul>
       </div>

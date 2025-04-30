@@ -59,7 +59,7 @@ const EventDetails = async ({ eventId }: EventDetailsProps) => {
 
   return (
     <>
-      <div className="p-6 border rounded-md shadow-md bg-white text-sm">
+      <div className="p-6 border rounded-md shadow-md bg-textbox text-sm">
         <h3 className="text-center text-3xl font-semibold font-mono">
           {event.event_name}
         </h3>
