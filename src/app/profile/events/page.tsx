@@ -68,7 +68,7 @@ const Page = async (props: {
         priceFilter={priceFilter}
         passedEventsFilter={passedEventsFilter}
       />
-      <section className="px-4 py-8 bg-basket-background">
+      <section className="px-4 py-8">
         <h1 className="text-3xl font-mono text-primary">My Events</h1>
         <Suspense fallback={<EventsListSkeleton />}>
           <EventsList

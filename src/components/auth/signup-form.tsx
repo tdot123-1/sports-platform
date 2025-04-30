@@ -49,7 +49,7 @@ const SignupForm = () => {
           <div id="email-error" aria-live="polite" aria-atomic="true">
             {state.errors?.email &&
               state.errors.email.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -67,13 +67,13 @@ const SignupForm = () => {
           <div id="password-error" aria-live="polite" aria-atomic="true">
             {state.errors?.password &&
               state.errors.password.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        <div className="mb-4">
+        <div className="mb-8">
           <Label htmlFor="confirmPassword">Confirm Password</Label>
           <Input
             id="confirmPassword"
@@ -85,7 +85,7 @@ const SignupForm = () => {
           <div id="confirmPassword-error" aria-live="polite" aria-atomic="true">
             {state.errors?.confirmPassword &&
               state.errors.confirmPassword.map((error) => (
-                <p className="text-sm mt-2 text-destructive italic" key={error}>
+                <p className="text-sm mt-2 text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -113,7 +113,7 @@ const SignupForm = () => {
         </div>
         <div>
           {state.message && !state.success && (
-            <p className="text-sm mt-2 text-destructive italic text-center">
+            <p className="text-sm mt-2 text-destructive text-center">
               {state.message}
             </p>
           )}

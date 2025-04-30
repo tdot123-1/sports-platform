@@ -25,7 +25,7 @@ const Page = async () => {
 
   return (
     <>
-      <section className="px-4 bg-basket-background min-h-dvh py-8">
+      <section className="px-4 py-8">
         <h1 className="text-3xl font-mono text-primary">
           My Profile
         </h1>
