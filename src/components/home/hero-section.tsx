@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="px-4">
+    <section className="px-4 h-[calc(100vh-150px)] overflow-hidden">
       <div className="flex justify-evenly items-center py-4">
         <div className="flex flex-col gap-8 text-lg w-5/12">
           <h1 className="font-mono text-xl lg:text-3xl mb-2">Where Basketball Happens</h1>

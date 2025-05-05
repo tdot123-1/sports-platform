@@ -38,7 +38,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 <SidebarMenuButton
                   asChild
                   className={clsx({
-                    "bg-zinc-100":
+                    "bg-primary":
                       pathname === link.href ||
                       (link.href === "/events/grid" &&
                         pathname.startsWith("/events") &&
@@ -53,25 +53,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
-            {/* <SidebarEventsSub
-              pathname={pathname}
-              isMobile={isMobile}
-              toggleSidebar={toggleSidebar}
-            /> */}
-            {/* <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className={clsx({
-                  "bg-zinc-100": pathname === "/events/favorites",
-                })}
-                onClick={() => isMobile && toggleSidebar()}
-              >
-                <Link href={`/events/favorites`}>
-                  <HeartIcon />
-                  Favorites
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem> */}
+            
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -86,7 +68,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                     <SidebarMenuButton
                       asChild
                       className={clsx({
-                        "bg-zinc-100": pathname === link.href,
+                        "bg-primary": pathname === link.href,
                       })}
                       onClick={() => isMobile && toggleSidebar()}
                     >
@@ -106,7 +88,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                     <SidebarMenuButton
                       asChild
                       className={clsx({
-                        "bg-zinc-100": pathname === link.href,
+                        "bg-primary": pathname === link.href,
                       })}
                       onClick={() => isMobile && toggleSidebar()}
                     >
@@ -131,7 +113,7 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 <SidebarMenuButton
                   asChild
                   className={clsx({
-                    "bg-zinc-100": pathname === link.href,
+                    "bg-primary": pathname === link.href,
                   })}
                   onClick={() => isMobile && toggleSidebar()}
                 >

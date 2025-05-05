@@ -61,7 +61,7 @@ export default async function Home(props: {
         <HeroSectionMobile />
       </div>
 
-      <section className="py-24 bg-muted">
+      <section className="py-16 bg-muted">
         <h2 className="text-3xl font-mono font-semibold text-primary px-4 text-center my-8">
           What&apos;s New
         </h2>
