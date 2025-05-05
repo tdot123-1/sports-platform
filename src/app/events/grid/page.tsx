@@ -37,9 +37,7 @@ const Page = async (props: {
 
   return (
     <>
-      <div className="bg-sidebar mt-1.5">
-        <ViewsToggle currentView="grid" />
-      </div>
+      <ViewsToggle currentView="grid" />
 
       <Suspense fallback={<ToolbarSkeleton />}>
         <Toolbar

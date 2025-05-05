@@ -6,7 +6,7 @@ const AppSideBar = () => {
   return (
     <Sidebar variant={`sidebar`} collapsible="icon">
       <SidebarContent className="font-sans">
-        <div className="w-40 p-2 group-data-[collapsible=icon]:hidden mx-auto">
+        <div className="w-40 p-2 group-data-[collapsible=icon]:hidden ml-2">
           <Image
             src={"/logo-compressed.png"}
             alt="Hi-Fives logo"

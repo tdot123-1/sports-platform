@@ -26,16 +26,17 @@ const Page = async () => {
   return (
     <>
       <section className="px-4 py-8">
-        <h1 className="text-3xl font-mono text-primary">
-          My Profile
-        </h1>
-        <p className="mt-6">
-          <span className="font-semibold">Logged in as:</span>{" "}
-          <span className="text-muted-foreground text-sm">
-            {/* first check metadata to get correct email, else check user.email */}
-            {data.user.user_metadata.email || data.user.email || `user`}
-          </span>
-        </p>
+        <div className="mx-0 md:mx-8">
+          <h1 className="text-3xl font-mono text-primary text-center md:text-left">My Profile</h1>
+          <p className="mt-6">
+            <span className="font-semibold">Logged in as:</span>{" "}
+            <span className="text-muted-foreground text-sm">
+              {/* first check metadata to get correct email, else check user.email */}
+              {data.user.user_metadata.email || data.user.email || `user`}
+            </span>
+          </p>
+        </div>
+
         <div className="ml-auto w-fit mt-4">
           <ProfileSettings providers={providers} />
         </div>

@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="px-4 h-[calc(100vh-150px)] overflow-hidden">
-      <div className="flex justify-evenly items-center py-4">
+    <section className="px-4 h-[70vh] overflow-hidden">
+      <div className="flex justify-evenly items-center py-4 max-h-full">
         <div className="flex flex-col gap-8 text-lg w-5/12">
           <h1 className="font-mono text-xl lg:text-3xl mb-2">Where Basketball Happens</h1>
           <h2 className="text-base lg:text-xl">Connect with athletes, coaches, trainers, and organizers.</h2>

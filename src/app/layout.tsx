@@ -6,7 +6,6 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/nav/app-sidebar";
 import Footer from "@/components/footer/footer";
 import AppSideBarTrigger from "@/components/nav/app-sidebar-trigger";
-import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,25 +38,11 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSideBar />
           <main className="flex-1 min-w-0 bg-basket-background">
-            {/* <header className="sticky top-0 z-10 w-full flex justify-end bg-basket-header/95 shadow-basket-header/90 shadow-md">
-              <AppSideBarTrigger />
-              <div className="w-40 p-2">
-                <Image
-                  src={"/logo-compressed.png"}
-                  alt="Hi-Fives logo"
-                  width={13024}
-                  height={5171}
-                />
-              </div>
-            </header> */}
-
             <div className="sticky top-0 z-10">
               <AppSideBarTrigger />
             </div>
 
-            <section className="font-sans min-h-[calc(100vh-50px)]">
-              {children}
-            </section>
+            <section className="font-sans min-h-screen">{children}</section>
             <Footer />
           </main>
           <Toaster richColors />

@@ -24,7 +24,7 @@ const Toolbar = async ({
 
   return (
     <>
-      <div className="flex justify-evenly p-4 bg-sidebar shadow-md">
+      <div className="flex justify-evenly p-4 bg-muted shadow-md">
         <ToolbarFilter
           filter={filter}
           priceFilter={priceFilter}

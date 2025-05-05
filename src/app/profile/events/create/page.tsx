@@ -14,7 +14,9 @@ const Page = () => {
   return (
     <>
       <section className="px-2 md:px-4 py-8">
-        <h1 className="text-3xl font-mono text-primary">Create Event</h1>
+        <h1 className="text-3xl font-mono text-primary text-center md:text-left md:mx-8">
+          Create Event
+        </h1>
         {EVENT_CREATION_ENABLED === "true" ? (
           <>
             <div className="flex justify-center pb-6">
