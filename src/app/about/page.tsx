@@ -8,7 +8,7 @@ const Page = () => {
   return (
     <>
       <section>
-        <div className="py-12">
+        <div className="py-16">
           <h1 className="text-primary font-mono text-3xl text-center">
             Discover. Connect. Play
           </h1>
@@ -20,7 +20,7 @@ const Page = () => {
           </p>
         </div>
 
-        <article className="py-12 bg-muted px-4">
+        <article className="py-16 bg-muted px-4">
           <h2 className="text-2xl font-mono font-medium text-primary text-center">
             About the platform
           </h2>
@@ -36,7 +36,7 @@ const Page = () => {
             help you make it happen.
           </p>
         </article>
-        <article className="py-12 px-4">
+        <article className="py-16 px-4">
           <h2 className="text-2xl font-mono font-medium text-primary text-center">
             Who is it for
           </h2>
@@ -51,7 +51,7 @@ const Page = () => {
             events with the basketball community today.
           </p>
         </article>
-        <article className="pt-12 pb-24 px-4 bg-muted">
+        <article className="py-16 px-4 bg-muted">
           <h2 className="text-2xl font-mono font-medium text-primary text-center">
             How to use it
           </h2>

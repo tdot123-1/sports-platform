@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const ProfileSection = () => {
   return (
-    <section className="px-4 py-24 bg-muted">
+    <section className="px-8 py-16 bg-muted">
       <h2 className="text-2xl md:text-3xl font-mono font-semibold text-primary">
         Create your events
       </h2>

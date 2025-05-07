@@ -23,7 +23,7 @@ const Page = async () => {
   return (
     <>
       <section className="px-2 sm:px-4 py-8">
-        <h1 className="text-3xl font-mono text-primary">Signup</h1>
+        <h1 className="text-3xl font-mono text-primary text-center md:text-left mx-0 md:mx-8">Signup</h1>
         <div className="bg-textbox my-14 rounded-md px-4 md:px-10 py-16 md:min-w-fit shadow-md md:w-1/2 lg:w-1/3 mx-auto">
           <div className="text-center mb-6">
             <h2 className="font-mono text-xl mb-2">Welcome!</h2>

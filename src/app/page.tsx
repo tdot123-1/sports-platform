@@ -62,7 +62,7 @@ export default async function Home(props: {
       </div>
 
       <section className="py-16 bg-muted">
-        <h2 className="text-3xl font-mono font-semibold text-primary px-4 text-center my-8">
+        <h2 className="text-3xl font-mono font-semibold text-primary px-4 text-center mb-8">
           What&apos;s New
         </h2>
         <div className="flex justify-center w-full mx-auto sm:w-10/12 md:w-9/12">

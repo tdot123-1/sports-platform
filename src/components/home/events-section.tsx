@@ -12,7 +12,7 @@ import Link from "next/link";
 
 const EventsSection = () => {
   return (
-    <section className="px-4 py-24 text-base md:text-lg bg-basket-background">
+    <section className="px-8 py-16 text-base md:text-lg bg-basket-background">
       <h2 className="text-2xl md:text-3xl font-mono font-semibold text-primary text-center">
         Find the right events for you
       </h2>
@@ -107,7 +107,7 @@ const EventsSection = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 my-12 md:my-24">
+      <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 mt-12 md:mt-24">
         <p className="w-full md:w-3/5">
           Want to see what&apos;s happening near you — or plan ahead? Use the
           calendar to browse events by date, or jump into the map to find events

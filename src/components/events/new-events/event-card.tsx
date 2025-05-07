@@ -10,7 +10,7 @@ import { getFallbackLogo } from "../fallback-logo";
 const EventCard = ({ event }: { event: SportsEvent }) => {
   return (
     <>
-      <article className="p-6 bg-white border border-muted rounded-md shadow-md m-3">
+      <article className="p-6 bg-textbox border border-muted rounded-md shadow-md m-3">
         <h3 className="text-xl font-semibold text-center">
           {event.event_name}
         </h3>

@@ -26,9 +26,6 @@ const NewEventsCarousel = ({ events }: { events: SportsEvent[] }) => {
         <CarouselContent>
           {events.map((event) => (
             <CarouselItem className="sm:basis-1/2 lg:basis-1/3" key={event.id}>
-              {/* <div className="p-1">
-                <NewEventCard event={event} />
-              </div> */}
               <EventCard event={event} />
             </CarouselItem>
           ))}
