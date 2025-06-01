@@ -25,13 +25,17 @@ const Footer = () => {
           <li className="underline underline-offset-2">
             <Link href={"/info/privacy"}>Privacy policy</Link>
           </li>
-          <li>Contact us: sports_platform@email.com</li>
+          <li>Contact us: info@hi-fives.com</li>
         </ul>
       </div>
 
-      <p className="text-xs italic">
-        Disclaimer: Lorem ipsum dolor, sit amet consectetur adipisicing elit. A
-        officia porro veniam officiis perspiciatis mollitia dicta, illum eum.
+      <p className="text-xs italic mt-8">
+        Disclaimer: The information and services provided on this platform are
+        for general purposes only and do not constitute professional advice or
+        guarantees of performance. While we strive to ensure the accuracy and
+        reliability of our content, we are not responsible for any errors,
+        omissions or outcomes resulting from the use of this site. Use of this
+        platform is at your own risk.
       </p>
     </footer>
   );

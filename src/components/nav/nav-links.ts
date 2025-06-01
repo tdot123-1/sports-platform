@@ -107,7 +107,7 @@ export const infoNavLinks = [
     icon: MessageCircle,
   },
   {
-    name: "Support",
+    name: "Support Us",
     href: "/info/support",
     icon: HeartHandshakeIcon,
   },

@@ -17,7 +17,7 @@ const PrivacyAccordion = ({ items }: { items: AccordionItem[] }) => {
       {items.map((item) => (
         <AccordionItem value={item.value} key={item.value}>
           <AccordionTrigger>{item.trigger}</AccordionTrigger>
-          <AccordionContent>{item.content}</AccordionContent>
+          <AccordionContent className="whitespace-pre-line text-muted-foreground">{item.content}</AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>

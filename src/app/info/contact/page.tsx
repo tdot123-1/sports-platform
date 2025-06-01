@@ -1,4 +1,4 @@
-import { MailIcon, MessageCircleIcon } from "lucide-react";
+import { MailIcon } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,21 +7,19 @@ export const metadata: Metadata = {
 
 const Page = () => {
   return (
-    <section className="px-4">
-      <h1 className="text-2xl font-mono text-primary mt-4">Contact</h1>
-      <p className="text-sm my-6">
-        [explain what we can be contacted for] Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Temporibus molestiae aliquam nisi tempore
-        repellat natus exercitationem debitis necessitatibus mollitia recusandae
-        impedit.
-      </p>
-      <div className="flex gap-1 my-4">
-        <MailIcon />
-        <span className="font-semibold">sports_platform@email.com</span>
-      </div>
-      <div className="flex gap-1">
-        <MessageCircleIcon />
-        <span className="font-semibold">+12 3 45 67 89</span>
+    <section className="px-4 py-8">
+      <div className="mx-0 md:mx-8">
+        <h1 className="text-3xl font-mono text-primary mt-4 text-center md:text-left">
+          Contact
+        </h1>
+        <p className="my-6 w-full md:w-2/3 lg:w-1/3">
+          Have a question, need assistance, or just want to say hello? We&apos;d love
+          to hear from you!
+        </p>
+        <div className="flex gap-1 my-4">
+          <MailIcon />
+          <span className="font-semibold">info@hi-fives.com</span>
+        </div>
       </div>
     </section>
   );
