@@ -26,14 +26,14 @@ const Page = () => {
           </h2>
           <p className="max-w-2xl mx-auto mt-8">
             Finding and promoting basketball events should be simple — and
-            that&apos;s exactly what this platform is built for. Here, athletes,
-            coaches, trainers, and event organizers can discover tournaments,
-            camps, matchups, and training sessions, or share their own events
-            with the community. Think of it as your public basketball event
-            board: easy to browse, free to post, and built to connect people who
-            love the game. Whether you&apos;re looking for your next matchup or
-            getting the word out about an upcoming event, we&apos;re here to
-            help you make it happen.
+            that&apos;s exactly what this platform is built for. <br />
+            Here, athletes, coaches, trainers, and event organizers can discover
+            tournaments, camps, matchups, and training sessions, or share their
+            own events with the community. <br />
+            Think of it as your public basketball event board: easy to browse,
+            free to post, and built to connect people who love the game. Whether
+            you&apos;re looking for your next matchup or getting the word out
+            about an upcoming event, we&apos;re here to help you make it happen.
           </p>
         </article>
         <article className="py-16 px-4">
