@@ -21,7 +21,7 @@ const Page = () => {
         <p className="my-6 w-full md:w-2/3 lg:w-1/3">
           Welcome to HI-FIVES! Your privacy matters to us. This privacy policy
           explains how we collect, use and protect your information when you use
-          our website [link] and services.
+          our platform (<a href="https://www.hi-fives.com/" target="_blank" className="underline">https://www.hi-fives.com/</a>) and services.
         </p>
       </div>
       <div className="mx-auto w-full md:w-2/3 lg:w-1/3 mt-10">
