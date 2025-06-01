@@ -19,10 +19,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Sports Platform",
-    default: "Sports Platform",
+    template: "%s | HI-FIVES",
+    default: "HI-FIVES",
   },
-  description: "Find your sports events",
+  description: "Where Basketball Happens",
 };
 
 export default function RootLayout({

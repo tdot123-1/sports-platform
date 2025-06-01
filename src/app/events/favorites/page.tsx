@@ -1,5 +1,10 @@
 import FavoritesList from "@/components/favorites/favorites-list";
 import { fetchFavoriteEvents } from "@/lib/data/events/data";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Favorites",
+};
 
 const Page = () => {
   return (

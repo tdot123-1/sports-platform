@@ -20,11 +20,10 @@ export default function Error({
     <div className="flex h-full flex-col text-center gap-4 items-center justify-center my-28">
       <h2 className="text-xl font-mono">Something went wrong!</h2>
       <FrownIcon size={48} />
-      <p className="text-sm text-muted-foreground italic">
+      <p className="text-sm text-muted-foreground mb-10">
         Failed to load this page, click to try again
       </p>
       <Button
-        className=""
         onClick={
           // attempt to recover by trying to re-render the route
           () => reset()
