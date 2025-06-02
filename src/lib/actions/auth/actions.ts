@@ -152,7 +152,7 @@ export const signupWithPassword = async (
     });
 
     if (error) {
-      console.error("Signup error: ", error.message);
+      console.error("Signup error: ", error);
       if (error.code === "user_already_exists") {
         return {
           message: "This email is already in use. Please log in instead.",

@@ -43,7 +43,7 @@ export default async function Home(props: {
         <>
           <ConfirmEmailChangeToast />
           {/** have div as well in case toast does not trigger */}
-          <div className="w-fit mx-4 my-4 p-4 rounded-md bg-info text-center fixed top-10 right-2 z-50">
+          <div className="w-fit left-1/2 transform -translate-x-1/2 my-4 p-4 rounded-md bg-info text-center fixed top-10 z-50">
             <h2 className="font-semibold text-lg">
               New email address confirmed
             </h2>
