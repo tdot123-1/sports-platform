@@ -24,7 +24,7 @@ export const sendEmailToVerifyReport = async (
     to: userEmail,
     from: {
       email: SENDGRID_SENDER,
-      name: "Hi-Fives",
+      name: "HI-FIVES",
     },
     subject: "Verify your report",
     html: `
@@ -64,7 +64,7 @@ export const sendEmailAfterVerifiedReport = async (
     to: REPORTS_EMAIL,
     from: {
       email: SENDGRID_SENDER,
-      name: "Hi-Fives",
+      name: "HI-FIVES",
     },
     subject: "An event was reported",
     html: `
