@@ -31,10 +31,10 @@ const HeroSection = () => {
         <div className="w-5/12 lg:w-4/12 max-h-full">
           <Image
             className="rounded-md"
-            src={"/hero-basket.jpg"}
+            src={"/landing.png"}
             alt="Image of basket and basketball"
-            width={1280}
-            height={1920}
+            width={1208}
+            height={1590}
             priority
           />
         </div>
