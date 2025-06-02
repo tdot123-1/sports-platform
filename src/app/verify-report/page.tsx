@@ -22,7 +22,7 @@ const Page = async (props: {
 
   return (
     <section className="px-4 py-8">
-      <h1 className="text-3xl font-mono text-primary mt-4 text-center md:text-left mx-0 md:mx-8">
+      <h1 className="text-3xl font-mono text-primary text-center md:text-left mx-0 md:mx-8">
         Verify your report
       </h1>
       <div className="w-fit mx-auto my-32 bg-white rounded-md p-8">
