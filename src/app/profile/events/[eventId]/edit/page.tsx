@@ -12,47 +12,36 @@ const Page = async ({ params }: { params: Promise<{ eventId: string }> }) => {
   const eventId = (await params).eventId;
   const EVENT_CREATION_ENABLED = process.env.EVENT_CREATION_ENABLED;
 
-  if (EVENT_CREATION_ENABLED !== "true") {
-    return (
-      <>
-        <section className="px-4">
-          <h1 className="text-2xl font-mono text-primary my-4">Create Event</h1>
-          <div className="flex flex-col justify-center items-center gap-4 py-20">
-            <ConstructionIcon size={40} />
-            <p className="font-mono text-lg text-center mb-8">
-              Event creation currently unavailable
-            </p>
-            <Link href={"/"}>
-              <Button>
-                <HomeIcon />
-                Return
-              </Button>
-            </Link>
-          </div>
-        </section>
-      </>
-    );
-  }
   return (
     <>
-      <section className="px-4">
-        {/* <h1 className="text-center mt-4">
-          My event: <span className="text-muted-foreground">{eventId}</span>
-        </h1> */}
-
-        <h1 className="text-2xl font-mono text-primary my-4">Update Event</h1>
-        {/* <p className="my-6 text-center">
-          <span className="font-semibold">My event:</span>{" "}
-          <span className="text-muted-foreground text-sm">{eventId}</span>
-        </p> */}
-        <div className="flex justify-center pb-6">
-          <div className="w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
-            {/* <h2 className="mb-4 text-center text-lg font-mono text-primary">
-              Update Event
-            </h2> */}
-            <FormWrapper eventId={eventId} />
-          </div>
-        </div>
+      <section className="px-2 md:px-4 py-8">
+        <h1 className="text-3xl font-mono text-primary text-center md:text-left md:mx-8">
+          Update Event
+        </h1>
+        {EVENT_CREATION_ENABLED === "true" ? (
+          <>
+            <div className="flex justify-center pb-6">
+              <div className="w-full md:w-3/4 lg:w-2/3 xl:w-1/2 bg-textbox rounded-md px-4 py-6 md:px-8 md:py-10 shadow-md my-12">
+                <FormWrapper eventId={eventId} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex flex-col justify-center items-center gap-4 py-20">
+              <ConstructionIcon size={40} />
+              <p className="font-mono text-lg text-center mb-8">
+                Event creation currently unavailable
+              </p>
+              <Link href={"/"}>
+                <Button>
+                  <HomeIcon />
+                  Return
+                </Button>
+              </Link>
+            </div>
+          </>
+        )}
       </section>
     </>
   );
