@@ -100,15 +100,18 @@ export const infoNavLinks = [
     name: "Privacy",
     href: "/info/privacy",
     icon: CookieIcon,
+    active: true,
   },
   {
     name: "Contact",
     href: "/info/contact",
     icon: MessageCircle,
+    active: true,
   },
   {
     name: "Support Us",
     href: "/info/support",
     icon: HeartHandshakeIcon,
+    active: false,
   },
 ];

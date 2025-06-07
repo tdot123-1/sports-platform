@@ -53,7 +53,6 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
-            
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -108,22 +107,24 @@ const SidebarLinks = ({ authenticated }: SidebarLinksProps) => {
         <SidebarGroupLabel>Info</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {infoNavLinks.map((link) => (
-              <SidebarMenuItem key={link.name}>
-                <SidebarMenuButton
-                  asChild
-                  className={clsx({
-                    "bg-primary": pathname === link.href,
-                  })}
-                  onClick={() => isMobile && toggleSidebar()}
-                >
-                  <Link href={link.href}>
-                    <link.icon />
-                    {link.name}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {infoNavLinks
+              .filter((x) => x.active)
+              .map((link) => (
+                <SidebarMenuItem key={link.name}>
+                  <SidebarMenuButton
+                    asChild
+                    className={clsx({
+                      "bg-primary": pathname === link.href,
+                    })}
+                    onClick={() => isMobile && toggleSidebar()}
+                  >
+                    <Link href={link.href}>
+                      <link.icon />
+                      {link.name}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
