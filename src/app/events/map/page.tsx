@@ -34,7 +34,7 @@ const Page = async (props: {
   }>;
 }) => {
   const MAP_ID = process.env.MAP_ID;
-  const MAPS_API_KEY = process.env.MAPS_API_KEY;
+  const MAPS_API_KEY = process.env.MAPS_API_KEY_CLIENT;
 
   if (!MAP_ID || !MAPS_API_KEY) {
     return (
