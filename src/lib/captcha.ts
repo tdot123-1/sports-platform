@@ -21,6 +21,7 @@ export const verifyCaptcha = async (token: string) => {
 
     if (!data.success) {
       console.error("Error validating CAPTCHA: ", data);
+      return false;
     }
 
     return data.success as boolean;

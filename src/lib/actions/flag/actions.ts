@@ -73,7 +73,7 @@ export const insertReportedEvent = async (
   }
 
   // verify captcha token
-  const verifiedCaptcha = verifyCaptcha(token.toString());
+  const verifiedCaptcha = await verifyCaptcha(token.toString());
 
   if (!verifiedCaptcha) {
     return {
