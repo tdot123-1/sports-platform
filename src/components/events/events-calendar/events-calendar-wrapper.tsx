@@ -43,7 +43,6 @@ const EventsCalendarWrapper = async ({
       title: e.event_name,
       start: e.start_date!,
       end: e.start_date,
-      // end: e.start_date,
       id: e.id,
       event_type: e.event_type,
       address_city: e.address_city,

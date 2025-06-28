@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 const ConfirmEmailChangeToast = () => {
   useEffect(() => {
-    console.log("TOAST")
+    // console.log("TOAST")
     toast.info(
       "Click the link in your other email to finish the transfer"
     );

@@ -22,7 +22,7 @@ const VerifyReport = async ({ token }: { token: string }) => {
   try {
     const decoded = jwt.verify(token, secret) as ReportTokenPayload;
 
-    console.log(decoded.report_id);
+    // console.log(decoded.report_id);
     reportId = decoded.report_id;
   } catch (error) {
     console.error("JWT error: ", error);

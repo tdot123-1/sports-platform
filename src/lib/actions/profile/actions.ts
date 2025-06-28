@@ -87,7 +87,7 @@ export const updateEmail = async (
 
   const { newEmail } = validatedFields.data;
 
-  console.log("NEW EMAIL: ", newEmail);
+  // console.log("NEW EMAIL: ", newEmail);
 
   try {
     // update user email
